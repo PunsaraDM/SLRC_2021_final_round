@@ -1,0 +1,507 @@
+#VRML_SIM R2021a utf8
+WorldInfo {
+  info [
+    "Arena for Stage 1 of SLRC2021 University Category"
+  ]
+  title "SLRC2021 UniS1"
+  coordinateSystem "NUE"
+}
+Viewpoint {
+  orientation 1 0 0 4.71238898038469
+  position 0.000206513603932609 7.0944726570651655 7.645422945198665e-07
+}
+DirectionalLight {
+  direction 0 -1 0
+}
+DirectionalLight {
+  direction -1 -1 0
+}
+DirectionalLight {
+  direction 0 -1 -1
+}
+DirectionalLight {
+  direction 1 -1 0
+}
+DirectionalLight {
+  direction 0 -1 1
+}
+RectangleArena {
+  name "Floor_black"
+  floorSize 3 4
+  floorTileSize 2 2
+  floorAppearance Parquetry {
+    type "dark strip"
+    colorOverride 0 0 0
+  }
+  wallAppearance DEF Wall_white PBRAppearance {
+    roughness 1
+    metalness 0
+    name "Wall_white"
+  }
+}
+DEF Line Solid {
+  translation -0.613 -0.00485 -1.5
+  scale 0.01 0.01 0.01
+  children [
+    Shape {
+      appearance PBRAppearance {
+        roughness 1
+        metalness 0
+      }
+      geometry Mesh {
+        url [
+          "../solidworks/Lines.STL"
+        ]
+      }
+      castShadows FALSE
+      isPickable FALSE
+    }
+  ]
+  name "White_lines"
+  locked TRUE
+  translationStep 0
+  rotationStep 0
+}
+DEF Squares Group {
+  children [
+    DEF Patch Solid {
+      translation -0.075 -0.00484 1.1
+      scale 0.01 0.01 0.01
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0 0 1
+            roughness 1
+            metalness 0
+          }
+          geometry Mesh {
+            url [
+              "../solidworks/Square.STL"
+            ]
+          }
+          castShadows FALSE
+          isPickable FALSE
+        }
+      ]
+      name "color_patch"
+      locked TRUE
+      translationStep 0
+      rotationStep 0
+    }
+    DEF Green Solid {
+      translation 0.01 -0.00484 -1.65
+      scale 0.01 0.01 0.01
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0 0 1
+            roughness 1
+            metalness 0
+          }
+          geometry Mesh {
+            url [
+              "../solidworks/Square.STL"
+            ]
+          }
+          castShadows FALSE
+          isPickable FALSE
+        }
+      ]
+      name "green_square"
+      locked TRUE
+      translationStep 0
+      rotationStep 0
+    }
+    DEF Red Solid {
+      translation -0.41 -0.00484 -1.65
+      scale 0.01 0.01 0.01
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 1 0 0
+            roughness 1
+            metalness 0
+          }
+          geometry Mesh {
+            url [
+              "../solidworks/Square.STL"
+            ]
+          }
+          castShadows FALSE
+          isPickable FALSE
+        }
+      ]
+      name "red_square"
+      locked TRUE
+      translationStep 0
+      rotationStep 0
+    }
+    DEF Blue Solid {
+      translation 0.43 -0.00484 -1.65
+      scale 0.01 0.01 0.01
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0 1 0
+            roughness 1
+            metalness 0
+          }
+          geometry Mesh {
+            url [
+              "../solidworks/Square.STL"
+            ]
+          }
+          castShadows FALSE
+          isPickable FALSE
+        }
+      ]
+      name "blue_square"
+      locked TRUE
+      translationStep 0
+      rotationStep 0
+    }
+  ]
+}
+DEF Inner_wall Solid {
+  translation 0.19 0 -0.66
+  scale 0.01 0.01 0.01
+  children [
+    DEF Inner_wall Shape {
+      appearance USE Wall_white
+      geometry Mesh {
+        url [
+          "../solidworks/Inner_walls.STL"
+        ]
+      }
+    }
+  ]
+  name "Inner_walls"
+  boundingObject USE Inner_wall
+  locked TRUE
+  recognitionColors [
+    1 1 1
+  ]
+  translationStep 0
+  rotationStep 0
+}
+DEF Right_pillar Solid {
+  translation 0.12 0.02 0.74
+  children [
+    Shape {
+      appearance PBRAppearance {
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.02 0.04 0.12
+      }
+    }
+  ]
+  name "R_pillar"
+  radarCrossSection 1
+}
+DEF Left_pillar Solid {
+  translation -0.12 0.04 0.74
+  children [
+    Shape {
+      appearance PBRAppearance {
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.02 0.09 0.12
+      }
+    }
+  ]
+  name "L_pillar"
+  boundingObject Box {
+    size 0.02 0.09 0.12
+  }
+  radarCrossSection 1
+}
+Robot {
+  translation -7.94773e-05 0.029793 1.63592
+  rotation -5.209469999999999e-09 0.9999999999999999 -4.144329999999999e-12 3.14
+  children [
+    DistanceSensor {
+      translation -0.014 -0.015 0.055
+      rotation 0 0 1 -1.57
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0 0 0
+            metalness 0
+          }
+          geometry Box {
+            size 0.01 0.01 0.01
+          }
+        }
+      ]
+      name "ir_right_0"
+      lookupTable [
+        0 0 0
+        0.05 10 0
+      ]
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation 0.014 -0.015 0.055
+      rotation 0 0 1 -1.57
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0 0 0
+            metalness 0
+          }
+          geometry Box {
+            size 0.01 0.01 0.01
+          }
+        }
+      ]
+      name "ir_left_0"
+      lookupTable [
+        0 0 0
+        0.05 10 0
+      ]
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation 0.035 -0.015 0.055
+      rotation 0 0 1 -1.57
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0 0 0
+            metalness 0
+          }
+          geometry Box {
+            size 0.01 0.01 0.01
+          }
+        }
+      ]
+      name "ir_left_1"
+      lookupTable [
+        0 0 0
+        0.05 10 0
+      ]
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation -0.035 -0.015 0.055
+      rotation 0 0 1 -1.57
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0 0 0
+            metalness 0
+          }
+          geometry Box {
+            size 0.01 0.01 0.01
+          }
+        }
+      ]
+      name "ir_right_1"
+      lookupTable [
+        0 0 0
+        0.05 10 0
+      ]
+      type "infra-red"
+    }
+    DEF DS_FRONT DistanceSensor {
+      translation 0 0 0.055
+      rotation 0 1 0 -1.57
+      name "ds_front"
+      lookupTable [
+        0 0 0
+        0.15 150 0
+      ]
+      type "infra-red"
+    }
+    DEF DS_RIGHT DistanceSensor {
+      translation -0.05 0 0
+      rotation 0 1 0 -2.881385307179586
+      name "ds_right"
+      lookupTable [
+        0 0 0
+        0.15 150 0
+      ]
+      type "infra-red"
+      aperture 1.57
+    }
+    DEF DS_LEFT DistanceSensor {
+      translation 0.05 0 0
+      rotation 0 1 0 -0.261795307179586
+      name "ds_left"
+      lookupTable [
+        0 0 0
+        0.15 150 0
+      ]
+      type "infra-red"
+    }
+    DEF BODY Shape {
+      appearance PBRAppearance {
+        baseColor 0 0.28 0.32
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.1 0.03 0.11
+      }
+    }
+    DEF WHEEL1 HingeJoint {
+      jointParameters HingeJointParameters {
+        position 137.53833130339262
+        anchor 0.0542 -0.01 0.035
+      }
+      device [
+        PositionSensor {
+          name "encoder_left"
+        }
+        RotationalMotor {
+          name "wheel1"
+          controlPID 4.5 0 0
+          maxVelocity 7.5
+        }
+      ]
+      endPoint Solid {
+        translation 0.0542 -0.01 0.035
+        rotation 1 0 0 0
+        children [
+          DEF WHEEL Transform {
+            rotation 0 0 1 1.5708
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.7 1 1
+                  roughness 1
+                  metalness 0
+                }
+                geometry Cylinder {
+                  height 0.007
+                  radius 0.02
+                  subdivision 24
+                }
+              }
+            ]
+          }
+        ]
+        boundingObject USE WHEEL
+        physics Physics {
+        }
+      }
+    }
+    DEF WHEEL2 HingeJoint {
+      jointParameters HingeJointParameters {
+        position 132.03429628468118
+        anchor -0.0542 -0.01 0.035
+      }
+      device [
+        PositionSensor {
+          name "encoder_right"
+        }
+        RotationalMotor {
+          name "wheel2"
+          controlPID 4.5 0 0
+          maxVelocity 7.5
+        }
+      ]
+      endPoint Solid {
+        translation -0.0542 -0.01 0.035
+        rotation 1 0 0 0
+        children [
+          USE WHEEL
+        ]
+        name "solid(1)"
+        boundingObject USE WHEEL
+        physics Physics {
+        }
+      }
+    }
+    DEF WHEEL3 HingeJoint {
+      jointParameters HingeJointParameters {
+        position 137.5383313462797
+        anchor 0.0542 -0.01 -0.035
+      }
+      device [
+        RotationalMotor {
+          name "wheel3"
+          controlPID 4.5 0 0
+          maxVelocity 7.5
+        }
+      ]
+      endPoint Solid {
+        translation 0.0542 -0.01 -0.035
+        rotation 1 0 0 0
+        children [
+          USE WHEEL
+        ]
+        name "solid(2)"
+        boundingObject USE WHEEL
+        physics Physics {
+        }
+      }
+    }
+    DEF WHEEL4 HingeJoint {
+      jointParameters HingeJointParameters {
+        position 132.03429626681034
+        anchor -0.0542 -0.01 -0.035
+      }
+      device [
+        RotationalMotor {
+          name "wheel4"
+          controlPID 4.5 0 0
+          maxVelocity 7.5
+        }
+      ]
+      endPoint Solid {
+        translation -0.0542 -0.01 -0.035
+        rotation 1 0 0 0
+        children [
+          USE WHEEL
+        ]
+        name "solid(3)"
+        boundingObject USE WHEEL
+        physics Physics {
+        }
+      }
+    }
+    Camera {
+      translation -1.3177e-07 0.0234485 0.0633751
+      rotation 1.708859675079991e-07 0.9914458114879842 0.1305189751833183 3.14159
+      children [
+        Transform {
+          translation 0 0 0.015
+          rotation 1 0 0 1.57
+          children [
+            Shape {
+              appearance PBRAppearance {
+                roughness 1
+                metalness 0
+              }
+              geometry Cylinder {
+                height 0.03
+                radius 0.01
+              }
+            }
+          ]
+        }
+      ]
+      fieldOfView 2.4
+      width 256
+      height 128
+      far 25
+      antiAliasing TRUE
+      recognition Recognition {
+        frameColor 0.929412 0.831373 0
+        frameThickness 3
+      }
+    }
+  ]
+  name "robot(3)"
+  boundingObject USE BODY
+  physics Physics {
+    density -1
+    mass 1
+  }
+  controller "MyController"
+}

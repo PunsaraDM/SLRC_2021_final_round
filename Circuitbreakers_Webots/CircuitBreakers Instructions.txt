@@ -1,0 +1,10 @@
+TIMESTEP: 32
+NOTICE:
+Make sure to have all the header files and the .cpp in the same folder when you are compiling the code.
+In the Makefile we provided an additional line CXX_SOURCES is added.
+If you are overwritting the original Makefile(file we provided) make sure to add the line CXX_SOURCES with the arguements and the
+position that we have provided.
+
+sensors used:
+distance sensors: 7 
+camera: 1
