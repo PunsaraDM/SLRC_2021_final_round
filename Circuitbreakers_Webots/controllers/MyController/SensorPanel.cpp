@@ -232,3 +232,39 @@ void SensorPanel::print_color_patch()
         cout << "BLUE" << endl;
     }
 }
+
+void SensorPanel::detect_white_line()
+{
+    const unsigned char *IMAGE = camera->getImage();
+
+    int i;
+    int j = HEIGHT/2;
+    int pix;
+    bool line_detected = false;
+
+    for (i = 0; i < WIDTH; i++)
+    {
+        pix = camera->imageGetGray(IMAGE, WIDTH, i, j);
+
+        if ((pix > 128) and !line_detected ){
+            START = i;
+            cout << "start: " << i;
+            line_detected = true;
+        }
+
+        if ((pix < 128) and line_detected){
+            END = i-1;
+            cout << ", end: " << i-1 << endl;
+            return;
+        }
+        
+    }
+    cout << "line not detected" << endl;
+    return;
+}
+
+float SensorPanel::calculate_error()
+{
+    float error = (START + END)/2 - (WIDTH/2 - 1);
+    return error;
+}

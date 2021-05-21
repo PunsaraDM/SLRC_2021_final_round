@@ -9,7 +9,7 @@ int main(int argc, char **argv)
 
     while (follower.step(32) != -1)
     {
-        follower.travel_maze();
+        follower.test_camera();
     };
 
     return 0;

@@ -28,6 +28,9 @@ public:
     void detect_color_patches();
     void print_color_patch();
 
+    void detect_white_line();
+    float calculate_error();
+
     bool is_junction_detected();
     void enable_wall_follow();
     bool is_wall(int side);
@@ -70,6 +73,9 @@ private:
     int BLUE = 3;
     int NO_PATCH = 4;
     int recentColor = -1;
+
+    int START;
+    int END;
 
     int SIDE_WALL_THRESHOLD = 90;
     int FRONT_WALL_THRESHOLD = 75;

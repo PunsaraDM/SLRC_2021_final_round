@@ -403,3 +403,8 @@ void LineFollower::travel_maze()
 }
 
 
+void LineFollower::test_camera(){
+    sensorPanel->detect_white_line();
+    float error = sensorPanel->calculate_error();
+    cout << "error: " << error << endl;
+}

@@ -52,6 +52,8 @@ extern "C"
         void find_destination();
         void find_factors(int n);
 
+        void test_camera();
+
 
 
 
