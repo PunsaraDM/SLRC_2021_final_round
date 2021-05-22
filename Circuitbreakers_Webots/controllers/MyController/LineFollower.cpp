@@ -7,6 +7,15 @@
 #include <bits/stdc++.h>
 
 #define TIME_STEP 32
+#define UNKNOWN 99999.99
+
+#define KP 0.25
+#define KI 0.006
+#define KD 2
+
+// Size of the yellow line angle filter
+#define FILTER_SIZE 3
+
 using namespace webots;
 using namespace std;
 
@@ -133,6 +142,114 @@ void LineFollower::follow_line_end_phase()
     }
 }
 
+////////////////////////////////////////////////////////// follow line camera /////////////////////////////////////////////////////////////
+void LineFollower::follow_line()
+{
+    leftSpeed = 5;
+    rightSpeed = 5;
+
+    const unsigned char *camera_image = NULL;
+    camera_image = sensorPanel->get_image();
+
+    double white_line_angle = filter_angle(process_camera_image(camera_image));
+
+    // cout << white_line_angle << "\n";
+
+    if (white_line_angle != UNKNOWN)
+    {
+        // // wbu_driver_set_brake_intensity(0.0);
+        // cout << "left speed: " << leftSpeed + white_line_angle * leftSpeed << "\n";
+        // cout << "right speed: " << rightSpeed - white_line_angle * rightSpeed << "\n";
+
+        // motorGroup->set_velocity(leftSpeed + white_line_angle * leftSpeed, rightSpeed + +white_line_angle * rightSpeed);
+
+        if (white_line_angle < 0)
+        {
+            cout << "Turn left" << "\n";
+            leftSpeed = 2.5;
+            rightSpeed = 5.5;
+        }
+        else if (white_line_angle > 0)
+        {
+            cout << "Turn right" << "\n";
+            leftSpeed = 5.5;
+            rightSpeed = 2.5;
+        }
+        
+
+        motorGroup->set_velocity(leftSpeed, rightSpeed);
+    }
+    else
+    {
+        // no obstacle has been detected but we lost the line => we brake and hope to find the line again
+        // wbu_driver_set_brake_intensity(0.4);
+        motorGroup->set_velocity(2.5, 2.5);
+        PID_need_reset = true;
+    }
+}
+
+// returns approximate angle of yellow road line
+// or UNKNOWN if no pixel of yellow line visible
+double LineFollower::process_camera_image(const unsigned char *image)
+{
+
+    int num_pixels = sensorPanel->get_pixels(); // number of pixels in the image
+    int sumx = 0;                               // summed x position of pixels
+    int pixel_count = 0;
+
+    int x;
+
+    for (x = 0; x < num_pixels; x++)
+    {
+        if (sensorPanel->color_diff(image, x) < 150)
+        {
+            sumx += x % sensorPanel->get_width();
+            pixel_count++; // count white pixels
+        }
+    }
+
+    cout << "pixel count: " << pixel_count << "\n";
+    // if no pixels was detected...
+
+    if (pixel_count == 0)
+        return UNKNOWN;
+    double align = ((double)sumx / pixel_count / sensorPanel->get_width());
+    cout << "align: " << align << "\n";
+    return ((double)sumx / pixel_count / sensorPanel->get_width() - 0.5);
+}
+
+// filter angle of the yellow line (simple average)
+double LineFollower::filter_angle(double new_value)
+{
+    static bool first_call = true;
+    static double old_value[FILTER_SIZE];
+    int i;
+
+    if (first_call || new_value == UNKNOWN)
+    { // reset all the old values to 0.0
+        first_call = false;
+        for (i = 0; i < FILTER_SIZE; ++i)
+            old_value[i] = 0.0;
+    }
+    else
+    { // shift old values
+        for (i = 0; i < FILTER_SIZE - 1; ++i)
+            old_value[i] = old_value[i + 1];
+    }
+
+    if (new_value == UNKNOWN)
+        return UNKNOWN;
+    else
+    {
+        old_value[FILTER_SIZE - 1] = new_value;
+        double sum = 0.0;
+        for (i = 0; i < FILTER_SIZE; ++i)
+            sum += old_value[i];
+        return (double)sum / FILTER_SIZE;
+    }
+}
+
+
 ////////////////////////////////////////////////////////// turns /////////////////////////////////////////////////////////////
 
 void LineFollower::complete_turn(int dir)
@@ -189,7 +306,7 @@ void LineFollower::navigate_wall_maze()
     if (sensorPanel->is_wall_exit() == true)
     {
         skip = true;
-        update_state(); 
+        update_state();
     }
     if (!skip)
     {
@@ -253,7 +370,6 @@ void LineFollower::follow_both_walls(float Kp, float Kd, float threshold)
     motorGroup->set_velocity(leftSpeed, rightSpeed);
 }
 
-
 ////////////////////////////////////////////////////////// final stage methods /////////////////////////////////////////////////////////////////////////
 
 void LineFollower::find_destination()
@@ -301,7 +417,7 @@ void LineFollower::find_factors(int n)
         sort(factors.begin(), factors.end());
 
         cout << "Factors: " << endl;
-        
+
         for (auto i = factors.begin(); i != factors.end(); ++i)
         {
             std::cout << *i << endl;
@@ -402,9 +518,7 @@ void LineFollower::travel_maze()
     }
 }
 
-
-void LineFollower::test_camera(){
-    sensorPanel->detect_white_line();
-    float error = sensorPanel->calculate_error();
-    cout << "error: " << error << endl;
+void LineFollower::test_camera()
+{
+    follow_line();
 }

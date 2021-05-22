@@ -41,8 +41,12 @@ extern "C"
         void follow_line_initial_phase();
         void follow_line_end_phase();
         void follow_line_middle_phase();
-        
-        
+
+        //follow line using camera
+        void follow_line();
+        double process_camera_image(const unsigned char *image);
+        double filter_angle(double new_value);
+
         void complete_turn(int dir);
         void go_forward_specific_distance(double distance);
 
@@ -53,9 +57,6 @@ extern "C"
         void find_factors(int n);
 
         void test_camera();
-
-
-
 
     private:
         SensorPanel *sensorPanel;
@@ -76,10 +77,9 @@ extern "C"
         float leftSpeed;
         float rightSpeed;
 
-
         float MAX_VELOCITY = 7.5;
         float MIN_VELOCITY = 2.5;
-         
+
         int DS_SENSOR_FRONT = 4;
         int DS_SENSOR_RIGHT = 5;
         int DS_SENSOR_LEFT = 6;
@@ -89,7 +89,6 @@ extern "C"
 
         float TURN90_EN_COUNT = 5.8;
         float TURN180_EN_COUNT = 11.35;
-
 
         float WALL_FOLLOW_VERTICAL_SIDE_THRESHOLD = 63.5;
         float WALL_FOLLOW_HORIZONTAL_SIDE_THRESHOLD = 80.0;
@@ -109,6 +108,8 @@ extern "C"
         bool factorsFound = false;
         bool colorPrinted = false;
         int finalPhase = 50;
+
+        bool PID_need_reset = false;
     };
 #ifdef __cplusplus
 }

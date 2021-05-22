@@ -11,22 +11,29 @@ class LineFollower;
 class SensorPanel
 {
 public:
-    void initialize(LineFollower* follower);
-    void init_distance_sensor(LineFollower* follower);
-    void init_encoders(LineFollower* follower);
+    void initialize(LineFollower *follower);
+    void init_distance_sensor(LineFollower *follower);
+    void init_encoders(LineFollower *follower);
     void init_camera(LineFollower *follower);
 
-    
     float get_ir_value(int index);
     float get_distance_value(int index);
     double get_encoder_val(int index);
     int get_digital_value(int index);
-    void stabilize_encoder(LineFollower* follower);
+    void stabilize_encoder(LineFollower *follower);
     void stabilize_ir_and_distance_sensors(LineFollower *follower);
-    
+
     int detect_color_patch();
     void detect_color_patches();
     void print_color_patch();
+
+    //camera
+    const unsigned char *get_image();
+    int get_pixels();
+    int get_width();
+    int get_height();
+    double get_fov();
+    int color_diff(const unsigned char *image ,int x);
 
     void detect_white_line();
     float calculate_error();
@@ -84,12 +91,10 @@ private:
     float IR_WHITE_VALUE = 4.8;
     float BLACK_WHITE_THRESHOLD = (IR_BLACK_VALUE + IR_WHITE_VALUE) / 2;
 
-    
     float RED_LEVEL = 1;
     float ROUGHNESS = 0.2;
     float OCCLUSION = 0;
-    float REFLECTION_FACTOR = 0.2 + 0.8*RED_LEVEL*(1 - 0.5*ROUGHNESS)*(1 - 0.5*OCCLUSION);
-    
+    float REFLECTION_FACTOR = 0.2 + 0.8 * RED_LEVEL * (1 - 0.5 * ROUGHNESS) * (1 - 0.5 * OCCLUSION);
 };
 
 #endif

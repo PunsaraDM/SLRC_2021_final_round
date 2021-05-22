@@ -127,10 +127,59 @@ void SensorPanel::stabilize_ir_and_distance_sensors(LineFollower *follower)
 {
     while (follower->step(TIME_STEP) != -1)
     {
-        if (!(isnan(get_ir_value(IR_LEFT_0)) && isnan(get_ir_value(IR_RIGHT_0)) && isnan(get_ir_value(IR_LEFT_1)) && isnan(get_ir_value(IR_RIGHT_1)) 
-        && isnan(get_ir_value(DS_SENSOR_FRONT)) && isnan(get_ir_value(DS_SENSOR_LEFT)) && isnan(get_ir_value(DS_SENSOR_RIGHT))))
+        if (!(isnan(get_ir_value(IR_LEFT_0)) && isnan(get_ir_value(IR_RIGHT_0)) && isnan(get_ir_value(IR_LEFT_1)) && isnan(get_ir_value(IR_RIGHT_1)) && isnan(get_ir_value(DS_SENSOR_FRONT)) && isnan(get_ir_value(DS_SENSOR_LEFT)) && isnan(get_ir_value(DS_SENSOR_RIGHT))))
             break; //to make sure that ir and distance sensors dosent return NaN
     }
+}
+
+//follow line using camera
+const unsigned char *SensorPanel::get_image()
+{
+    return camera->getImage();
+}
+
+int SensorPanel::get_pixels()
+{
+    return camera->getWidth() * camera->getHeight();
+}
+
+int SensorPanel::get_width()
+{
+    return camera->getWidth();
+}
+
+int SensorPanel::get_height()
+{
+    return camera->getHeight();
+}
+
+double SensorPanel::get_fov()
+{
+    return camera->getFov();
+}
+
+// compute rgb difference
+int SensorPanel::color_diff(const unsigned char *image, int x)
+{
+    int i, diff = 0;
+    int position_x = x % get_width();
+    int position_y = x % get_height();
+    int found_colors[3];
+    found_colors[0] = camera->imageGetRed(image, WIDTH, position_x, position_y);
+    found_colors[1] = camera->imageGetBlue(image, WIDTH, position_x, position_y);
+    found_colors[2] = camera->imageGetGreen(image, WIDTH, position_x, position_y);
+
+    for (i = 0; i < 3; i++)
+    {
+        // cout << "a: " << a[i] << "\n";
+        int d = found_colors[i] - 255;
+        diff += d > 0 ? d : -d;
+    }
+    // cout << "red: " << found_colors[0] << "\n";
+    // cout << "blue: " << found_colors[1] << "\n";
+    // cout << "green: " << found_colors[2] << "\n";
+
+    return diff;
 }
 
 int SensorPanel::detect_color_patch()
@@ -227,7 +276,7 @@ void SensorPanel::print_color_patch()
     {
         cout << "GREEN" << endl;
     }
-    else if(recentColor == BLUE)
+    else if (recentColor == BLUE)
     {
         cout << "BLUE" << endl;
     }
@@ -238,7 +287,7 @@ void SensorPanel::detect_white_line()
     const unsigned char *IMAGE = camera->getImage();
 
     int i;
-    int j = HEIGHT/2;
+    int j = HEIGHT / 2;
     int pix;
     bool line_detected = false;
 
@@ -246,18 +295,19 @@ void SensorPanel::detect_white_line()
     {
         pix = camera->imageGetGray(IMAGE, WIDTH, i, j);
 
-        if ((pix > 128) and !line_detected ){
+        if ((pix > 128) and !line_detected)
+        {
             START = i;
             cout << "start: " << i;
             line_detected = true;
         }
 
-        if ((pix < 128) and line_detected){
-            END = i-1;
-            cout << ", end: " << i-1 << endl;
+        if ((pix < 128) and line_detected)
+        {
+            END = i - 1;
+            cout << ", end: " << i - 1 << endl;
             return;
         }
-        
     }
     cout << "line not detected" << endl;
     return;
@@ -265,6 +315,6 @@ void SensorPanel::detect_white_line()
 
 float SensorPanel::calculate_error()
 {
-    float error = (START + END)/2 - (WIDTH/2 - 1);
+    float error = (START + END) / 2 - (WIDTH / 2 - 1);
     return error;
 }
