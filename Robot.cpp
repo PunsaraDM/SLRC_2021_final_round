@@ -142,8 +142,7 @@ void Robot::update_robot_position(int direction)
              << "\n";
         break;
     }
-    cout <<"robot: (" << robot_col << ","  << robot_row << ")\n";
-
+    cout << "robot: (" << robot_col << "," << robot_row << ")\n";
 }
 
 void Robot::update_target_position()
@@ -164,8 +163,14 @@ void Robot::update_target_position()
         }
         else
         {
-            target_row += 1;
+            if (isTravelUp)
+            {
+                target_row += 1;
+            }
+            else{
+                target_row -=1;
+            }
         }
     }
-    cout << "target: (" << target_col << ","  << target_row << ")\n";
+    cout << "target: (" << target_col << "," << target_row << ")\n";
 }
