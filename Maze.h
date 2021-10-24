@@ -14,14 +14,14 @@ extern "C"
     {
     public:
         int row_next[COLS] = {0};
+        Junction junctions[COLS][ROWS];
         
         Maze();
         void initialize();
         void update_path(int column, int row,int paths[]);
-        void update_junction(int column, int row, int content[]);
+        void update_junction(int column, int row, vector<int> content);
 
     private:
-        Junction junctions[COLS][ROWS];
 
     };
 #ifdef __cplusplus

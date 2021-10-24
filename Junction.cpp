@@ -35,17 +35,26 @@ void Junction::set_state(int state)
     state = state;   
 }
 
+int Junction::get_state()
+{
+    return state;   
+}
+
 int Junction::get_path(int direction){
     return paths[direction];
 }
 
+int* Junction::get_paths(){
+    return paths;
+}
 
-void Junction::set_content(int content[])
+
+void Junction::set_content(vector<int> content)
 {
     content = content;    
 }
 
-int* Junction::get_content()
+vector<int> Junction::get_content()
 {
     return content;    
 }

@@ -4,13 +4,27 @@
 #define COLS 9
 #define ROWS 7
 
+//directions
+#define UP 0
+#define RIGHT 1
+#define DOWN 2
+#define LEFT 3
 
 #define UNDISCOVERED 0
 #define DISCOVERED 1
 
+
+//paths
+#define NOTACCESIBLE -2
 #define NOPATH -1
 #define UNDISCOVERED 0
 #define DISCOVERED 1
+
+#define RED 1
+#define GREEN 2
+#define BLUE 3
+
+
 
 using namespace std;
 
@@ -25,34 +39,45 @@ void Maze::initialize()
 {
     for (int i = 0; i < ROWS; i++)
     {
-        int paths[4] = {0,0,0,-1};
-        junctions[0][i].set_paths(paths);
+        junctions[0][i].set_path(LEFT,NOPATH);
     }
     for (int i = 0; i < ROWS; i++)
     {
-        int paths[4] = {0,-1,0,0};
-        junctions[COLS-1][i].set_paths(paths);
+        junctions[COLS-1][i].set_path(RIGHT,NOPATH);
     }
     for (int i = 0; i < COLS; i++)
     {
-        int paths[4] = {0,0,-1,0};
-        junctions[i][0].set_paths(paths);
+        junctions[i][0].set_path(DOWN,NOPATH);
     }
     for (int i = 0; i < ROWS; i++)
     {
-        int paths[4] = {-1,0,0,0};
-        junctions[i][ROWS-1].set_paths(paths);
+        junctions[i][ROWS-1].set_path(UP,NOPATH);
     }
     
 }
 
-void Maze::update_junction(int column, int row, int content[]){
+void Maze::update_junction(int column, int row, vector<int> content){
     junctions[column][row].set_state(DISCOVERED);
     junctions[column][row].set_content(content);
 }
 
 
 void Maze::update_path(int column, int row,int paths[]){
+    
+   
     junctions[column][row].set_paths(paths);
+    if(column > 0){
+        junctions[column-1][row].set_path(RIGHT,paths[LEFT]);
+    }
+    if(column + 1 < COLS){
+        junctions[column + 1][row].set_path(LEFT,paths[RIGHT]);
+    }
+    if(row > 0){
+        junctions[column][row-1].set_path(UP,paths[DOWN]);
+    }
+    if(row + 1 < ROWS){
+        junctions[column][row+1].set_path(DOWN,paths[UP]);
+    }
+  
 }
 
