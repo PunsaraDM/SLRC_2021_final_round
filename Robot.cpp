@@ -91,12 +91,10 @@ bool Robot::check_direction(int dir, int *paths)
 
 void Robot::travel_maze()
 {
-    int visited = 0;
     int direction_to_travel = UP;
 
-    while (visited < COLS * ROWS)
+    while (maze.discovered < COLS * ROWS)
     {
-        visited += 1;
         int *paths;
         vector<int> junction;
 
@@ -105,7 +103,7 @@ void Robot::travel_maze()
         //get state of the junction
         junction = find_junction_content();
 
-        maze.update_junction(robot_col, robot_col, junction);
+        maze.update_junction(robot_col, robot_row, junction);
         maze.update_path(robot_col, robot_row, paths);
 
         direction_to_travel = strategy.find_next_direction(target_col, target_row, robot_col, robot_row, maze);
@@ -114,6 +112,7 @@ void Robot::travel_maze()
         travel_direction(direction_to_travel);
         update_robot_position(direction_to_travel);
         update_target_position();
+        cout << "------------------------" <<"\n";
     }
 }
 
@@ -149,28 +148,37 @@ void Robot::update_target_position()
 {
     if (robot_col == target_col && robot_row == target_row)
     {
-        if (isTravelUp && target_row == ROWS - 1)
+        bool found = false;
+        while (!found)
         {
-            target_col += 1;
-            target_row = ROWS - 1;
-            isTravelUp = !isTravelUp;
-        }
-        else if (!isTravelUp && target_row == 0)
-        {
-            target_col += 1;
-            target_row = 0;
-            isTravelUp = !isTravelUp;
-        }
-        else
-        {
-            if (isTravelUp)
+            if (isTravelUp && target_row == ROWS - 1)
             {
-                target_row += 1;
+                target_col += 1;
+                target_row = ROWS - 1;
+                isTravelUp = false;
             }
-            else{
-                target_row -=1;
+            else if (!isTravelUp && target_row == 0)
+            {
+                target_col += 1;
+                target_row = 0;
+                isTravelUp = true;
+            }
+            else
+            {
+                if (isTravelUp)
+                {
+                    target_row += 1;
+                }
+                else
+                {
+                    target_row -= 1;
+                }
+            }
+            if (maze.junctions[target_col][target_row].get_state() != DISCOVERED)
+            {
+                found = true;
             }
         }
+        cout << "target: (" << target_col << "," << target_row << ")\n";
     }
-    cout << "target: (" << target_col << "," << target_row << ")\n";
 }

@@ -13,7 +13,6 @@
 #define UNDISCOVERED 0
 #define DISCOVERED 1
 
-
 //paths
 #define NOTACCESIBLE -2
 #define NOPATH -1
@@ -24,60 +23,62 @@
 #define GREEN 2
 #define BLUE 3
 
-
-
 using namespace std;
 
-
 //maze following
-Maze::Maze(){
+Maze::Maze()
+{
     initialize();
 }
-
 
 void Maze::initialize()
 {
     for (int i = 0; i < ROWS; i++)
     {
-        junctions[0][i].set_path(LEFT,NOPATH);
+        junctions[0][i].set_path(LEFT, NOPATH);
     }
     for (int i = 0; i < ROWS; i++)
     {
-        junctions[COLS-1][i].set_path(RIGHT,NOPATH);
+        junctions[COLS - 1][i].set_path(RIGHT, NOPATH);
     }
     for (int i = 0; i < COLS; i++)
     {
-        junctions[i][0].set_path(DOWN,NOPATH);
+        junctions[i][0].set_path(DOWN, NOPATH);
     }
     for (int i = 0; i < ROWS; i++)
     {
-        junctions[i][ROWS-1].set_path(UP,NOPATH);
+        junctions[i][ROWS - 1].set_path(UP, NOPATH);
     }
-    
 }
 
-void Maze::update_junction(int column, int row, vector<int> content){
+void Maze::update_junction(int column, int row, vector<int> content)
+{
+    if (junctions[column][row].get_state() != DISCOVERED)
+    {
+        discovered += 1;
+    }
     junctions[column][row].set_state(DISCOVERED);
     junctions[column][row].set_content(content);
 }
 
+void Maze::update_path(int column, int row, int paths[])
+{
 
-void Maze::update_path(int column, int row,int paths[]){
-    
-   
     junctions[column][row].set_paths(paths);
-    if(column > 0){
-        junctions[column-1][row].set_path(RIGHT,paths[LEFT]);
+    if (column > 0)
+    {
+        junctions[column - 1][row].set_path(RIGHT, paths[LEFT]);
     }
-    if(column + 1 < COLS){
-        junctions[column + 1][row].set_path(LEFT,paths[RIGHT]);
+    if (column + 1 < COLS)
+    {
+        junctions[column + 1][row].set_path(LEFT, paths[RIGHT]);
     }
-    if(row > 0){
-        junctions[column][row-1].set_path(UP,paths[DOWN]);
+    if (row > 0)
+    {
+        junctions[column][row - 1].set_path(UP, paths[DOWN]);
     }
-    if(row + 1 < ROWS){
-        junctions[column][row+1].set_path(DOWN,paths[UP]);
+    if (row + 1 < ROWS)
+    {
+        junctions[column][row + 1].set_path(DOWN, paths[UP]);
     }
-  
 }
-

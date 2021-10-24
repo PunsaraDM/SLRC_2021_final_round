@@ -57,12 +57,23 @@ int Strategy::find_next_direction(int target_col, int target_row, int robot_col,
 
     int n = unvisited.size();
 
+
     //sort visited and unvisited queues on distance
     sort(unvisited.begin(), unvisited.end(), compare_col);
     sort(visited.begin(), visited.end(), compare_col);
 
     int selected = 4;
-
+    // cout << "visited" << "\n";
+    // for (int i = 0; i < visited.size(); i++)
+    // {
+    //     cout << visited[i][0] << "," << visited[i][1] << "\n";
+    // }
+    // cout << "unvisited" << "\n";
+    // for (int i = 0; i < unvisited.size(); i++)
+    // {
+    //     cout << unvisited[i][0] << "," << unvisited[i][1] << "\n";
+    // }
+    
     if(unvisited.size()){
         selected = unvisited[0][0];
     }

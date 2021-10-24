@@ -30,9 +30,9 @@ void Junction::set_path(int direction,int state)
     }
 }
 
-void Junction::set_state(int state)
+void Junction::set_state(int received)
 {
-    state = state;   
+    state = received;   
 }
 
 int Junction::get_state()
