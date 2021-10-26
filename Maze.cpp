@@ -53,9 +53,17 @@ void Maze::initialize()
 
 void Maze::update_junction(int column, int row, vector<int> content)
 {
+    // for (int i = 0; i < content.size(); i++)
+    // {
+    //     cout << content[i] << "\n";
+    // }
+    
     if (junctions[column][row].get_state() != DISCOVERED)
     {
-        discovered += 1;
+        discovered += content.size();
+        cout << print_content(content) << "\n";
+        cout << "discovered:" << discovered << "\n";
+
     }
     junctions[column][row].set_state(DISCOVERED);
     junctions[column][row].set_content(content);
@@ -81,4 +89,36 @@ void Maze::update_path(int column, int row, int paths[])
     {
         junctions[column][row + 1].set_path(DOWN, paths[UP]);
     }
+}
+
+
+string Maze::print_content(vector<int> content)
+{
+    string text = "";
+
+    for (int i = 0; i < content.size(); i++)
+    {
+        switch (content[i])
+        {
+        case RED:
+            text += "R";
+            break;
+
+        case BLUE:
+            text += "B";
+            break;
+
+        case GREEN:
+            text += "G";
+            break;
+
+        default:
+            break;
+        }
+    }
+    if (content.size() == 1)
+    {
+        text += " ";
+    }
+    return text;
 }

@@ -49,9 +49,9 @@ int* Junction::get_paths(){
 }
 
 
-void Junction::set_content(vector<int> content)
+void Junction::set_content(vector<int> recieved)
 {
-    content = content;    
+    content = recieved;    
 }
 
 vector<int> Junction::get_content()

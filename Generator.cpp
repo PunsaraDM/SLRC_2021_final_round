@@ -206,13 +206,14 @@ void Generator::set_color_box_junctions()
             int col = rand() % COLS;
             int row = rand() % ROWS;
             int junction_state = maze.junctions[col][row].content_state;
-            if (junction_state != NORMAL)
+            if (junction_state == NORMAL)
             {
                 vector<int> content(color_order.begin() + color_index, color_order.begin() + color_index + order[i]);
                 maze.junctions[col][row].content_state = COLORED;
                 maze.junctions[col][row].set_content(content);
                 color_index += order[i];
                 found = true;
+                cout << col << "," << row << "\n";
             }
         }
     }
@@ -231,33 +232,51 @@ void Generator::print_maze()
         {
             for (int j = 0; j < COLS; j++)
             {
-                if (k == 1 && (maze.junctions[j][i].get_path(DOWN) != NOPATH) )
+                vector<int> content = maze.junctions[j][i].get_content();
+
+                if (k == 1 && (maze.junctions[j][i].get_path(DOWN) != NOPATH))
                 {
                     myfile << "|"
                            << "\t\t";
-                    //  << "\t";
                 }
                 else if (k == 1 && (maze.junctions[j][i].get_path(DOWN) == NOPATH) && i != 0)
                 {
-                     myfile << "X"
+                    myfile << "X"
                            << "\t\t";
-                    // cout << j << "," << i << "," << DOWN << "\n";
                 }
                 if (k == 0 && (maze.junctions[j][i].get_path(RIGHT) != NOPATH))
                 {
-                    myfile << j << "," << i << " -----"
-                           << "\t";
+                    if (content.size())
+                    {
+                        myfile << print_content(content) << " -----"
+                               << "\t";
+                    }
+                    else
+                    {
+                        myfile << j << "," << i << " -----"
+                               << "\t";
+                    }
                 }
                 else if (k == 0 && (maze.junctions[j][i].get_path(RIGHT) == NOPATH))
                 {
-                    if(j != COLS-1){
+                    if (j != COLS - 1)
+                    {
                         myfile << j << "," << i << " xxxxx"
-                           << "\t";    
+                               << "\t";
                     }
-                    else{
-                        myfile << j << "," << i << "\t";
+                    else
+                    {
+                        if (content.size())
+                        {
+                            myfile << print_content(content) << " -----"
+                                   << "\t";
+                        }
+                        else
+                        {
+                            myfile << j << "," << i << "\t";
+                        }
                     }
-                    
+
                     // cout << j << "," << i << "," << RIGHT << "\n";
                 }
             }
@@ -266,7 +285,39 @@ void Generator::print_maze()
                    << "\n";
         }
     }
-  
-    cout << "generated test maze" << "\n";
+
+    cout << "generated test maze"
+         << "\n";
     myfile.close();
+}
+
+string Generator::print_content(vector<int> content)
+{
+    string text = "";
+
+    for (int i = 0; i < content.size(); i++)
+    {
+        switch (content[i])
+        {
+        case RED:
+            text += "R";
+            break;
+
+        case BLUE:
+            text += "B";
+            break;
+
+        case GREEN:
+            text += "G";
+            break;
+
+        default:
+            break;
+        }
+    }
+    if (content.size() == 1)
+    {
+        text += " ";
+    }
+    return text;
 }

@@ -93,7 +93,7 @@ void Robot::travel_maze()
 {
     int direction_to_travel = UP;
 
-    while (maze.discovered < COLS * ROWS)
+    while (maze.discovered < 6)
     {
         int *paths;
         vector<int> junction;

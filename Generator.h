@@ -23,6 +23,7 @@ extern "C"
         void set_inverted_junctions();
         void set_color_box_junctions();
         void print_maze();
+        string print_content(vector<int> content);
 
     private:
         int min_red_path_count = 10;
