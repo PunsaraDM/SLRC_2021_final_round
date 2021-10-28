@@ -36,34 +36,37 @@ void Maze::initialize()
     for (int i = 0; i < ROWS; i++)
     {
         junctions[0][i].set_path(LEFT, NOPATH);
+        junctions[0][i].unavailable_paths += 1;
     }
     for (int i = 0; i < ROWS; i++)
     {
         junctions[COLS - 1][i].set_path(RIGHT, NOPATH);
+        junctions[0][i].unavailable_paths += 1;
     }
     for (int i = 0; i < COLS; i++)
     {
         junctions[i][0].set_path(DOWN, NOPATH);
+        junctions[0][i].unavailable_paths += 1;
     }
     for (int i = 0; i < ROWS; i++)
     {
         junctions[i][ROWS - 1].set_path(UP, NOPATH);
+        junctions[0][i].unavailable_paths += 1;
     }
 }
 
-void Maze::update_junction(int column, int row, vector<int> content)
+void Maze::update_junction(int column, int row, vector<int> content,int junction_content_state)
 {
     // for (int i = 0; i < content.size(); i++)
     // {
     //     cout << content[i] << "\n";
     // }
-    
+    junctions[column][row].content_state = junction_content_state;
     if (junctions[column][row].get_state() != DISCOVERED)
     {
         discovered += content.size();
         cout << print_content(content) << "\n";
         cout << "discovered:" << discovered << "\n";
-
     }
     junctions[column][row].set_state(DISCOVERED);
     junctions[column][row].set_content(content);
@@ -71,7 +74,7 @@ void Maze::update_junction(int column, int row, vector<int> content)
 
 void Maze::update_path(int column, int row, int paths[])
 {
-
+    
     junctions[column][row].set_paths(paths);
     if (column > 0)
     {
@@ -88,9 +91,8 @@ void Maze::update_path(int column, int row, int paths[])
     if (row + 1 < ROWS)
     {
         junctions[column][row + 1].set_path(DOWN, paths[UP]);
-    }
+    }    
 }
-
 
 string Maze::print_content(vector<int> content)
 {

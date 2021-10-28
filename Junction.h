@@ -7,10 +7,12 @@ using namespace std;
 
 #define UNDISCOVERED 0
 #define DISCOVERED 1
+#define SKIPPED 2
 
 #define NOPATH -1
 #define UNDISCOVERED 0
 #define DISCOVERED 1
+#define SKIPPATH 2
 
 #define RED 1
 #define GREEN 2
@@ -30,6 +32,7 @@ extern "C"
     {
     public:
         int content_state = NORMAL;
+        int unavailable_paths=0;
         void set_paths(int paths[]);
         void set_path(int direction, int state);
         int get_path(int direction);

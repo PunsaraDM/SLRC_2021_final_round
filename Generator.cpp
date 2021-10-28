@@ -45,7 +45,7 @@ void Generator::initialize()
 {
     set_red_paths();
     set_white_junctions();
-    // set_inverted_junctions();
+    set_inverted_junctions();
     set_color_box_junctions();
 }
 
@@ -233,6 +233,7 @@ void Generator::print_maze()
             for (int j = 0; j < COLS; j++)
             {
                 vector<int> content = maze.junctions[j][i].get_content();
+                int content_state = maze.junctions[j][i].content_state;
 
                 if (k == 1 && (maze.junctions[j][i].get_path(DOWN) != NOPATH))
                 {
@@ -249,6 +250,14 @@ void Generator::print_maze()
                     if (content.size())
                     {
                         myfile << print_content(content) << " -----"
+                               << "\t";
+                    }
+                    else if(content_state == INVERTED){
+                        myfile << "INV" << " -----"
+                               << "\t";
+                    }
+                    else if(content_state == WHITE){
+                        myfile << "WHI" << " -----"
                                << "\t";
                     }
                     else

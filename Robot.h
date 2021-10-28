@@ -17,6 +17,11 @@
 #define GREEN 2
 #define BLUE 3
 
+//directions
+#define UP 0
+#define RIGHT 1
+#define DOWN 2
+#define LEFT 3
 
 #ifdef __cplusplus
 extern "C"
@@ -29,6 +34,7 @@ extern "C"
         void travel_direction(int direction);
         int *find_available_directions();
         vector<int> find_junction_content();
+        int find_junction_content_state();
         bool check_direction(int dir, int *paths);
         void update_robot_position(int direction);
         void update_target_position();
@@ -42,6 +48,7 @@ extern "C"
         int target_col = 0;
         int target_row = 1;
         bool isTravelUp = true;
+        int last_direction = UP;
     };
 #ifdef __cplusplus
 }

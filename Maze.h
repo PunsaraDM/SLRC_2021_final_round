@@ -20,7 +20,7 @@ extern "C"
         Maze();
         void initialize();
         void update_path(int column, int row, int paths[]);
-        void update_junction(int column, int row, vector<int> content);
+        void update_junction(int column, int row, vector<int> content,int junction_content_state);
         string print_content(vector<int> content);
 
     private:
