@@ -7,8 +7,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.30741903926460956 -0.9285234011637875 -0.20817739499969012 5.023949658117846
-  position 1.4505770081493239 0.4503932683554005 0.3949354171927862
+  orientation -0.0007165082828236006 -0.9995616410479286 0.02959750600055151 3.1899787884872253
+  position 0.5786174594211115 0.012809015391485603 -0.313436801954534
 }
 DirectionalLight {
   direction 0 -1 0
@@ -75,15 +75,17 @@ Robot {
     }
     DEF RIGHT HingeJoint {
       jointParameters HingeJointParameters {
-        position 2.003537553427133e-09
+        axis 0 0 -1
+        anchor 0 -0.012 0.0805
       }
       device [
         RotationalMotor {
+          name "motor_right"
         }
       ]
       endPoint Solid {
-        translation 5.826556250684843e-06 3.3388957516800894e-06 -3.1404725551589545e-06
-        rotation 0.06763827031803808 0.9273165000069177 0.36811570627087375 5.13603923905317e-07
+        translation 5.826556250684843e-06 3.338895745387885e-06 -3.140472561849461e-06
+        rotation 0.06374869186030997 0.9275545067002652 0.36821018642363335 5.13603923905317e-07
         children [
           DEF WHEEL_RIGHT Transform {
             children [
@@ -115,7 +117,16 @@ Robot {
           }
         ]
         name "solid(1)"
-        boundingObject USE WHEEL_RIGHT
+        boundingObject Transform {
+          translation 0 -0.012 0.0815
+          rotation 1 0 0 1.5708
+          children [
+            Cylinder {
+              height 0.002
+              radius 0.02
+            }
+          ]
+        }
         physics Physics {
           density -1
           mass 0.5
@@ -124,15 +135,17 @@ Robot {
     }
     DEF LEFT HingeJoint {
       jointParameters HingeJointParameters {
-        position -2.0035146874874954e-09
+        axis 0 0 -1
+        anchor 0 -0.012 -0.0805
       }
       device [
         RotationalMotor {
+          name "motor_left"
         }
       ]
       endPoint Solid {
-        translation 2.1490123638945313e-09 -7.774167906867666e-08 1.0269701044961217e-09
-        rotation 1 0 0 0
+        translation 2.1490123638945313e-09 -7.774167906995921e-08 1.0269699535214727e-09
+        rotation 0 0 -1 0
         children [
           DEF WHEEL_LEFT Transform {
             children [
@@ -164,7 +177,16 @@ Robot {
           }
         ]
         name "solid(2)"
-        boundingObject USE WHEEL_LEFT
+        boundingObject Transform {
+          translation 0 -0.012 -0.0824
+          rotation 1 0 0 -1.5707953071795862
+          children [
+            Cylinder {
+              height 0.005
+              radius 0.02
+            }
+          ]
+        }
         physics Physics {
           density -1
           mass 0.5
@@ -734,7 +756,7 @@ Robot {
     ]
   }
   physics Physics {
-    density 5000
+    density 20000
   }
   controller "ARM_controller"
 }
@@ -881,7 +903,7 @@ DEF ARENA Transform {
               }
             }
             DEF Red_Box Solid {
-              translation 0.75 0.019940201122432964 0.08
+              translation 0.71 0.0199402 0.09
               rotation 0.0721400672937091 0.3395405976405081 0.9378208748182063 -2.4663181389346885e-16
               children [
                 DEF Red_Box Shape {
