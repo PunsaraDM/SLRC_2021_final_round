@@ -15,6 +15,7 @@ extern "C"
     public:
         int row_next[COLS] = {0};
         int discovered = 0;
+        int visited = 0;
         Junction junctions[COLS][ROWS];
 
         Maze();

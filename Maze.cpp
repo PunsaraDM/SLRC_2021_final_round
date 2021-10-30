@@ -57,13 +57,10 @@ void Maze::initialize()
 
 void Maze::update_junction(int column, int row, vector<int> content,int junction_content_state)
 {
-    // for (int i = 0; i < content.size(); i++)
-    // {
-    //     cout << content[i] << "\n";
-    // }
     junctions[column][row].content_state = junction_content_state;
     if (junctions[column][row].get_state() != DISCOVERED)
     {
+        visited += 1;
         discovered += content.size();
         cout << print_content(content) << "\n";
         cout << "discovered:" << discovered << "\n";

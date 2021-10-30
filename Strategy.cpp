@@ -52,7 +52,6 @@ int Strategy::find_next_direction(int target_col, int target_row, int robot_col,
         if (0 <= achievables[i][0] && achievables[i][0] < COLS and 0 <= achievables[i][1] and achievables[i][1] < ROWS && *(paths + i) == DISCOVERED)
         {
             // get distance to target position
-            cout << "i:"  << i <<"," <<  *(paths + i) << "\n";
             int distance = find_distance_to_target_position(target_col, target_row, achievables[i][0], achievables[i][1]);
             vector<int> vect{i, distance};
             //if the location is undiscovered push to unvisited queue its index and distance
@@ -82,7 +81,7 @@ int Strategy::find_next_direction(int target_col, int target_row, int robot_col,
     case COLORED:
         if (maze.junctions[robot_col][robot_row].get_content().size() > 1)
         {
-            selected = find_next_direction_colored_with_two(visited);
+            selected = find_next_direction_colored_with_two(last_direction);
         }
         else
         {
@@ -107,19 +106,19 @@ int Strategy::find_next_direction(int target_col, int target_row, int robot_col,
              << "\n";
         break;
     }
-    cout << "selected:" << selected << "\n";
-    cout << "visited"
-         << "\n";
-    for (int i = 0; i < visited.size(); i++)
-    {
-        cout << visited[i][0] << "," << visited[i][1] << "\n";
-    }
-    cout << "unvisited"
-         << "\n";
-    for (int i = 0; i < unvisited.size(); i++)
-    {
-        cout << unvisited[i][0] << "," << unvisited[i][1] << "\n";
-    }
+    // cout << "selected:" << selected << "\n";
+    // cout << "visited"
+    //      << "\n";
+    // for (int i = 0; i < visited.size(); i++)
+    // {
+    //     cout << visited[i][0] << "," << visited[i][1] << "\n";
+    // }
+    // cout << "unvisited"
+    //      << "\n";
+    // for (int i = 0; i < unvisited.size(); i++)
+    // {
+    //     cout << unvisited[i][0] << "," << unvisited[i][1] << "\n";
+    // }
 
     return selected;
 }
@@ -141,6 +140,12 @@ int Strategy::find_next_direction_normal(vector<vector<int>> visited, vector<vec
     return selected;
 }
 
+//scan paths as normal
+//calculate the distances
+//place the white box either on left or right side
+// pick the colored box
+//scan path
+//if the path next is to the up then pick box by going to that side place it on other side drop the colored box and then go in the up direction
 int Strategy::find_next_direction_colored_with_one(vector<vector<int>> visited, vector<vector<int>> unvisited)
 {
     cout << "Colored One Junction"
@@ -159,13 +164,16 @@ int Strategy::find_next_direction_colored_with_one(vector<vector<int>> visited, 
     return selected;
 }
 
-int Strategy::find_next_direction_colored_with_two(vector<vector<int>> visited)
+//change to next
+int Strategy::find_next_direction_colored_with_two(int reached_dir)
 {
     cout << "Colored Two Junction"
          << "\n";
-    int selected = 4;
-    if (visited.size() > 0)
-        selected = visited[0][0];
+    int selected = reached_dir + 2;
+    if (selected > 3)
+    {
+        selected -= 4;
+    }
     return selected;
 }
 
@@ -173,56 +181,74 @@ int Strategy::find_next_direction_inverted(vector<vector<int>> visited, vector<v
 {
     cout << "Inverted Junction"
          << "\n";
-
-    vector<int> directions_to_check;
-
-    if (last_direction == LEFT || last_direction == RIGHT)
-    {
-        directions_to_check.push_back(UP);
-        directions_to_check.push_back(DOWN);
-    }
-    else
-    {
-        directions_to_check.push_back(RIGHT);
-        directions_to_check.push_back(LEFT);
-    }
-
     int selected = 4;
-    int vertical = 4;
-    for (int i = 0; i < unvisited.size(); i++)
+    int straight_dir = last_direction + 2;
+    vector<int> perpendicular{last_direction + 1, last_direction - 1};
+    bool existence = false;
+
+    if (straight_dir > 3)
     {
-        int dir = unvisited[i][0];
-        if (find(directions_to_check.begin(), directions_to_check.end(), dir) != directions_to_check.end())
-        // if (dir == LEFT || dir == RIGHT)
+        straight_dir = straight_dir - 4;
+    }
+
+    for (int i = 0; i < 2; i++)
+    {
+        if (perpendicular[i] > 3)
         {
-            selected = dir;
-            break;
+            perpendicular[i] = 0;
+        }
+        else if (perpendicular[i] < 0)
+        {
+            perpendicular[i] = 3;
+        }
+        if (check_existence(unvisited, perpendicular[i]) || check_existence(visited, perpendicular[i]))
+        {
+            existence = true;
+        }
+    }
+
+    if (unvisited.size() > 0)
+    {
+        if (unvisited[0][0] == straight_dir)
+        {
+            if (existence)
+            {
+                selected = straight_dir;
+            }
+            else if (unvisited.size() > 1)
+            {
+                selected = unvisited[1][0];
+            }
         }
         else
         {
-            vertical = dir;
+            selected = unvisited[0][0];
         }
-    }
-    //no left and right in visited but has an vertical position in visited; go to vertical position
-    if (selected == 4 && vertical != 4)
-    {
-        selected = vertical;
     }
     else
     {
-        for (int i = 0; i < visited.size(); i++)
+        if (visited.size() > 0)
         {
-            int dir = visited[i][0];
-            if (find(directions_to_check.begin(), directions_to_check.end(), dir) != directions_to_check.end())
+            if (visited[0][0] == straight_dir)
             {
-                selected = dir;
-                break;
+                if (existence)
+                {
+                    selected = straight_dir;
+                }
+                else if (visited.size() > 1)
+                {
+                    selected = visited[1][0];
+                }
+            }
+            else
+            {
+                selected = visited[0][0];
             }
         }
     }
-
     return selected;
 }
+
 int Strategy::find_next_direction_white(vector<vector<int>> visited, vector<vector<int>> unvisited)
 {
     cout << "White Junction"
@@ -241,9 +267,21 @@ int Strategy::find_next_direction_white(vector<vector<int>> visited, vector<vect
     return selected;
 }
 
-
-
 int Strategy::find_distance_to_target_position(int target_col, int target_row, int pos_col, int pos_row)
 {
     return abs(pos_col - target_col) + abs(pos_row - target_row);
+}
+
+bool Strategy::check_existence(vector<vector<int>> arr, int val)
+{
+    bool found = false;
+    for (int i = 0; i < arr.size(); i++)
+    {
+        if (arr[i][0] == val)
+        {
+            found = true;
+            break;
+        }
+    }
+    return found;
 }

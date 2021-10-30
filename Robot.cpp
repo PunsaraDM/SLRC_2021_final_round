@@ -106,7 +106,7 @@ void Robot::travel_maze()
 {
     int direction_to_travel = UP;
 
-    while (maze.discovered < 6)
+    while (maze.visited < 63 && maze.discovered < 6)
     {
         int *paths;
         int junction_content_state;
