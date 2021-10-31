@@ -50,6 +50,13 @@ void init_compass(){
 
 //////////////////////////////////////Compas//////////////////
 
+//Function to stop robot
+void stop(){
+  for (int i = 0; i < 2; i++){
+    wheels[i]->setVelocity(0);
+  }
+}
+
 //Function to get the initial postion by number of 90's from north
 double getComDir(){
   const double *cVals = compass->getValues();
@@ -108,13 +115,14 @@ void turnAng(float a){
     }
     
     //set default for the right turn
-    double leftSpeed = 8.0*turnSide*expoVal;
-    double rightSpeed = -8.0*turnSide*expoVal;
+    double leftSpeed = 5.0*turnSide*expoVal;
+    double rightSpeed = -5.0*turnSide*expoVal;
     //cout<<leftSpeed<<"   "<<rightSpeed<<endl;
     wheels[0]->setVelocity(leftSpeed);
     wheels[1]->setVelocity(rightSpeed);
 
   }
+  stop();
 }
 
 //Function to move robot forward
@@ -131,6 +139,7 @@ void turn_left(){
     
 //Function to turn robot 90 degrees right    
 void turn_right(){
+  cout<<"turn right"<<endl;
   turnAng(90.0);
 }
     
@@ -139,12 +148,7 @@ void turn_back(){
   turnAng(180.0);
 }
     
-//Function to stop robot
-void stop(){
-  for (int i = 0; i < 2; i++){
-    wheels[i]->setVelocity(0);
-  }
-}
+
 
 
 ////////////////////////////Robot Arm////////////////////////////////////
@@ -208,16 +212,17 @@ int main(int argc, char **argv) {
   init_compass();
   while (robot->step(timeStep) != -1) {
     if (flag==1){
-    turn_right();
-    arm_base_move(0.04);
-    arm_grab_box(0.06,0.06);
-    arm_vertical_move(0.05);
-    flag = 0;
-    turn_right();
+      turn_right();
+      arm_base_move(0.04);
+      arm_grab_box(0.06,0.06);
+      arm_vertical_move(0.05);
+      flag = 0;
+      turn_right();
     }
     
     //arm_base_move(-0.07);
     //arm_vertical_move(0.03);
+    
     for (int i = 0; i < 2; i++) {
       wheels[i] = robot->getMotor(wheels_names[i]);
       wheels[i]->setVelocity(5.0);
