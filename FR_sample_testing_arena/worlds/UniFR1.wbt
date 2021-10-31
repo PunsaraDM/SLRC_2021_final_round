@@ -7,8 +7,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.0007165082828236006 -0.9995616410479286 0.02959750600055151 3.1899787884872253
-  position 0.5786174594211115 0.012809015391485603 -0.313436801954534
+  orientation 0.0004755501913728644 0.979987286489535 0.19905951916673986 3.1462749947521593
+  position 0.8391178002325035 0.39121164350603665 -0.86307517515018
 }
 DirectionalLight {
   direction 0 -1 0
@@ -30,7 +30,7 @@ Robot {
   rotation 0.0721400672937091 0.3395405976405081 0.9378208748182063 -2.4663181389346885e-16
   children [
     Solid {
-      translation 0.1 -0.03 0.1
+      translation 0.1 -0.029 0.1
       children [
         DEF caster Shape {
           appearance PBRAppearance {
@@ -38,13 +38,13 @@ Robot {
             metalness 0
           }
           geometry Sphere {
-            radius 0.007
+            radius 0.004
           }
         }
       ]
       name "caster_right"
       boundingObject Sphere {
-        radius 0.005
+        radius 0.004
       }
       physics Physics {
         density -1
@@ -52,7 +52,7 @@ Robot {
       }
     }
     Solid {
-      translation 0.1 -0.03 -0.1
+      translation 0.1 -0.029 -0.1
       children [
         DEF caster Shape {
           appearance PBRAppearance {
@@ -60,13 +60,13 @@ Robot {
             metalness 0
           }
           geometry Sphere {
-            radius 0.007
+            radius 0.004
           }
         }
       ]
       name "caster_left"
       boundingObject Sphere {
-        radius 0.005
+        radius 0.004
       }
       physics Physics {
         density -1
@@ -81,11 +81,12 @@ Robot {
       device [
         RotationalMotor {
           name "motor_right"
+          maxTorque 50
         }
       ]
       endPoint Solid {
-        translation 5.826556250684843e-06 3.338895745387885e-06 -3.140472561849461e-06
-        rotation 0.06374869186030997 0.9275545067002652 0.36821018642363335 5.13603923905317e-07
+        translation -0.0003434826594886486 2.1249404278151848e-05 -3.086440104743682e-06
+        rotation -1.805675839394338e-05 5.442669127429474e-05 0.9999999983558443 0.02890572886205713
         children [
           DEF WHEEL_RIGHT Transform {
             children [
@@ -129,7 +130,7 @@ Robot {
         }
         physics Physics {
           density -1
-          mass 0.5
+          mass 0.2
         }
       }
     }
@@ -141,11 +142,12 @@ Robot {
       device [
         RotationalMotor {
           name "motor_left"
+          maxTorque 50
         }
       ]
       endPoint Solid {
-        translation 2.1490123638945313e-09 -7.774167906995921e-08 1.0269699535214727e-09
-        rotation 0 0 -1 0
+        translation -0.00034912507501205607 1.737013062604563e-05 5.6503365861160226e-08
+        rotation -1.7934200600118603e-05 3.7261157310113545e-05 0.9999999991449853 0.028905539739458808
         children [
           DEF WHEEL_LEFT Transform {
             children [
@@ -178,18 +180,18 @@ Robot {
         ]
         name "solid(2)"
         boundingObject Transform {
-          translation 0 -0.012 -0.0824
+          translation 0 -0.012 -0.0815
           rotation 1 0 0 -1.5707953071795862
           children [
             Cylinder {
-              height 0.005
+              height 0.002
               radius 0.02
             }
           ]
         }
         physics Physics {
           density -1
-          mass 0.5
+          mass 0.2
         }
       }
     }
@@ -275,7 +277,8 @@ Robot {
         axis 1 0 0
       }
       endPoint Solid {
-        translation -1.73472e-18 0 0
+        translation 4.045833057464421e-09 -2.3412119991156333e-06 8.704619691712878e-09
+        rotation 0.5611854631436479 0.005941614874800241 -0.8276687581206196 3.0464860902144285e-07
         children [
           DEF RAIL_RIGHT_VER Transform {
             children [
@@ -394,7 +397,7 @@ Robot {
         }
         physics Physics {
           density -1
-          mass 0.5
+          mass 0.15
         }
       }
     }
@@ -413,8 +416,8 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation 8.110023896890084e-08 -1.3854498428414854e-05 4.38649478221205e-06
-        rotation -0.21551491429540184 0.24933315989814953 0.9441325633042477 -4.105142952956246e-06
+        translation 8.713508409252668e-08 -2.0422971718600524e-05 4.381718530399592e-06
+        rotation -0.20912795107986543 0.22856835563726705 0.9508007188041103 -4.47226516660406e-06
         children [
           SliderJoint {
             jointParameters JointParameters {
@@ -499,16 +502,16 @@ Robot {
                     ]
                     name "solid(1)"
                     boundingObject Transform {
-                      translation 0.18 -0.005 0.077
+                      translation 0.18 -0.0056 0.073
                       children [
                         Box {
-                          size 0.1 0.02 0.01
+                          size 0.057 0.015 0.003
                         }
                       ]
                     }
                     physics Physics {
                       density -1
-                      mass 0.05
+                      mass 0.01
                     }
                   }
                 }
@@ -577,16 +580,16 @@ Robot {
                       }
                     ]
                     boundingObject Transform {
-                      translation 0.18 -0.005 -0.072
+                      translation 0.18 -0.0056 -0.069
                       children [
                         Box {
-                          size 0.1 0.02 0.01
+                          size 0.057 0.015 0.003
                         }
                       ]
                     }
                     physics Physics {
                       density -1
-                      mass 0.05
+                      mass 0.01
                     }
                   }
                 }
@@ -628,7 +631,7 @@ Robot {
               boundingObject USE GRIP_CENTER
               physics Physics {
                 density -1
-                mass 0.5
+                mass 0.1
               }
             }
           }
@@ -737,7 +740,7 @@ Robot {
         boundingObject USE RAIL_LEFT_BOTM_EXT
         physics Physics {
           density -1
-          mass 0.5
+          mass 0.15
         }
       }
     }
@@ -745,23 +748,23 @@ Robot {
   boundingObject Group {
     children [
       Transform {
-        translation 0 0.03 0
+        translation 0 0.005 0
         children [
           Box {
-            size 0.05 0.1 0.1
+            size 0.04 0.05 0.1
           }
         ]
       }
-      USE CHASSIS
     ]
   }
   physics Physics {
-    density 20000
+    density -1
+    mass 2
   }
   controller "ARM_controller"
 }
 DEF ARENA Transform {
-  translation 0 -0.011 0
+  translation 0 -0.012 0
   children [
     Group {
       children [

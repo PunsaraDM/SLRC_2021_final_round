@@ -73,21 +73,21 @@ void passive_thread_wait(double targetLeft, double targetRight)
 
 void arm_base_move(double target){
   linear_motors[0] -> setPosition(target);
-  linear_motors[0] -> setVelocity(2);
+  linear_motors[0] -> setVelocity(0.05);
   passive_wait(0,target);
 }
 
 void arm_vertical_move(double target){
   linear_motors[1] -> setPosition(target);
-  linear_motors[1] -> setVelocity(2);
+  linear_motors[1] -> setVelocity(0.5);
   passive_wait(1,target);
 }
 
 void arm_grab_box(double targetLeft, double targetRight){
   linear_motors[2] -> setPosition(targetLeft);
-  linear_motors[2] -> setVelocity(2);
+  linear_motors[2] -> setVelocity(0.5);
   linear_motors[3] -> setPosition(targetRight);
-  linear_motors[3] -> setVelocity(2);
+  linear_motors[3] -> setVelocity(0.5);
   passive_thread_wait(targetLeft, targetRight);
 }
 
@@ -103,11 +103,13 @@ int main(int argc, char **argv) {
   while (robot->step(timeStep) != -1) {
     if (flag==1){
     arm_base_move(0.04);
-    flag = 0;
-    }
     arm_grab_box(0.06,0.06);
     arm_vertical_move(0.05);
-    //arm_base_move(0.00);
+    flag = 0;
+    }
+    
+    //arm_base_move(-0.07);
+    arm_vertical_move(0.03);
    for (int i = 0; i < 2; i++) {
       wheels[i] = robot->getMotor(wheels_names[i]);
       wheels[i]->setVelocity(5.0);
