@@ -54,6 +54,13 @@ void MotorGroup::set_position(double leftPosition, double rightPosition)
     motors[1]->setPosition(rightPosition);
 }
 
+void MotorGroup::set_linear_target(int motor, double tartget, double vel)
+{
+    motors[motor]->setPosition(tartget);
+    motors[motor]->setVelocity(vel);
+
+}
+
 // void MotorGroup::set_velocity_servo(int servo, float speed)
 // {
 //     motors[servo]->setVelocity(speed);

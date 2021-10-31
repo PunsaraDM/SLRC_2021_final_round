@@ -1,6 +1,7 @@
 #include <webots/DistanceSensor.hpp>
 #include <webots/PositionSensor.hpp>
 #include <webots/Camera.hpp>
+#include <webots/Compass.hpp>
 #include "SensorGroup.h"
 #include "Navigator.h"
 #include <math.h>
@@ -65,24 +66,29 @@ float SensorGroup::get_ir_value(int index)
 //     }
 // }
 
-void init_compass(Navigator *follower)
+void SensorGroup::init_compass(Navigator *follower)
 {
   compass = follower->getCompass("compass");
   compass->enable(TIME_STEP);
 }
 
-float SensorGroup::get_ir_value_distance_sensors(int index)     //only for stabilization
+const double* SensorGroup::get_compass_value()
 {
-    float val = ds[index]->getValue();
-    return val;
+    return compass->getValues();;
 }
 
-float SensorGroup::get_distance_value(int index)
-{
-    float val = ds[index]->getValue();
-    return round(val * REFLECTION_FACTOR);
-    //return val;
-}
+// float SensorGroup::get_ir_value_distance_sensors(int index)     //only for stabilization
+// {
+//     float val = ds[index]->getValue();
+//     return val;
+// }
+
+// float SensorGroup::get_distance_value(int index)
+// {
+//     float val = ds[index]->getValue();
+//     return round(val * REFLECTION_FACTOR);
+//     //return val;
+// }
 
 double SensorGroup::get_encoder_val(int index)
 {

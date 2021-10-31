@@ -1,6 +1,7 @@
 #include <webots/DistanceSensor.hpp>
 #include <webots/PositionSensor.hpp>
 #include <webots/Camera.hpp>
+#include <webots/Compass.hpp>
 
 using namespace webots;
 
@@ -16,8 +17,9 @@ public:
     void init_qtr_sensor(Navigator *follower);
     void init_encoders(Navigator* follower);
     //void init_camera(Navigator *follower);
+    void init_compass(Navigator* follower);
 
-    
+    const double* get_compass_value();
     float get_ir_value(int index);
     float get_ir_value_distance_sensors(int index);
     float get_distance_value(int index);
@@ -39,17 +41,15 @@ public:
 
     int COLORS[3];
     int nextTurn = -1;
-    static const int qtr_count = 8;
-    
 
 private:
     Navigator *follower;
     // DistanceSensor *ds[6];
     // char dsNames[6][12] = {"sharp_left", "sharp_right", "sharp_front", "sharp_box", "tof_left", "tof_right"};
 
-    
+    static const int qtr_count = 8;
     DistanceSensor *qtr[qtr_count];
-    char qtrNames[qtr_count][18] = {"qtr_0","qtr_1", "qtr_2", "qtr_3", "4", "qtr_5","qtr_6","qtr_7"};
+    char qtrNames[qtr_count][18] = {"qtr_0","qtr_1", "qtr_2", "qtr_3", "qtr_4", "qtr_5","qtr_6","qtr_7"};
 
     static const int encoder_count = 6;
     PositionSensor *encoder[encoder_count];

@@ -19,6 +19,7 @@ public:
     void set_velocity(float leftSpeed, float rightSpeed);
     void robot_stop();
     void set_position(double leftPosition, double rightPosition);
+    void set_linear_target(int motor, double tartget, double vel);
     //void set_control_pid(float val1, float val2,float val3);
 
     // void set_velocity_servo(int servo, float speed);
@@ -27,7 +28,7 @@ public:
 private:
     Navigator *follower;
 
-    int motor_count = 6;
+    static const int motor_count = 6;
     Motor *motors[motor_count];
     char motors_names[motor_count][20] = {"motor_left", "motor_right", "base_motor","vertical_motor","gripper_left_motor","gripper_right_motor"};
 };

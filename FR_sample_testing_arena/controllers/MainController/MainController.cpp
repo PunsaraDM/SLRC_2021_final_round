@@ -1,13 +1,13 @@
-#include "LineFollower.h"
-#define TIME_STEP 16
+#include "Navigator.h"
+#define TIME_STEP 32
 
 int main(int argc, char **argv)
 {
 
-    LineFollower follower;
+    Navigator follower;
 
 
-    while (follower.step(8) != -1)
+    while (follower.step(TIME_STEP) != -1)
     {
         follower.task();
         break;
