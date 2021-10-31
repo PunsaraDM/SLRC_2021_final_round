@@ -11,6 +11,8 @@
 using namespace webots;
 using namespace std;
 
+#define turnAccu 1000
+
 Robot *robot = new Robot();
 int timeStep = (int)robot->getBasicTimeStep();
 
@@ -67,8 +69,8 @@ double getComDir(){
   }
 
   bearing = remainder(bearing, 360.0); 
-  bearing = round(bearing*1000.0)/1000.0;
-  double ninetyCount = round(1000.0*bearing / 90.0)/1000.0;
+  bearing = round(bearing*turnAccu)/turnAccu;
+  double ninetyCount = round(turnAccu*bearing / 90.0)/turnAccu;
 
   return remainder(ninetyCount, 4.0);
 }
@@ -78,7 +80,7 @@ void turnAng(float a){
   double initNinetyCount;
   initNinetyCount = getComDir();  //# of 90's in initial position 
 
-  double targetNinetyCount = round(1000.0*remainder((initNinetyCount + a/90.0),4.0))/1000.0;  //# of 90's for the target
+  double targetNinetyCount = round(turnAccu*remainder((initNinetyCount + a/90.0),4.0))/turnAccu;  //# of 90's for the target
   targetNinetyCount = remainder(targetNinetyCount, 4.0);
 
   int initTurnSide = 1;

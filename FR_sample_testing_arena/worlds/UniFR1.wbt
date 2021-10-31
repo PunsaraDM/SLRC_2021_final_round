@@ -7,8 +7,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 1 0 0 4.71238898038469
-  position 0.8277451030894939 1.1588689643158836 -0.08335431674198118
+  orientation -0.4700411746325746 0.7452832498566974 0.47287860136938875 1.8664039319975831
+  position 1.0586754333005022 0.5066791259424921 -0.1318385756092491
 }
 DirectionalLight {
   direction 0 -1 0
@@ -29,6 +29,174 @@ Robot {
   translation 0.746 0.02 -0.14
   rotation 0 -1 0 0
   children [
+    DistanceSensor {
+      translation 0.112 -0.022 0.03325
+      rotation 0 0 1 -1.57
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0 0 0
+            metalness 0
+          }
+          geometry Box {
+            size 0.005 0.005 0.005
+          }
+        }
+      ]
+      name "ir1"
+      lookupTable [
+        0 0 0
+        0.05 10 0
+      ]
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation 0.112 -0.022 0.02375
+      rotation 0 0 1 -1.57
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0 0 0
+            metalness 0
+          }
+          geometry Box {
+            size 0.005 0.005 0.005
+          }
+        }
+      ]
+      name "ir2"
+      lookupTable [
+        0 0 0
+        0.05 10 0
+      ]
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation 0.112 -0.022 0.01425
+      rotation 0 0 1 -1.57
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0 0 0
+            metalness 0
+          }
+          geometry Box {
+            size 0.005 0.005 0.005
+          }
+        }
+      ]
+      name "ir3"
+      lookupTable [
+        0 0 0
+        0.05 10 0
+      ]
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation 0.112 -0.022 0.00475
+      rotation 0 0 1 -1.57
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0 0 0
+            metalness 0
+          }
+          geometry Box {
+            size 0.005 0.005 0.005
+          }
+        }
+      ]
+      name "ir4"
+      lookupTable [
+        0 0 0
+        0.05 10 0
+      ]
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation 0.112 -0.022 -0.00475
+      rotation 0 0 1 -1.57
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0 0 0
+            metalness 0
+          }
+          geometry Box {
+            size 0.005 0.005 0.005
+          }
+        }
+      ]
+      name "ir5"
+      lookupTable [
+        0 0 0
+        0.05 10 0
+      ]
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation 0.112 -0.022 -0.01425
+      rotation 0 0 1 -1.57
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0 0 0
+            metalness 0
+          }
+          geometry Box {
+            size 0.005 0.005 0.005
+          }
+        }
+      ]
+      name "ir6"
+      lookupTable [
+        0 0 0
+        0.05 10 0
+      ]
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation 0.112 -0.022 -0.02375
+      rotation 0 0 1 -1.57
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0 0 0
+            metalness 0
+          }
+          geometry Box {
+            size 0.005 0.005 0.005
+          }
+        }
+      ]
+      name "ir7"
+      lookupTable [
+        0 0 0
+        0.05 10 0
+      ]
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation 0.112 -0.022 -0.03325
+      rotation 0 0 1 -1.57
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0 0 0
+            metalness 0
+          }
+          geometry Box {
+            size 0.005 0.005 0.005
+          }
+        }
+      ]
+      name "ir8"
+      lookupTable [
+        0 0 0
+        0.05 10 0
+      ]
+      type "infra-red"
+    }
     Solid {
       translation 0.09 0 0
       rotation 0 0 -1 0
