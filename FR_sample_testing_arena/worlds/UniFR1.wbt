@@ -7,8 +7,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.0004755501913728644 0.979987286489535 0.19905951916673986 3.1462749947521593
-  position 0.8391178002325035 0.39121164350603665 -0.86307517515018
+  orientation 0.9999752480271413 -0.004950167066732063 -0.0049999179061877 4.702364229346165
+  position 0.7151435691269392 1.704868667419062 0.11356556666310995
 }
 DirectionalLight {
   direction 0 -1 0
@@ -26,9 +26,11 @@ DirectionalLight {
   direction 0 -1 1
 }
 Robot {
-  translation 0.53 0.02 0.08
-  rotation 0.0721400672937091 0.3395405976405081 0.9378208748182063 -2.4663181389346885e-16
+  translation 0.689997 0.02 -0.14
+  rotation 0 -1 0 0
   children [
+    Compass {
+    }
     Solid {
       translation 0.1 -0.029 0.1
       children [
@@ -906,7 +908,7 @@ DEF ARENA Transform {
               }
             }
             DEF Red_Box Solid {
-              translation 0.71 0.0199402 0.09
+              translation 0.75 0.0199402 0.1
               rotation 0.0721400672937091 0.3395405976405081 0.9378208748182063 -2.4663181389346885e-16
               children [
                 DEF Red_Box Shape {
