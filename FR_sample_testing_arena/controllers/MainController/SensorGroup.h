@@ -106,7 +106,7 @@ private:
     int FRONT_WALL_THRESHOLD = 75;
 
     float IR_BLACK_VALUE = 10;
-    float IR_WHITE_VALUE = 7.4;
+    float IR_WHITE_VALUE = 5.14;
     float BLACK_WHITE_THRESHOLD = (IR_BLACK_VALUE + IR_WHITE_VALUE) / 2;
 
     

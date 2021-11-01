@@ -318,6 +318,6 @@ void Navigator::task()
 
 void Navigator::test()
 {
-
-    cout<<"out"<<endl;
+    follow_line(0.01,0.0,4.5,6,7.5);
+    //cout<<sensorGroup->get_ir_value(0)<<endl;
 }

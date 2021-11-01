@@ -7,8 +7,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.5645333333872955 -0.6008975453280702 -0.5658836059768199 2.061542479517712
-  position 0.7151295853603133 1.0824377360077346 -0.12960712872389585
+  orientation 0.07517344519132757 -0.9943374172150461 -0.07511360638511243 4.707506650672321
+  position 1.4599935760175626 0.00531984128802313 0.08227222307168186
 }
 DirectionalLight {
   direction 0 -1 0
@@ -26,7 +26,7 @@ DirectionalLight {
   direction 0 -1 1
 }
 Robot {
-  translation 0.746 0.02 -0.14
+  translation 0.826 0.02 0.09
   rotation 0 -1 0 0
   children [
     DEF QTR_PANEL Group {
@@ -48,7 +48,7 @@ Robot {
           name "qtr_7"
           lookupTable [
             0 0 0
-            0.05 10 0
+            0.03 10 0
           ]
           type "infra-red"
         }
@@ -69,7 +69,7 @@ Robot {
           name "qtr_6"
           lookupTable [
             0 0 0
-            0.05 10 0
+            0.03 10 0
           ]
           type "infra-red"
         }
@@ -90,7 +90,7 @@ Robot {
           name "qtr_5"
           lookupTable [
             0 0 0
-            0.05 10 0
+            0.03 10 0
           ]
           type "infra-red"
         }
@@ -111,7 +111,7 @@ Robot {
           name "qtr_4"
           lookupTable [
             0 0 0
-            0.05 10 0
+            0.03 10 0
           ]
           type "infra-red"
         }
@@ -132,7 +132,7 @@ Robot {
           name "qtr_3"
           lookupTable [
             0 0 0
-            0.05 10 0
+            0.03 10 0
           ]
           type "infra-red"
         }
@@ -153,7 +153,7 @@ Robot {
           name "qtr_2"
           lookupTable [
             0 0 0
-            0.05 10 0
+            0.03 10 0
           ]
           type "infra-red"
         }
@@ -174,7 +174,7 @@ Robot {
           name "qtr_1"
           lookupTable [
             0 0 0
-            0.05 10 0
+            0.03 10 0
           ]
           type "infra-red"
         }
@@ -195,7 +195,7 @@ Robot {
           name "qtr_0"
           lookupTable [
             0 0 0
-            0.05 10 0
+            0.03 10 0
           ]
           type "infra-red"
         }
@@ -330,6 +330,7 @@ Robot {
         }
       ]
       endPoint Solid {
+        translation -2.481541837659083e-24 5.204170427930421e-18 2.498001805406602e-16
         rotation 0 0 -1 0
         children [
           DEF WHEEL_RIGHT Transform {
@@ -393,6 +394,7 @@ Robot {
         }
       ]
       endPoint Solid {
+        translation 4.1359030627651384e-25 -6.938893903907228e-18 -3.0531133177191805e-16
         rotation 0 0 -1 0
         children [
           DEF WHEEL_LEFT Transform {
@@ -696,7 +698,7 @@ Robot {
                     }
                   ]
                   endPoint Solid {
-                    translation 0 0 0.03
+                    translation 0 0 0.029999999999999978
                     children [
                       DEF GRIP_RIGHT Transform {
                         children [
