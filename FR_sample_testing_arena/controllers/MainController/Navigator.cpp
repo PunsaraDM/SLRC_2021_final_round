@@ -90,7 +90,7 @@ void Navigator::follow_line(float Kp, float Kd, float minSpd, float baseSpd, flo
         leftSpeed = minSpd;
     else if (leftSpeed > maxSpd)
         leftSpeed = maxSpd;
-
+    cout<<leftSpeed<<"  "<<rightSpeed<<endl;
     motorGroup->set_velocity(leftSpeed, rightSpeed);
 }
 
@@ -318,6 +318,6 @@ void Navigator::task()
 
 void Navigator::test()
 {
-    follow_line(0.01,0.0,4.5,6,7.5);
+    follow_line(0.0007,0.002,5.5,6.5,7.5);
     //cout<<sensorGroup->get_ir_value(0)<<endl;
 }

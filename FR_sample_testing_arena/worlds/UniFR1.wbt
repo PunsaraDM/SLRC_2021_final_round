@@ -7,8 +7,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.07517344519132757 -0.9943374172150461 -0.07511360638511243 4.707506650672321
-  position 1.4599935760175626 0.00531984128802313 0.08227222307168186
+  orientation -0.589436539095619 -0.5908497229512336 -0.5508730990595103 2.014055747507881
+  position 0.7828495375606394 3.014012668895258 0.22513044937835547
 }
 DirectionalLight {
   direction 0 -1 0
@@ -26,8 +26,8 @@ DirectionalLight {
   direction 0 -1 1
 }
 Robot {
-  translation 0.826 0.02 0.09
-  rotation 0 -1 0 0
+  translation 0.83894 0.02 0.119296
+  rotation 0 1 0 0.261799
   children [
     DEF QTR_PANEL Group {
       children [
