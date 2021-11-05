@@ -7,8 +7,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.589436539095619 -0.5908497229512336 -0.5508730990595103 2.014055747507881
-  position 0.7828495375606394 3.014012668895258 0.22513044937835547
+  orientation 0.5702115778774209 -0.5979950578042456 -0.5632589700095676 4.2636348902855286
+  position 0.7643820689765901 0.8888976733824405 0.20235471830399338
 }
 DirectionalLight {
   direction 0 -1 0
@@ -26,8 +26,8 @@ DirectionalLight {
   direction 0 -1 1
 }
 Robot {
-  translation 0.83894 0.02 0.119296
-  rotation 0 1 0 0.261799
+  translation 0.45894 0.02 0.0892949
+  rotation 0 1 0 -5.307179586466759e-06
   children [
     DEF QTR_PANEL Group {
       children [
@@ -1154,7 +1154,7 @@ DEF ARENA Transform {
               }
             }
             DEF Red_Box Solid {
-              translation 0.75 0.0199402 0.15
+              translation 0.7 0.0199402 0.14
               rotation 0.0721400672937091 0.3395405976405081 0.9378208748182063 -2.4663181389346885e-16
               children [
                 DEF Red_Box Shape {
