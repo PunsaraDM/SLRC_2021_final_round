@@ -7,8 +7,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.2180803576865332 0.9547899480938186 0.2020324543490893 1.5406295039378255
-  position 0.34567958370312685 0.1293576320973468 -0.022046375829860982
+  orientation -0.16215532939845476 0.9639624827158031 0.2109075177988293 1.8659816025933442
+  position 0.2653224334190859 0.2614914579499187 0.0421440747013332
 }
 DirectionalLight {
   direction 0 -1 0
@@ -1283,6 +1283,7 @@ DEF ref Robot {
   controller ""
 }
 Robot {
+  translation 0 0.08 0
   children [
     DEF RIGHT HingeJoint {
       jointParameters HingeJointParameters {
@@ -1411,6 +1412,44 @@ Robot {
       }
     }
     Compass {
+    }
+    Camera {
+      translation 0.113 -0.005 -0.123
+      rotation 0.577349935856137 0.577349935856137 0.5773509358560258 -2.094395307179586
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0 0.4 0
+            metalness 0
+          }
+          geometry Box {
+            size 0.0041 0.0041 0.001
+          }
+        }
+      ]
+      name "cs_left"
+      fieldOfView 0.3
+      near 0.005
+      far 0.03
+    }
+    Camera {
+      translation 0.113 -0.005 0.123
+      rotation 0.577349935856137 0.577349935856137 0.5773509358560258 -2.094395307179586
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0 0.4 0
+            metalness 0
+          }
+          geometry Box {
+            size 0.0041 0.0041 0.001
+          }
+        }
+      ]
+      name "cs_right"
+      fieldOfView 0.3
+      near 0.005
+      far 0.03
     }
     DEF CASTER_RIGHT Solid {
       children [
@@ -2266,6 +2305,29 @@ Robot {
             translation 0.13 0.124 0.123
             rotation 1 0 0 1.5708
             children [
+              Camera {
+                rotation 0.577349935856137 0.577349935856137 0.5773509358560258 -2.094395307179586
+                children [
+                  Transform {
+                    translation 0 -0.008 -0.002
+                    children [
+                      Shape {
+                        appearance PBRAppearance {
+                          baseColor 0 0.4 0
+                          metalness 0
+                        }
+                        geometry Box {
+                          size 0.01 0.01 0.001
+                        }
+                      }
+                    ]
+                  }
+                ]
+                name "cs_front"
+                fieldOfView 0.3
+                near 0.005
+                far 0.03
+              }
               DistanceSensor {
                 translation 0 0 -0.03325
                 rotation 0 0 1 -1.57
