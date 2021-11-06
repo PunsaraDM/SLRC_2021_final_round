@@ -17,6 +17,7 @@
 #define NOPATH -1
 #define UNDISCOVERED 0
 #define DISCOVERED 1
+#define SKIPPATH 2
 
 #define COLORED 1
 #define WHITE 2
@@ -81,7 +82,7 @@ int Strategy::find_next_direction(int target_col, int target_row, int robot_col,
     case COLORED:
         if (maze.junctions[robot_col][robot_row].get_content().size() > 1)
         {
-            selected = find_next_direction_colored_with_two(last_direction);
+            selected = find_next_direction_colored_with_two(visited, unvisited);
         }
         else
         {
@@ -94,7 +95,7 @@ int Strategy::find_next_direction(int target_col, int target_row, int robot_col,
         break;
     case INVERTED:
         /* code */
-        selected = find_next_direction_inverted(visited, unvisited, last_direction);
+        selected = find_next_direction_inverted(visited, unvisited, last_direction, maze, robot_col, robot_row);
         break;
     case NORMAL:
         /* code */
@@ -165,30 +166,37 @@ int Strategy::find_next_direction_colored_with_one(vector<vector<int>> visited, 
 }
 
 //change to next
-int Strategy::find_next_direction_colored_with_two(int reached_dir)
+int Strategy::find_next_direction_colored_with_two(vector<vector<int>> visited, vector<vector<int>> unvisited)
 {
     cout << "Colored Two Junction"
          << "\n";
-    int selected = reached_dir + 2;
-    if (selected > 3)
+
+    int selected = 4;
+
+    if (unvisited.size())
     {
-        selected -= 4;
+        selected = unvisited[0][0];
+    }
+    else if (visited.size())
+    {
+        selected = visited[0][0];
     }
     return selected;
 }
 
-int Strategy::find_next_direction_inverted(vector<vector<int>> visited, vector<vector<int>> unvisited, int last_direction)
+int Strategy::find_next_direction_inverted(vector<vector<int>> visited, vector<vector<int>> unvisited, int last_direction, Maze maze, int robot_col, int robot_row)
 {
     cout << "Inverted Junction"
          << "\n";
     int selected = 4;
-    int straight_dir = last_direction + 2;
+    int straight_dir = last_direction;
+    int back_dir = last_direction + 2;
     vector<int> perpendicular{last_direction + 1, last_direction - 1};
     bool existence = false;
 
-    if (straight_dir > 3)
+    if (back_dir > 3)
     {
-        straight_dir = straight_dir - 4;
+        back_dir = back_dir - 4;
     }
 
     for (int i = 0; i < 2; i++)
@@ -215,9 +223,22 @@ int Strategy::find_next_direction_inverted(vector<vector<int>> visited, vector<v
             {
                 selected = straight_dir;
             }
-            else if (unvisited.size() > 1)
+            else
             {
-                selected = unvisited[1][0];
+                // UP - 0 COL,ROW+1  |  RIGHT 1 COL+1,ROW | DOWN 2 COL, ROW-1, | LEFT 3 COL-1, ROW
+                int neighbour_col = robot_col;
+                int neighbour_row = robot_row;
+                if (straight_dir % 2 == 0)
+                {
+                    neighbour_row = neighbour_row + 1 - straight_dir;
+                }
+                else
+                {
+                    neighbour_col = neighbour_col + 2 - straight_dir;
+                }
+                maze.junctions[robot_col][robot_row].set_path(straight_dir, SKIPPATH);
+                maze.junctions[neighbour_col][neighbour_row].set_path(back_dir, SKIPPATH);
+                selected = back_dir;
             }
         }
         else
@@ -235,9 +256,9 @@ int Strategy::find_next_direction_inverted(vector<vector<int>> visited, vector<v
                 {
                     selected = straight_dir;
                 }
-                else if (visited.size() > 1)
+                else
                 {
-                    selected = visited[1][0];
+                    selected = back_dir;
                 }
             }
             else

@@ -33,6 +33,9 @@ extern "C"
     public:
         int content_state = NORMAL;
         int unavailable_paths=0;
+        int inverted_dis[2] = {-1,1000};
+        int white_dis[2] = {-1,10000};
+        
         void set_paths(int paths[]);
         void set_path(int direction, int state);
         int get_path(int direction);
@@ -40,6 +43,7 @@ extern "C"
         int get_state();
         void set_state(int state);
         void set_content(vector<int> content);
+        void update_distances(int white[],int inverted[]);
         vector<int> get_content();
 
     private:
