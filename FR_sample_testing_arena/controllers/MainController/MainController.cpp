@@ -9,7 +9,7 @@ int main(int argc, char **argv)
 
     while (follower.step(TIME_STEP) != -1)
     {
-        follower.test();
+        follower.task();
         //break;
 
     };

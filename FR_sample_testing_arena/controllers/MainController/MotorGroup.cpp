@@ -61,6 +61,13 @@ void MotorGroup::set_linear_target(int motor, double tartget, double vel)
 
 }
 
+void MotorGroup::qtr_servo(int tartget, double vel)
+{
+    motors[6]->setPosition(qtr_servo_target[tartget]);
+    motors[6]->setVelocity(vel);
+
+}
+
 // void MotorGroup::set_velocity_servo(int servo, float speed)
 // {
 //     motors[servo]->setVelocity(speed);

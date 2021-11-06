@@ -7,8 +7,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.04284717276455945 0.9981544162487144 0.04303348823036072 1.605765104722127
-  position 0.5794651368456978 0.117952230018094 -0.0562615150929177
+  orientation -0.1228378861801841 -0.9744925668824226 -0.18781664146100352 2.006733222727129
+  position -0.3626125652448459 0.13656305869344332 -0.14267232422323523
 }
 DirectionalLight {
   direction 0 -1 0
@@ -1993,6 +1993,178 @@ Robot {
         rotation -1 0 0 0
         children [
           DEF QTR_SENSORS Transform {
+            translation 0.13 0.124 0.125
+            rotation 1 0 0 1.570796
+            children [
+              DistanceSensor {
+                translation 0 0 -0.03325
+                rotation 0 0 1 -1.57
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      baseColor 0 0 0
+                      metalness 0
+                    }
+                    geometry Box {
+                      size 0.005 0.005 0.005
+                    }
+                  }
+                ]
+                name "qtr_0"
+                lookupTable [
+                  0 0 0
+                  0.03 10 0
+                ]
+                type "infra-red"
+              }
+              DistanceSensor {
+                translation 0 0 -0.02375
+                rotation 0 0 1 -1.57
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      baseColor 0 0 0
+                      metalness 0
+                    }
+                    geometry Box {
+                      size 0.005 0.005 0.005
+                    }
+                  }
+                ]
+                name "qtr_1"
+                lookupTable [
+                  0 0 0
+                  0.03 10 0
+                ]
+                type "infra-red"
+              }
+              DistanceSensor {
+                translation 0 0 -0.01425
+                rotation 0 0 1 -1.57
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      baseColor 0 0 0
+                      metalness 0
+                    }
+                    geometry Box {
+                      size 0.005 0.005 0.005
+                    }
+                  }
+                ]
+                name "qtr_2"
+                lookupTable [
+                  0 0 0
+                  0.03 10 0
+                ]
+                type "infra-red"
+              }
+              DistanceSensor {
+                translation 0 0 -0.00475
+                rotation 0 0 1 -1.57
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      baseColor 0 0 0
+                      metalness 0
+                    }
+                    geometry Box {
+                      size 0.005 0.005 0.005
+                    }
+                  }
+                ]
+                name "qtr_3"
+                lookupTable [
+                  0 0 0
+                  0.03 10 0
+                ]
+                type "infra-red"
+              }
+              DistanceSensor {
+                translation 0 0 0.00475
+                rotation 0 0 1 -1.57
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      baseColor 0 0 0
+                      metalness 0
+                    }
+                    geometry Box {
+                      size 0.005 0.005 0.005
+                    }
+                  }
+                ]
+                name "qtr_4"
+                lookupTable [
+                  0 0 0
+                  0.03 10 0
+                ]
+                type "infra-red"
+              }
+              DistanceSensor {
+                translation 0 0 0.01425
+                rotation 0 0 1 -1.57
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      baseColor 0 0 0
+                      metalness 0
+                    }
+                    geometry Box {
+                      size 0.005 0.005 0.005
+                    }
+                  }
+                ]
+                name "qtr_5"
+                lookupTable [
+                  0 0 0
+                  0.03 10 0
+                ]
+                type "infra-red"
+              }
+              DistanceSensor {
+                translation 0 0 0.02375
+                rotation 0 0 1 -1.57
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      baseColor 0 0 0
+                      metalness 0
+                    }
+                    geometry Box {
+                      size 0.005 0.005 0.005
+                    }
+                  }
+                ]
+                name "qtr_6"
+                lookupTable [
+                  0 0 0
+                  0.03 10 0
+                ]
+                type "infra-red"
+              }
+              DistanceSensor {
+                translation 0 0 0.03325
+                rotation 0 0 1 -1.57
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      baseColor 0 0 0
+                      metalness 0
+                    }
+                    geometry Box {
+                      size 0.005 0.005 0.005
+                    }
+                  }
+                ]
+                name "qtr_7"
+                lookupTable [
+                  0 0 0
+                  0.03 10 0
+                ]
+                type "infra-red"
+              }
+            ]
           }
           DEF PLATE_QTR Transform {
             children [
@@ -2073,8 +2245,7 @@ Robot {
         axis 1 0 0
       }
       endPoint Solid {
-        translation 3.6636585401991006e-09 -1.1635142299221309e-05 7.985788374890059e-09
-        rotation 0.7957677246893088 0.0029673121184703687 -0.6055946857441801 6.092136597250593e-07
+        rotation 1 0 0 0
         children [
           DEF ARM_VER_RIGHT Transform {
             children [
@@ -2204,8 +2375,7 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation 8.657760746079646e-08 -3.7271401541804326e-05 4.379645265059499e-06
-        rotation -0.3058797772948814 0.2144076096921072 0.9276135718865648 -4.767624032874746e-06
+        rotation 1 0 0 0
         children [
           SliderJoint {
             jointParameters JointParameters {
@@ -2221,7 +2391,6 @@ Robot {
               }
             ]
             endPoint Solid {
-              translation 0 2.2023299198203894e-07 0
               children [
                 DEF GRIP_RIGHT SliderJoint {
                   jointParameters JointParameters {
@@ -2420,14 +2589,7 @@ Robot {
                 }
               ]
               name "GRIP_CENTER"
-              boundingObject Transform {
-                translation -0.025 0.016 0
-                children [
-                  Box {
-                    size 0.02 0.015 0.2
-                  }
-                ]
-              }
+              boundingObject USE GRIP_CENTER
               physics Physics {
                 density -1
                 mass 0.1

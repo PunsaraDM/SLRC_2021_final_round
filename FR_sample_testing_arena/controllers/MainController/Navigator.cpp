@@ -296,17 +296,18 @@ void Navigator::task()
   while (step(TIME_STEP) != -1) {
     if (flag==1){
       turn_right();
-      arm_base_move(0.04);
+      arm_base_move(0.09);
       arm_grab_box(0.06,0.06);
       arm_vertical_move(0.05);
       flag = 0;
       turn_right();
     }
-    
+    follow_line(0.0007,0.002,5.5,6.5,7.5);
+    motorGroup->qtr_servo(QTR_DOWN,2.0);
     //arm_base_move(-0.07);
     //arm_vertical_move(0.03);
     
-    motorGroup->set_velocity(5.0,5.0);
+    //motorGroup->set_velocity(5.0,5.0);
     
     //arm_vertical_move(0);
     //arm_base_move(0);

@@ -105,6 +105,9 @@ extern "C"
         // int POS_BOX_DEFAULT = 5;
         float servoPosition[6] = {0.8,-0.59,0.0,1.6,-0.1,0.1};
 
+        int QTR_UP = 0;
+        int QTR_DOWN = 1;
+
     };
 #ifdef __cplusplus
 }
