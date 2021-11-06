@@ -17,11 +17,13 @@ extern "C"
         int discovered = 0;
         int visited = 0;
         Junction junctions[COLS][ROWS];
+        vector<vector<int>> colored_junctions;
+        vector<vector<int>> white_junctions;
 
         Maze();
         void initialize();
         void update_path(int column, int row, int paths[]);
-        void update_junction(int column, int row, vector<int> content,int junction_content_state);
+        void update_junction(int column, int row, vector<int> content,int junction_content_state, bool has_white);
         string print_content(vector<int> content);
 
     private:

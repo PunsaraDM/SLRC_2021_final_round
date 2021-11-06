@@ -14,15 +14,21 @@ extern "C"
     class Strategy
     {
     public:
-        int find_next_direction(int target_col, int target_row, int robot_col, int robot_row, Maze maze, int last_direction);
+        int find_next_direction(int robot_col, int robot_row, Maze maze, int last_direction, bool has_white);
         // bool compare_col(const vector<int> &v1, const vector<int> &v2);
-        int find_next_direction_normal(vector<vector<int>> visited, vector<vector<int>> unvisited);
-        int find_next_direction_colored_with_one(vector<vector<int>> visited, vector<vector<int>> unvisited);
-        int find_next_direction_colored_with_two(vector<vector<int>> visited, vector<vector<int>> unvisited);
-        int find_next_direction_inverted(vector<vector<int>> visited, vector<vector<int>> unvisited, int last_direction, Maze maze,int robot_col ,int robot_row);
-        int find_next_direction_white(vector<vector<int>> visited, vector<vector<int>> unvisited);
+        int find_next_direction_normal(vector<int> visited, vector<int> unvisited);
+        int find_next_direction_colored_with_one(vector<int> visited, vector<int> unvisited);
+        int find_next_direction_colored_with_two(vector<int> visited, vector<int> unvisited);
+        int find_next_direction_inverted(vector<int> visited, vector<int> unvisited, int last_direction, bool has_white);
+        int find_next_direction_white(vector<int> visited, vector<int> unvisited);
         int find_distance_to_target_position(int target_col, int target_row, int pos_col, int pos_row);
-        bool check_existence(vector<vector<int>> arr, int val);
+        bool check_existence(vector<int> arr, int val);
+        int get_from_priority(vector<int> juncs, int robot, bool is_visited);
+    private:
+        vector<vector<int>> robot_left_stack;
+        vector<vector<int>> robot_right_stack;
+        int current_col;
+        int current_row;
     };
 #ifdef __cplusplus
 }

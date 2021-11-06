@@ -7,6 +7,9 @@
 #define RIGHT 1
 #define DOWN 2
 #define LEFT 3
+#define UPWITHOUTWHITE 4
+#define INVALID 5
+
 
 #define RED 1
 #define GREEN 2
@@ -28,7 +31,18 @@
 #define DISCOVERED 1
 #define SKIPPATH 2
 
+//junction
+#define VISITEDWITHOUTWHITE 2
+
 using namespace std;
+
+
+Robot::Robot(int startCol, int startRow, int travel_direction){
+    robot_col = startCol;
+    robot_row = startRow;
+    travel_dir = travel_direction;
+}
+
 
 void Robot::travel_direction(int direction)
 {
@@ -60,17 +74,10 @@ void Robot::travel_direction(int direction)
 
 //returns the array of paths in the following order {UP,RIGHT,DOWN,LEFT}
 //if the path is not found or is red return -1. else path not discovered yet put 0. path discovered put 1.
-
 int *Robot::find_available_directions()
 {
     int *paths = generator.maze.junctions[robot_col][robot_row].get_paths();
     int path_state = DISCOVERED;
-
-    //if the junction has more than 1 colored boxed the three paths must be skipped
-    if (generator.maze.junctions[robot_col][robot_row].content_state == COLORED && generator.maze.junctions[robot_col][robot_row].get_content().size() > 1)
-    {
-        path_state = SKIPPATH;
-    }
 
     for (int i = 0; i < 4; i++)
     {
@@ -90,6 +97,9 @@ vector<int> Robot::find_junction_content()
 
 int Robot::find_junction_content_state()
 {
+    if(generator.maze.junctions[robot_col][robot_row].content_state == WHITE){
+        has_white = true;
+    }
     return generator.maze.junctions[robot_col][robot_row].content_state;
 }
 
@@ -118,16 +128,19 @@ void Robot::travel_maze()
         //get state of the junction
         junction_content = find_junction_content();
 
-        maze.update_junction(robot_col, robot_row, junction_content, junction_content_state);
+        maze.update_junction(robot_col, robot_row, junction_content, junction_content_state, has_white);
         maze.update_path(robot_col, robot_row, paths);
 
-        direction_to_travel = strategy.find_next_direction(target_col, target_row, robot_col, robot_row, maze, last_direction);
+        direction_to_travel = strategy.find_next_direction(robot_col, robot_row, maze, last_direction, has_white);
 
         last_direction = direction_to_travel;
-        //update_current_location
+
+        if(direction_to_travel == UPWITHOUTWHITE){
+            has_white = false;
+        }
+
         travel_direction(direction_to_travel);
         update_robot_position(direction_to_travel);
-        update_target_position();
         cout << "------------------------"
              << "\n";
     }
@@ -139,6 +152,10 @@ void Robot::update_robot_position(int direction)
     switch (direction)
     {
     case UP:
+        robot_row += 1;
+        break;
+    
+    case UPWITHOUTWHITE:
         robot_row += 1;
         break;
 
@@ -162,41 +179,3 @@ void Robot::update_robot_position(int direction)
     cout << "robot: (" << robot_col << "," << robot_row << ")\n";
 }
 
-void Robot::update_target_position()
-{
-    if (robot_col == target_col && robot_row == target_row)
-    {
-        bool found = false;
-        while (!found)
-        {
-            if (isTravelUp && target_row == ROWS - 1)
-            {
-                target_col += 1;
-                target_row = ROWS - 1;
-                isTravelUp = false;
-            }
-            else if (!isTravelUp && target_row == 0)
-            {
-                target_col += 1;
-                target_row = 0;
-                isTravelUp = true;
-            }
-            else
-            {
-                if (isTravelUp)
-                {
-                    target_row += 1;
-                }
-                else
-                {
-                    target_row -= 1;
-                }
-            }
-            if (maze.junctions[target_col][target_row].get_state() == UNDISCOVERED)
-            {
-                found = true;
-            }
-        }
-        cout << "target: (" << target_col << "," << target_row << ")\n";
-    }
-}

@@ -23,6 +23,9 @@
 #define GREEN 2
 #define BLUE 3
 
+#define VISITEDWITHOUTWHITE 2
+
+
 using namespace std;
 
 //maze following
@@ -58,7 +61,7 @@ void Maze::initialize()
     }
 }
 
-void Maze::update_junction(int column, int row, vector<int> content, int junction_content_state)
+void Maze::update_junction(int column, int row, vector<int> content, int junction_content_state, bool has_white)
 {
     junctions[column][row].content_state = junction_content_state;
     if (junctions[column][row].get_state() != DISCOVERED)
@@ -66,10 +69,28 @@ void Maze::update_junction(int column, int row, vector<int> content, int junctio
         visited += 1;
         discovered += content.size();
         cout << print_content(content) << "\n";
-        cout << "discovered:" << discovered << "\n";
     }
-    junctions[column][row].set_state(DISCOVERED);
-    junctions[column][row].set_content(content);
+
+    int junc_state = DISCOVERED;
+    
+    if(junction_content_state == COLORED){
+        vector<int> junc {column,row};
+        junc.reserve(junc.size() + distance(content.begin(),content.end()));
+        junc.insert(junc.end(),content.begin(),content.end());
+        colored_junctions.push_back(junc);
+    }
+    
+    else if(junction_content_state == WHITE){
+        vector<int> junc {column,row};
+        white_junctions.push_back(junc);
+    }
+    
+    else if(junction_content_state == INVERTED && !has_white){
+        junc_state = VISITEDWITHOUTWHITE;
+    }
+
+    junctions[column][row].set_state(junc_state);
+    
 }
 
 void Maze::update_path(int column, int row, int paths[])

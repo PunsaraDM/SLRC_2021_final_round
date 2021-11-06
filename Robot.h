@@ -30,6 +30,7 @@ extern "C"
     class Robot
     {
     public:
+        Robot(int startCol, int startRow, int travel_direction);
         void travel_maze();
         void travel_direction(int direction);
         int *find_available_directions();
@@ -37,18 +38,17 @@ extern "C"
         int find_junction_content_state();
         bool check_direction(int dir, int *paths);
         void update_robot_position(int direction);
-        void update_target_position();
 
     private:
         Maze maze;
         Strategy strategy;
         Generator generator;
+        int travel_dir = LEFT;
         int robot_col = 0;
         int robot_row = 0;
-        int target_col = 0;
-        int target_row = 1;
         bool isTravelUp = true;
         int last_direction = UP;
+        bool has_white = true;
     };
 #ifdef __cplusplus
 }

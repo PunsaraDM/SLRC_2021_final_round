@@ -15,6 +15,7 @@
 #define UNDISCOVERED 0
 #define DISCOVERED 1
 #define SKIPPED 2
+#define DISCOVEREDWITHOUTWHITE 3
 
 using namespace std;
 
@@ -79,15 +80,12 @@ void Junction::update_distances(int white[],int inverted[]){
         if(white[1] < white_dis[1] || white_dis[0] == -1 ){
             white_dis[1] = white[1];
             white_dis[0] = white[0];
-            cout << "white_dis: " << white_dis[1] << "\n";
         }
     }
     if(paths[inverted[0]] != NOPATH){
         if(inverted[1] < inverted_dis[1]){
             inverted_dis[1] = inverted[1];
             inverted_dis[0] = inverted[0];
-            cout << "inverted_dis: " << inverted_dis[1] << "\n";
-
         }
     }
     
