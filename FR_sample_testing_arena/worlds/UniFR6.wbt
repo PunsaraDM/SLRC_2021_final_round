@@ -8,7 +8,7 @@ WorldInfo {
 }
 Viewpoint {
   orientation -0.16215532939845476 0.9639624827158031 0.2109075177988293 1.8659816025933442
-  position 0.2653224334190859 0.2614914579499187 0.0421440747013332
+  position 0.38480697700444644 0.17678424236854084 -0.008386072310128695
 }
 DirectionalLight {
   direction 0 -1 0
@@ -1283,7 +1283,6 @@ DEF ref Robot {
   controller ""
 }
 Robot {
-  translation 0 0.08 0
   children [
     DEF RIGHT HingeJoint {
       jointParameters HingeJointParameters {
