@@ -41,18 +41,26 @@ void Maze::initialize()
     for (int i = 0; i < ROWS; i++)
     {
         junctions[0][i].set_path(LEFT, NOPATH);
+        junctions[0][i].found_junctions += 1;
+        junctions[0][i].found_paths += 1;
     }
     for (int i = 0; i < ROWS; i++)
     {
         junctions[COLS - 1][i].set_path(RIGHT, NOPATH);
+        junctions[COLS - 1][i].found_junctions += 1;
+        junctions[COLS - 1][i].found_paths += 1;
     }
     for (int i = 0; i < COLS; i++)
     {
         junctions[i][0].set_path(DOWN, NOPATH);
+        junctions[i][0].found_junctions += 1;
+        junctions[i][0].found_paths += 1;
     }
     for (int i = 0; i < ROWS; i++)
     {
         junctions[i][ROWS - 1].set_path(UP, NOPATH);
+        junctions[i][ROWS - 1].found_junctions += 1;
+        junctions[i][ROWS - 1].found_paths += 1;
     }
 }
 
