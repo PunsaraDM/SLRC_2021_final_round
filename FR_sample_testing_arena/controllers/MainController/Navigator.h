@@ -41,6 +41,7 @@ extern "C"
         void arm_base_move(double target);
         void arm_vertical_move(double target);
         void arm_grab_box(double targetLeft, double targetRight);
+        void detect_box_color_and_grab();
 
     private:
         SensorGroup *sensorGroup;
@@ -87,7 +88,6 @@ extern "C"
         float TURN90_EN_COUNT = 5.85;
         float TURN180_EN_COUNT = 11.4;
 
-        int turnAccu = 1000;
 
 
         // float WALL_MAX_VELOCITY = 7.0;
@@ -108,6 +108,25 @@ extern "C"
 
         int QTR_UP = 0;
         int QTR_DOWN = 1;
+
+
+        ////////////For robot arm/////////////// 
+        double grabDistRed = 0.073;
+        double grabDistGreen = 0.083;
+        double grabDistBlue = 0.093;
+        double grabDistToDetectColor = 0.07;
+        double linearMotorVelocity = 0.35;
+        double turnSpeed = 5.0;
+        double expoValTurnThresh = 0.5;
+        int turnAccu = 1000;
+        const double DELTA_double = 0.0001;    //for grippers
+        const double DELTA_single = 0.001;     //other linear motors
+        double distArmBase_max = 0.17;
+        double distArmBase_min = 0.0;
+        double verticalGround = 0.0;
+        //double verticalLowest = ;
+        //double verticalMiddle = ;
+        double verticalHighest = 0.15;
 
     };
 #ifdef __cplusplus

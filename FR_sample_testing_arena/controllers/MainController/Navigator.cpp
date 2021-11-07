@@ -23,7 +23,6 @@ Navigator::Navigator()
 
 void Navigator::passive_wait(double targetLeft, double targetRight)
 {
-    const double DELTA = 0.0001;
     double dif;
     double effectiveLeft, effectiveRight;
     do
@@ -35,14 +34,13 @@ void Navigator::passive_wait(double targetLeft, double targetRight)
         effectiveRight = sensorGroup->get_encoder_val(GRIP_EN_RIGHT);
         dif = min(fabs(effectiveLeft - targetLeft), fabs(effectiveRight - targetRight));
 
-    } while (dif > DELTA);
+    } while (dif > DELTA_double);
 }
 
 //TODO: give additional parameters to above function to specify encoders
 
 void Navigator::passive_wait_servo(int servo, double target)
 {
-    const double DELTA = 0.001;
     double dif;
     double effective;
     do
@@ -52,7 +50,7 @@ void Navigator::passive_wait_servo(int servo, double target)
 
         effective = sensorGroup->get_encoder_val(servo);
         dif = fabs(effective - target);             //check here again
-    } while (dif > DELTA);
+    } while (dif > DELTA_single);
 }
 
 void Navigator::delay(int time)
@@ -217,7 +215,6 @@ void Navigator::turnAng(float angle){
       
   float expoVal = 1.0;
   float turnError = 0.0;
-  //float initTurnError = turnError;
   int turnSide;
 
   while((step(TIME_STEP) != -1) && (initNinetyCount != targetNinetyCount)){
@@ -239,13 +236,13 @@ void Navigator::turnAng(float angle){
     }
     
     if(initTurnSide != turnSide){
-      expoVal *= 0.5;
+      expoVal *= expoValTurnThresh;
       initTurnSide = turnSide;
     }
     
     //set default for the right turn
-    double leftSpeed = 5.0*turnSide*expoVal;
-    double rightSpeed = -5.0*turnSide*expoVal;
+    double leftSpeed = turnSpeed*turnSide*expoVal;
+    double rightSpeed = -turnSpeed*turnSide*expoVal;
     //cout<<leftSpeed<<"   "<<rightSpeed<<endl;
     motorGroup->set_velocity(leftSpeed,rightSpeed);
   }
@@ -271,37 +268,67 @@ void Navigator::turn_back(){
 
 void Navigator::arm_base_move(double target)
 {
-  motorGroup->set_linear_target(2,target,0.5);
+  motorGroup->set_linear_target(2,target,linearMotorVelocity);
   passive_wait_servo(2,target);
 }
 
 void Navigator::arm_vertical_move(double target)
 {
-  motorGroup->set_linear_target(3,target,0.5);
+  motorGroup->set_linear_target(3,target,linearMotorVelocity);
   passive_wait_servo(3,target);
 }
 
 void Navigator::arm_grab_box(double targetLeft, double targetRight)
 {
-  motorGroup->set_linear_target(4,targetLeft,0.5);
-  motorGroup->set_linear_target(5,targetRight,0.5);
+  motorGroup->set_linear_target(4,targetLeft,linearMotorVelocity);
+  motorGroup->set_linear_target(5,targetRight,linearMotorVelocity);
   passive_wait(targetLeft, targetRight);
 }
 
+void Navigator::detect_box_color_and_grab()
+{
+  double distToDetectLocal = grabDistToDetectColor;
+  arm_grab_box(distToDetectLocal,distToDetectLocal);
+  bool isDetected = true;
+  while (isDetected)
+  {
+    int colorBox = sensorGroup->get_colour(0);
+    if (colorBox == 1){ //Red box
+      cout<<"RED"<<endl;
+      arm_grab_box(grabDistRed,grabDistRed);
+      break;
+    }
+    else if (colorBox == 2){ //Green box
+      cout<<"GREEN"<<endl;
+      arm_grab_box(grabDistGreen,grabDistGreen);
+      break;
+    }
+    else if (colorBox == 3){ //Blue box
+      cout<<"blue"<<endl;
+      arm_grab_box(grabDistBlue,grabDistBlue);
+      break;
+    }
+    else{ //Not detected any color
+      cout<<"Not detect any color"<<endl;
+      distToDetectLocal += 0.01;
+      arm_grab_box(distToDetectLocal,distToDetectLocal);
+    }
+  }
+}
 
 void Navigator::task()
 {
-  //int flag = 1;
+  int flag = 1;
   cout<<"in"<<endl;
   while (step(TIME_STEP) != -1) {
-    // if (flag==1){
-    //   turn_right();
-    //   arm_base_move(0.09);
-    //   arm_grab_box(0.06,0.06);
-    //   arm_vertical_move(0.05);
-    //   flag = 0;
-    //   turn_right();
-    // }
+    if (flag==1){
+      //turn_right();
+      arm_base_move(distArmBase_max);
+      arm_grab_box(grabDistGreen,grabDistGreen);
+      arm_vertical_move(verticalHighest);
+      flag = 0;
+      //turn_right();
+    }
     // follow_line(0.0007,0.002,5.5,6.5,7.5);
     // motorGroup->qtr_servo(QTR_DOWN,2.0);
     //arm_base_move(-0.07);
@@ -309,7 +336,9 @@ void Navigator::task()
     //int clr = sensorGroup->get_colour(0);
     //cout<<sensorGroup->get_colour(CS_ARM)<<"  "<<sensorGroup->get_colour(CS_LEFT)<<"  "<<sensorGroup->get_colour(CS_RIGHT)<<"  "<<sensorGroup->get_colour(CS_FRONT)<<endl;
     //motorGroup->set_velocity(5.0,5.0);
-    cout<<sensorGroup->get_distance_value(0)<<endl;
+
+    //cout<<sensorGroup->get_distance_value(0)<<endl;
+
     //arm_vertical_move(0);
     //arm_base_move(0);
     //arm_grab_box(0.05,0.05);

@@ -7,8 +7,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.6995132495149887 -0.5440781326609698 -0.46331436337883325 4.516961474175845
-  position -0.2761582251554425 2.7634872376323787 -0.4839316722906738
+  orientation -0.13767468283930365 0.954593389804803 0.26419148708100404 2.2183737859406243
+  position 0.5499030462154724 0.3618602799674049 -0.8327919775337702
 }
 DirectionalLight {
   direction 0 -1 0
@@ -164,7 +164,7 @@ DEF Boxes Group {
       physics USE Box_Ph
     }
     DEF Green_Box Solid {
-      translation 0.12 0.02 -0.55
+      translation 0.18 0.02 -0.55
       children [
         DEF Green_Box Shape {
           appearance PBRAppearance {
@@ -182,7 +182,7 @@ DEF Boxes Group {
       physics USE Box_Ph
     }
     DEF Blue_Box Solid {
-      translation 0.12 0.06 -0.55
+      translation 0.12 0.02 -0.34
       children [
         DEF Blue_Box Shape {
           appearance PBRAppearance {
@@ -1283,7 +1283,7 @@ DEF ref Robot {
   controller ""
 }
 Robot {
-  translation -0.79 0.01 -0.43
+  translation 0 0.01 -0.55
   children [
     DEF RIGHT HingeJoint {
       jointParameters HingeJointParameters {
@@ -2961,7 +2961,14 @@ Robot {
                 }
               ]
               name "GRIP_CENTER"
-              boundingObject USE GRIP_CENTER
+              boundingObject Transform {
+                translation -0.024 0.016 0
+                children [
+                  Box {
+                    size 0.028 0.016 0.12
+                  }
+                ]
+              }
               physics Physics {
                 density -1
                 mass 0.1
