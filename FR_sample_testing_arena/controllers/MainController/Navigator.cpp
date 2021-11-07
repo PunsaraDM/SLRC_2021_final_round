@@ -291,24 +291,25 @@ void Navigator::arm_grab_box(double targetLeft, double targetRight)
 
 void Navigator::task()
 {
-  int flag = 1;
+  //int flag = 1;
   cout<<"in"<<endl;
   while (step(TIME_STEP) != -1) {
-    if (flag==1){
-      turn_right();
-      arm_base_move(0.09);
-      arm_grab_box(0.06,0.06);
-      arm_vertical_move(0.05);
-      flag = 0;
-      turn_right();
-    }
-    follow_line(0.0007,0.002,5.5,6.5,7.5);
-    motorGroup->qtr_servo(QTR_DOWN,2.0);
+    // if (flag==1){
+    //   turn_right();
+    //   arm_base_move(0.09);
+    //   arm_grab_box(0.06,0.06);
+    //   arm_vertical_move(0.05);
+    //   flag = 0;
+    //   turn_right();
+    // }
+    // follow_line(0.0007,0.002,5.5,6.5,7.5);
+    // motorGroup->qtr_servo(QTR_DOWN,2.0);
     //arm_base_move(-0.07);
     //arm_vertical_move(0.03);
-    
+    //int clr = sensorGroup->get_colour(0);
+    //cout<<sensorGroup->get_colour(CS_ARM)<<"  "<<sensorGroup->get_colour(CS_LEFT)<<"  "<<sensorGroup->get_colour(CS_RIGHT)<<"  "<<sensorGroup->get_colour(CS_FRONT)<<endl;
     //motorGroup->set_velocity(5.0,5.0);
-    
+    cout<<sensorGroup->get_distance_value(0)<<endl;
     //arm_vertical_move(0);
     //arm_base_move(0);
     //arm_grab_box(0.05,0.05);

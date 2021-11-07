@@ -129,6 +129,44 @@ Robot {
     }
     Compass {
     }
+    Camera {
+      translation 0.113 -0.005 -0.123
+      rotation 0.577349935856137 0.577349935856137 0.5773509358560258 -2.094395307179586
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0 0.4 0
+            metalness 0
+          }
+          geometry Box {
+            size 0.0041 0.0041 0.001
+          }
+        }
+      ]
+      name "cs_left"
+      fieldOfView 0.3
+      near 0.005
+      far 0.03
+    }
+    Camera {
+      translation 0.113 -0.005 0.123
+      rotation 0.577349935856137 0.577349935856137 0.5773509358560258 -2.094395307179586
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0 0.4 0
+            metalness 0
+          }
+          geometry Box {
+            size 0.0041 0.0041 0.001
+          }
+        }
+      ]
+      name "cs_right"
+      fieldOfView 0.3
+      near 0.005
+      far 0.03
+    }
     DEF CASTER_RIGHT Solid {
       children [
         DEF CASTER_RIGHT Transform {
@@ -980,9 +1018,32 @@ Robot {
         rotation -1 0 0 0
         children [
           DEF QTR_SENSORS Transform {
-            translation 0.13 0.124 0.125
-            rotation 1 0 0 1.570796
+            translation 0.13 0.124 0.123
+            rotation 1 0 0 1.5708
             children [
+              Camera {
+                rotation 0.577349935856137 0.577349935856137 0.5773509358560258 -2.094395307179586
+                children [
+                  Transform {
+                    translation 0 -0.008 -0.002
+                    children [
+                      Shape {
+                        appearance PBRAppearance {
+                          baseColor 0 0.4 0
+                          metalness 0
+                        }
+                        geometry Box {
+                          size 0.01 0.01 0.001
+                        }
+                      }
+                    ]
+                  }
+                ]
+                name "cs_front"
+                fieldOfView 0.3
+                near 0.005
+                far 0.03
+              }
               DistanceSensor {
                 translation 0 0 -0.03325
                 rotation 0 0 1 -1.57
@@ -1451,7 +1512,7 @@ Robot {
                       translation 0.035 0.017 0.1145
                       children [
                         Box {
-                          size 0.057 0.018 0.003
+                          size 0.068 0.018 0.003
                         }
                       ]
                     }
@@ -1476,6 +1537,45 @@ Robot {
                   ]
                   endPoint Solid {
                     children [
+                      DistanceSensor {
+                        translation -0.005 0.013 -0.114
+                        rotation 0 1 0 -1.5707953071795862
+                        children [
+                          Shape {
+                            appearance PBRAppearance {
+                              baseColor 0 0.35 0
+                              metalness 0
+                            }
+                            geometry Box {
+                              size 0.0021 0.01 0.008
+                            }
+                          }
+                        ]
+                        name "ds_arm"
+                        lookupTable [
+                          0 0 0
+                          0.3 0.3 0
+                        ]
+                      }
+                      Camera {
+                        translation 0.016 0.013 -0.114
+                        rotation 2.39745e-09 -1 1.60158e-06 3.14159
+                        children [
+                          Shape {
+                            appearance PBRAppearance {
+                              baseColor 0 0 0
+                              metalness 0
+                            }
+                            geometry Box {
+                              size 0.01 0.01 0.0021
+                            }
+                          }
+                        ]
+                        name "cs_arm"
+                        fieldOfView 0.3
+                        near 0.0005
+                        far 0.03
+                      }
                       DEF GRIP_LEFT Transform {
                         children [
                           Shape {
@@ -1531,7 +1631,7 @@ Robot {
                       translation 0.035 0.017 -0.1145
                       children [
                         Box {
-                          size 0.057 0.018 0.003
+                          size 0.068 0.018 0.003
                         }
                       ]
                     }
@@ -1745,6 +1845,7 @@ Robot {
       ]
     }
   ]
+  name "robot(1)"
   boundingObject Group {
     children [
       DEF TOP Transform {
@@ -1777,4 +1878,5 @@ Robot {
     density -1
     mass 2
   }
+  controller "MainController"
 }

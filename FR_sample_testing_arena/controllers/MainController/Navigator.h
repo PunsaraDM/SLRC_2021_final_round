@@ -76,9 +76,10 @@ extern "C"
         // int TOF_RIGHT = 5;
         // int TOF_LEFT = 4;
 
-        // int CAM_ARM = 0;
-        // int CAM_BACK = 1;
-        // int CAM_FRONT = 2;
+        int CS_ARM = 0;
+        int CS_LEFT = 1;
+        int CS_RIGHT = 2;
+        int CS_FRONT = 3;
 
         float rightIRVal = 0;
         float leftIRVal = 0;

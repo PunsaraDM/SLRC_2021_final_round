@@ -14,23 +14,23 @@ using namespace std;
 void SensorGroup::initialize(Navigator *follower)
 {
     follower = follower;
-    //init_distance_sensor(follower);
+    init_distance_sensor(follower);
     init_qtr_sensor(follower);
     init_encoders(follower);
-    //init_camera(follower);
+    init_camera(follower);
     stabilize_encoder(follower);
     //stabilize_ir_and_distance_sensors(follower);
     init_compass(follower);
 }
 
-// void SensorGroup::init_distance_sensor(Navigator *follower)
-// {
-//     for (int i = 0; i < 6; i++)
-//     {
-//         ds[i] = follower->getDistanceSensor(dsNames[i]);
-//         ds[i]->enable(TIME_STEP);
-//     }
-// }
+void SensorGroup::init_distance_sensor(Navigator *follower)
+{
+    for (int i = 0; i < ds_count; i++)
+    {
+        ds[i] = follower->getDistanceSensor(dsNames[i]);
+        ds[i]->enable(TIME_STEP);
+    }
+}
 
 void SensorGroup::init_qtr_sensor(Navigator *follower)
 {
@@ -56,15 +56,15 @@ float SensorGroup::get_ir_value(int index)
     return val;
 }
 
-// void SensorGroup::init_camera(Navigator *follower)
-// {
-//     for (int i = 0; i < 3; i++)
-//     {
-//     camera[i] = follower->getCamera(camera_name[i]);
-//     camera[i]->enable(TIME_STEP);
+void SensorGroup::init_camera(Navigator *follower)
+{
+    for (int i = 0; i < cs_count; i++)
+    {
+    camera[i] = follower->getCamera(camera_name[i]);
+    camera[i]->enable(TIME_STEP);
 
-//     }
-// }
+    }
+}
 
 void SensorGroup::init_compass(Navigator *follower)
 {
@@ -83,12 +83,12 @@ const double* SensorGroup::get_compass_value()
 //     return val;
 // }
 
-// float SensorGroup::get_distance_value(int index)
-// {
-//     float val = ds[index]->getValue();
-//     return round(val * REFLECTION_FACTOR);
-//     //return val;
-// }
+float SensorGroup::get_distance_value(int index)
+{
+    float val = ds[index]->getValue();
+    //return round(val * REFLECTION_FACTOR);
+    return val;
+}
 
 double SensorGroup::get_encoder_val(int index)
 {
@@ -224,45 +224,45 @@ void SensorGroup::stabilize_encoder(Navigator *follower)
 //     }
 // }
 
-// int SensorGroup::get_colour(int cam)
-// {
-//     const unsigned char *IMAGE = camera[cam]->getImage();
+int SensorGroup::get_colour(int cam)
+{
+    const unsigned char *IMAGE = camera[cam]->getImage();
 
-//     WIDTH = camera[cam]->getWidth();
-//     HEIGHT = camera[cam]->getHeight();
+    WIDTH = camera[cam]->getWidth();
+    HEIGHT = camera[cam]->getHeight();
 
-//     int redpix = 0;
-//     int greenpix = 0;
-//     int bluepix = 0;
+    int redpix = 0;
+    int greenpix = 0;
+    int bluepix = 0;
 
-//     int i, j;
+    int i, j;
+    
+    for (j = CAM_PIXEL_THRESH ; j < (HEIGHT-CAM_PIXEL_THRESH); j++)
+    {
+        for (i = CAM_PIXEL_THRESH; i < (WIDTH-CAM_PIXEL_THRESH); i++)
+        {
 
-//     for (j = CAM_PIXEL_THRESH ; j < (HEIGHT-CAM_PIXEL_THRESH); j++)
-//     {
-//         for (i = CAM_PIXEL_THRESH; i < (WIDTH-CAM_PIXEL_THRESH); i++)
-//         {
+            redpix += camera[cam]->imageGetRed(IMAGE, WIDTH, i, j);
+            bluepix += camera[cam]->imageGetBlue(IMAGE, WIDTH, i, j);
+            greenpix += camera[cam]->imageGetGreen(IMAGE, WIDTH, i, j);
 
-//             redpix += camera[cam]->imageGetRed(IMAGE, WIDTH, i, j);
-//             bluepix += camera[cam]->imageGetBlue(IMAGE, WIDTH, i, j);
-//             greenpix += camera[cam]->imageGetGreen(IMAGE, WIDTH, i, j);
-
-//             if ((redpix > greenpix) && (redpix >  bluepix))
-//             {
-//                 recentColor = RED;
-//                 return RED;
-//             }
-//             else if ((greenpix >  redpix) && (greenpix >  bluepix))
-//             {
-//                 recentColor = GREEN;
-//                 return GREEN;
-//             }
-//             else if ((bluepix >  redpix) && (bluepix >  greenpix))
-//             {
-//                 recentColor = BLUE;
-//                 return BLUE;
-//             }
-//         }
-//     }
-//     cout<<"no colour"<<endl;
-//     return NO_COLOR;
-// }
+            if ((redpix > greenpix) && (redpix >  bluepix))
+            {
+                recentColor = RED;
+                return RED;
+            }
+            else if ((greenpix >  redpix) && (greenpix >  bluepix))
+            {
+                recentColor = GREEN;
+                return GREEN;
+            }
+            else if ((bluepix >  redpix) && (bluepix >  greenpix))
+            {
+                recentColor = BLUE;
+                return BLUE;
+            }
+        }
+    }
+    //cout<<"no colour"<<endl;
+    return NO_COLOR;
+}

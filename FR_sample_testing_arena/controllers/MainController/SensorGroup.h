@@ -13,15 +13,15 @@ class SensorGroup
 {
 public:
     void initialize(Navigator* follower);
-    //void init_distance_sensor(Navigator* follower);
+    void init_distance_sensor(Navigator* follower);
     void init_qtr_sensor(Navigator *follower);
     void init_encoders(Navigator* follower);
-    //void init_camera(Navigator *follower);
+    void init_camera(Navigator *follower);
     void init_compass(Navigator* follower);
 
     const double* get_compass_value();
     float get_ir_value(int index);
-    float get_ir_value_distance_sensors(int index);
+    //float get_ir_value_distance_sensors(int index);
     float get_distance_value(int index);
     double get_encoder_val(int index);
     int get_digital_value(int index);
@@ -44,8 +44,9 @@ public:
 
 private:
     Navigator *follower;
-    // DistanceSensor *ds[6];
-    // char dsNames[6][12] = {"sharp_left", "sharp_right", "sharp_front", "sharp_box", "tof_left", "tof_right"};
+    static const int ds_count = 1;
+    DistanceSensor *ds[ds_count];
+    char dsNames[ds_count][8] = {"ds_arm"};
 
     static const int qtr_count = 8;
     DistanceSensor *qtr[qtr_count];
@@ -55,8 +56,9 @@ private:
     PositionSensor *encoder[encoder_count];
     char encoder_name[encoder_count][24] = {"encoder_left", "encoder_right","base_motor_pos","vertical_motor_pos","gripper_left_motor_pos","gripper_right_motor_pos"};
 
-    // Camera *camera[3];
-    // char camera_name[3][14] = {"camera","camera_back","camera_front"};
+    static const int cs_count = 4;
+    Camera *camera[cs_count];
+    char camera_name[cs_count][10] = {"cs_arm","cs_left","cs_right","cs_front"};
 
     Compass *compass;
     char compass_name[8] = "compass";
@@ -83,16 +85,16 @@ private:
     int previousQTR_7 = 0;
     int previousQTR_0 = 0;
 
-    int DS_SENSOR_BOX = 3;
-    int DS_SENSOR_FRONT = 2;
-    int DS_SENSOR_RIGHT = 1;
-    int DS_SENSOR_LEFT = 0;
-    int TOF_RIGHT = 5;
-    int TOF_LEFT = 4;
+    // int DS_SENSOR_BOX = 3;
+    // int DS_SENSOR_FRONT = 2;
+    // int DS_SENSOR_RIGHT = 1;
+    // int DS_SENSOR_LEFT = 0;
+    // int TOF_RIGHT = 5;
+    // int TOF_LEFT = 4;
 
-    int CAM_ARM = 0;
-    int CAM_BACK = 1;
-    int CAM_FRONT = 2;
+    // int CAM_ARM = 0;
+    // int CAM_BACK = 1;
+    // int CAM_FRONT = 2;
     int CAM_PIXEL_THRESH = 20;
 
     int WIDTH, HEIGHT;
@@ -101,9 +103,6 @@ private:
     int BLUE = 3;
     int NO_COLOR = 4;
     int recentColor = -1;
-
-    int SIDE_WALL_THRESHOLD = 260;
-    int FRONT_WALL_THRESHOLD = 75;
 
     float IR_BLACK_VALUE = 10;
     float IR_WHITE_VALUE = 5.14;
