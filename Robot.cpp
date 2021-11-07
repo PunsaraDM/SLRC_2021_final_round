@@ -10,7 +10,6 @@
 #define UPWITHOUTWHITE 4
 #define INVALID 5
 
-
 #define RED 1
 #define GREEN 2
 #define BLUE 3
@@ -36,19 +35,19 @@
 
 using namespace std;
 
-
-Robot::Robot(int startCol, int startRow, int travel_direction){
+Robot::Robot(int startCol, int startRow, int travel_direction)
+{
     robot_col = startCol;
     robot_row = startRow;
     travel_dir = travel_direction;
 }
-
 
 void Robot::travel_direction(int direction)
 {
     switch (direction)
     {
     case 0:
+    case 4:
         std::cout << "travel_direction: UP"
                   << "\n";
         break;
@@ -97,7 +96,8 @@ vector<int> Robot::find_junction_content()
 
 int Robot::find_junction_content_state()
 {
-    if(generator.maze.junctions[robot_col][robot_row].content_state == WHITE){
+    if (generator.maze.junctions[robot_col][robot_row].content_state == WHITE)
+    {
         has_white = true;
     }
     return generator.maze.junctions[robot_col][robot_row].content_state;
@@ -129,20 +129,24 @@ void Robot::travel_maze()
         junction_content = find_junction_content();
 
         maze.update_junction(robot_col, robot_row, junction_content, junction_content_state, has_white);
-        maze.update_path(robot_col, robot_row, paths);
+        if(junction_content_state != INVERTED || has_white){
+            maze.update_path(robot_col, robot_row, paths);
+        }
 
         direction_to_travel = strategy.find_next_direction(robot_col, robot_row, maze, last_direction, has_white);
 
         last_direction = direction_to_travel;
 
-        if(direction_to_travel == UPWITHOUTWHITE){
+        if (direction_to_travel == UPWITHOUTWHITE)
+        {
             has_white = false;
         }
 
         travel_direction(direction_to_travel);
-        update_robot_position(direction_to_travel);
+        cout << "has box: " << has_white << '\n';
         cout << "------------------------"
              << "\n";
+        update_robot_position(direction_to_travel);
     }
 }
 
@@ -154,7 +158,7 @@ void Robot::update_robot_position(int direction)
     case UP:
         robot_row += 1;
         break;
-    
+
     case UPWITHOUTWHITE:
         robot_row += 1;
         break;
@@ -178,4 +182,3 @@ void Robot::update_robot_position(int direction)
     }
     cout << "robot: (" << robot_col << "," << robot_row << ")\n";
 }
-

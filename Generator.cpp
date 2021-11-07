@@ -126,6 +126,9 @@ void Generator::set_red_paths()
             }
         }
     }
+    maze.junctions[0][1].set_path(RIGHT, NOPATH);
+    maze.junctions[0][2].set_path(LEFT, NOPATH);
+
     // cout << "no paths: " << reds.size() << "\n";
     // for (int i = 0; i < reds.size(); i++)
     // {
@@ -168,6 +171,7 @@ void Generator::set_inverted_junctions()
          << "\n";
 
     int inverted_junction_count = rand() % (max_inverted_junction - min_inverted_junction + 1) + min_inverted_junction;
+
     for (int i = 0; i < inverted_junction_count; i++)
     {
         bool found = false;
@@ -183,6 +187,9 @@ void Generator::set_inverted_junctions()
             }
         }
     }
+    //comment this if random
+    maze.junctions[0][1].content_state = INVERTED;
+
 }
 void Generator::set_color_box_junctions()
 {
@@ -245,6 +252,7 @@ void Generator::print_maze()
                     myfile << "X"
                            << "\t\t";
                 }
+
                 if (k == 0 && (maze.junctions[j][i].get_path(RIGHT) != NOPATH))
                 {
                     if (content.size())
@@ -252,12 +260,18 @@ void Generator::print_maze()
                         myfile << print_content(content) << " -----"
                                << "\t";
                     }
-                    else if(content_state == INVERTED){
-                        myfile << "INV" << " -----"
+                    else if (content_state == INVERTED)
+                    {
+                        cout << "INV" << j << "," << i
+                             << "\n";
+                        myfile << "INV"
+                               << " -----"
                                << "\t";
                     }
-                    else if(content_state == WHITE){
-                        myfile << "WHI" << " -----"
+                    else if (content_state == WHITE)
+                    {
+                        myfile << "WHI"
+                               << " -----"
                                << "\t";
                     }
                     else
@@ -268,23 +282,42 @@ void Generator::print_maze()
                 }
                 else if (k == 0 && (maze.junctions[j][i].get_path(RIGHT) == NOPATH))
                 {
-                    if (j != COLS - 1)
+                     if (content.size())
+                    {
+                        myfile << print_content(content) << " -----"
+                               << "\t";
+                    }
+                    else if (content_state == INVERTED)
+                    {
+                        cout << "INV" << j << "," << i
+                             << "\n";
+                        myfile << "INV"
+                               << " xxxxx"
+                               << "\t";
+                    }
+                    else if (content_state == WHITE)
+                    {
+                        myfile << "WHI"
+                               << " xxxxx"
+                               << "\t";
+                    }
+                    else if (j != COLS - 1)
                     {
                         myfile << j << "," << i << " xxxxx"
                                << "\t";
                     }
-                    else
-                    {
-                        if (content.size())
-                        {
-                            myfile << print_content(content) << " -----"
-                                   << "\t";
-                        }
-                        else
-                        {
-                            myfile << j << "," << i << "\t";
-                        }
-                    }
+                    // else
+                    // {
+                    //     if (content.size())
+                    //     {
+                    //         myfile << print_content(content) << " -----"
+                    //                << "\t";
+                    //     }
+                    //     else
+                    //     {
+                    //         myfile << j << "," << i << "\t";
+                    //     }
+                    // }
 
                     // cout << j << "," << i << "," << RIGHT << "\n";
                 }

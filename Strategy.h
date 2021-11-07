@@ -29,6 +29,10 @@ extern "C"
         vector<vector<int>> robot_right_stack;
         int current_col;
         int current_row;
+        int invert_found = false;
+        int invert_dir;
+        int invert_col;
+        int invert_row;
     };
 #ifdef __cplusplus
 }

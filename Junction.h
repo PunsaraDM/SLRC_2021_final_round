@@ -7,7 +7,6 @@ using namespace std;
 
 #define UNDISCOVERED 0
 #define DISCOVERED 1
-#define SKIPPED 2
 
 #define NOPATH -1
 #define UNDISCOVERED 0
@@ -32,7 +31,11 @@ extern "C"
     {
     public:
         int content_state = NORMAL;
-        int unavailable_paths=0;
+        int found_paths = 0;
+        int found_junctions = 0;
+        vector<vector<int>> inverted_chain_parent;
+        vector<vector<int>> inverted_chain_children;
+        int inverted_chain_count = 0;
         int inverted_dis[2] = {-1,1000};
         int white_dis[2] = {-1,10000};
         
