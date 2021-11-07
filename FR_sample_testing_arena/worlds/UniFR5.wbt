@@ -7,8 +7,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.13767468283930365 0.954593389804803 0.26419148708100404 2.2183737859406243
-  position 0.5499030462154724 0.3618602799674049 -0.8327919775337702
+  orientation -0.16057592586875666 0.9820924848960328 0.09853792742963068 1.1169721795457686
+  position 0.8088985635331485 0.30352048303382134 -0.15106895978458884
 }
 DirectionalLight {
   direction 0 -1 0
@@ -1429,7 +1429,7 @@ Robot {
       ]
       name "cs_left"
       fieldOfView 0.3
-      near 0.005
+      near 0.0005
       far 0.03
     }
     Camera {
@@ -1448,7 +1448,7 @@ Robot {
       ]
       name "cs_right"
       fieldOfView 0.3
-      near 0.005
+      near 0.0005
       far 0.03
     }
     DEF CASTER_RIGHT Solid {
@@ -2290,6 +2290,7 @@ Robot {
     }
     DEF QTR HingeJoint {
       jointParameters HingeJointParameters {
+        position 1.5707
         axis -1 0 0
         anchor 0.115 -0.004 0.124
       }
@@ -2299,7 +2300,8 @@ Robot {
         }
       ]
       endPoint DEF QTR_PANEL Solid {
-        rotation -1 0 0 0
+        translation 1.3877787807814457e-17 -0.12799961411753222 0.11998805549600901
+        rotation -0.9999999999999999 0 0 1.5707
         children [
           DEF QTR_SENSORS Transform {
             translation 0.13 0.124 0.123
@@ -2325,7 +2327,7 @@ Robot {
                 ]
                 name "cs_front"
                 fieldOfView 0.3
-                near 0.005
+                near 0.0005
                 far 0.03
               }
               DistanceSensor {
