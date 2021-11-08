@@ -242,49 +242,6 @@ void SensorGroup::stabilize_encoder(Navigator *follower)
 //     }
 // }
 
-int SensorGroup::get_colour(int cam)
-{
-    const unsigned char *IMAGE = camera[cam]->getImage();
-
-    WIDTH = camera[cam]->getWidth();
-    HEIGHT = camera[cam]->getHeight();
-
-    int redpix = 0;
-    int greenpix = 0;
-    int bluepix = 0;
-
-    int i, j;
-    
-    for (j = CAM_PIXEL_THRESH ; j < (HEIGHT-CAM_PIXEL_THRESH); j++)
-    {
-        for (i = CAM_PIXEL_THRESH; i < (WIDTH-CAM_PIXEL_THRESH); i++)
-        {
-
-            redpix += camera[cam]->imageGetRed(IMAGE, WIDTH, i, j);
-            bluepix += camera[cam]->imageGetBlue(IMAGE, WIDTH, i, j);
-            greenpix += camera[cam]->imageGetGreen(IMAGE, WIDTH, i, j);
-
-            if ((redpix > greenpix) && (redpix >  bluepix))
-            {
-                recentColor = RED;
-                return RED;
-            }
-            else if ((greenpix >  redpix) && (greenpix >  bluepix))
-            {
-                recentColor = GREEN;
-                return GREEN;
-            }
-            else if ((bluepix >  redpix) && (bluepix >  greenpix))
-            {
-                recentColor = BLUE;
-                return BLUE;
-            }
-        }
-    }
-    //cout<<"no colour"<<endl;
-    return NO_COLOR;
-}
-
 // int SensorGroup::get_colour(int cam)
 // {
 //     const unsigned char *IMAGE = camera[cam]->getImage();
@@ -297,32 +254,99 @@ int SensorGroup::get_colour(int cam)
 //     int bluepix = 0;
 
 //     int i, j;
-
+    
 //     for (j = CAM_PIXEL_THRESH ; j < (HEIGHT-CAM_PIXEL_THRESH); j++)
 //     {
 //         for (i = CAM_PIXEL_THRESH; i < (WIDTH-CAM_PIXEL_THRESH); i++)
 //         {
 
-//             redpix = camera[cam]->imageGetRed(IMAGE, WIDTH, i, j);
-//             bluepix = camera[cam]->imageGetBlue(IMAGE, WIDTH, i, j);
-//             greenpix = camera[cam]->imageGetGreen(IMAGE, WIDTH, i, j);
+//             redpix += camera[cam]->imageGetRed(IMAGE, WIDTH, i, j);
+//             bluepix += camera[cam]->imageGetBlue(IMAGE, WIDTH, i, j);
+//             greenpix += camera[cam]->imageGetGreen(IMAGE, WIDTH, i, j);
 
-//             if ((redpix > 4 * greenpix) && (redpix > 4 * bluepix))
+//             if ((redpix > greenpix) && (redpix >  bluepix))
 //             {
 //                 recentColor = RED;
 //                 return RED;
 //             }
-//             else if ((greenpix > 4 * redpix) && (greenpix > 4 * bluepix))
+//             else if ((greenpix >  redpix) && (greenpix >  bluepix))
 //             {
 //                 recentColor = GREEN;
 //                 return GREEN;
 //             }
-//             else if ((bluepix > 4 * redpix) && (bluepix > 4 * greenpix))
+//             else if ((bluepix >  redpix) && (bluepix >  greenpix))
 //             {
 //                 recentColor = BLUE;
 //                 return BLUE;
 //             }
 //         }
 //     }
+//     //cout<<"no colour"<<endl;
 //     return NO_COLOR;
 // }
+
+int SensorGroup::get_colour(int cam)
+{
+    const unsigned char *IMAGE = camera[cam]->getImage();
+
+    WIDTH = camera[cam]->getWidth();
+    HEIGHT = camera[cam]->getHeight();
+
+    int redpix = 0;
+    int greenpix = 0;
+    int bluepix = 0;
+
+    int i, j;
+
+    int whiteCount = 0;
+    int redCount = 0;
+    int blueCount = 0;
+    int greenCount = 0;
+
+    for (j = CAM_PIXEL_THRESH ; j < (HEIGHT-CAM_PIXEL_THRESH); j++)
+    {
+        for (i = CAM_PIXEL_THRESH; i < (WIDTH-CAM_PIXEL_THRESH); i++)
+        {
+            redpix = camera[cam]->imageGetRed(IMAGE, WIDTH, i, j);
+            bluepix = camera[cam]->imageGetBlue(IMAGE, WIDTH, i, j);
+            greenpix = camera[cam]->imageGetGreen(IMAGE, WIDTH, i, j);
+
+            //cout<<redpix<<"  "<<greenpix<<"  "<<bluepix<<"  "<<endl;
+
+            if ((redpix > 180) && (bluepix > 180) && (greenpix > 180))
+            {
+                whiteCount += 1;
+            }
+            else if ((redpix > 180) && (bluepix < 70) && (greenpix < 70))
+            {
+                redCount += 1;
+            }
+            else if ((redpix < 70) && (bluepix > 180) && (greenpix < 70))
+            {
+                blueCount += 1;
+            }
+            else if ((redpix < 70) && (bluepix < 70) && (greenpix > 180))
+            {
+                greenCount += 1;
+            }
+
+            if ((whiteCount>20)&&(redCount==0)&&(blueCount==0)&&(greenCount==0)){
+                recentColor = WHITE_CLR;
+                return WHITE_CLR;
+            }
+            else if ((whiteCount==0)&&(redCount>20)&&(blueCount==0)&&(greenCount==0)){
+                recentColor = RED;
+                return RED;
+            }
+            else if ((whiteCount==0)&&(redCount==0)&&(blueCount>20)&&(greenCount==0)){
+                recentColor = BLUE;
+                return BLUE;
+            }
+            else if ((whiteCount==0)&&(redCount==0)&&(blueCount==0)&&(greenCount>20)){
+                recentColor = GREEN;
+                return GREEN;
+            }
+        }
+    }
+    return NO_COLOR;
+}

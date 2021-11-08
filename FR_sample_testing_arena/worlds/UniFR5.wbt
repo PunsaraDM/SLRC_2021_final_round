@@ -7,8 +7,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 1 0 0 4.71238898038469
-  position -0.2468311396852644 1.9602962632464065 -0.596884555449097
+  orientation 0.996612778339616 0.056380117374308945 0.05986862630001459 4.649002465607526
+  position -0.9753746519591908 1.5730101457439996 0.6388229568657077
 }
 DirectionalLight {
   direction 0 -1 0
@@ -1283,7 +1283,7 @@ DEF ref Robot {
   controller ""
 }
 Robot {
-  translation -0.4 0.01 -0.54
+  translation -1.17 0.01 0.72
   children [
     DEF RIGHT HingeJoint {
       jointParameters HingeJointParameters {
@@ -2302,7 +2302,7 @@ Robot {
         }
       ]
       endPoint DEF QTR_PANEL Solid {
-        translation 2.373101715136272e-15 -0.12799961411752983 0.11998805549600902
+        translation 2.706168622523819e-15 -0.1279996141175295 0.11998805549600902
         rotation -0.9999999999999999 0 0 1.5707
         children [
           DEF QTR_SENSORS Transform {

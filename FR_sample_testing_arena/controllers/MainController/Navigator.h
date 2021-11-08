@@ -82,13 +82,22 @@ extern "C"
         int LINE_DETECT_LEFT = 8;
         int LINE_DETECT_RIGHT = 9;
 
+        //junction state
+        int COLORED = 1;
+        int WHITE_PATCH = 2;
+        int INVERTED = 3;
+        int NORMAL = 4;
+        //path state
+        int NOTACCESIBLE = -2;
+        int NOPATH = -1;
+        int DISCOVERED = 1;
+        //box type
+        int RED = 1;
+        int GREEN = 2;
+        int BLUE = 3;
+        int WHITE = 4;
 
-        // int DS_SENSOR_BOX = 3;
-        // int DS_SENSOR_FRONT = 2;
-        // int DS_SENSOR_RIGHT = 1;
-        // int DS_SENSOR_LEFT = 0;
-        // int TOF_RIGHT = 5;
-        // int TOF_LEFT = 4;
+        int detectedJunction = 0;
 
         int CS_ARM = 0;
         int CS_LEFT = 1;

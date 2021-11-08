@@ -101,7 +101,8 @@ private:
     int RED = 1;
     int GREEN = 2;
     int BLUE = 3;
-    int NO_COLOR = 4;
+    int WHITE_CLR = 4;
+    int NO_COLOR = 5;
     int recentColor = -1;
 
     float IR_BLACK_VALUE = 10;

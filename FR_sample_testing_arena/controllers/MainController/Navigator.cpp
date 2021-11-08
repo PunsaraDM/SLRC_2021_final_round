@@ -246,6 +246,8 @@ bool Navigator::is_junction_detected()
       cout<<sensorGroup->get_colour(CS_LEFT)<<"  "<<sensorGroup->get_colour(CS_RIGHT)<<endl;
       //centering the color boxes
       go_forward_specific_distance(0.115);
+      motorGroup->qtr_servo(QTR_DOWN,2.0);
+      delay(1200);
       cout<<sensorGroup->get_colour(CS_FRONT)<<endl;
       go_forward_specific_distance(0.02);
       turn_right();
@@ -404,6 +406,19 @@ void Navigator::detect_box_color_and_grab()
     cout<<"No box in the white square"<<endl;
   }
 }
+
+// void Navigator::one_cell_search()
+// {
+//   //direction , boxPlaceDir = get_dir();
+//   turn(direction);
+//   while (step(TIME_STEP) != -1)
+//   {
+//     follow_line(0.0007,0.002,5.5,6.5,7.5);
+//     if (is_junction_detected())
+//       break;
+//   }
+//   discover_junction(detectedJunction,boxPlaceDir);
+// }
 
 void Navigator::task()
 {
