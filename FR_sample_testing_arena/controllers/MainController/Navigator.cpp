@@ -209,7 +209,11 @@ bool Navigator::is_junction_detected()
   {
     //inverted patch detected
     cout<<"inverted"<<endl;
+    motorGroup->qtr_servo(QTR_UP,2.0);
     turn_right();
+    //drop the white box in red square
+    //collect the white box from red square
+    motorGroup->qtr_servo(QTR_DOWN,2.0);
     turn_left();
     go_forward_specific_distance(0.09);
     cout<<sensorGroup->get_colour(CS_LEFT)<<"  "<<sensorGroup->get_colour(CS_RIGHT)<<endl;
@@ -237,9 +241,10 @@ bool Navigator::is_junction_detected()
     {
       //white patch detected
       cout<<"white patch"<<endl;
-      //open qtr array
+      motorGroup->qtr_servo(QTR_UP,2.0);
       go_forward_specific_distance(0.06);
       cout<<sensorGroup->get_colour(CS_LEFT)<<"  "<<sensorGroup->get_colour(CS_RIGHT)<<endl;
+      //centering the color boxes
       go_forward_specific_distance(0.115);
       cout<<sensorGroup->get_colour(CS_FRONT)<<endl;
       go_forward_specific_distance(0.02);
