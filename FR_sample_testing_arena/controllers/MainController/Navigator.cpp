@@ -286,45 +286,55 @@ void Navigator::arm_grab_box(double targetLeft, double targetRight)
 }
 
 void Navigator::detect_box_color_and_grab()
-{
-  double distToDetectLocal = grabDistToDetectColor;
-  arm_grab_box(distToDetectLocal,distToDetectLocal);
-  bool isDetected = true;
-  while (isDetected)
+{ 
+  arm_base_move(distArmBase_mid);
+  //cout<<sensorGroup->get_distance_value(0)<<endl; 
+  if ((sensorGroup->get_distance_value(0))< 0.2)    //RED=0.133999 , BLUE=0.153998 , GREEN=0.153997
   {
-    int colorBox = sensorGroup->get_colour(0);
-    if (colorBox == 1){ //Red box
-      cout<<"RED"<<endl;
-      arm_grab_box(grabDistRed,grabDistRed);
-      break;
+    double distToDetectLocal = grabDistToDetectColor;
+    arm_grab_box(distToDetectLocal,distToDetectLocal);
+    bool isDetected = true;
+    while (isDetected)
+    {
+      int colorBox = sensorGroup->get_colour(0);
+      if (colorBox == 1){ //Red box
+        cout<<"RED"<<endl;
+        arm_grab_box(grabDistRed,grabDistRed);
+        break;
+      }
+      else if (colorBox == 2){ //Green box
+        cout<<"GREEN"<<endl;
+        arm_grab_box(grabDistGreen,grabDistGreen);
+        break;
+      }
+      else if (colorBox == 3){ //Blue box
+        cout<<"blue"<<endl;
+        arm_grab_box(grabDistBlue,grabDistBlue);
+        break;
+      }
+      else{ //Not detected any color
+        cout<<"Not detect any color"<<endl;
+        distToDetectLocal += 0.01;
+        arm_grab_box(distToDetectLocal,distToDetectLocal);
+      }
     }
-    else if (colorBox == 2){ //Green box
-      cout<<"GREEN"<<endl;
-      arm_grab_box(grabDistGreen,grabDistGreen);
-      break;
-    }
-    else if (colorBox == 3){ //Blue box
-      cout<<"blue"<<endl;
-      arm_grab_box(grabDistBlue,grabDistBlue);
-      break;
-    }
-    else{ //Not detected any color
-      cout<<"Not detect any color"<<endl;
-      distToDetectLocal += 0.01;
-      arm_grab_box(distToDetectLocal,distToDetectLocal);
-    }
+  }
+  else
+  {
+    cout<<"No box in the white square"<<endl;
   }
 }
 
 void Navigator::task()
 {
   int flag = 1;
-  cout<<"in"<<endl;
+  cout<<distArmBase_mid<<endl;
   while (step(TIME_STEP) != -1) {
     if (flag==1){
       //turn_right();
-      arm_base_move(distArmBase_max);
-      arm_grab_box(grabDistGreen,grabDistGreen);
+      //arm_base_move(distArmBase_mid);
+      detect_box_color_and_grab();
+      //arm_grab_box(grabDistRed,grabDistRed);
       arm_vertical_move(verticalHighest);
       flag = 0;
       //turn_right();

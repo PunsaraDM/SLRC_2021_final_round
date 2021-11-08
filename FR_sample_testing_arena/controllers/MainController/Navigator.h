@@ -111,22 +111,23 @@ extern "C"
 
 
         ////////////For robot arm/////////////// 
-        double grabDistRed = 0.073;
-        double grabDistGreen = 0.083;
-        double grabDistBlue = 0.093;
+        double grabDistRed = 0.0732;
+        double grabDistGreen = 0.0832;
+        double grabDistBlue = 0.0932;
         double grabDistToDetectColor = 0.07;
-        double linearMotorVelocity = 0.35;
+        double linearMotorVelocity = 0.2;
         double turnSpeed = 5.0;
         double expoValTurnThresh = 0.5;
         int turnAccu = 1000;
         const double DELTA_double = 0.0001;    //for grippers
         const double DELTA_single = 0.001;     //other linear motors
-        double distArmBase_max = 0.17;
+        double distArmBase_max = 0.19;
+        double distArmBase_mid = 0.14;  //distance to grab a box
         double distArmBase_min = 0.0;
         double verticalGround = 0.0;
         //double verticalLowest = ;
         //double verticalMiddle = ;
-        double verticalHighest = 0.15;
+        double verticalHighest = 0.12;
 
     };
 #ifdef __cplusplus
