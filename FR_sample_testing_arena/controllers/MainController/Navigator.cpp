@@ -211,7 +211,10 @@ bool Navigator::is_junction_detected()
     cout<<"inverted"<<endl;
     motorGroup->qtr_servo(QTR_UP,2.0);
     turn_right();
+    delay(2000);
     //drop the white box in red square
+    place_white_box_in_red_square();
+    delay(2000);
     //collect the white box from red square
     motorGroup->qtr_servo(QTR_DOWN,2.0);
     turn_left();
@@ -244,10 +247,19 @@ bool Navigator::is_junction_detected()
       motorGroup->qtr_servo(QTR_UP,2.0);
       go_forward_specific_distance(0.06);
       cout<<sensorGroup->get_colour(CS_LEFT)<<"  "<<sensorGroup->get_colour(CS_RIGHT)<<endl;
+      delay(2000);
+      //place white box
+      place_white_box_before_centre();
       //centering the color boxes
+      detect_box_color_and_centre();
+      delay(2000);
+      //grab white box
+      grab_white_box_after_centre();
+      delay(2000);
       go_forward_specific_distance(0.115);
       cout<<sensorGroup->get_colour(CS_FRONT)<<endl;
       go_forward_specific_distance(0.02);
+      motorGroup->qtr_servo(QTR_DOWN,2.0);
       turn_right();
     }
     else
@@ -365,8 +377,11 @@ void Navigator::arm_grab_box(double targetLeft, double targetRight)
   passive_wait(targetLeft, targetRight);
 }
 
-void Navigator::detect_box_color_and_grab()
+void Navigator::detect_box_color_and_centre()
 { 
+  arm_base_move(distArmBase_place + 0.08);
+  arm_grab_box(grabDist_min,grabDist_min);
+  arm_vertical_move(verticalGround);
   arm_base_move(distArmBase_mid);
   //cout<<sensorGroup->get_distance_value(0)<<endl; 
   if ((sensorGroup->get_distance_value(0))< 0.2)    //RED=0.133999 , BLUE=0.153998 , GREEN=0.153997
@@ -398,11 +413,50 @@ void Navigator::detect_box_color_and_grab()
         arm_grab_box(distToDetectLocal,distToDetectLocal);
       }
     }
+    arm_base_move(distArmBase_centre);  //centre the box
+    arm_grab_box(grabDistToDetectColor,grabDistToDetectColor);  //release the box
   }
   else
   {
     cout<<"No box in the white square"<<endl;
   }
+  arm_vertical_move(verticalMiddle);
+  arm_base_move(distArmBase_place); 
+}
+
+void Navigator::place_white_box_before_centre()
+{
+  arm_base_move(distArmBase_place); 
+  arm_vertical_move(verticalGround);
+  arm_grab_box(grabDistToDetectColor,grabDistToDetectColor);  //release the box
+  arm_vertical_move(verticalMiddle);
+}
+
+void Navigator::grab_white_box_after_centre()
+{
+  arm_base_move(distArmBase_place); 
+  arm_vertical_move(verticalGround);
+  arm_grab_box(grabDistBlue,grabDistBlue);
+  arm_vertical_move(verticalHighest);
+  arm_base_move(distArmBase_carry); 
+}
+
+void Navigator::place_white_box_in_red_square()
+{
+  arm_base_move(distArmBase_inverted_place); 
+  arm_vertical_move(verticalGround);
+  arm_grab_box(grabDistToDetectColor,grabDistToDetectColor);  //release the box
+  arm_vertical_move(verticalMiddle);
+  arm_base_move(distArmBase_carry); 
+}
+
+void Navigator::grab_white_box_from_red_square()
+{
+  arm_base_move(distArmBase_inverted_place); 
+  arm_vertical_move(verticalGround);
+  arm_grab_box(grabDistBlue,grabDistBlue);
+  arm_vertical_move(verticalHighest);
+  arm_base_move(distArmBase_carry); 
 }
 
 void Navigator::task()
@@ -411,14 +465,43 @@ void Navigator::task()
   cout<<"in"<<endl;
   delay(500);
   while (step(TIME_STEP) != -1) {
-    // if (flag==1){
+    if (flag==1){
     //   //turn_right();
     //   arm_base_move(distArmBase_max);
     //   arm_grab_box(grabDistGreen,grabDistGreen);
     //   arm_vertical_move(verticalHighest);
-    //   flag = 0;
-    //   //turn_right();
-    // }
+      flag = 0;
+
+      //grab white box for checking
+      motorGroup->qtr_servo(QTR_UP,2.0);
+      arm_vertical_move(verticalGround);
+      arm_grab_box(0.0,0.0);
+      arm_base_move(distArmBase_mid);
+      arm_grab_box(grabDistBlue,grabDistBlue);
+      arm_vertical_move(verticalHighest);
+      arm_base_move(distArmBase_carry); 
+      motorGroup->qtr_servo(QTR_DOWN,2.0);
+      delay(2000);
+      
+
+      //turn_right();
+
+      /*
+      motorGroup->qtr_servo(QTR_UP,2.0);
+      cout<<sensorGroup->get_colour(CS_LEFT)<<"  "<<sensorGroup->get_colour(CS_RIGHT)<<endl;
+      delay(2000);
+      place_white_box_before_centre();
+      //centering the color boxes
+      delay(5000);
+      detect_box_color_and_centre();
+      delay(5000);
+      grab_white_box_after_centre();*/
+
+      // go_forward_specific_distance(0.115);
+      // cout<<sensorGroup->get_colour(CS_FRONT)<<endl;
+      // go_forward_specific_distance(0.02);
+      // turn_right();
+    }
     follow_line(0.0007,0.002,5.5,6.5,7.5);
   // cout<<sensorGroup->get_digital_value(8) << sensorGroup->get_digital_value(0)
   //   << sensorGroup->get_digital_value(1) << sensorGroup->get_digital_value(2)

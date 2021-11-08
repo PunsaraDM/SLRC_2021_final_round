@@ -43,7 +43,11 @@ extern "C"
         void arm_base_move(double target);
         void arm_vertical_move(double target);
         void arm_grab_box(double targetLeft, double targetRight);
-        void detect_box_color_and_grab();
+        void detect_box_color_and_centre();
+        void place_white_box_before_centre();
+        void grab_white_box_after_centre();
+        void place_white_box_in_red_square();
+        void grab_white_box_from_red_square();
 
     private:
         SensorGroup *sensorGroup;
@@ -124,6 +128,7 @@ extern "C"
 
 
         ////////////For robot arm/////////////// 
+        double grabDist_min = 0.0;
         double grabDistRed = 0.0732;
         double grabDistGreen = 0.0832;
         double grabDistBlue = 0.0932;
@@ -135,13 +140,17 @@ extern "C"
         const double DELTA_double = 0.0001;    //for grippers
         const double DELTA_single = 0.001;     //other linear motors
         double distArmBase_max = 0.19;
-        double distArmBase_mid = 0.14;  //distance to grab a box
+        double distArmBase_mid = 0.16;  //distance to grab a box
+        double distArmBase_centre = 0.12;   //centre the box in white square
         double distArmBase_min = 0.0;
+        double distArmBase_place = 0.01;     //place white box before searching and centering a box
+        double distArmBase_carry = 0.05; 
         double verticalGround = 0.0;
         //double verticalLowest = ;
-        //double verticalMiddle = ;
+        double verticalMiddle = 0.06;   //functions start and ends by placing the gripper
         double verticalHighest = 0.12;
-
+        //for inverted patches
+        double distArmBase_inverted_place = 0.2;    //greater than max lenghth - distance to red box
     };
 #ifdef __cplusplus
 }
