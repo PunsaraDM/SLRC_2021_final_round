@@ -7,8 +7,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.16057592586875666 0.9820924848960328 0.09853792742963068 1.1169721795457686
-  position 0.8088985635331485 0.30352048303382134 -0.15106895978458884
+  orientation 1 0 0 4.71238898038469
+  position -0.3192321550090141 5.660030187682424 -0.008755294753991144
 }
 DirectionalLight {
   direction 0 -1 0
@@ -164,7 +164,7 @@ DEF Boxes Group {
       physics USE Box_Ph
     }
     DEF Green_Box Solid {
-      translation 0.18 0.02 -0.55
+      translation 0.18 0.02 -0.74
       children [
         DEF Green_Box Shape {
           appearance PBRAppearance {
@@ -1283,7 +1283,7 @@ DEF ref Robot {
   controller ""
 }
 Robot {
-  translation 0 0.01 -0.55
+  translation -0.98 0.01 -0.53
   children [
     DEF RIGHT HingeJoint {
       jointParameters HingeJointParameters {
@@ -1300,6 +1300,7 @@ Robot {
         }
       ]
       endPoint Solid {
+        translation 0 -1.3877787807814457e-17 1.1102230246251565e-16
         rotation 0 0 -1 0
         children [
           DEF WHEEL_RIGHT Transform {
@@ -1363,6 +1364,7 @@ Robot {
         }
       ]
       endPoint Solid {
+        translation -1.734723475976807e-18 -1.5612511283791264e-17 -2.7755575615628914e-17
         rotation 0 0 -1 0
         children [
           DEF WHEEL_LEFT Transform {
@@ -1414,7 +1416,7 @@ Robot {
     Compass {
     }
     Camera {
-      translation 0.113 -0.005 -0.123
+      translation 0.133 -0.005 -0.123
       rotation 0.577349935856137 0.577349935856137 0.5773509358560258 -2.094395307179586
       children [
         Shape {
@@ -1433,7 +1435,7 @@ Robot {
       far 0.03
     }
     Camera {
-      translation 0.113 -0.005 0.123
+      translation 0.133 -0.005 0.123
       rotation 0.577349935856137 0.577349935856137 0.5773509358560258 -2.094395307179586
       children [
         Shape {
@@ -2300,7 +2302,7 @@ Robot {
         }
       ]
       endPoint DEF QTR_PANEL Solid {
-        translation 1.3877787807814457e-17 -0.12799961411753222 0.11998805549600901
+        translation 2.2620794126737565e-15 -0.12799961411752994 0.11998805549600902
         rotation -0.9999999999999999 0 0 1.5707
         children [
           DEF QTR_SENSORS Transform {
@@ -2329,6 +2331,27 @@ Robot {
                 fieldOfView 0.3
                 near 0.0005
                 far 0.03
+              }
+              DistanceSensor {
+                translation 0 0 -0.05825
+                rotation 0 0 1 -1.57
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      baseColor 0 0 0
+                      metalness 0
+                    }
+                    geometry Box {
+                      size 0.005 0.005 0.005
+                    }
+                  }
+                ]
+                name "ld_left"
+                lookupTable [
+                  0 0 0
+                  0.03 10 0
+                ]
+                type "infra-red"
               }
               DistanceSensor {
                 translation 0 0 -0.03325
@@ -2394,7 +2417,7 @@ Robot {
                 type "infra-red"
               }
               DistanceSensor {
-                translation 0 0 -0.00475
+                translation 0 -0.0002 -0.00475
                 rotation 0 0 1 -1.57
                 children [
                   Shape {
@@ -2492,6 +2515,27 @@ Robot {
                   }
                 ]
                 name "qtr_7"
+                lookupTable [
+                  0 0 0
+                  0.03 10 0
+                ]
+                type "infra-red"
+              }
+              DistanceSensor {
+                translation 0 0 0.05825
+                rotation 0 0 1 -1.57
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      baseColor 0 0 0
+                      metalness 0
+                    }
+                    geometry Box {
+                      size 0.005 0.005 0.005
+                    }
+                  }
+                ]
+                name "ld_right"
                 lookupTable [
                   0 0 0
                   0.03 10 0
@@ -3143,7 +3187,7 @@ Robot {
   boundingObject Group {
     children [
       DEF TOP Transform {
-        translation 0.02 0.171 0
+        translation 0.04 0.171 0
         children [
           Box {
             size 0.04 0.025 0.18

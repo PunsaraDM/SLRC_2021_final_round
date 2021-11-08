@@ -37,6 +37,21 @@ void Navigator::passive_wait(double targetLeft, double targetRight)
     } while (dif > DELTA_double);
 }
 
+void Navigator::passive_wait_wheel(double targetLeft, double targetRight)
+{
+  double dif;
+  double effectiveLeft, effectiveRight;
+  do
+  {
+    if (step(TIME_STEP) == -1)
+        exit(EXIT_SUCCESS);
+
+    effectiveLeft = sensorGroup->get_encoder_val(0);
+    effectiveRight = sensorGroup->get_encoder_val(1);
+    dif = min(fabs(effectiveLeft - targetLeft), fabs(effectiveRight - targetRight));
+  } while (dif > 0.1);
+}
+
 //TODO: give additional parameters to above function to specify encoders
 
 void Navigator::passive_wait_servo(int servo, double target)
@@ -72,7 +87,7 @@ void Navigator::follow_line(float Kp, float Kd, float minSpd, float baseSpd, flo
     int position = sensorGroup->qtr_read_line();
     int error = position - 3500;
 
-    double controlValue = (error * Kp) + (error - wallFollowPreviousError) * Kd;
+    double controlValue = (error * Kp) + (error - lineFollowPreviousError) * Kd;
 
     lineFollowPreviousError = error;
 
@@ -88,26 +103,26 @@ void Navigator::follow_line(float Kp, float Kd, float minSpd, float baseSpd, flo
         leftSpeed = minSpd;
     else if (leftSpeed > maxSpd)
         leftSpeed = maxSpd;
-    cout<<leftSpeed<<"  "<<rightSpeed<<endl;
+    //cout<<leftSpeed<<"  "<<rightSpeed<<endl;
     motorGroup->set_velocity(leftSpeed, rightSpeed);
 }
 
-void Navigator::follow_line_until_junc_detect_fast()
-{
-    int count = DEACCELERATE_COUNT;
-    while (step(TIME_STEP) != -1)
-    {
-        if(sensorGroup->is_junction_detected() == true)
-            break;
-        if (count>-1)
-        {
-            baseSpeed = CONST_BASE_SPEED - count;
-            count-=0.5;
-        }
-        follow_line(0.001,0.0,7.0,baseSpeed,17.0);
-    }
+// void Navigator::follow_line_until_junc_detect_fast()
+// {
+//     int count = DEACCELERATE_COUNT;
+//     while (step(TIME_STEP) != -1)
+//     {
+//         if(sensorGroup->is_junction_detected() == true)
+//             break;
+//         if (count>-1)
+//         {
+//             baseSpeed = CONST_BASE_SPEED - count;
+//             count-=0.5;
+//         }
+//         follow_line(0.001,0.0,7.0,baseSpeed,17.0);
+//     }
 
-}
+// }
 
 // void Navigator::follow_line_until_junc_detect_slow()
 // {
@@ -168,21 +183,81 @@ void Navigator::follow_line_until_junc_detect_fast()
 //     motorGroup->enable_motor_velocity_control();
 // }
 
-// void Navigator::go_forward_specific_distance(double distance)
-// {
+void Navigator::go_forward_specific_distance(double distance)
+{
+  //sensorGroup->stabilize_encoder(this);
 
-//     sensorGroup->stabilize_encoder(this);
+  double initialLeftENcount = sensorGroup->get_encoder_val(LEFT);
+  double initialRightENcount = sensorGroup->get_encoder_val(RIGHT);
 
-//     double initialLeftENcount = sensorGroup->get_encoder_val(LEFT);
-//     double initialRightENcount = sensorGroup->get_encoder_val(RIGHT);
+  //motorGroup->set_control_pid(8, 0, 0);
+  double angle = distance/WHEEL_RADIUS;
 
-//     motorGroup->set_control_pid(8, 0, 0);
-//     motorGroup->set_velocity(7.5, 7.5);
+  motorGroup->set_position(angle + initialLeftENcount, angle + initialRightENcount);
+  motorGroup->set_velocity(7.5, 7.5);
 
-//     motorGroup->set_position(distance + initialLeftENcount, distance + initialRightENcount);
-//     passive_wait(distance + initialLeftENcount, distance + initialRightENcount);
-//     motorGroup->enable_motor_velocity_control();
-// }
+  passive_wait_wheel(angle + initialLeftENcount, angle + initialRightENcount);
+  motorGroup->enable_motor_velocity_control();
+
+}
+
+
+bool Navigator::is_junction_detected()
+{
+  if (((sensorGroup->get_digital_value(LINE_DETECT_LEFT) == WHITE) and (sensorGroup->get_digital_value(QTR_0) == WHITE) and (sensorGroup->get_digital_value(LINE_DETECT_RIGHT) == WHITE) 
+  and(sensorGroup->get_digital_value(QTR_7) == WHITE)) and((sensorGroup->get_digital_value(QTR_3) == BLACK) or (sensorGroup->get_digital_value(QTR_4) == BLACK)))
+  {
+    //inverted patch detected
+    cout<<"inverted"<<endl;
+    turn_right();
+    turn_left();
+    go_forward_specific_distance(0.09);
+    cout<<sensorGroup->get_colour(CS_LEFT)<<"  "<<sensorGroup->get_colour(CS_RIGHT)<<endl;
+    go_forward_specific_distance(0.115);
+    cout<<sensorGroup->get_colour(CS_FRONT)<<endl;
+    go_forward_specific_distance(0.02);
+    turn_left();
+    return true;
+  }
+  else if (((sensorGroup->get_digital_value(LINE_DETECT_LEFT) == WHITE) and (sensorGroup->get_digital_value(QTR_0) == WHITE) and (sensorGroup->get_digital_value(QTR_1) == WHITE) 
+  and (sensorGroup->get_digital_value(QTR_2) == WHITE) and (sensorGroup->get_digital_value(QTR_3) == WHITE)) or 
+  ((sensorGroup->get_digital_value(LINE_DETECT_RIGHT) == WHITE) and (sensorGroup->get_digital_value(QTR_4) == WHITE) and (sensorGroup->get_digital_value(QTR_5) == WHITE) 
+  and (sensorGroup->get_digital_value(QTR_6) == WHITE) and (sensorGroup->get_digital_value(QTR_7) == WHITE)))
+  {
+    //normal juction or a white patch
+    //detct the line colors left and right
+    cout<<sensorGroup->get_colour(CS_LEFT)<<"  "<<sensorGroup->get_colour(CS_RIGHT)<<endl;
+    go_forward_specific_distance(0.04);
+
+    if ((sensorGroup->get_digital_value(LINE_DETECT_LEFT) == WHITE) and (sensorGroup->get_digital_value(QTR_0) == WHITE) 
+    and (sensorGroup->get_digital_value(QTR_1) == WHITE) and (sensorGroup->get_digital_value(QTR_2) == WHITE) 
+    and (sensorGroup->get_digital_value(QTR_3) == WHITE) and (sensorGroup->get_digital_value(LINE_DETECT_RIGHT) == WHITE) 
+    and (sensorGroup->get_digital_value(QTR_4) == WHITE) and (sensorGroup->get_digital_value(QTR_5) == WHITE) 
+    and (sensorGroup->get_digital_value(QTR_6) == WHITE) and (sensorGroup->get_digital_value(QTR_7) == WHITE))
+    {
+      //white patch detected
+      cout<<"white patch"<<endl;
+      //open qtr array
+      go_forward_specific_distance(0.06);
+      cout<<sensorGroup->get_colour(CS_LEFT)<<"  "<<sensorGroup->get_colour(CS_RIGHT)<<endl;
+      go_forward_specific_distance(0.115);
+      cout<<sensorGroup->get_colour(CS_FRONT)<<endl;
+      go_forward_specific_distance(0.02);
+      turn_right();
+    }
+    else
+    {
+      //a normal junction
+      cout<<"normal junction"<<endl;
+    }
+    return true;
+  }
+  else
+      return false;
+}
+
+
+
 
 //Function to get the initial postion by number of 90's from north
 double Navigator::getComDir(){
@@ -320,6 +395,7 @@ void Navigator::task()
 {
   int flag = 1;
   cout<<"in"<<endl;
+  delay(500);
   while (step(TIME_STEP) != -1) {
     // if (flag==1){
     //   //turn_right();
@@ -329,14 +405,30 @@ void Navigator::task()
     //   flag = 0;
     //   //turn_right();
     // }
-    // follow_line(0.0007,0.002,5.5,6.5,7.5);
+    follow_line(0.0007,0.002,5.5,6.5,7.5);
+  // cout<<sensorGroup->get_digital_value(8) << sensorGroup->get_digital_value(0)
+  //   << sensorGroup->get_digital_value(1) << sensorGroup->get_digital_value(2)
+  //   << sensorGroup->get_digital_value(3)
+  //   << sensorGroup->get_digital_value(4)<< sensorGroup->get_digital_value(5)
+  //   << sensorGroup->get_digital_value(6) << sensorGroup->get_digital_value(7)
+  //   << sensorGroup->get_digital_value(9)<< endl;
+    if (is_junction_detected())
+    {
+      break;
+    }
     // motorGroup->qtr_servo(QTR_DOWN,2.0);
     //arm_base_move(-0.07);
     //arm_vertical_move(0.03);
     //int clr = sensorGroup->get_colour(0);
-    cout<<sensorGroup->get_colour(CS_ARM)<<"  "<<sensorGroup->get_colour(CS_LEFT)<<"  "<<sensorGroup->get_colour(CS_RIGHT)<<"  "<<sensorGroup->get_colour(CS_FRONT)<<endl;
+    //cout<<sensorGroup->get_colour(CS_ARM)<<"  "<<sensorGroup->get_colour(CS_LEFT)<<"  "<<sensorGroup->get_colour(CS_RIGHT)<<"  "<<sensorGroup->get_colour(CS_FRONT)<<endl;
     //motorGroup->set_velocity(5.0,5.0);
 
+    // cout<<sensorGroup->get_ir_value(8) <<" "<< sensorGroup->get_ir_value(0)<<" "
+    //     << sensorGroup->get_ir_value(1) <<" "<< sensorGroup->get_ir_value(2)<<" "
+    //     << sensorGroup->get_ir_value(3)<<" "
+    //     << sensorGroup->get_ir_value(4)<<" "<< sensorGroup->get_ir_value(5)<<" "
+    //     << sensorGroup->get_ir_value(6) <<" "<< sensorGroup->get_ir_value(7)<<" "
+    //     << sensorGroup->get_ir_value(9)<< endl;
     //cout<<sensorGroup->get_distance_value(0)<<endl;
 
     //arm_vertical_move(0);
@@ -349,6 +441,8 @@ void Navigator::task()
 
 void Navigator::test()
 {
-    follow_line(0.0007,0.002,5.5,6.5,7.5);
+    //follow_line(0.0007,0.002,5.5,6.5,7.5);
     //cout<<sensorGroup->get_ir_value(0)<<endl;
+    go_forward_specific_distance(0.045);
+    motorGroup->robot_stop();
 }

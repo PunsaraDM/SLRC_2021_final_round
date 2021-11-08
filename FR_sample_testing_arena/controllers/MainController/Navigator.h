@@ -22,6 +22,7 @@ extern "C"
         void test();
 
         void passive_wait(double targetLeft, double targetRight);
+        void passive_wait_wheel(double targetLeft, double targetRight);
         void passive_wait_servo(int servo, double target);
         void delay(int time);
 
@@ -31,7 +32,8 @@ extern "C"
         //void follow_line_until_segment_detect();
 
         //void complete_turn(int dir, bool goForward = true);
-        //void go_forward_specific_distance(double distance);
+        void go_forward_specific_distance(double distance);
+        bool is_junction_detected();
         double getComDir();
         void turnAng(float angle);
         void turn_left();
@@ -69,7 +71,18 @@ extern "C"
         float baseSpeed = CONST_BASE_SPEED;
         float DEACCELERATE_COUNT = 10;
 
-         
+        int QTR_0 = 0;
+        int QTR_1 = 1;
+        int QTR_2 = 2;
+        int QTR_3 = 3;
+        int QTR_4 = 4;
+        int QTR_5 = 5;
+        int QTR_6 = 6;
+        int QTR_7 = 7;
+        int LINE_DETECT_LEFT = 8;
+        int LINE_DETECT_RIGHT = 9;
+
+
         // int DS_SENSOR_BOX = 3;
         // int DS_SENSOR_FRONT = 2;
         // int DS_SENSOR_RIGHT = 1;
@@ -94,9 +107,9 @@ extern "C"
         // float WALL_MIN_VELOCITY = 2.0;
         // float WALL_FOLLOW_BASE_SPEED = 4.0;
 
-
-        float wallFollowPreviousError = 0.0;
         float lineFollowPreviousError = 0.0;
+
+        float WHEEL_RADIUS = 0.02;
 
         // int POS_ARM_UP = 0;
         // int POS_ARM_DOWN = 1;
@@ -118,7 +131,7 @@ extern "C"
         double linearMotorVelocity = 0.35;
         double turnSpeed = 5.0;
         double expoValTurnThresh = 0.5;
-        int turnAccu = 1000;
+        int turnAccu = 10000;
         const double DELTA_double = 0.0001;    //for grippers
         const double DELTA_single = 0.001;     //other linear motors
         double distArmBase_max = 0.17;
