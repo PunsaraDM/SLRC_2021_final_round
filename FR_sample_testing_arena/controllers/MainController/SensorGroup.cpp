@@ -104,23 +104,41 @@ int SensorGroup::get_digital_value(int index)
         return WHITE;
 }
 
-bool SensorGroup::is_junction_detected()
-{
-    if ((get_digital_value(LINE_DETECT_LEFT) == WHITE) and (get_digital_value(QTR_0) == WHITE) and (get_digital_value(QTR_1) == WHITE) 
-    and (get_digital_value(QTR_2) == WHITE) and (get_digital_value(QTR_3) == WHITE))
-    {
-        nextTurn = LEFT;
-        return true;
-    }
-    else if ((get_digital_value(LINE_DETECT_RIGHT) == WHITE) and (get_digital_value(QTR_4) == WHITE) and (get_digital_value(QTR_5) == WHITE) 
-    and (get_digital_value(QTR_6) == WHITE) and (get_digital_value(QTR_7) == WHITE))
-    {
-        nextTurn = RIGHT;
-        return true;
-    }
-    else
-        return false;
-}
+// bool SensorGroup::is_junction_detected()
+// {
+//     if (((get_digital_value(LINE_DETECT_LEFT) == WHITE) and (get_digital_value(QTR_0) == WHITE) and (get_digital_value(LINE_DETECT_RIGHT) == WHITE) 
+//     and(get_digital_value(QTR_7) == WHITE)) and((get_digital_value(QTR_3) == BLACK) or (get_digital_value(QTR_4) == BLACK)))
+//     {
+//         //inverted patch detected
+//         cout<<"inverted"<<endl;
+//         return true;
+//     }
+//     else if (((get_digital_value(LINE_DETECT_LEFT) == WHITE) and (get_digital_value(QTR_0) == WHITE) and (get_digital_value(QTR_1) == WHITE) 
+//     and (get_digital_value(QTR_2) == WHITE) and (get_digital_value(QTR_3) == WHITE)) or 
+//     ((get_digital_value(LINE_DETECT_RIGHT) == WHITE) and (get_digital_value(QTR_4) == WHITE) and (get_digital_value(QTR_5) == WHITE) 
+//     and (get_digital_value(QTR_6) == WHITE) and (get_digital_value(QTR_7) == WHITE)))
+//     {
+//         //normal juction or a white patch
+//         //detct the line colors left and right
+//         //gor forward specific distance
+//         cout<<"second"<<endl;
+//         if ((get_digital_value(LINE_DETECT_LEFT) == WHITE) and (get_digital_value(QTR_0) == WHITE) 
+//         and (get_digital_value(QTR_1) == WHITE) and (get_digital_value(QTR_2) == WHITE) 
+//         and (get_digital_value(QTR_3) == WHITE) and (get_digital_value(LINE_DETECT_RIGHT) == WHITE) 
+//         and (get_digital_value(QTR_4) == WHITE) and (get_digital_value(QTR_5) == WHITE) 
+//         and (get_digital_value(QTR_6) == WHITE) and (get_digital_value(QTR_7) == WHITE))
+//         {
+//             //white patch detected
+//         }
+//         else
+//         {
+//             //a normal junction
+//         }
+//         return true;
+//     }
+//     else
+//         return false;
+// }
 
 bool SensorGroup::is_deadend()
 {
@@ -266,3 +284,45 @@ int SensorGroup::get_colour(int cam)
     //cout<<"no colour"<<endl;
     return NO_COLOR;
 }
+
+// int SensorGroup::get_colour(int cam)
+// {
+//     const unsigned char *IMAGE = camera[cam]->getImage();
+
+//     WIDTH = camera[cam]->getWidth();
+//     HEIGHT = camera[cam]->getHeight();
+
+//     int redpix = 0;
+//     int greenpix = 0;
+//     int bluepix = 0;
+
+//     int i, j;
+
+//     for (j = CAM_PIXEL_THRESH ; j < (HEIGHT-CAM_PIXEL_THRESH); j++)
+//     {
+//         for (i = CAM_PIXEL_THRESH; i < (WIDTH-CAM_PIXEL_THRESH); i++)
+//         {
+
+//             redpix = camera[cam]->imageGetRed(IMAGE, WIDTH, i, j);
+//             bluepix = camera[cam]->imageGetBlue(IMAGE, WIDTH, i, j);
+//             greenpix = camera[cam]->imageGetGreen(IMAGE, WIDTH, i, j);
+
+//             if ((redpix > 4 * greenpix) && (redpix > 4 * bluepix))
+//             {
+//                 recentColor = RED;
+//                 return RED;
+//             }
+//             else if ((greenpix > 4 * redpix) && (greenpix > 4 * bluepix))
+//             {
+//                 recentColor = GREEN;
+//                 return GREEN;
+//             }
+//             else if ((bluepix > 4 * redpix) && (bluepix > 4 * greenpix))
+//             {
+//                 recentColor = BLUE;
+//                 return BLUE;
+//             }
+//         }
+//     }
+//     return NO_COLOR;
+// }

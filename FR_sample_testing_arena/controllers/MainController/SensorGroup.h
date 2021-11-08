@@ -30,7 +30,7 @@ public:
     
     int get_colour(int cam);
 
-    bool is_junction_detected();
+    //bool is_junction_detected();
     bool is_line_segment_detected();
     bool is_deadend();
 
@@ -48,9 +48,9 @@ private:
     DistanceSensor *ds[ds_count];
     char dsNames[ds_count][8] = {"ds_arm"};
 
-    static const int qtr_count = 8;
+    static const int qtr_count = 10;
     DistanceSensor *qtr[qtr_count];
-    char qtrNames[qtr_count][18] = {"qtr_0","qtr_1", "qtr_2", "qtr_3", "qtr_4", "qtr_5","qtr_6","qtr_7"};
+    char qtrNames[qtr_count][18] = {"qtr_0","qtr_1", "qtr_2", "qtr_3", "qtr_4", "qtr_5","qtr_6","qtr_7","ld_left","ld_right"};
 
     static const int encoder_count = 6;
     PositionSensor *encoder[encoder_count];
