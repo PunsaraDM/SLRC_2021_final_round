@@ -29,6 +29,7 @@
 #define COLS 9
 #define ROWS 7
 
+//junctions
 #define VISITEDWITHOUTWHITE 2
 #define INVERTNEIGHBOUR 3
 
@@ -83,7 +84,6 @@ int Strategy::get_from_priority(vector<int> juncs, int robot, bool is_visited)
     }
     else
     {
-
         vector<int> priorityLeft{LEFT, DOWN, UP, RIGHT};
         vector<int> priorityRight{RIGHT, UP, DOWN, LEFT};
         vector<int> priority = priorityRight;

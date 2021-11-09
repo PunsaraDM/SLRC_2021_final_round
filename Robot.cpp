@@ -129,6 +129,7 @@ void Robot::travel_maze()
         junction_content = find_junction_content();
 
         maze.update_junction(robot_col, robot_row, junction_content, junction_content_state, has_white);
+        
         if(junction_content_state != INVERTED || has_white){
             maze.update_path(robot_col, robot_row, paths);
         }
