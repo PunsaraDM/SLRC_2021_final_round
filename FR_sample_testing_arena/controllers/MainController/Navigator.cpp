@@ -6,6 +6,7 @@
 #include <math.h>
 #include <cmath>
 #include <bits/stdc++.h>
+#include <vector>
 
 #define TIME_STEP 32
 using namespace webots;
@@ -162,7 +163,7 @@ void Navigator::follow_line(float Kp, float Kd, float minSpd, float baseSpd, flo
 //         sign = -1;
 
 //     double initialLeftENcount = sensorGroup->get_encoder_val(LEFT);
-//     double initialRightENcount = sensorGroup->get_encoder_val(RIGHT);
+//     double initialRightENcount = sensorGroup->get_encoder_val(EN_RIGH);
 
 //     double leftCount = initialLeftENcount + (sign * TURN90_EN_COUNT);
 //     double rightCount = initialRightENcount - (sign * TURN90_EN_COUNT);
@@ -187,8 +188,8 @@ void Navigator::go_forward_specific_distance(double distance)
 {
   //sensorGroup->stabilize_encoder(this);
 
-  double initialLeftENcount = sensorGroup->get_encoder_val(LEFT);
-  double initialRightENcount = sensorGroup->get_encoder_val(RIGHT);
+  double initialLeftENcount = sensorGroup->get_encoder_val(EN_LEFT);
+  double initialRightENcount = sensorGroup->get_encoder_val(EN_RIGH);
 
   //motorGroup->set_control_pid(8, 0, 0);
   double angle = distance/WHEEL_RADIUS;
@@ -200,83 +201,6 @@ void Navigator::go_forward_specific_distance(double distance)
   motorGroup->enable_motor_velocity_control();
 
 }
-
-
-bool Navigator::is_junction_detected()
-{
-  if (((sensorGroup->get_digital_value(LINE_DETECT_LEFT) == WHITE) and (sensorGroup->get_digital_value(QTR_0) == WHITE) and (sensorGroup->get_digital_value(LINE_DETECT_RIGHT) == WHITE) 
-  and(sensorGroup->get_digital_value(QTR_7) == WHITE)) and((sensorGroup->get_digital_value(QTR_3) == BLACK) or (sensorGroup->get_digital_value(QTR_4) == BLACK)))
-  {
-    //inverted patch detected
-    cout<<"inverted"<<endl;
-    motorGroup->qtr_servo(QTR_UP,2.0);
-    turn_right();
-    delay(2000);
-    //drop the white box in red square
-    place_white_box_in_red_square();
-    delay(2000);
-    //collect the white box from red square
-    motorGroup->qtr_servo(QTR_DOWN,2.0);
-    turn_left();
-    go_forward_specific_distance(0.09);
-    cout<<sensorGroup->get_colour(CS_LEFT)<<"  "<<sensorGroup->get_colour(CS_RIGHT)<<endl;
-    go_forward_specific_distance(0.115);
-    cout<<sensorGroup->get_colour(CS_FRONT)<<endl;
-    go_forward_specific_distance(0.02);
-    turn_left();
-    return true;
-  }
-  else if (((sensorGroup->get_digital_value(LINE_DETECT_LEFT) == WHITE) and (sensorGroup->get_digital_value(QTR_0) == WHITE) and (sensorGroup->get_digital_value(QTR_1) == WHITE) 
-  and (sensorGroup->get_digital_value(QTR_2) == WHITE) and (sensorGroup->get_digital_value(QTR_3) == WHITE)) or 
-  ((sensorGroup->get_digital_value(LINE_DETECT_RIGHT) == WHITE) and (sensorGroup->get_digital_value(QTR_4) == WHITE) and (sensorGroup->get_digital_value(QTR_5) == WHITE) 
-  and (sensorGroup->get_digital_value(QTR_6) == WHITE) and (sensorGroup->get_digital_value(QTR_7) == WHITE)))
-  {
-    //normal juction or a white patch
-    //detct the line colors left and right
-    cout<<sensorGroup->get_colour(CS_LEFT)<<"  "<<sensorGroup->get_colour(CS_RIGHT)<<endl;
-    go_forward_specific_distance(0.04);
-
-    if ((sensorGroup->get_digital_value(LINE_DETECT_LEFT) == WHITE) and (sensorGroup->get_digital_value(QTR_0) == WHITE) 
-    and (sensorGroup->get_digital_value(QTR_1) == WHITE) and (sensorGroup->get_digital_value(QTR_2) == WHITE) 
-    and (sensorGroup->get_digital_value(QTR_3) == WHITE) and (sensorGroup->get_digital_value(LINE_DETECT_RIGHT) == WHITE) 
-    and (sensorGroup->get_digital_value(QTR_4) == WHITE) and (sensorGroup->get_digital_value(QTR_5) == WHITE) 
-    and (sensorGroup->get_digital_value(QTR_6) == WHITE) and (sensorGroup->get_digital_value(QTR_7) == WHITE))
-    {
-      //white patch detected
-      cout<<"white patch"<<endl;
-      motorGroup->qtr_servo(QTR_UP,2.0);
-      go_forward_specific_distance(0.06);
-      cout<<sensorGroup->get_colour(CS_LEFT)<<"  "<<sensorGroup->get_colour(CS_RIGHT)<<endl;
-      delay(2000);
-      //place white box
-      place_white_box_before_centre();
-      //centering the color boxes
-      detect_box_color_and_centre();
-      delay(2000);
-      //grab white box
-      grab_white_box_after_centre();
-      delay(2000);
-      go_forward_specific_distance(0.115);
-      motorGroup->qtr_servo(QTR_DOWN,2.0);
-      delay(1200);
-      cout<<sensorGroup->get_colour(CS_FRONT)<<endl;
-      go_forward_specific_distance(0.02);
-      motorGroup->qtr_servo(QTR_DOWN,2.0);
-      turn_right();
-    }
-    else
-    {
-      //a normal junction
-      cout<<"normal junction"<<endl;
-    }
-    return true;
-  }
-  else
-      return false;
-}
-
-
-
 
 //Function to get the initial postion by number of 90's from north
 double Navigator::getComDir(){
@@ -321,7 +245,6 @@ void Navigator::turnAng(float angle){
       turnError = targetNinetyCount - initNinetyCount;
     }
         
-    
     if(turnError <= 2){
       turnSide=1;
     }
@@ -343,19 +266,15 @@ void Navigator::turnAng(float angle){
   motorGroup->robot_stop();
 }
 
-void Navigator::turn_left(){
-  turnAng(-90.0);
-}
-    
-//Function to turn robot 90 degrees right    
-void Navigator::turn_right(){
-  cout<<"turn right"<<endl;
-  turnAng(90.0);
-}
-    
-//Function to turn robot 90 degrees right    
-void Navigator::turn_back(){
-  turnAng(180.0);
+
+
+void Navigator::turn(int dir){
+  if (dir == LEFT)
+    turnAng(-90.0);
+  else if (dir == RIGHT)
+    turnAng(90.0);
+  else if (dir == DOWN)
+    turnAng(180.0);
 }
 
 ////////////////////////////////////////////////////////////////////ARM////////////////////////////////////////////////////
@@ -379,68 +298,179 @@ void Navigator::arm_grab_box(double targetLeft, double targetRight)
   passive_wait(targetLeft, targetRight);
 }
 
-void Navigator::detect_box_color_and_centre()
-{ 
-  arm_base_move(distArmBase_place + 0.08);
-  arm_grab_box(grabDist_min,grabDist_min);
-  arm_vertical_move(verticalGround);
-  arm_base_move(distArmBase_mid);
-  //cout<<sensorGroup->get_distance_value(0)<<endl; 
-  if ((sensorGroup->get_distance_value(0))< 0.2)    //RED=0.133999 , BLUE=0.153998 , GREEN=0.153997
-  {
-    double distToDetectLocal = grabDistToDetectColor;
-    arm_grab_box(distToDetectLocal,distToDetectLocal);
-    bool isDetected = true;
-    while (isDetected)
-    {
-      int colorBox = sensorGroup->get_colour(0);
-      if (colorBox == 1){ //Red box
-        cout<<"RED"<<endl;
-        arm_grab_box(grabDistRed,grabDistRed);
-        break;
-      }
-      else if (colorBox == 2){ //Green box
-        cout<<"GREEN"<<endl;
-        arm_grab_box(grabDistGreen,grabDistGreen);
-        break;
-      }
-      else if (colorBox == 3){ //Blue box
-        cout<<"blue"<<endl;
-        arm_grab_box(grabDistBlue,grabDistBlue);
-        break;
-      }
-      else{ //Not detected any color
-        cout<<"Not detect any color"<<endl;
-        distToDetectLocal += 0.01;
-        arm_grab_box(distToDetectLocal,distToDetectLocal);
-      }
-    }
-    arm_base_move(distArmBase_centre);  //centre the box
-    arm_grab_box(grabDistToDetectColor,grabDistToDetectColor);  //release the box
-  }
-  else
-  {
-    cout<<"No box in the white square"<<endl;
-  }
-  arm_vertical_move(verticalMiddle);
-  arm_base_move(distArmBase_place); 
-}
+//////////////////////////new robot arm codes////////////////////////
 
-void Navigator::place_white_box_before_centre()
+//---box search functions
+void Navigator::place_white_box_before_search() //place the white box before searching and centering a color box
 {
   arm_base_move(distArmBase_place); 
   arm_vertical_move(verticalGround);
-  arm_grab_box(grabDistToDetectColor,grabDistToDetectColor);  //release the box
+  arm_grab_box(grabDist_min,grabDist_min);  //release the box
   arm_vertical_move(verticalMiddle);
 }
 
-void Navigator::grab_white_box_after_centre()
+void Navigator::grab_white_box_after_search() //grab the white box before searching and centering a color box
 {
   arm_base_move(distArmBase_place); 
   arm_vertical_move(verticalGround);
   arm_grab_box(grabDistBlue,grabDistBlue);
   arm_vertical_move(verticalHighest);
   arm_base_move(distArmBase_carry); 
+}
+
+
+int Navigator::search_box_color(int level)
+{ 
+  double currentDist = distArmBase_place + 0.08;
+  arm_base_move(currentDist);
+  arm_grab_box(grabDist_min,grabDist_min);
+  if (level==1) //lower search
+    arm_vertical_move(verticalGround);
+  else if (level==2)  //upper search
+    arm_vertical_move(verticalGround+0.04);
+  
+  while(step(TIME_STEP) != -1)
+  {
+    if ((sensorGroup->get_distance_value(0))< 0.2)
+    {
+      double distToDetectLocal = grabDistToDetectColor;
+      arm_grab_box(distToDetectLocal,distToDetectLocal);
+      bool isDetected = true;
+      while (isDetected)
+      {
+        int colorBox = sensorGroup->get_colour(0);
+        if (colorBox == 1){ //Red box
+          cout<<"RED"<<endl;
+          if (level==1) {
+            arm_grab_box(grabDistRed,grabDistRed);
+            centre_box();
+            arm_grab_box(grabDist_min,grabDist_min);
+          }
+          return RED;
+        }
+        else if (colorBox == 2){ //Green box
+          cout<<"GREEN"<<endl;
+          if (level==1) {
+            arm_grab_box(grabDistGreen,grabDistGreen);
+            centre_box();
+            arm_grab_box(grabDist_min,grabDist_min);
+          }
+          return GREEN;
+        }
+        else if (colorBox == 3){ //Blue box
+          cout<<"BLUE"<<endl;
+          if (level==1) {
+            arm_grab_box(grabDistBlue,grabDistBlue);
+            centre_box();
+            arm_grab_box(grabDist_min,grabDist_min);
+          }
+          return BLUE;
+        }
+        else if (colorBox == 4){ //Blue box
+          cout<<"WHITE"<<endl;
+          if (level==1) {
+            arm_grab_box(grabDistBlue,grabDistBlue);
+            centre_box();
+            arm_grab_box(grabDist_min,grabDist_min);
+          }
+          return WHITE_CLR;
+        }
+        else{ //Not detected any color
+          cout<<"Not yet detect any color"<<endl;
+          distToDetectLocal += 0.01;
+          arm_grab_box(distToDetectLocal,distToDetectLocal);
+        }
+      }
+    }
+    else if (distArmBase_mid<=currentDist)
+    {
+      if (level == 1)
+        cout<<"lower level : NO BOX"<<endl;
+      else
+        cout<<"middle level : NO BOX"<<endl;
+      return NO_COLOR;
+    }
+    else
+    {
+      currentDist += 0.01;
+      arm_base_move(currentDist);
+    }
+  }
+}
+
+void Navigator::centre_box()  //centre the box
+{
+  arm_base_move(distArmBase_centre);  
+}
+
+void Navigator::arm_parking() //place the robot arm in the intermediate position 
+{
+  arm_grab_box(grabDist_min,grabDist_min);
+  arm_vertical_move(verticalMiddle);
+  arm_base_move(distArmBase_carry);
+}
+
+void Navigator::arm_carrying() //place the robot arm in the intermediate position 
+{
+  arm_vertical_move(verticalHighest);
+  arm_base_move(distArmBase_carry);
+}
+
+void Navigator::box_search_algo(bool haveBox)
+{ 
+  if (haveBox)
+    place_white_box_before_search();  //place the white box before searching and centering a color box
+    
+  int clr = search_box_color(1);    //seach for a lower box
+
+  if (clr < 5)  
+  {
+    cout<<"found lower box"<<endl;
+    boxType[clr-1] = 1 ;    //updates box count
+  }
+  
+  if (clr < 3)  
+  {
+    clr = search_box_color(2);  //seach for a upper box
+    if (clr < 5) 
+    { 
+      boxType[clr-1] = 1 ;        //updates box count
+      cout<<"found upper box"<<endl;
+    }
+  }
+
+  //if white box need to be picked call function
+  //currently robot doesnt have a box and next box is a white one
+  //grab_box(WHITE_CLR,1)
+
+  if (haveBox)
+    grab_white_box_after_search();  //grab the white box after searching and centering a color box
+}
+
+//---box grabbing
+void Navigator::grab_box(int color, int level)
+{
+  if (level==1) //lower level
+    arm_vertical_move(verticalGround);
+  else if (level==2)  //upper level
+    arm_vertical_move(verticalGround+0.04);
+  if (color==1){
+    arm_base_move(distArmBase_centre);
+    arm_grab_box(grabDistRed,grabDistRed);
+  }
+  else if (color==2){
+    arm_base_move(distArmBase_centre);
+    arm_grab_box(grabDistGreen,grabDistGreen);
+  }
+  else if (color==3){
+    arm_base_move(distArmBase_centre);
+    arm_grab_box(grabDistBlue,grabDistBlue);
+  }
+  else if (color==4){
+    arm_base_move(distArmBase_centre);
+    arm_grab_box(grabDistBlue,grabDistBlue);
+  }
+  arm_carrying();
 }
 
 void Navigator::place_white_box_in_red_square()
@@ -461,9 +491,208 @@ void Navigator::grab_white_box_from_red_square()
   arm_base_move(distArmBase_carry); 
 }
 
+void Navigator::place_box(int level)    //at the placement square
+{
+  if (level==1) //lower level
+  {
+    arm_vertical_move(verticalGround);
+  }
+  else if (level==2)  //upper level
+  {
+    arm_vertical_move(verticalGround+0.04);
+  }
+  else if (level==3)  //upper level
+  {
+    arm_vertical_move(verticalGround+0.08);
+  }
+  centre_box();
+  arm_parking();
+
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+bool Navigator::is_junction_detected()
+{
+  if ((sensorGroup->get_digital_value(LINE_DETECT_LEFT) == WHITE) or (sensorGroup->get_digital_value(LINE_DETECT_RIGHT) == WHITE))
+    return true;
+  else
+    return false;
+}
+
+void Navigator::visit_junction(int junctype , int boxPlaceDir)
+{
+  if (junctype == NORMAL)
+    visit_normal_junc();
+  else if (junctype == INVERTED)
+    visit_inv_junc(boxPlaceDir);
+  else if ((junctype == WHITE_PATCH) or (junctype == COLORED))
+    visit_white_patch();    //need lower or upper box and box color
+}
+
+void Navigator::discover_junction(int boxPlaceDir)
+{
+  if (((sensorGroup->get_digital_value(LINE_DETECT_LEFT) == WHITE) and (sensorGroup->get_digital_value(QTR_0) == WHITE) and (sensorGroup->get_digital_value(LINE_DETECT_RIGHT) == WHITE) 
+  and(sensorGroup->get_digital_value(QTR_7) == WHITE)) and((sensorGroup->get_digital_value(QTR_3) == BLACK) or (sensorGroup->get_digital_value(QTR_4) == BLACK)))
+  {
+    //inverted patch detected
+    cout<<"inverted"<<endl;
+    juncType = INVERTED;
+    // if inverted and invalid
+    // next direction back
+    discover_inv_junc(boxPlaceDir);
+    print_pathState();
+  }
+  else if (((sensorGroup->get_digital_value(LINE_DETECT_LEFT) == WHITE) and (sensorGroup->get_digital_value(QTR_0) == WHITE) and (sensorGroup->get_digital_value(QTR_1) == WHITE) 
+  and (sensorGroup->get_digital_value(QTR_2) == WHITE) and (sensorGroup->get_digital_value(QTR_3) == WHITE)) or 
+  ((sensorGroup->get_digital_value(LINE_DETECT_RIGHT) == WHITE) and (sensorGroup->get_digital_value(QTR_4) == WHITE) and (sensorGroup->get_digital_value(QTR_5) == WHITE) 
+  and (sensorGroup->get_digital_value(QTR_6) == WHITE) and (sensorGroup->get_digital_value(QTR_7) == WHITE)))
+  {
+    //normal juction or a white patch
+    discover_path(RIGHT);
+    discover_path(LEFT);
+    go_forward_specific_distance(0.04); //forward untill line papsses
+
+    if ((sensorGroup->get_digital_value(LINE_DETECT_LEFT) == WHITE) and (sensorGroup->get_digital_value(QTR_0) == WHITE) 
+    and (sensorGroup->get_digital_value(QTR_1) == WHITE) and (sensorGroup->get_digital_value(QTR_2) == WHITE) 
+    and (sensorGroup->get_digital_value(QTR_3) == WHITE) and (sensorGroup->get_digital_value(LINE_DETECT_RIGHT) == WHITE) 
+    and (sensorGroup->get_digital_value(QTR_4) == WHITE) and (sensorGroup->get_digital_value(QTR_5) == WHITE) 
+    and (sensorGroup->get_digital_value(QTR_6) == WHITE) and (sensorGroup->get_digital_value(QTR_7) == WHITE))
+    {
+      //white patch detected
+      cout<<"white patch"<<endl;
+      discover_white_patch();
+      print_pathState();
+    }
+    else
+    {
+      //a normal junction
+      cout<<"normal junction"<<endl;
+      juncType = NORMAL;
+      discover_path(UP);
+      print_pathState();
+      go_forward_specific_distance(0.095);
+    }
+  }
+}
+
+void Navigator::discover_path(int side)   //side shouldnt be down
+{  
+  int clrSensor = CS_FRONT;
+
+  if (side == LEFT)
+    clrSensor = CS_LEFT;
+  else if (side == RIGHT)
+    clrSensor = CS_RIGHT;
+
+  int color = sensorGroup->get_colour(clrSensor);
+  //cout<<"side: "<<side<<" color: "<<color<<endl;
+
+  if (color == WHITE_CLR)
+    pathState[side] = DISCOVERED;
+  else if (color == RED)
+    pathState[side] = NOPATH;
+  else if (color == NO_COLOR)
+    pathState[side] = NOTACCESIBLE;
+}
+
+void Navigator::discover_white_patch()
+{
+  motorGroup->qtr_servo(QTR_UP,2.0);
+  delay(500);
+  go_forward_specific_distance(0.06); //forward until side lines discover
+  discover_path(RIGHT);
+  discover_path(LEFT);
+  box_search_algo();
+  go_forward_specific_distance(0.115);    //forward until front line appears to clr sensor
+  motorGroup->qtr_servo(QTR_DOWN,2.0);
+  delay(1200);                            //delay to dqtr down
+  discover_path(UP);
+  go_forward_specific_distance(0.02);     //forward until wheels come to the side lines
+}
+
+void Navigator::visit_white_patch()
+{
+  motorGroup->qtr_servo(QTR_UP,2.0);
+  delay(500);
+  go_forward_specific_distance(0.06); //forward until side lines discover
+  //to neglect boxes no func call
+  // to grab a box
+  grab_box(GREEN, 2);
+  motorGroup->qtr_servo(QTR_DOWN,2.0);
+  go_forward_specific_distance(0.135);    //forward until wheels come to the side lines
+  //delay(1200);                            //delay to dqtr down
+}
+
+
+void Navigator::discover_inv_junc(int boxDir)
+{
+  if (boxDir == LEFT)
+  {
+    motorGroup->qtr_servo(QTR_UP,2.0);
+    turn(LEFT);
+    place_white_box_in_red_square();
+    motorGroup->qtr_servo(QTR_DOWN,2.0);
+    turn(RIGHT);
+  }
+  else if (boxDir == RIGHT)
+  {
+    motorGroup->qtr_servo(QTR_UP,2.0);
+    turn(RIGHT);
+    place_white_box_in_red_square();
+    motorGroup->qtr_servo(QTR_DOWN,2.0);
+    turn(LEFT); 
+  }
+  //else: go without placing the box
+  go_forward_specific_distance(0.09); //forward until side lines discover
+  discover_path(RIGHT);
+  discover_path(LEFT);
+  go_forward_specific_distance(0.115);  //forward until front line appears to clr sensor
+  discover_path(UP);
+  go_forward_specific_distance(0.02); //forward until wheels come to the side lines
+}
+
+
+void Navigator::visit_inv_junc(int boxDir)
+{
+  //go without placing the box
+  go_forward_specific_distance(0.195); //forward until wheels come to the side lines
+}
+
+void Navigator::visit_normal_junc()
+{
+  go_forward_specific_distance(0.095);
+}
+
+void Navigator::resetVariables()
+{
+  for (int i=0;i<4;i++)
+    boxType[i] = 0;
+  
+  pathState[0] = UNDISCOVERED; 
+  pathState[1] = UNDISCOVERED;
+  pathState[2] = NOTACCESIBLE; //down path is always keep as notaccesible since robot coming from that side
+  pathState[3] = UNDISCOVERED;
+  juncType = UNDISCOVERED;
+}
+
+void Navigator::print_pathState()
+{
+  int state = 0;
+  for (int  i=0;i<4;i++){
+    state = pathState[i];
+    if (state == DISCOVERED) cout<<"DISCOVERED ";
+    else if (state == NOPATH) cout<<"NOPATH ";
+    else if (state == NOTACCESIBLE) cout<<"NOTACCESIBLE ";
+    else if (state == UNDISCOVERED) cout<<"UNDISCOVERED ";
+  }
+  cout<<""<<endl;
+}
+
+
 // void Navigator::one_cell_search()
 // {
-//   //direction , boxPlaceDir = get_dir();
+//   search_done , direction , boxPlaceDir = get_dir(juncType,pathState,boxType);   //need to know we are carrying box
+//   resetVariables();
 //   turn(direction);
 //   while (step(TIME_STEP) != -1)
 //   {
@@ -471,84 +700,35 @@ void Navigator::grab_white_box_from_red_square()
 //     if (is_junction_detected())
 //       break;
 //   }
-//   discover_junction(detectedJunction,boxPlaceDir);
+//   discover_junction(boxPlaceDir,);
+// }
+
+// void Navigator::one_cell_visit()
+// {
+//   //jucType ,direction , boxPlaceDir, whitePatchbox[positionbox ,clr] = get_dir();
+//   turn(direction);
+//   while (step(TIME_STEP) != -1)
+//   {
+//     follow_line(0.0007,0.002,5.5,6.5,7.5);
+//     if (is_junction_detected())
+//       break;
+//   }
+//   discover_junction();
 // }
 
 void Navigator::task()
 {
   int flag = 1;
-  cout<<"in"<<endl;
   delay(500);
   while (step(TIME_STEP) != -1) {
     if (flag==1){
-    //   //turn_right();
-    //   arm_base_move(distArmBase_max);
-    //   arm_grab_box(grabDistGreen,grabDistGreen);
-    //   arm_vertical_move(verticalHighest);
-      flag = 0;
-
-      //grab white box for checking
-      motorGroup->qtr_servo(QTR_UP,2.0);
-      arm_vertical_move(verticalGround);
-      arm_grab_box(0.0,0.0);
-      arm_base_move(distArmBase_mid);
-      arm_grab_box(grabDistBlue,grabDistBlue);
-      arm_vertical_move(verticalHighest);
-      arm_base_move(distArmBase_carry); 
-      motorGroup->qtr_servo(QTR_DOWN,2.0);
-      delay(2000);
-      
-
-      //turn_right();
-
-      /*
-      motorGroup->qtr_servo(QTR_UP,2.0);
-      cout<<sensorGroup->get_colour(CS_LEFT)<<"  "<<sensorGroup->get_colour(CS_RIGHT)<<endl;
-      delay(2000);
-      place_white_box_before_centre();
-      //centering the color boxes
-      delay(5000);
-      detect_box_color_and_centre();
-      delay(5000);
-      grab_white_box_after_centre();*/
-
-      // go_forward_specific_distance(0.115);
-      // cout<<sensorGroup->get_colour(CS_FRONT)<<endl;
-      // go_forward_specific_distance(0.02);
-      // turn_right();
     }
     follow_line(0.0007,0.002,5.5,6.5,7.5);
-  // cout<<sensorGroup->get_digital_value(8) << sensorGroup->get_digital_value(0)
-  //   << sensorGroup->get_digital_value(1) << sensorGroup->get_digital_value(2)
-  //   << sensorGroup->get_digital_value(3)
-  //   << sensorGroup->get_digital_value(4)<< sensorGroup->get_digital_value(5)
-  //   << sensorGroup->get_digital_value(6) << sensorGroup->get_digital_value(7)
-  //   << sensorGroup->get_digital_value(9)<< endl;
     if (is_junction_detected())
-    {
       break;
-    }
-    // motorGroup->qtr_servo(QTR_DOWN,2.0);
-    //arm_base_move(-0.07);
-    //arm_vertical_move(0.03);
-    //int clr = sensorGroup->get_colour(0);
-    //cout<<sensorGroup->get_colour(CS_ARM)<<"  "<<sensorGroup->get_colour(CS_LEFT)<<"  "<<sensorGroup->get_colour(CS_RIGHT)<<"  "<<sensorGroup->get_colour(CS_FRONT)<<endl;
-    //motorGroup->set_velocity(5.0,5.0);
-
-    // cout<<sensorGroup->get_ir_value(8) <<" "<< sensorGroup->get_ir_value(0)<<" "
-    //     << sensorGroup->get_ir_value(1) <<" "<< sensorGroup->get_ir_value(2)<<" "
-    //     << sensorGroup->get_ir_value(3)<<" "
-    //     << sensorGroup->get_ir_value(4)<<" "<< sensorGroup->get_ir_value(5)<<" "
-    //     << sensorGroup->get_ir_value(6) <<" "<< sensorGroup->get_ir_value(7)<<" "
-    //     << sensorGroup->get_ir_value(9)<< endl;
-    //cout<<sensorGroup->get_distance_value(0)<<endl;
-
-    //arm_vertical_move(0);
-    //arm_base_move(0);
-    //arm_grab_box(0.05,0.05);
-    //arm_base_move(0.05);
-  };
-
+  }
+  //discover_junction();
+  visit_junction(COLORED);
 }
 
 void Navigator::test()
@@ -557,4 +737,17 @@ void Navigator::test()
     //cout<<sensorGroup->get_ir_value(0)<<endl;
     go_forward_specific_distance(0.045);
     motorGroup->robot_stop();
+
+  // cout<<sensorGroup->get_digital_value(8) << sensorGroup->get_digital_value(0)
+  //   << sensorGroup->get_digital_value(1) << sensorGroup->get_digital_value(2)
+  //   << sensorGroup->get_digital_value(3)
+  //   << sensorGroup->get_digital_value(4)<< sensorGroup->get_digital_value(5)
+  //   << sensorGroup->get_digital_value(6) << sensorGroup->get_digital_value(7)
+  //   << sensorGroup->get_digital_value(9)<< endl;
+  // cout<<sensorGroup->get_ir_value(8) <<" "<< sensorGroup->get_ir_value(0)<<" "
+  //     << sensorGroup->get_ir_value(1) <<" "<< sensorGroup->get_ir_value(2)<<" "
+  //     << sensorGroup->get_ir_value(3)<<" "
+  //     << sensorGroup->get_ir_value(4)<<" "<< sensorGroup->get_ir_value(5)<<" "
+  //     << sensorGroup->get_ir_value(6) <<" "<< sensorGroup->get_ir_value(7)<<" "
+  //     << sensorGroup->get_ir_value(9)<< endl;
 }

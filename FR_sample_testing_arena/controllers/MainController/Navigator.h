@@ -2,11 +2,51 @@
 #include <webots/Robot.hpp>
 #include "SensorGroup.h"
 #include "MotorGroup.h"
+#include <vector>
 
 using namespace webots;
+using namespace std;
 
 #ifndef NAVIGATOR_H
 #define NAVIGATOR_H
+
+#define UP 0
+#define RIGHT 1
+#define DOWN 2
+#define LEFT 3
+
+#define EN_LEFT 0
+#define EN_RIGH 1
+
+//box type
+#define RED 1
+#define GREEN 2
+#define BLUE 3
+#define WHITE_CLR 4
+#define NO_COLOR 5
+
+//junction state
+#define COLORED 1
+#define WHITE_PATCH 2
+#define INVERTED 3
+#define NORMAL 4
+
+//path state
+#define NOTACCESIBLE -2
+#define NOPATH -1
+#define UNDISCOVERED 0
+#define DISCOVERED 1
+
+//color sensors
+#define CS_ARM 0
+#define CS_LEFT 1
+#define CS_RIGHT 2
+#define CS_FRONT 3
+
+#define SEARCHDONE 0
+#define NEXTDIR 1
+#define CS_RIGHT 2
+#define CS_FRONT 3
 
 #ifdef __cplusplus
 extern "C"
@@ -33,21 +73,38 @@ extern "C"
 
         //void complete_turn(int dir, bool goForward = true);
         void go_forward_specific_distance(double distance);
-        bool is_junction_detected();
+        void discover_junction(int boxPlaceDir = RIGHT);
         double getComDir();
         void turnAng(float angle);
-        void turn_left();
-        void turn_right();
-        void turn_back();
+        void turn(int dir);
 
         void arm_base_move(double target);
         void arm_vertical_move(double target);
         void arm_grab_box(double targetLeft, double targetRight);
-        void detect_box_color_and_centre();
-        void place_white_box_before_centre();
-        void grab_white_box_after_centre();
+
+        bool is_junction_detected();
+        void visit_junction(int junctype , int boxPlaceDir = RIGHT);
+        void discover_path(int side);
+        void discover_white_patch();
+        void visit_white_patch();
+        void discover_inv_junc(int boxDir);
+        void visit_inv_junc(int boxDir);
+        void resetVariables();
+        void visit_normal_junc();
+        void print_pathState();
+
+        //new robot arm functions////
+        void box_search_algo(bool haveBox = true);
+        void place_white_box_before_search();
+        void grab_white_box_after_search();
+        int search_box_color(int level);
+        void centre_box();
+        void arm_parking();
+        void grab_box(int color, int level);
         void place_white_box_in_red_square();
         void grab_white_box_from_red_square();
+        void place_box(int level);
+        void arm_carrying();
 
     private:
         SensorGroup *sensorGroup;
@@ -56,8 +113,6 @@ extern "C"
         int BLACK = 0;
         int WHITE = 1;
 
-        int LEFT = 0;
-        int RIGHT = 1;
         int BACK = 2;
         int FRONT = 4;
         int ARM = 2;    //index of arm servo
@@ -86,27 +141,13 @@ extern "C"
         int LINE_DETECT_LEFT = 8;
         int LINE_DETECT_RIGHT = 9;
 
-        //junction state
-        int COLORED = 1;
-        int WHITE_PATCH = 2;
-        int INVERTED = 3;
-        int NORMAL = 4;
-        //path state
-        int NOTACCESIBLE = -2;
-        int NOPATH = -1;
-        int DISCOVERED = 1;
-        //box type
-        int RED = 1;
-        int GREEN = 2;
-        int BLUE = 3;
-        int WHITE = 4;
+        vector<int> boxType {0,0,0,0};
+        int pathState[4] = {UNDISCOVERED,UNDISCOVERED,NOTACCESIBLE,UNDISCOVERED};   //down path is always keep as notaccesible since robot coming from that side
+        int juncType = UNDISCOVERED;
 
         int detectedJunction = 0;
 
-        int CS_ARM = 0;
-        int CS_LEFT = 1;
-        int CS_RIGHT = 2;
-        int CS_FRONT = 3;
+
 
         float rightIRVal = 0;
         float leftIRVal = 0;
@@ -150,10 +191,10 @@ extern "C"
         const double DELTA_single = 0.001;     //other linear motors
         double distArmBase_max = 0.19;
         double distArmBase_mid = 0.16;  //distance to grab a box
-        double distArmBase_centre = 0.12;   //centre the box in white square
+        double distArmBase_centre = 0.1;   //centre the box in white square
         double distArmBase_min = 0.0;
         double distArmBase_place = 0.01;     //place white box before searching and centering a box
-        double distArmBase_carry = 0.05; 
+        double distArmBase_carry = 0.03; 
         double verticalGround = 0.0;
         //double verticalLowest = ;
         double verticalMiddle = 0.06;   //functions start and ends by placing the gripper

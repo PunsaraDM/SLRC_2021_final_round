@@ -66,8 +66,8 @@ private:
     int BLACK = 0;
     int WHITE = 1;
 
-    int LEFT = 0;
-    int RIGHT = 1;
+    //int LEFT = 0;
+    //int RIGHT = 1;
     int BACK = 2;
     int FRONT = 4;
 

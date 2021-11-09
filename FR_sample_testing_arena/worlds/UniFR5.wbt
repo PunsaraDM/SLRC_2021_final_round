@@ -7,8 +7,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.996612778339616 0.056380117374308945 0.05986862630001459 4.649002465607526
-  position -0.9753746519591908 1.5730101457439996 0.6388229568657077
+  orientation 0.13132610543108028 -0.9881370066390853 -0.07961601687256778 5.1825753178881335
+  position 0.800754955928235 0.21305281593438422 -0.06534926726602108
 }
 DirectionalLight {
   direction 0 -1 0
@@ -127,7 +127,7 @@ DEF Black_Cross Solid {
 DEF Boxes Group {
   children [
     DEF White_Box Solid {
-      translation 0.75 0.02 0.71
+      translation 0.14 0.02 -0.86
       children [
         DEF White_Box Shape {
           appearance PBRAppearance {
@@ -146,7 +146,7 @@ DEF Boxes Group {
       }
     }
     DEF Red_Box Solid {
-      translation 0.75 0.02 0.08
+      translation 0.13 0.02 -0.54
       children [
         DEF Red_Box Shape {
           appearance PBRAppearance {
@@ -164,7 +164,7 @@ DEF Boxes Group {
       physics USE Box_Ph
     }
     DEF Green_Box Solid {
-      translation 0.18 0.02 -0.74
+      translation 0.13 0.06 -0.54
       children [
         DEF Green_Box Shape {
           appearance PBRAppearance {
@@ -182,7 +182,7 @@ DEF Boxes Group {
       physics USE Box_Ph
     }
     DEF Blue_Box Solid {
-      translation 0.12 0.02 -0.34
+      translation 0.14 0.06 -0.78
       children [
         DEF Blue_Box Shape {
           appearance PBRAppearance {
@@ -1283,7 +1283,7 @@ DEF ref Robot {
   controller ""
 }
 Robot {
-  translation -1.17 0.01 0.72
+  translation -0.41 0.01 -0.53
   children [
     DEF RIGHT HingeJoint {
       jointParameters HingeJointParameters {
@@ -2302,7 +2302,7 @@ Robot {
         }
       ]
       endPoint DEF QTR_PANEL Solid {
-        translation 2.706168622523819e-15 -0.1279996141175295 0.11998805549600902
+        translation 4.1772141301521515e-15 -0.12799961411752803 0.11998805549600902
         rotation -0.9999999999999999 0 0 1.5707
         children [
           DEF QTR_SENSORS Transform {

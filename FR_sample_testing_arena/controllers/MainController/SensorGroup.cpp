@@ -220,11 +220,11 @@ int SensorGroup::qtr_read_line()
 
 void SensorGroup::stabilize_encoder(Navigator *follower)
 {
-    if (isnan(get_encoder_val(LEFT)) || isnan(get_encoder_val(RIGHT)) || isnan(get_encoder_val(2)) || isnan(get_encoder_val(3)))    //2,3 for arm and box servos
+    if (isnan(get_encoder_val(EN_LEFT)) || isnan(get_encoder_val(EN_RIGH)) || isnan(get_encoder_val(2)) || isnan(get_encoder_val(3)))    //2,3 for arm and box servos
     {
         while (follower->step(TIME_STEP) != -1)
         {
-            if (!(isnan(get_encoder_val(LEFT)) && isnan(get_encoder_val(RIGHT)) && isnan(get_encoder_val(2)) && isnan(get_encoder_val(3))))
+            if (!(isnan(get_encoder_val(EN_LEFT)) && isnan(get_encoder_val(EN_RIGH)) && isnan(get_encoder_val(2)) && isnan(get_encoder_val(3))))
                 break; //to make sure that encoder dosent return NaN
         }
     }
@@ -303,6 +303,9 @@ int SensorGroup::get_colour(int cam)
     int blueCount = 0;
     int greenCount = 0;
 
+    int mainThresh[4] = {90,180,180,180};
+    int lowerThresh[4] = {35,70,70,70};
+
     for (j = CAM_PIXEL_THRESH ; j < (HEIGHT-CAM_PIXEL_THRESH); j++)
     {
         for (i = CAM_PIXEL_THRESH; i < (WIDTH-CAM_PIXEL_THRESH); i++)
@@ -311,39 +314,44 @@ int SensorGroup::get_colour(int cam)
             bluepix = camera[cam]->imageGetBlue(IMAGE, WIDTH, i, j);
             greenpix = camera[cam]->imageGetGreen(IMAGE, WIDTH, i, j);
 
-            //cout<<redpix<<"  "<<greenpix<<"  "<<bluepix<<"  "<<endl;
+            // if (cam ==0)
+            //     cout<<redpix<<"  "<<greenpix<<"  "<<bluepix<<"  "<<endl;
 
-            if ((redpix > 180) && (bluepix > 180) && (greenpix > 180))
+            if ((redpix > mainThresh[cam]) && (bluepix > mainThresh[cam]) && (greenpix > mainThresh[cam]))
             {
                 whiteCount += 1;
             }
-            else if ((redpix > 180) && (bluepix < 70) && (greenpix < 70))
+            else if ((redpix > mainThresh[cam]) && (bluepix < lowerThresh[cam]) && (greenpix < lowerThresh[cam]))
             {
                 redCount += 1;
             }
-            else if ((redpix < 70) && (bluepix > 180) && (greenpix < 70))
+            else if ((redpix < lowerThresh[cam]) && (bluepix > mainThresh[cam]) && (greenpix < lowerThresh[cam]))
             {
                 blueCount += 1;
             }
-            else if ((redpix < 70) && (bluepix < 70) && (greenpix > 180))
+            else if ((redpix < lowerThresh[cam]) && (bluepix < lowerThresh[cam]) && (greenpix > mainThresh[cam]))
             {
                 greenCount += 1;
             }
 
             if ((whiteCount>20)&&(redCount==0)&&(blueCount==0)&&(greenCount==0)){
                 recentColor = WHITE_CLR;
+                //cout<<"w"<<endl;
                 return WHITE_CLR;
             }
             else if ((whiteCount==0)&&(redCount>20)&&(blueCount==0)&&(greenCount==0)){
                 recentColor = RED;
+                //cout<<"r"<<endl;
                 return RED;
             }
             else if ((whiteCount==0)&&(redCount==0)&&(blueCount>20)&&(greenCount==0)){
                 recentColor = BLUE;
+                //cout<<"b"<<endl;
                 return BLUE;
             }
             else if ((whiteCount==0)&&(redCount==0)&&(blueCount==0)&&(greenCount>20)){
                 recentColor = GREEN;
+                //cout<<"g"<<endl;
                 return GREEN;
             }
         }
