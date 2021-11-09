@@ -108,81 +108,6 @@ void Navigator::follow_line(float Kp, float Kd, float minSpd, float baseSpd, flo
     motorGroup->set_velocity(leftSpeed, rightSpeed);
 }
 
-// void Navigator::follow_line_until_junc_detect_fast()
-// {
-//     int count = DEACCELERATE_COUNT;
-//     while (step(TIME_STEP) != -1)
-//     {
-//         if(sensorGroup->is_junction_detected() == true)
-//             break;
-//         if (count>-1)
-//         {
-//             baseSpeed = CONST_BASE_SPEED - count;
-//             count-=0.5;
-//         }
-//         follow_line(0.001,0.0,7.0,baseSpeed,17.0);
-//     }
-
-// }
-
-// void Navigator::follow_line_until_junc_detect_slow()
-// {
-//     while (step(TIME_STEP) != -1)
-//     {
-//         if(sensorGroup->is_junction_detected() == true)
-//             break;
-//         follow_line(0.01,0.0,2.5,5.0,7.5);
-//     }
-
-// }
-
-// void Navigator::follow_line_until_segment_detect()
-// {
-//     while (step(TIME_STEP) != -1)
-//     {
-//         if(sensorGroup->is_line_segment_detected() == true)
-//             break;
-//         follow_line(0.01,0.0,2.5,5.0,7.5);
-//     }
-
-// }
-
-////////////////////////////////////////////////////////// turns /////////////////////////////////////////////////////////////
-
-// void Navigator::complete_turn(int dir, bool goForward)
-// {
-//     if (goForward == true)
-//     {
-//         go_forward_specific_distance(5.8);
-//     }
-
-//     sensorGroup->stabilize_encoder(this);
-
-//     int sign = 1;
-//     if (dir == LEFT)
-//         sign = -1;
-
-//     double initialLeftENcount = sensorGroup->get_encoder_val(LEFT);
-//     double initialRightENcount = sensorGroup->get_encoder_val(EN_RIGH);
-
-//     double leftCount = initialLeftENcount + (sign * TURN90_EN_COUNT);
-//     double rightCount = initialRightENcount - (sign * TURN90_EN_COUNT);
-
-//     if (dir == BACK)
-//     {
-//         leftCount = initialLeftENcount + TURN180_EN_COUNT;
-//         rightCount = initialRightENcount - TURN180_EN_COUNT;
-//     }
-
-//     motorGroup->set_control_pid(4.5, 0, 0);
-//     motorGroup->set_velocity(10, 10);
-
-//     motorGroup->set_position(leftCount, rightCount);
-
-//     passive_wait(leftCount, rightCount);
-
-//     motorGroup->enable_motor_velocity_control();
-// }
 
 void Navigator::go_forward_specific_distance(double distance)
 {
@@ -418,7 +343,7 @@ void Navigator::arm_carrying() //place the robot arm in the intermediate positio
 
 void Navigator::box_search_algo(bool haveBox)
 { 
-  if (haveBox)
+  if (var[INV_PATCH][BOX_CARRY] == TRUE)
     place_white_box_before_search();  //place the white box before searching and centering a color box
     
   int clr = search_box_color(1);    //seach for a lower box
@@ -426,7 +351,12 @@ void Navigator::box_search_algo(bool haveBox)
   if (clr < 5)  
   {
     cout<<"found lower box"<<endl;
-    boxType[clr-1] = 1 ;    //updates box count
+    boxType[clr-1] = 1 ;    //updates box count and color
+
+    if (clr == 4)                 //updating junction types
+      juncType = WHITE_PATCH;
+    else
+      juncType = COLORED;
   }
   
   if (clr < 3)  
@@ -434,16 +364,17 @@ void Navigator::box_search_algo(bool haveBox)
     clr = search_box_color(2);  //seach for a upper box
     if (clr < 5) 
     { 
-      boxType[clr-1] = 1 ;        //updates box count
+      boxType[clr-1] = 1 ;        //updates box count and color
       cout<<"found upper box"<<endl;
     }
   }
 
   //if white box need to be picked call function
   //currently robot doesnt have a box and next box is a white one
-  //grab_box(WHITE_CLR,1)
+  if ((var[INV_PATCH][BOX_CARRY] == FALSE) and (boxType[WHITE_CLR] == 1))
+    grab_box(WHITE_CLR,LOWER);       //box_carry need to update??
 
-  if (haveBox)
+  if (var[INV_PATCH][BOX_CARRY] == TRUE)
     grab_white_box_after_search();  //grab the white box after searching and centering a color box
 }
 
@@ -497,7 +428,7 @@ void Navigator::place_box(int level)    //at the placement square
   {
     arm_vertical_move(verticalGround);
   }
-  else if (level==2)  //upper level
+  else if (level==2)  //niddle level
   {
     arm_vertical_move(verticalGround+0.04);
   }
@@ -539,7 +470,9 @@ void Navigator::discover_junction(int boxPlaceDir)
     juncType = INVERTED;
     // if inverted and invalid
     // next direction back
-    discover_inv_junc(boxPlaceDir);
+    if (var[INV_PATCH][BOX_CARRY] == TRUE)
+      discover_inv_junc(boxPlaceDir);
+    //else junction will not be descovered. pathStates will be default values and juncType will be INVERTED
     print_pathState();
   }
   else if (((sensorGroup->get_digital_value(LINE_DETECT_LEFT) == WHITE) and (sensorGroup->get_digital_value(QTR_0) == WHITE) and (sensorGroup->get_digital_value(QTR_1) == WHITE) 
@@ -615,18 +548,19 @@ void Navigator::visit_white_patch()
   motorGroup->qtr_servo(QTR_UP,2.0);
   delay(500);
   go_forward_specific_distance(0.1); //forward until side lines discover
-  //to neglect boxes no func call
-  // to grab a box
-  grab_box(GREEN, 2);
+
+  if (var[BOX_GRAB][POSITION] > 0)
+    grab_box(var[BOX_GRAB][COLOR], var[BOX_GRAB][POSITION]);
+  //else to neglect boxes
+
   motorGroup->qtr_servo(QTR_DOWN,2.0);
   go_forward_specific_distance(0.125);    //forward until wheels come to the side lines
-  //delay(1200);                            //delay to dqtr down
 }
 
 
 void Navigator::discover_inv_junc(int boxDir)
 {
-  if (boxDir == LEFT)
+  if (var[INV_PATCH][INV_DIRECTION] == LEFT)
   {
     motorGroup->qtr_servo(QTR_UP,2.0);
     turn(LEFT);
@@ -634,7 +568,7 @@ void Navigator::discover_inv_junc(int boxDir)
     motorGroup->qtr_servo(QTR_DOWN,2.0);
     turn(RIGHT);
   }
-  else if (boxDir == RIGHT)
+  else if (var[INV_PATCH][INV_DIRECTION] == RIGHT)
   {
     motorGroup->qtr_servo(QTR_UP,2.0);
     turn(RIGHT);
@@ -688,32 +622,26 @@ void Navigator::print_pathState()
   cout<<""<<endl;
 }
 
-
-// void Navigator::one_cell_search()
+// void Navigator::one_cell()
 // {
-//   search_done , direction , boxPlaceDir = get_dir(juncType,pathState,boxType);   //need to know we are carrying box
-//   resetVariables();
-//   turn(direction);
+//   var[NAVIGATE_STATE , DIRECTION , INV_PATCH[BOX_CARRY,INV_DIRECTION],JUNC_TYPE, BOX_GRAB[POSITION,COLOR]]= get_dir(juncType,pathState,boxType);   //need to know we are carrying box
+//   turn(var[DIRECTION]);
 //   while (step(TIME_STEP) != -1)
 //   {
 //     follow_line(0.0007,0.002,5.5,6.5,7.5);
 //     if (is_junction_detected())
 //       break;
 //   }
-//   discover_junction(boxPlaceDir,);
-// }
-
-// void Navigator::one_cell_visit()
-// {
-//   //jucType ,direction , boxPlaceDir, whitePatchbox[positionbox ,clr] = get_dir();
-//   turn(direction);
-//   while (step(TIME_STEP) != -1)
+  
+//   if(var[NAVIGATE_STATE] == SEARCH)
 //   {
-//     follow_line(0.0007,0.002,5.5,6.5,7.5);
-//     if (is_junction_detected())
-//       break;
+//     resetVariables();
+//     discover_junction();
 //   }
-//   discover_junction();
+//   else if(var[NAVIGATE_STATE] == FAST)
+//   {
+//     visit_junction(var[JUNC_TYPE]);
+//   }
 // }
 
 void Navigator::task()

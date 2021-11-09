@@ -43,10 +43,26 @@ using namespace std;
 #define CS_RIGHT 2
 #define CS_FRONT 3
 
-#define SEARCHDONE 0
-#define NEXTDIR 1
-#define CS_RIGHT 2
-#define CS_FRONT 3
+#define NAVIGATE_STATE 0
+#define DIRECTION 1
+#define INV_PATCH 2
+#define BOX_CARRY 0
+#define INV_DIRECTION 1
+#define JUNC_TYPE 3
+#define BOX_GRAB 4
+#define POSITION 0
+#define COLOR 1
+
+#define SEARCH 0
+#define FAST 1
+
+#define FALSE 0
+#define TRUE 1
+
+#define NEGLECT 0
+#define LOWER 1
+#define MIDDLE 2
+#define UPPER 3
 
 #ifdef __cplusplus
 extern "C"
@@ -67,11 +83,7 @@ extern "C"
         void delay(int time);
 
         void follow_line(float Kp, float Kd, float minSpd, float baseSpd, float maxSpd);
-        void follow_line_until_junc_detect_fast();
-        //void follow_line_until_junc_detect_slow();
-        //void follow_line_until_segment_detect();
 
-        //void complete_turn(int dir, bool goForward = true);
         void go_forward_specific_distance(double distance);
         void discover_junction(int boxPlaceDir = RIGHT);
         double getComDir();
@@ -141,13 +153,15 @@ extern "C"
         int LINE_DETECT_LEFT = 8;
         int LINE_DETECT_RIGHT = 9;
 
+        vector<vector<int>> var {{0},{0},{0,0},{0},{0,0}};
+
         vector<int> boxType {0,0,0,0};
-        int pathState[4] = {UNDISCOVERED,UNDISCOVERED,NOTACCESIBLE,UNDISCOVERED};   //down path is always keep as notaccesible since robot coming from that side
+        vector<int> pathState {UNDISCOVERED,UNDISCOVERED,NOTACCESIBLE,UNDISCOVERED};   //down path is always keep as notaccesible since robot coming from that side
         int juncType = UNDISCOVERED;
 
         int detectedJunction = 0;
 
-
+        int currentBoxColor = NO_COLOR;
 
         float rightIRVal = 0;
         float leftIRVal = 0;
