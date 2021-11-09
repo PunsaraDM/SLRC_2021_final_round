@@ -7,7 +7,6 @@
 #define RIGHT 1
 #define DOWN 2
 #define LEFT 3
-#define UPWITHOUTWHITE 4
 #define INVALID 5
 
 #define RED 1
@@ -138,7 +137,7 @@ void Robot::travel_maze()
 
         last_direction = direction_to_travel;
 
-        if (direction_to_travel == UPWITHOUTWHITE)
+        if (junction_content_state == INVERTED && has_white)
         {
             has_white = false;
         }
@@ -157,10 +156,6 @@ void Robot::update_robot_position(int direction)
     switch (direction)
     {
     case UP:
-        robot_row += 1;
-        break;
-
-    case UPWITHOUTWHITE:
         robot_row += 1;
         break;
 

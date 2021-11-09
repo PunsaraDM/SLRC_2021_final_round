@@ -33,11 +33,6 @@ extern "C"
         int content_state = NORMAL;
         int found_paths = 0;
         int found_junctions = 0;
-        vector<vector<int>> inverted_chain_parent;
-        vector<vector<int>> inverted_chain_children;
-        int inverted_chain_count = 0;
-        int inverted_dis[2] = {-1,1000};
-        int white_dis[2] = {-1,10000};
         
         void set_paths(int paths[]);
         void set_path(int direction, int state);
@@ -46,7 +41,6 @@ extern "C"
         int get_state();
         void set_state(int state);
         void set_content(vector<int> content);
-        void update_distances(int white[],int inverted[]);
         vector<int> get_content();
 
     private:
