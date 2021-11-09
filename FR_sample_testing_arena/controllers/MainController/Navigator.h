@@ -88,7 +88,7 @@ extern "C"
         void discover_white_patch();
         void visit_white_patch();
         void discover_inv_junc(int boxDir);
-        void visit_inv_junc(int boxDir);
+        void visit_inv_junc();
         void resetVariables();
         void visit_normal_junc();
         void print_pathState();

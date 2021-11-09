@@ -524,7 +524,7 @@ void Navigator::visit_junction(int junctype , int boxPlaceDir)
   if (junctype == NORMAL)
     visit_normal_junc();
   else if (junctype == INVERTED)
-    visit_inv_junc(boxPlaceDir);
+    visit_inv_junc();
   else if ((junctype == WHITE_PATCH) or (junctype == COLORED))
     visit_white_patch();    //need lower or upper box and box color
 }
@@ -570,7 +570,7 @@ void Navigator::discover_junction(int boxPlaceDir)
       juncType = NORMAL;
       discover_path(UP);
       print_pathState();
-      go_forward_specific_distance(0.095);
+      go_forward_specific_distance(0.105);
     }
   }
 }
@@ -607,19 +607,19 @@ void Navigator::discover_white_patch()
   motorGroup->qtr_servo(QTR_DOWN,2.0);
   delay(1200);                            //delay to dqtr down
   discover_path(UP);
-  go_forward_specific_distance(0.02);     //forward until wheels come to the side lines
+  go_forward_specific_distance(0.015);     //forward until wheels come to the side lines
 }
 
 void Navigator::visit_white_patch()
 {
   motorGroup->qtr_servo(QTR_UP,2.0);
   delay(500);
-  go_forward_specific_distance(0.06); //forward until side lines discover
+  go_forward_specific_distance(0.1); //forward until side lines discover
   //to neglect boxes no func call
   // to grab a box
   grab_box(GREEN, 2);
   motorGroup->qtr_servo(QTR_DOWN,2.0);
-  go_forward_specific_distance(0.135);    //forward until wheels come to the side lines
+  go_forward_specific_distance(0.125);    //forward until wheels come to the side lines
   //delay(1200);                            //delay to dqtr down
 }
 
@@ -652,15 +652,15 @@ void Navigator::discover_inv_junc(int boxDir)
 }
 
 
-void Navigator::visit_inv_junc(int boxDir)
+void Navigator::visit_inv_junc()
 {
   //go without placing the box
-  go_forward_specific_distance(0.195); //forward until wheels come to the side lines
+  go_forward_specific_distance(0.226); //forward until wheels come to the side lines
 }
 
 void Navigator::visit_normal_junc()
 {
-  go_forward_specific_distance(0.095);
+  go_forward_specific_distance(0.144);
 }
 
 void Navigator::resetVariables()
@@ -727,8 +727,9 @@ void Navigator::task()
     if (is_junction_detected())
       break;
   }
-  //discover_junction();
-  visit_junction(COLORED);
+  discover_junction();
+  //visit_junction(INVERTED);
+  delay(3000);
 }
 
 void Navigator::test()
