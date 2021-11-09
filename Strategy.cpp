@@ -403,48 +403,63 @@ int find_shortest_path(int col1, int row1, int col2, int row2, Maze maze)
     int *paths = maze.junctions[col1][row1].get_paths();
 
     vector<int> start{col1, row1};
+    vector<int> destination{col2, row2};
     vector<vector<int>> queue{start};
     map<string, int> distance = {
         {key, 0}};
-    map<string, vector<int>> parent = {
-        {key, start}};
-    vector<vector<int>> reverse_queue;
+    map<string, vector<int>> parent = {};
+    //vector<vector<int>> reverse_queue;
     while (queue.size() > 0)
     {
         vector<int> current_junc = queue[0];
         string current_key = to_string(current_junc[0]) + to_string(current_junc[1]);
-        reverse_queue.push_back(current_junc);
+        //reverse_queue.push_back(current_junc);
         queue.erase(queue.begin());
+        int current_dist = distance.find(current_key)->first;
+
         int achievables[4][2] = {{current_junc[0], current_junc[1] + 1},
                                  {current_junc[0] + 1, current_junc[1]},
                                  {current_junc[0], current_junc[1] - 1},
                                  {current_junc[0] - 1, current_junc[1]}};
-        int current_dist = distance.find(current_key)->first;
+
         for (int i = 0; i < 4; i++)
         {
-            int min_dis = 1000;
-            int min_i = 0;
+
             //if the path is discovered and coordinates are acceptable
             if (0 <= achievables[i][0] && achievables[i][0] < COLS and 0 <= achievables[i][1] and achievables[i][1] < ROWS && *(paths + i) == DISCOVERED)
             {
                 vector<int> coord{achievables[i][0], achievables[i][1]};
-                int currentqueue.push_back(coord);
-                int neighbour_key = to_string(achievables[i][0]) + to_string(achievables[i][1]);
-                if (distance.count(neighbour_key))
-                {
-                    if (distance.find(neighbour_key)->first > current_dist + 1)
-                    {
-                        distance.insert(std::pair<string, int>(neighbour_key, current_dist + 1)); //update distance
-                    }
-                }
-                else
+                int queue.push_back(coord);
+                int neighbour_key = to_string(coord[0]) + to_string(coord[1]);
+                if ( !(distance.count(neighbour_key)) )
                 {
                     distance.insert(std::pair<string, int>(neighbour_key, current_dist + 1));
+                    children.insert(std::pair<string, int>(neighbour_key, current_key));
                 }
+
+                if (coord == destination)
+                {
+                    break
+                }
+                    /*if (distance.find(neighbour_key)->first > current_dist + 1)
+                    {
+                        distance.insert(std::pair<string, int>(neighbour_key, current_dist + 1)); //update distance
+                        parent.insert(std::pair<string, int>(neighbour_key, current_key));
+                    }
+                    */
+                
             }
         }
+
+
     }
 
-    // set parent of i
-    //     add min_dis to array return min_dis;
+
+    string destination_key = to_string(destination[0]) + to_string(destination[1]);
+    vector<vector<int>> queue{start};
+
+    while()
+
+
+    return distance.find(destination_key)->first;;
 }
