@@ -21,10 +21,12 @@
 #define DISCOVERED 1
 #define SKIPPATH 2
 
+//CONTENT STATE
 #define COLORED 1
 #define WHITE 2
 #define INVERTED 3
 #define NORMAL 4
+#define INVERTWHITE 5
 
 #define COLS 9
 #define ROWS 7
@@ -42,36 +44,16 @@ static bool compare_col(const vector<int> &v1, const vector<int> &v2)
 
 int Strategy::get_from_priority(vector<int> juncs, int robot, bool is_visited)
 {
-    int dir = 4;
-    if (invert_found)
-    {
-        invert_found = false;
-        dir = invert_dir;
-        int opposite_dir = dir + 2;
-        if (opposite_dir >= 4)
-        {
-            opposite_dir = opposite_dir - 4;
-        }
-        vector<int> newTravel{opposite_dir, invert_col, invert_row};
-        if (robot == LEFT)
-        {
-            robot_left_stack.push_back(newTravel);
-        }
-        else
-        {
-            robot_right_stack.push_back(newTravel);
-        }
-    }
-    else if (is_visited)
-    {
 
+    int dir = INVALID;
+    if (is_visited)
+    {
         vector<vector<int>> stack = robot_right_stack;
         if (robot == LEFT)
         {
             stack = robot_left_stack;
         }
         dir = stack[stack.size() - 1][0];
-
         stack.pop_back();
         if (robot == LEFT)
         {
@@ -100,12 +82,7 @@ int Strategy::get_from_priority(vector<int> juncs, int robot, bool is_visited)
                 break;
             }
         }
-        int opposite_dir = dir + 2;
-        if (opposite_dir >= 4)
-        {
-            opposite_dir = opposite_dir - 4;
-        }
-
+        int opposite_dir = get_opposite_dir(dir);
         vector<int> newTravel{opposite_dir, current_col, current_row};
         if (robot == LEFT)
         {
@@ -120,262 +97,159 @@ int Strategy::get_from_priority(vector<int> juncs, int robot, bool is_visited)
     return dir;
 }
 
-int Strategy::find_next_direction(int robot_col, int robot_row, Maze maze, int last_direction, bool has_white)
+int Strategy::get_backtrack_white(int robot)
 {
-    current_col = robot_col;
-    current_row = robot_row;
-    vector<int> unvisited;
-    vector<int> visited;
-    int achievables[4][2] = {{robot_col, robot_row + 1},
-                             {robot_col + 1, robot_row},
-                             {robot_col, robot_row - 1},
-                             {robot_col - 1, robot_row}};
-
-    //get the discovered paths from the current junction
-    int *paths = maze.junctions[robot_col][robot_row].get_paths();
-
-    //loop for probable locations
-    for (int i = 0; i < 4; i++)
+    bool found = false;
+    int index = 1;
+    int selected = robot_left_missed_inverted[0][2];
+    if (robot_left_missed_inverted.size() > 1)
     {
-        bool invert = false;
-        //handling inverted path
-        if ((maze.junctions[achievables[i][0]][achievables[i][1]].get_state() == VISITEDWITHOUTWHITE && has_white) || (maze.junctions[achievables[i][0]][achievables[i][1]].get_state() == INVERTNEIGHBOUR && has_white))
+        for (int i = 1; i < robot_left_missed_inverted.size(); i++)
         {
-            cout << maze.junctions[achievables[i][0]][achievables[i][1]].get_state() <<"\n";
-            invert = true;
-            invert_found = true;
-            invert_col = achievables[i][0];
-            invert_row = achievables[i][1];
-            invert_dir = i;
-            maze.junctions[achievables[i][0]][achievables[i][1]].set_state(DISCOVERED);
-        }
-
-        //setting invert neigbour
-        if (maze.junctions[achievables[i][0]][achievables[i][1]].get_state() == VISITEDWITHOUTWHITE && !has_white && maze.junctions[robot_col][robot_row].found_junctions == 4)
-        {
-            maze.junctions[robot_col][robot_row].set_state(INVERTNEIGHBOUR);
-            vector<int> coord_parent{achievables[i][0], achievables[i][1]};
-            vector<int> coord_child{achievables[i][0], achievables[i][1]};
-            maze.junctions[robot_col][robot_row].inverted_chain_parent.push_back(coord_parent);
-            maze.junctions[achievables[i][0]][achievables[i][1]].inverted_chain_children.push_back(coord_child);
-        }
-        else if (maze.junctions[achievables[i][0]][achievables[i][1]].get_state() == INVERTNEIGHBOUR && !has_white && maze.junctions[robot_col][robot_row].found_junctions == 4)
-        {
-            maze.junctions[robot_col][robot_row].set_state(INVERTNEIGHBOUR);
-            maze.update_inverted_chain(achievables[i][0], achievables[i][1], robot_col, robot_row);
-        }
-
-        //if the path is discovered and coordinates are acceptable
-        if (0 <= achievables[i][0] && achievables[i][0] < COLS and 0 <= achievables[i][1] and achievables[i][1] < ROWS && *(paths + i) == DISCOVERED)
-        {
-            //if the location is undiscovered push to unvisited queue its index and distance
-            if (maze.junctions[achievables[i][0]][achievables[i][1]].get_state() == UNDISCOVERED || invert)
+            if (robot_left_missed_inverted[i].size() > 2)
             {
-                unvisited.push_back(i);
+                robot_left_missed_inverted[i].pop_back();
             }
-            //if the location is discovered push to visited queue its index and distance and not over yet
-            else if (maze.junctions[achievables[i][0]][achievables[i][1]].get_state() == DISCOVERED)
+            else
             {
-                visited.push_back(i);
+                robot_left_missed_inverted[i].push_back(get_opposite_dir(selected));
             }
         }
     }
 
-    int selected = INVALID;
-
-    cout << "visited"
-         << "\n";
-    for (int i = 0; i < visited.size(); i++)
+    while (!found)
     {
-        cout << visited[i] << "\n";
-    }
-    cout << "unvisited"
-         << "\n";
-    for (int i = 0; i < unvisited.size(); i++)
-    {
-        cout << unvisited[i] << "\n";
-    }
-
-
-    switch (maze.junctions[robot_col][robot_row].content_state)
-    {
-    case COLORED:
-        if (maze.junctions[robot_col][robot_row].get_content().size() > 1)
+        vector<int> path = robot_left_missed_inverted[index];
+        if (path.size() > 2)
         {
-            selected = find_next_direction_colored_with_two(visited, unvisited);
+            found = true;
+            selected = path[path.size() - 1];
+            path.pop_back();
+            robot_left_missed_inverted[index] = path;
+            if (path.size() == 2)
+            {
+                robot_left_missed_inverted.erase(robot_left_missed_inverted.begin() + index);
+            }
+        }
+        index += 1;
+    }
+
+    return selected;
+}
+
+int Strategy::find_next_direction(int robot_col, int robot_row, Maze maze, int robot, int last_direction, bool has_white)
+{
+    if (has_white && ((robot == LEFT && robot_left_missed_inverted.size() > 0) || (robot == RIGHT && robot_right_missed_inverted.size() > 0)))
+    {
+        backtracking_white = true;
+        return get_backtrack_white(robot);
+    }
+
+    else
+    {
+        current_col = robot_col;
+        current_row = robot_row;
+        vector<int> unvisited;
+        vector<int> visited;
+        int achievables[4][2] = {{robot_col, robot_row + 1},
+                                 {robot_col + 1, robot_row},
+                                 {robot_col, robot_row - 1},
+                                 {robot_col - 1, robot_row}};
+
+        //get the discovered paths from the current junction
+        int *paths = maze.junctions[robot_col][robot_row].get_paths();
+
+        //loop for probable locations
+        for (int i = 0; i < 4; i++)
+        {
+            //if the path is discovered and coordinates are acceptable
+            if (0 <= achievables[i][0] && achievables[i][0] < COLS and 0 <= achievables[i][1] and achievables[i][1] < ROWS && *(paths + i) == DISCOVERED)
+            {
+                //if the location is undiscovered push to unvisited queue its index and distance
+                if (maze.junctions[achievables[i][0]][achievables[i][1]].get_state() == UNDISCOVERED)
+                {
+                    unvisited.push_back(i);
+                }
+                //if the location is discovered push to visited queue its index and distance and not over yet
+                else if (maze.junctions[achievables[i][0]][achievables[i][1]].get_state() == DISCOVERED)
+                {
+                    visited.push_back(i);
+                }
+            }
+        }
+
+        int selected = INVALID;
+
+        cout << "visited"
+             << "\n";
+        for (int i = 0; i < visited.size(); i++)
+        {
+            cout << visited[i] << "\n";
+        }
+        cout << "unvisited"
+             << "\n";
+        for (int i = 0; i < unvisited.size(); i++)
+        {
+            cout << unvisited[i] << "\n";
+        }
+
+        if (maze.junctions[robot_col][robot_row].content_state == INVERTED)
+        {
+            if (has_white)
+            {
+                maze.junctions[robot_col][robot_row].content_state = INVERTWHITE;
+            }
+            selected = find_next_direction_inverted(visited, unvisited, robot, has_white);
         }
         else
         {
-            selected = find_next_direction_colored_with_one(visited, unvisited);
+            selected = find_next_direction_normal(visited, unvisited, robot);
         }
-        break;
-    case WHITE:
-        selected = find_next_direction_white(visited, unvisited);
-        break;
-    case INVERTED:
-        selected = find_next_direction_inverted(visited, unvisited, last_direction, has_white);
-        break;
-    case NORMAL:
-        selected = find_next_direction_normal(visited, unvisited);
-        break;
 
-    default:
-        cout << "Invalid content state"
-             << "\n";
-        break;
+        cout << "Selected: " << selected << "\n";
+
+        return selected;
     }
-
-    cout << "Selected: " << selected << "\n";
-
-    return selected;
 }
 
-int Strategy::find_next_direction_normal(vector<int> visited, vector<int> unvisited)
+int Strategy::find_next_direction_normal(vector<int> visited, vector<int> unvisited, int robot)
 {
-    cout << "Normal Junction"
-         << "\n";
     int selected = INVALID;
 
     if (unvisited.size())
     {
-        selected = get_from_priority(unvisited, LEFT, false);
+        selected = get_from_priority(unvisited, robot, false);
     }
     else if (visited.size())
     {
-        selected = get_from_priority(visited, LEFT, true);
+        selected = get_from_priority(visited, robot, true);
     }
     return selected;
 }
 
-int Strategy::find_next_direction_colored_with_one(vector<int> visited, vector<int> unvisited)
+int Strategy::find_next_direction_inverted(vector<int> visited, vector<int> unvisited, int robot, bool has_white)
 {
-    cout << "Colored One Junction"
-         << "\n";
-
-    int selected = INVALID;
-
-    if (unvisited.size())
-    {
-        selected = get_from_priority(unvisited, LEFT, false);
-    }
-    else if (visited.size())
-    {
-        selected = get_from_priority(visited, LEFT, true);
-    }
-    return selected;
-}
-
-//change to next
-int Strategy::find_next_direction_colored_with_two(vector<int> visited, vector<int> unvisited)
-{
-    cout << "Colored Two Junction"
-         << "\n";
-
-    int selected = INVALID;
-
-    if (unvisited.size())
-    {
-        selected = get_from_priority(unvisited, LEFT, false);
-    }
-    else if (visited.size())
-    {
-        selected = get_from_priority(visited, LEFT, true);
-    }
-    return selected;
-}
-
-int Strategy::find_next_direction_inverted(vector<int> visited, vector<int> unvisited, int last_direction, bool has_white)
-{
-    cout << "Inverted Junction"
-         << "\n";
     int selected = INVALID;
 
     if (!has_white)
     {
         selected = robot_left_stack[robot_left_stack.size() - 1][0];
+        vector<int> missed{current_col, current_row};
+        robot_left_missed_inverted.push_back(missed);
         robot_left_stack.pop_back();
     }
     else
     {
-        int straight_dir = last_direction;
-        int back_dir = last_direction + 2;
-        vector<int> perpendicular{last_direction + 1, last_direction - 1};
-        bool existence = false;
-
-        if (back_dir > 3)
-        {
-            back_dir = back_dir - 4;
-        }
-
-        for (int i = 0; i < 2; i++)
-        {
-            if (perpendicular[i] > 3)
-            {
-                perpendicular[i] = 0;
-            }
-            else if (perpendicular[i] < 0)
-            {
-                perpendicular[i] = 3;
-            }
-            if (check_existence(unvisited, perpendicular[i]) || check_existence(visited, perpendicular[i]))
-            {
-                existence = true;
-            }
-        }
-
         if (unvisited.size() > 0)
         {
-            selected = get_from_priority(unvisited, LEFT, false);
-            if (selected == straight_dir)
-            {
-                if (existence)
-                {
-                    selected = straight_dir;
-                }
-                else
-                {
-                    selected = UPWITHOUTWHITE;
-                }
-            }
+            selected = get_from_priority(unvisited, robot, false);
         }
         else
         {
-            selected = get_from_priority(visited, LEFT, true);
-            if (visited.size() > 0)
-            {
-                if (selected == straight_dir)
-                {
-                    if (existence)
-                    {
-                        selected = straight_dir;
-                    }
-                    else
-                    {
-                        selected = back_dir;
-                    }
-                }
-            }
+            selected = get_from_priority(visited, robot, true);
         }
     }
 
-    return selected;
-}
-
-int Strategy::find_next_direction_white(vector<int> visited, vector<int> unvisited)
-{
-    cout << "White Junction"
-         << "\n";
-
-    int selected = INVALID;
-
-    if (unvisited.size())
-    {
-        selected = get_from_priority(unvisited, LEFT, false);
-    }
-    else if (visited.size())
-    {
-        selected = get_from_priority(visited, LEFT, true);
-    }
     return selected;
 }
 
@@ -391,4 +265,35 @@ bool Strategy::check_existence(vector<int> arr, int val)
         }
     }
     return found;
+}
+
+void Strategy::update_missed(int direction, int robot)
+{
+    int opposite_dir = get_opposite_dir(direction);
+    if (robot == LEFT)
+    {
+        for (int i = 0; i < robot_left_missed_inverted.size(); i++)
+        {
+            robot_left_missed_inverted.push_back(opposite_dir);
+        }
+    }
+    else
+    {
+        for (int i = 0; i < robot_right_missed_inverted.size(); i++)
+        {
+            robot_right_missed_inverted.push_back(opposite_dir);
+        }
+    }
+}
+
+int Strategy::get_opposite_dir(int direction)
+{
+
+    int opposite_dir = direction + 2;
+    if (opposite_dir > 3)
+    {
+        opposite_dir = opposite_dir - 4;
+    }
+
+    return opposite_dir;
 }

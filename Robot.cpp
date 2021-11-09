@@ -134,7 +134,7 @@ void Robot::travel_maze()
             maze.update_path(robot_col, robot_row, paths);
         }
 
-        direction_to_travel = strategy.find_next_direction(robot_col, robot_row, maze, last_direction, has_white);
+        direction_to_travel = strategy.find_next_direction(robot_col, robot_row, maze, LEFT, last_direction, has_white);
 
         last_direction = direction_to_travel;
 
