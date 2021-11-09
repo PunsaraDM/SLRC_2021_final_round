@@ -392,3 +392,35 @@ bool Strategy::check_existence(vector<int> arr, int val)
     }
     return found;
 }
+
+find_shortest_path(int col1, int row1, int col2, int row2, Maze maze){
+
+    /*if  in arr{
+        return arr[]
+    }*/
+
+    int *paths = maze.junctions[col1][row1].get_paths();
+
+    int achievables[4][2] = {{col1, row1 + 1},
+                             {col1 + 1, row1},
+                             {col1, row1 - 1},
+                             {col1 - 1, row1}};
+
+    for (int i=0; i<4; i++){
+        int min_dis = 1000;
+        int min_i = 0;
+        //if the path is discovered and coordinates are acceptable
+        if (0 <= achievables[i][0] && achievables[i][0] < COLS and 0 <= achievables[i][1] and achievables[i][1] < ROWS && *(paths + i) == DISCOVERED)
+        {
+            int dis = find_shortest_path(achievables[i][0], achievables[i][1], col2, row2);
+            if (min_dis< dis) {
+                min_dis = dis;
+                min_i = i;
+            }
+        }
+    }
+
+    set parent of i 
+    add min_dis to array
+    return min_dis;
+}
