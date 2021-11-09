@@ -20,8 +20,9 @@ extern "C"
         bool check_existence(vector<int> arr, int val);
         int get_from_priority(vector<int> juncs, int robot, bool is_visited);
         int get_opposite_dir(int direction);
-        void find_shortest_path(int col, int row);
+        int find_shortest_path(int col1, int row1, int col2, int row2);
         int find_visited_next(vector<int> juncs);
+
     private:
         vector<int> shortest_path;
         Maze c_maze;
@@ -31,8 +32,8 @@ extern "C"
         vector<vector<int>> white_locations;
         int current_col;
         int current_row;
-        bool backtracking_white = false; 
-        bool backtracking_invert = false; 
+        bool backtracking_white = false;
+        bool backtracking_invert = false;
     };
 #ifdef __cplusplus
 }

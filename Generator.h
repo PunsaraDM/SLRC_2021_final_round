@@ -28,10 +28,10 @@ extern "C"
     private:
         int min_red_path_count = 10;
         int max_red_path_count = 20;
-        int min_white_junction = 4;
+        int min_white_junction = 6;
         int max_white_junction = 7;
         int min_inverted_junction = 4;
-        int max_inverted_junction = 8;
+        int max_inverted_junction = 5;
         int min_box = 3;
         int max_box = 6;
     };
