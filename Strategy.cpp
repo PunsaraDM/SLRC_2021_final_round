@@ -141,7 +141,7 @@ int Strategy::find_next_direction(int robot_col, int robot_row, Maze maze, int l
         //handling inverted path
         if ((maze.junctions[achievables[i][0]][achievables[i][1]].get_state() == VISITEDWITHOUTWHITE && has_white) || (maze.junctions[achievables[i][0]][achievables[i][1]].get_state() == INVERTNEIGHBOUR && has_white))
         {
-            cout << maze.junctions[achievables[i][0]][achievables[i][1]].get_state() <<"\n";
+            cout << maze.junctions[achievables[i][0]][achievables[i][1]].get_state() << "\n";
             invert = true;
             invert_found = true;
             invert_col = achievables[i][0];
@@ -195,7 +195,6 @@ int Strategy::find_next_direction(int robot_col, int robot_row, Maze maze, int l
     {
         cout << unvisited[i] << "\n";
     }
-
 
     switch (maze.junctions[robot_col][robot_row].content_state)
     {
@@ -393,34 +392,59 @@ bool Strategy::check_existence(vector<int> arr, int val)
     return found;
 }
 
-find_shortest_path(int col1, int row1, int col2, int row2, Maze maze){
-
-    /*if  in arr{
-        return arr[]
-    }*/
+int find_shortest_path(int col1, int row1, int col2, int row2, Maze maze)
+{
+    string key = to_string(col1) + to_string(row1);
+    if (distance_store.count(key))
+    {
+        return distance_store.find(key)->first;
+    }
 
     int *paths = maze.junctions[col1][row1].get_paths();
 
-    int achievables[4][2] = {{col1, row1 + 1},
-                             {col1 + 1, row1},
-                             {col1, row1 - 1},
-                             {col1 - 1, row1}};
-
-    for (int i=0; i<4; i++){
-        int min_dis = 1000;
-        int min_i = 0;
-        //if the path is discovered and coordinates are acceptable
-        if (0 <= achievables[i][0] && achievables[i][0] < COLS and 0 <= achievables[i][1] and achievables[i][1] < ROWS && *(paths + i) == DISCOVERED)
+    vector<int> start{col1, row1};
+    vector<vector<int>> queue{start};
+    map<string, int> distance = {
+        {key, 0}};
+    map<string, vector<int>> parent = {
+        {key, start}};
+    vector<vector<int>> reverse_queue;
+    while (queue.size() > 0)
+    {
+        vector<int> current_junc = queue[0];
+        string current_key = to_string(current_junc[0]) + to_string(current_junc[1]);
+        reverse_queue.push_back(current_junc);
+        queue.erase(queue.begin());
+        int achievables[4][2] = {{current_junc[0], current_junc[1] + 1},
+                                 {current_junc[0] + 1, current_junc[1]},
+                                 {current_junc[0], current_junc[1] - 1},
+                                 {current_junc[0] - 1, current_junc[1]}};
+        int current_dist = distance.find(current_key)->first;
+        for (int i = 0; i < 4; i++)
         {
-            int dis = find_shortest_path(achievables[i][0], achievables[i][1], col2, row2);
-            if (min_dis< dis) {
-                min_dis = dis;
-                min_i = i;
+            int min_dis = 1000;
+            int min_i = 0;
+            //if the path is discovered and coordinates are acceptable
+            if (0 <= achievables[i][0] && achievables[i][0] < COLS and 0 <= achievables[i][1] and achievables[i][1] < ROWS && *(paths + i) == DISCOVERED)
+            {
+                vector<int> coord{achievables[i][0], achievables[i][1]};
+                int currentqueue.push_back(coord);
+                int neighbour_key = to_string(achievables[i][0]) + to_string(achievables[i][1]);
+                if (distance.count(neighbour_key))
+                {
+                    if (distance.find(neighbour_key)->first > current_dist + 1)
+                    {
+                        distance.insert(std::pair<string, int>(neighbour_key, current_dist + 1)); //update distance
+                    }
+                }
+                else
+                {
+                    distance.insert(std::pair<string, int>(neighbour_key, current_dist + 1));
+                }
             }
         }
     }
 
-    set parent of i 
-    add min_dis to array
-    return min_dis;
+    // set parent of i
+    //     add min_dis to array return min_dis;
 }

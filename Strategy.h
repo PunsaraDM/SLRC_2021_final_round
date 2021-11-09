@@ -27,6 +27,8 @@ extern "C"
     private:
         vector<vector<int>> robot_left_stack;
         vector<vector<int>> robot_right_stack;
+        map<string, int> distance_store;  
+
         int current_col;
         int current_row;
         int invert_found = false;
@@ -39,3 +41,5 @@ extern "C"
 #endif
 
 #endif
+        0,1 0,2, 0.4
+0,0 - 
