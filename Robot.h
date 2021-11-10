@@ -31,19 +31,22 @@ extern "C"
     {
     public:
         Robot(int startCol, int startRow, int travel_direction);
-        void travel_maze();
+        vector<vector<int>> travel_maze();
         void travel_direction(int direction);
         int *find_available_directions();
         vector<int> find_junction_content();
         int find_junction_content_state();
         bool check_direction(int dir, int *paths);
         void update_robot_position(int direction);
+        vector<vector<int>> create_next_data_packet();
+        int get_local_direction();
+        int get_invert_box_dir();
 
-    private:
-        Maze maze;
+            private : Maze maze;
         Strategy strategy;
         Generator generator;
         int travel_dir = LEFT;
+        int direction_to_travel = UP;
         int robot_col = 0;
         int robot_row = 0;
         bool isTravelUp = true;

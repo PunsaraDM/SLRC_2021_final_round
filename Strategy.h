@@ -14,6 +14,8 @@ extern "C"
     class Strategy
     {
     public:
+        vector<vector<int>> white_locations;
+
         int find_next_direction(int robot_col, int robot_row, Maze maze, int robot, int last_direction, bool has_white);
         int find_next_direction_normal(vector<int> visited, vector<int> unvisited, int robot);
         int find_distance_to_target_position(int target_col, int target_row, int pos_col, int pos_row);
@@ -26,12 +28,12 @@ extern "C"
     private:
         vector<int> shortest_path;
         Maze c_maze;
-        vector<int> invert_path;
         vector<int> robot_left_stack;
         vector<int> robot_right_stack;
-        vector<vector<int>> white_locations;
-        int current_col;
-        int current_row;
+        int current_col = 0;
+        int current_row = 0;
+        int invert_row = 0;
+        int invert_col = 0;
         bool backtracking_white = false;
         bool backtracking_invert = false;
     };

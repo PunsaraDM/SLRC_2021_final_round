@@ -40,10 +40,14 @@ void Junction::set_path(int direction, int current_state)
         if (paths[direction] == UNDISCOVERED)
         {
             found_paths += 1;
-            found_junctions += 1;
         }
         paths[direction] = current_state;
     }
+}
+
+void Junction::increment_found_junc()
+{
+    found_junctions += 1;
 }
 
 void Junction::set_state(int received)
@@ -75,4 +79,3 @@ vector<int> Junction::get_content()
 {
     return content;
 }
-

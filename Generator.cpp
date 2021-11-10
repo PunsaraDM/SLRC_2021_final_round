@@ -52,8 +52,6 @@ void Generator::initialize()
 void Generator::set_red_paths()
 {
     int red_path_count = rand() % (max_red_path_count - min_red_path_count + 1) + min_red_path_count;
-    cout << "in red paths"
-         << "\n";
     //setup red_paths
     vector<vector<int>> reds;
     for (int i = 0; i < red_path_count; i++)
@@ -129,23 +127,12 @@ void Generator::set_red_paths()
     maze.junctions[0][1].set_path(RIGHT, NOPATH);
     maze.junctions[0][2].set_path(LEFT, NOPATH);
 
-    // cout << "no paths: " << reds.size() << "\n";
-    // for (int i = 0; i < reds.size(); i++)
-    // {
-
-    //     cout << reds[i][0] << "," << reds[i][1] << "," << reds[i][2] << "\n";
-    //     cout << maze.junctions[reds[i][0]][reds[i][1]].get_path(reds[i][2]) << "\n";
-    // }
 }
 
 void Generator::set_white_junctions()
 {
-    cout << "in white junctions"
-         << "\n";
 
     int white_junction_count = rand() % (max_white_junction - min_white_junction + 1) + min_white_junction;
-    cout << "white_junction_count: " << white_junction_count << "\n";
-
     //setup white_junctions
     for (int i = 0; i < white_junction_count; i++)
     {
@@ -155,7 +142,6 @@ void Generator::set_white_junctions()
             int col = rand() % COLS;
             int row = rand() % ROWS;
             int junction_state = maze.junctions[col][row].content_state;
-            // cout << "content_state: " << junction_state<< "\n";
 
             if (junction_state == NORMAL)
             {
@@ -167,9 +153,7 @@ void Generator::set_white_junctions()
 }
 void Generator::set_inverted_junctions()
 {
-    cout << "in inverted junctions"
-         << "\n";
-
+  
     int inverted_junction_count = rand() % (max_inverted_junction - min_inverted_junction + 1) + min_inverted_junction;
 
     for (int i = 0; i < inverted_junction_count; i++)
@@ -193,9 +177,6 @@ void Generator::set_inverted_junctions()
 }
 void Generator::set_color_box_junctions()
 {
-    cout << "in color box"
-         << "\n";
-
     int box_junction_count = rand() % (max_box - min_box + 1) + min_box;
     vector<vector<int>> permutations{{2, 2, 2}, {1, 1, 2, 2}, {1, 1, 1, 1, 2}, {1, 1, 1, 1, 1, 1}};
     vector<int> color_order{RED, RED, GREEN, GREEN, BLUE, BLUE};
@@ -220,7 +201,6 @@ void Generator::set_color_box_junctions()
                 maze.junctions[col][row].set_content(content);
                 color_index += order[i];
                 found = true;
-                cout << col << "," << row << "\n";
             }
         }
     }
@@ -228,8 +208,6 @@ void Generator::set_color_box_junctions()
 
 void Generator::print_maze()
 {
-    cout << "in print maze"
-         << "\n";
     int nopath = 0;
     ofstream myfile;
     myfile.open("maze.txt");
@@ -262,8 +240,6 @@ void Generator::print_maze()
                     }
                     else if (content_state == INVERTED)
                     {
-                        cout << "INV" << j << "," << i
-                             << "\n";
                         myfile << "INV"
                                << " -----"
                                << "\t";
@@ -289,8 +265,6 @@ void Generator::print_maze()
                     }
                     else if (content_state == INVERTED)
                     {
-                        cout << "INV" << j << "," << i
-                             << "\n";
                         myfile << "INV"
                                << " xxxxx"
                                << "\t";
@@ -319,7 +293,6 @@ void Generator::print_maze()
                     //     }
                     // }
 
-                    // cout << j << "," << i << "," << RIGHT << "\n";
                 }
             }
 
@@ -327,9 +300,6 @@ void Generator::print_maze()
                    << "\n";
         }
     }
-
-    cout << "generated test maze"
-         << "\n";
     myfile.close();
 }
 

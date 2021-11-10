@@ -33,6 +33,7 @@ extern "C"
         int content_state = NORMAL;
         int found_paths = 0;
         int found_junctions = 0;
+        bool found_junctions_set = false;
         
         void set_paths(int paths[]);
         void set_path(int direction, int state);
@@ -42,6 +43,7 @@ extern "C"
         void set_state(int state);
         void set_content(vector<int> content);
         vector<int> get_content();
+        void increment_found_junc();
 
     private:
         int paths[4] = {0};

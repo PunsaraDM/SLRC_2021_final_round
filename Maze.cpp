@@ -25,6 +25,12 @@
 
 #define VISITEDWITHOUTWHITE 2
 
+#define COLORED 1
+#define WHITE 2
+#define INVERTED 3
+#define NORMAL 4
+#define INVERTWHITE 5
+
 using namespace std;
 
 //maze following
@@ -95,33 +101,54 @@ void Maze::update_junction(int column, int row, vector<int> content, int junctio
         junc_state = VISITEDWITHOUTWHITE;
     }
 
+    if (junction_content_state == INVERTED && has_white)
+    {
+        junctions[column][row].content_state = INVERTWHITE;
+    }
+
     junctions[column][row].set_state(junc_state);
 }
 
 void Maze::update_path(int column, int row, int paths[])
 {
     junctions[column][row].set_paths(paths);
-
     if (column > 0)
     {
         junctions[column - 1][row].set_path(RIGHT, paths[LEFT]);
+        if (!junctions[column][row].found_junctions_set)
+        {
+            junctions[column - 1][row].increment_found_junc();
+        }
         check_inverted(column - 1, row);
     }
     if (column + 1 < COLS)
     {
         junctions[column + 1][row].set_path(LEFT, paths[RIGHT]);
+        if (!junctions[column][row].found_junctions_set)
+        {
+            junctions[column + 1][row].increment_found_junc();
+        }
         check_inverted(column + 1, row);
     }
     if (row > 0)
     {
         junctions[column][row - 1].set_path(UP, paths[DOWN]);
+        if (!junctions[column][row].found_junctions_set)
+        {
+            junctions[column][row - 1].increment_found_junc();
+        }
         check_inverted(column, row - 1);
     }
     if (row + 1 < ROWS)
     {
         junctions[column][row + 1].set_path(DOWN, paths[UP]);
+        if (!junctions[column][row].found_junctions_set)
+        {
+            junctions[column][row + 1].increment_found_junc();
+        }
         check_inverted(column, row + 1);
     }
+    junctions[column][row].found_junctions_set = true;
 }
 
 string Maze::print_content(vector<int> content)
@@ -157,7 +184,7 @@ string Maze::print_content(vector<int> content)
 
 void Maze::check_inverted(int col, int row)
 {
-    cout << "checking: " << col << "," << row << ":" << junctions[col][row].found_paths << "\n";
+    // cout << "checking: " << col << "," << row << ":" << junctions[col][row].found_paths << "\n";
     if (junctions[col][row].found_paths == 4 && junctions[col][row].get_state() == VISITEDWITHOUTWHITE)
     {
         cout << "resetting state back to discovered"
