@@ -544,7 +544,7 @@ void Navigator::discover_white_patch()
   go_forward_specific_distance(0.015);     //forward until wheels come to the side lines
 }
 
-void Navigator::visit_white_patch()
+void Navigator::visit_white_patch(bool initial)
 {
   motorGroup->qtr_servo(QTR_UP,2.0);
   delay(500);
@@ -555,7 +555,8 @@ void Navigator::visit_white_patch()
   //else to neglect boxes
 
   motorGroup->qtr_servo(QTR_DOWN,2.0);
-  go_forward_specific_distance(0.125);    //forward until wheels come to the side lines
+  if (initial == false)
+    go_forward_specific_distance(0.125);    //forward until wheels come to the side lines
 }
 
 
@@ -623,23 +624,58 @@ void Navigator::print_pathState()
   cout<<""<<endl;
 }
 
+void Navigator::follow_line_until_junc_detect()
+{
+  while (step(TIME_STEP) != -1)
+  {
+    follow_line(0.0007,0.002,5.5,6.5,7.5);
+    if (is_junction_detected())
+      break;
+  }
+}
+
+// void Navigator::goto_placement_cell()
+// {
+//   follow_line_until_junc_detect();
+//   visit_normal_junc();
+//   turn(RIGHT);
+//   follow_line_until_junc_detect();
+
+//   motorGroup->qtr_servo(QTR_UP,2.0);
+//   delay(500);
+//   go_forward_specific_distance(0.1); //forward until side lines discover
+
+//   //place the boxes
+//   motorGroup->qtr_servo(QTR_DOWN,2.0);
+// }
+
+void Navigator::initial_phase()
+{
+  go_forward_specific_distance(0.1);
+  follow_line_until_junc_detect();
+  visit_normal_junc();
+  turn(LEFT);
+  follow_line_until_junc_detect();
+  var[BOX_GRAB][COLOR] = WHITE_CLR;
+  var[BOX_GRAB][POSITION] = LOWER;
+  visit_white_patch(true);
+  turn(DOWN);
+  follow_line_until_junc_detect();
+  visit_normal_junc();
+  turn(LEFT);
+}
+
 // void Navigator::one_cell()
 // {
 //   var[NAVIGATE_STATE , DIRECTION , INV_PATCH[BOX_CARRY,INV_DIRECTION],JUNC_TYPE, BOX_GRAB[POSITION,COLOR]]= get_dir(juncType,pathState,boxType);   //need to know we are carrying box
 //   turn(var[DIRECTION]);
-//   while (step(TIME_STEP) != -1)
-//   {
-//     follow_line(0.0007,0.002,5.5,6.5,7.5);
-//     if (is_junction_detected())
-//       break;
-//   }
-  
+//   follow_line_until_junc_detect();
 //   if(var[NAVIGATE_STATE] == SEARCH)
 //   {
 //     resetVariables();
 //     discover_junction();
 //   }
-//   else if(var[NAVIGATE_STATE] == FAST)
+//   else if(var[NAVIGATE_STATE] == VISIT)
 //   {
 //     visit_junction(var[JUNC_TYPE]);
 //   }
@@ -647,18 +683,15 @@ void Navigator::print_pathState()
 
 void Navigator::task()
 {
-  int flag = 1;
   delay(500);
-  while (step(TIME_STEP) != -1) {
-    if (flag==1){
-    }
-    follow_line(0.0007,0.002,5.5,6.5,7.5);
-    if (is_junction_detected())
-      break;
-  }
+  initial_phase();
+  follow_line_until_junc_detect();
+  resetVariables();
   discover_junction();
-  //visit_junction(INVERTED);
-  delay(3000);
+
+  while (step(TIME_STEP) != -1) {
+    //one_cell();
+  }
 }
 
 void Navigator::test()

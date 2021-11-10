@@ -30,6 +30,7 @@ using namespace std;
 #define WHITE_PATCH 2
 #define INVERTED 3
 #define NORMAL 4
+#define PATCHNOBOX 5
 
 //path state
 #define NOTACCESIBLE -2
@@ -54,7 +55,9 @@ using namespace std;
 #define COLOR 1
 
 #define SEARCH 0
-#define FAST 1
+#define VISIT 1
+#define PLACEMENT 2
+#define FINISH_PLACEMENT 3
 
 #define FALSE 0
 #define TRUE 1
@@ -98,12 +101,16 @@ extern "C"
         void visit_junction(int junctype , int boxPlaceDir = RIGHT);
         void discover_path(int side);
         void discover_white_patch();
-        void visit_white_patch();
+        void visit_white_patch(bool initial = false);
         void discover_inv_junc(int boxDir);
         void visit_inv_junc();
         void resetVariables();
         void visit_normal_junc();
         void print_pathState();
+
+        void follow_line_until_junc_detect();
+        void initial_phase();
+        void one_cell();
 
         //new robot arm functions////
         void box_search_algo(bool haveBox = true);
