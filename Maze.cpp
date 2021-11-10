@@ -109,7 +109,7 @@ void Maze::update_junction(int column, int row, vector<int> content, int junctio
     junctions[column][row].set_state(junc_state);
 }
 
-void Maze::update_path(int column, int row, int paths[])
+void Maze::update_path(int column, int row, vector<int> paths)
 {
     junctions[column][row].set_paths(paths);
     if (column > 0)

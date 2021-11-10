@@ -22,23 +22,22 @@ using namespace std;
 #define INVERTED 3
 #define NORMAL 4
 
-
 #ifdef __cplusplus
 extern "C"
 {
 #endif
-    class Junction 
+    class Junction
     {
     public:
         int content_state = NORMAL;
         int found_paths = 0;
         int found_junctions = 0;
         bool found_junctions_set = false;
-        
-        void set_paths(int paths[]);
+
+        void set_paths(vector<int> paths);
         void set_path(int direction, int state);
         int get_path(int direction);
-        int* get_paths();
+        vector<int> get_paths();
         int get_state();
         void set_state(int state);
         void set_content(vector<int> content);
@@ -46,7 +45,7 @@ extern "C"
         void increment_found_junc();
 
     private:
-        int paths[4] = {0};
+        vector<int> paths{0, 0, 0, 0};
         int state = UNDISCOVERED;
         vector<int> content;
     };

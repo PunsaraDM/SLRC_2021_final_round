@@ -18,7 +18,7 @@
 
 using namespace std;
 
-void Junction::set_paths(int foundPaths[])
+void Junction::set_paths(vector<int> foundPaths)
 {
     for (int i = 0; i < 4; i++)
     {
@@ -65,7 +65,7 @@ int Junction::get_path(int direction)
     return paths[direction];
 }
 
-int *Junction::get_paths()
+vector<int> Junction::get_paths()
 {
     return paths;
 }

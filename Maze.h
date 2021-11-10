@@ -22,7 +22,7 @@ extern "C"
 
         Maze();
         void initialize();
-        void update_path(int column, int row, int paths[]);
+        void update_path(int column, int row, vector<int> paths);
         void update_junction(int column, int row, vector<int> content, int junction_content_state, bool has_white);
         void check_inverted(int col, int row);
         string print_content(vector<int> content);

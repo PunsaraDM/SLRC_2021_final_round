@@ -2,8 +2,8 @@
 #include "Maze.h"
 #include "Generator.h"
 
-#ifndef ROBOT_H
-#define ROBOT_H
+#ifndef PATHFINDER_H
+#define PATHFINDER_H
 
 #define UNDISCOVERED 0
 #define DISCOVERED 1
@@ -27,24 +27,22 @@
 extern "C"
 {
 #endif
-    class Robot
+    class PathFinder
     {
     public:
-        Robot(int startCol, int startRow, int travel_direction);
-        vector<vector<int>> travel_maze();
+        PathFinder(int startCol, int startRow);
+        vector<vector<int>> travel_maze(int juncType, vector<int> path_state, vector<int> box_type);
         void travel_direction(int direction);
-        int *find_available_directions();
-        vector<int> find_junction_content();
+        vector<int> find_junction_content(vector<int> box_type);
         int find_junction_content_state();
-        bool check_direction(int dir, int *paths);
         void update_robot_position(int direction);
         vector<vector<int>> create_next_data_packet();
         int get_local_direction();
         int get_invert_box_dir();
 
-            private : Maze maze;
+    private:
+        Maze maze;
         Strategy strategy;
-        Generator generator;
         int travel_dir = LEFT;
         int direction_to_travel = UP;
         int robot_col = 0;
@@ -52,6 +50,7 @@ extern "C"
         bool isTravelUp = true;
         int last_direction = UP;
         bool has_white = true;
+        bool scan_over = false;
     };
 #ifdef __cplusplus
 }

@@ -205,19 +205,19 @@ int Strategy::find_next_direction(int robot_col, int robot_row, Maze maze, int r
         {
             vector<int> unvisited;
             vector<int> visited;
-            int achievables[4][2] = {{robot_col, robot_row + 1},
-                                     {robot_col + 1, robot_row},
-                                     {robot_col, robot_row - 1},
-                                     {robot_col - 1, robot_row}};
+            vector<vector<int>> achievables{{robot_col, robot_row + 1},
+                                            {robot_col + 1, robot_row},
+                                            {robot_col, robot_row - 1},
+                                            {robot_col - 1, robot_row}};
 
             //get the discovered paths from the current junction
-            int *paths = maze.junctions[robot_col][robot_row].get_paths();
+            vector<int> paths = maze.junctions[robot_col][robot_row].get_paths();
 
             //loop for probable locations
             for (int i = 0; i < 4; i++)
             {
                 //if the path is discovered and coordinates are acceptable
-                if (0 <= achievables[i][0] && achievables[i][0] < COLS and 0 <= achievables[i][1] and achievables[i][1] < ROWS && *(paths + i) == DISCOVERED)
+                if (0 <= achievables[i][0] && achievables[i][0] < COLS and 0 <= achievables[i][1] and achievables[i][1] < ROWS && paths[i] == DISCOVERED)
                 {
                     //if the location is undiscovered push to unvisited queue its index and distance
                     if (maze.junctions[achievables[i][0]][achievables[i][1]].get_state() == UNDISCOVERED)
@@ -311,17 +311,17 @@ int Strategy::find_shortest_path(int col1, int row1, int col2, int row2)
         queue.erase(queue.begin());
         int current_dist = distance.at(current_key);
 
-        int achievables[4][2] = {{current_junc[0], current_junc[1] + 1},
+        vector<vector<int>> achievables{{current_junc[0], current_junc[1] + 1},
                                  {current_junc[0] + 1, current_junc[1]},
                                  {current_junc[0], current_junc[1] - 1},
                                  {current_junc[0] - 1, current_junc[1]}};
-        int *paths = c_maze.junctions[current_junc[0]][current_junc[1]].get_paths();
+        vector<int> paths = c_maze.junctions[current_junc[0]][current_junc[1]].get_paths();
 
         for (int i = 0; i < 4; i++)
         {
 
             //if the path is discovered and coordinates are acceptable
-            if (0 <= achievables[i][0] && achievables[i][0] < COLS and 0 <= achievables[i][1] and achievables[i][1] < ROWS && *(paths + i) == DISCOVERED && (c_maze.junctions[achievables[i][0]][achievables[i][1]].get_state() == DISCOVERED || (achievables[i][0] == col1 && achievables[i][1] == row1)))
+            if (0 <= achievables[i][0] && achievables[i][0] < COLS and 0 <= achievables[i][1] and achievables[i][1] < ROWS && paths[i] == DISCOVERED && (c_maze.junctions[achievables[i][0]][achievables[i][1]].get_state() == DISCOVERED || (achievables[i][0] == col1 && achievables[i][1] == row1)))
             {
                 vector<int> coord{achievables[i][0], achievables[i][1]};
                 string neighbour_key = to_string(coord[0]) + to_string(coord[1]);
