@@ -473,6 +473,8 @@ void Navigator::visit_junction(int junctype)
 
 void Navigator::discover_junction()
 {
+  go_forward_specific_distance(0.005);
+
   if (((sensorGroup->get_digital_value(LINE_DETECT_LEFT) == WHITE) and (sensorGroup->get_digital_value(QTR_0) == WHITE) and (sensorGroup->get_digital_value(LINE_DETECT_RIGHT) == WHITE) 
   and(sensorGroup->get_digital_value(QTR_7) == WHITE)) and((sensorGroup->get_digital_value(QTR_3) == BLACK) or (sensorGroup->get_digital_value(QTR_4) == BLACK)))
   {
@@ -496,7 +498,7 @@ void Navigator::discover_junction()
     //normal juction or a white patch
     discover_path(RIGHT);
     discover_path(LEFT);
-    go_forward_specific_distance(0.04); //forward untill line papsses
+    go_forward_specific_distance(0.035); //forward untill line papsses
 
     if ((sensorGroup->get_digital_value(LINE_DETECT_LEFT) == WHITE) and (sensorGroup->get_digital_value(QTR_0) == WHITE) 
     and (sensorGroup->get_digital_value(QTR_1) == WHITE) and (sensorGroup->get_digital_value(QTR_2) == WHITE) 
@@ -593,7 +595,7 @@ void Navigator::discover_inv_junc(int boxDir)
     turn(LEFT); 
   }
   //else: go without placing the box
-  go_forward_specific_distance(0.095); //forward until side lines discover
+  go_forward_specific_distance(0.09); //forward until side lines discover
   discover_path(RIGHT);
   discover_path(LEFT);
   go_forward_specific_distance(0.115);  //forward until front line appears to clr sensor
