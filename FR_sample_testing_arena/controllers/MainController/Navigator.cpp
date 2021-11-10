@@ -268,7 +268,7 @@ int Navigator::search_box_color(int level)
       {
         int colorBox = sensorGroup->get_colour(0);
         if (colorBox == 1){ //Red box
-          cout<<"RED"<<endl;
+          cout<<"RED BOX"<<endl;
           if (level==1) {
             arm_grab_box(grabDistRed,grabDistRed);
             centre_box(distArmBase_centre_red);
@@ -277,7 +277,7 @@ int Navigator::search_box_color(int level)
           return RED;
         }
         else if (colorBox == 2){ //Green box
-          cout<<"GREEN"<<endl;
+          cout<<"GREEN BOX"<<endl;
           if (level==1) {
             arm_grab_box(grabDistGreen,grabDistGreen);
             centre_box(distArmBase_centre_green);
@@ -286,7 +286,7 @@ int Navigator::search_box_color(int level)
           return GREEN;
         }
         else if (colorBox == 3){ //Blue box
-          cout<<"BLUE"<<endl;
+          cout<<"BLUE BOX"<<endl;
           if (level==1) {
             arm_grab_box(grabDistBlue,grabDistBlue);
             centre_box(distArmBase_centre_blue);
@@ -295,7 +295,7 @@ int Navigator::search_box_color(int level)
           return BLUE;
         }
         else if (colorBox == 4){ //Blue box
-          cout<<"WHITE"<<endl;
+          cout<<"WHITE BOX"<<endl;
           if (level==1) {
             arm_grab_box(grabDistBlue,grabDistBlue);
             centre_box(distArmBase_centre_white);
@@ -375,8 +375,11 @@ void Navigator::box_search_algo(bool haveBox)
   arm_parking();
   //if white box need to be picked call function
   //currently robot doesnt have a box and next box is a white one
-  if ((var[INV_PATCH][BOX_CARRY] == FALSE) and (boxType[WHITE_CLR] == 1))
+  if ((var[INV_PATCH][BOX_CARRY] == FALSE) and (boxType[WHITE_CLR-1] == 1))
+  {
+    cout<<"here"<<endl;
     grab_box(WHITE_CLR,LOWER);       //box_carry need to update??
+  }
 
   if (var[INV_PATCH][BOX_CARRY] == TRUE)
     grab_white_box_after_search();  //grab the white box after searching and centering a color box
@@ -479,11 +482,13 @@ void Navigator::discover_junction(int boxPlaceDir)
     //else junction will not be descovered. pathStates will be default values and juncType will be INVERTED
     print_pathState();
   }
-  else if (((sensorGroup->get_digital_value(LINE_DETECT_LEFT) == WHITE) and (sensorGroup->get_digital_value(QTR_0) == WHITE) and (sensorGroup->get_digital_value(QTR_1) == WHITE) 
-  and (sensorGroup->get_digital_value(QTR_2) == WHITE) and (sensorGroup->get_digital_value(QTR_3) == WHITE)) or 
-  ((sensorGroup->get_digital_value(LINE_DETECT_RIGHT) == WHITE) and (sensorGroup->get_digital_value(QTR_4) == WHITE) and (sensorGroup->get_digital_value(QTR_5) == WHITE) 
-  and (sensorGroup->get_digital_value(QTR_6) == WHITE) and (sensorGroup->get_digital_value(QTR_7) == WHITE)))
+  else if ((sensorGroup->get_digital_value(LINE_DETECT_LEFT) == WHITE) or (sensorGroup->get_digital_value(LINE_DETECT_RIGHT) == WHITE))
   {
+
+  //   (((sensorGroup->get_digital_value(LINE_DETECT_LEFT) == WHITE) and (sensorGroup->get_digital_value(QTR_0) == WHITE) and (sensorGroup->get_digital_value(QTR_1) == WHITE) 
+  // and (sensorGroup->get_digital_value(QTR_2) == WHITE) and (sensorGroup->get_digital_value(QTR_3) == WHITE)) or 
+  // ((sensorGroup->get_digital_value(LINE_DETECT_RIGHT) == WHITE) and (sensorGroup->get_digital_value(QTR_4) == WHITE) and (sensorGroup->get_digital_value(QTR_5) == WHITE) 
+  // and (sensorGroup->get_digital_value(QTR_6) == WHITE) and (sensorGroup->get_digital_value(QTR_7) == WHITE)))
     //normal juction or a white patch
     discover_path(RIGHT);
     discover_path(LEFT);
@@ -509,6 +514,8 @@ void Navigator::discover_junction(int boxPlaceDir)
       print_pathState();
       go_forward_specific_distance(0.105);
     }
+  }else{
+    cout<<"couldnt identify a junction"<<endl;
   }
 }
 
@@ -672,16 +679,18 @@ void Navigator::one_cell()
 {
   //[NAVIGATE_STATE , DIRECTION , INV_PATCH[BOX_CARRY,INV_DIRECTION],JUNC_TYPE, BOX_GRAB[POSITION,COLOR]]
   var = pathFinder->travel_maze(juncType,pathState,boxType);   //need to know we are carrying box
-  turn(var[DIRECTION]);
+  turn(var[DIRECTION][0]);
   follow_line_until_junc_detect();
-  if(var[NAVIGATE_STATE] == SEARCH)
+  if(var[NAVIGATE_STATE][0] == SEARCH)
   {
     resetVariables();
+    cout<<"in discovery state"<<endl;
     discover_junction();
   }
-  else if(var[NAVIGATE_STATE] == VISIT)
+  else if(var[NAVIGATE_STATE][0] == VISIT)
   {
-    visit_junction(var[JUNC_TYPE]);
+    cout<<"in visiting state"<<endl;
+    visit_junction(var[JUNC_TYPE][0]);
   }
 }
 

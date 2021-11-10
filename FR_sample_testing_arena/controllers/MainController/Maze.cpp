@@ -26,7 +26,7 @@
 #define VISITEDWITHOUTWHITE 2
 
 #define COLORED 1
-#define WHITE 2
+#define WHITE_PATCH 2
 #define INVERTED 3
 #define NORMAL 4
 #define INVERTWHITE 5
@@ -88,7 +88,7 @@ void Maze::update_junction(int column, int row, vector<int> content, int junctio
         colored_junctions.push_back(junc);
     }
 
-    else if (junction_content_state == WHITE)
+    else if (junction_content_state == WHITE_PATCH)
     {
         vector<int> junc{column, row};
         white_junctions.push_back(junc);
@@ -96,7 +96,7 @@ void Maze::update_junction(int column, int row, vector<int> content, int junctio
 
     else if (junction_content_state == INVERTED && !has_white)
     {
-        cout << "set to visited without white"
+        cout << "set to visited without WHITE_PATCH"
              << "\n";
         junc_state = VISITEDWITHOUTWHITE;
     }
@@ -155,7 +155,7 @@ string Maze::print_content(vector<int> content)
 {
     string text = "";
 
-    for (int i = 0; i < content.size(); i++)
+    for (size_t i = 0; i < content.size(); i++)
     {
         switch (content[i])
         {

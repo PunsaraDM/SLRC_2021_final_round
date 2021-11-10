@@ -18,7 +18,7 @@ using namespace std;
 #define BLUE 3
 
 #define COLORED 1
-#define WHITE 2
+#define WHITE_PATCH 2
 #define INVERTED 3
 #define NORMAL 4
 

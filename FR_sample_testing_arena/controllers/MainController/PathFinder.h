@@ -38,6 +38,7 @@ extern "C"
         vector<vector<int>> create_next_data_packet();
         int get_local_direction();
         int get_invert_box_dir();
+        vector<int> adjust_path_state_to_global(vector <int> paths);
 
     private:
         Maze maze;

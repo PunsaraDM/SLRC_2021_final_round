@@ -7,8 +7,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.8003752666148403 -0.5815387209614992 -0.14564391032132784 5.676667834969658
-  position -0.3271038713460498 1.6683497014510484 -0.1895014834697575
+  orientation 1 0 0 4.71238898038469
+  position 3.219355880097406 12.98328765032489 -4.647757717149675
 }
 DirectionalLight {
   direction 0 -1 0
@@ -145,8 +145,6 @@ DEF Boxes Group {
       physics DEF Box_Ph Physics {
         density 585
       }
-      linearVelocity 7.307522679682014e-18 -4.7447612262207825e-17 -2.3630355964226717e-17
-      angularVelocity -6.950013926189273e-16 8.793143669394254e-17 -6.950013926189841e-16
     }
     DEF Red_Box Solid {
       translation 0.7500000000225241 0.019941234175999994 0.08000000002252448
@@ -166,8 +164,6 @@ DEF Boxes Group {
       name "Red_Box"
       boundingObject USE Red_Box
       physics USE Box_Ph
-      linearVelocity -1.5695243880682708e-17 4.939697956065923e-21 1.2545187120539547e-17
-      angularVelocity -5.56001114095156e-16 -3.238789029470022e-16 8.340016711426808e-16
     }
     DEF Green_Box Solid {
       translation 0.12000000003180677 0.019952252767999997 -0.5499999999682103
@@ -187,8 +183,6 @@ DEF Boxes Group {
       name "Green_Box"
       boundingObject USE Green_Box
       physics USE Box_Ph
-      linearVelocity 2.128190836910492e-17 -8.435445042237692e-17 3.1252139631114046e-17
-      angularVelocity 9.884464250579854e-15 -2.9463032172273087e-16 -5.417446752718589e-15
     }
     DEF Blue_Box Solid {
       translation 0.1199999994710951 0.059937561311999996 -0.550000000528921
@@ -208,8 +202,6 @@ DEF Boxes Group {
       name "Blue_Box"
       boundingObject USE Blue_Box
       physics USE Box_Ph
-      linearVelocity 1.634252395986318e-16 4.744542840278445e-17 7.796363080055371e-17
-      angularVelocity -4.86500974833239e-15 -1.3744415205166546e-16 -3.475006963094564e-15
     }
   ]
 }
@@ -233,8 +225,6 @@ DEF Boxes_new Group {
       name "Blue_Box(2)"
       boundingObject USE Blue_Box
       physics USE Box_Ph
-      linearVelocity -7.659283830591315e-18 2.3165685954401208e-07 -1.677826404271877e-07
-      angularVelocity -8.389125891203023e-06 4.2763936916079655e-16 2.085004177851406e-15
     }
     DEF Green_Box Solid {
       translation 1.4786984988072553 0.01995176050958297 -4.650106200967451
@@ -254,8 +244,6 @@ DEF Boxes_new Group {
       name "Green_Box(2)"
       boundingObject USE Green_Box
       physics USE Box_Ph
-      linearVelocity 1.3112320514731208e-07 3.842948083506734e-06 -2.4491576621418524e-09
-      angularVelocity -1.224645006131585e-07 -1.4750978301467564e-11 -6.55619577393075e-06
     }
     DEF Red_Box Solid {
       translation 2.11 0.019908184076112643 -3.41
@@ -275,8 +263,6 @@ DEF Boxes_new Group {
       name "Red_Box(2)"
       boundingObject USE Red_Box
       physics USE Box_Ph
-      linearVelocity -9.065713862605893e-17 -4.264262651439795e-08 -6.494361718388992e-17
-      angularVelocity -4.448008912761042e-15 6.330190227772666e-16 3.336006684570779e-15
     }
     DEF White_Box Solid {
       translation 4.62 0.019985308537234084 -3.39
@@ -297,8 +283,6 @@ DEF Boxes_new Group {
       physics DEF Box_Ph Physics {
         density 585
       }
-      linearVelocity -2.1470767956818692e-17 5.286350654466738e-11 -4.146021113415305e-17
-      angularVelocity -2.78000557047565e-15 -8.31351004393334e-17 1.3900027852378262e-15
     }
     DEF White_Box Solid {
       translation 5.98 0.019985308537234084 -5.82
@@ -319,8 +303,6 @@ DEF Boxes_new Group {
       physics DEF Box_Ph Physics {
         density 585
       }
-      linearVelocity -3.014463006918326e-17 5.286350654467197e-11 -7.347158525695074e-17
-      angularVelocity -4.8650097483323904e-15 9.084195580434313e-17 -2.1693674893577825e-30
     }
     DEF White_Box Solid {
       translation 3.99 0.019985308537234087 -6.53
@@ -341,8 +323,6 @@ DEF Boxes_new Group {
       physics DEF Box_Ph Physics {
         density 585
       }
-      linearVelocity -1.3666466837405111e-18 5.2863506544669863e-11 6.650455925531951e-17
-      angularVelocity 3.4750069630945635e-15 8.922248131750997e-17 6.950013926189127e-16
     }
     DEF White_Box Solid {
       translation 4.62 0.019985308537234087 -5.28
@@ -363,8 +343,6 @@ DEF Boxes_new Group {
       physics DEF Box_Ph Physics {
         density 585
       }
-      linearVelocity -8.028858876241848e-17 5.2863506544671414e-11 -2.7581019098633353e-17
-      angularVelocity -6.950013926189133e-16 1.7283614293298274e-16 2.7800055704756524e-15
     }
     DEF White_Box Solid {
       translation 0.84 0.019985308537234084 -4.65
@@ -385,8 +363,6 @@ DEF Boxes_new Group {
       physics DEF Box_Ph Physics {
         density 585
       }
-      linearVelocity 1.1127245664753704e-17 5.286345909924019e-11 2.0193967076157638e-17
-      angularVelocity 6.950013926189155e-16 1.4409301687740057e-16 -1.3900027852378236e-15
     }
     DEF White_Box Solid {
       translation -0.52 0.019985308537234084 -3.47
@@ -407,8 +383,6 @@ DEF Boxes_new Group {
       physics DEF Box_Ph Physics {
         density 585
       }
-      linearVelocity 1.1256015044433966e-17 5.2863506544672086e-11 1.8617788189590475e-17
-      angularVelocity 1.3900027852378252e-15 -1.208556066171923e-16 -1.3900027852378258e-15
     }
     DEF Red_Box Solid {
       translation 3.37 0.019941234148976417 -4.66
@@ -428,8 +402,6 @@ DEF Boxes_new Group {
       name "Red_Box(1)"
       boundingObject USE Red_Box
       physics USE Box_Ph
-      linearVelocity 4.470943266173801e-17 2.1119895955559765e-10 2.7933089092214865e-17
-      angularVelocity 1.11200222819026e-15 1.2289532304069442e-17 -2.2240044563805206e-15
     }
     DEF Green_Box Solid {
       translation 2.1100000000001833 0.05987410301059294 -3.409999999999817
@@ -449,8 +421,6 @@ DEF Boxes_new Group {
       name "Green_Box(1)"
       boundingObject USE Green_Box
       physics USE Box_Ph
-      linearVelocity 8.897533618252283e-17 7.96907138483792e-06 2.0104423686390153e-16
-      angularVelocity 1.596721148170696e-14 -3.3694891765726124e-17 -1.5967211481695017e-14
     }
     DEF Blue_Box Solid {
       translation 1.4800804325046544 0.05993699529502642 -4.6504052595762335
@@ -470,8 +440,6 @@ DEF Boxes_new Group {
       name "Blue_Box(1)"
       boundingObject USE Blue_Box
       physics USE Box_Ph
-      linearVelocity 2.0767992205798486e-07 4.164444715945119e-06 1.5925175595239438e-07
-      angularVelocity 8.20771678360916e-06 -1.4899089467140498e-10 2.7248686771775412e-06
     }
   ]
 }
@@ -15425,7 +15393,7 @@ Robot {
         }
       ]
       endPoint DEF QTR_PANEL Solid {
-        translation 4.98212582300539e-15 -0.12799961411752722 0.11998805549600902
+        translation 5.1486592766991635e-15 -0.12799961411752706 0.11998805549600902
         rotation -0.9999999999999999 0 0 1.5707
         children [
           DEF QTR_SENSORS Transform {
