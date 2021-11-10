@@ -1,6 +1,5 @@
 #include "Strategy.h"
 #include "Maze.h"
-#include "Generator.h"
 
 #ifndef PATHFINDER_H
 #define PATHFINDER_H
@@ -48,7 +47,7 @@ extern "C"
         int robot_col = 0;
         int robot_row = 0;
         bool isTravelUp = true;
-        int last_direction = UP;
+        int last_direction = RIGHT;
         bool has_white = true;
         bool scan_over = false;
     };

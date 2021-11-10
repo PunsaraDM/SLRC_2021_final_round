@@ -3,6 +3,7 @@
 #include "Navigator.h"
 #include "SensorGroup.h"
 #include "MotorGroup.h"
+#include "PathFinder.h"
 #include <math.h>
 #include <cmath>
 #include <bits/stdc++.h>
@@ -16,8 +17,10 @@ Navigator::Navigator()
 {
     sensorGroup = new SensorGroup();
     motorGroup = new MotorGroup();
+    pathFinder = new PathFinder(0,0);
     sensorGroup->initialize(this);
     motorGroup->initialize(this);
+
 }
 
 ////////////////////////////////////////////////////////// delay /////////////////////////////////////////////////////////////////////////
@@ -665,21 +668,22 @@ void Navigator::initial_phase()
   turn(LEFT);
 }
 
-// void Navigator::one_cell()
-// {
-//   var[NAVIGATE_STATE , DIRECTION , INV_PATCH[BOX_CARRY,INV_DIRECTION],JUNC_TYPE, BOX_GRAB[POSITION,COLOR]]= get_dir(juncType,pathState,boxType);   //need to know we are carrying box
-//   turn(var[DIRECTION]);
-//   follow_line_until_junc_detect();
-//   if(var[NAVIGATE_STATE] == SEARCH)
-//   {
-//     resetVariables();
-//     discover_junction();
-//   }
-//   else if(var[NAVIGATE_STATE] == VISIT)
-//   {
-//     visit_junction(var[JUNC_TYPE]);
-//   }
-// }
+void Navigator::one_cell()
+{
+  //[NAVIGATE_STATE , DIRECTION , INV_PATCH[BOX_CARRY,INV_DIRECTION],JUNC_TYPE, BOX_GRAB[POSITION,COLOR]]
+  var = pathFinder->travel_maze(juncType,pathState,boxType);   //need to know we are carrying box
+  turn(var[DIRECTION]);
+  follow_line_until_junc_detect();
+  if(var[NAVIGATE_STATE] == SEARCH)
+  {
+    resetVariables();
+    discover_junction();
+  }
+  else if(var[NAVIGATE_STATE] == VISIT)
+  {
+    visit_junction(var[JUNC_TYPE]);
+  }
+}
 
 void Navigator::task()
 {
@@ -690,7 +694,7 @@ void Navigator::task()
   discover_junction();
 
   while (step(TIME_STEP) != -1) {
-    //one_cell();
+    one_cell();
   }
 }
 

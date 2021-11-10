@@ -2,6 +2,7 @@
 #include <webots/Robot.hpp>
 #include "SensorGroup.h"
 #include "MotorGroup.h"
+#include "PathFinder.h"
 #include <vector>
 
 using namespace webots;
@@ -128,6 +129,7 @@ extern "C"
     private:
         SensorGroup *sensorGroup;
         MotorGroup *motorGroup;
+        PathFinder *pathFinder;
 
         int BLACK = 0;
         int WHITE = 1;

@@ -69,5 +69,5 @@
 null :=
 space := $(null) $(null)
 WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
-CXX_SOURCES = MainController.cpp Navigator.cpp SensorGroup.cpp MotorGroup.cpp
+CXX_SOURCES = MainController.cpp Navigator.cpp SensorGroup.cpp MotorGroup.cpp Maze.cpp Junction.cpp PathFinder.cpp Strategy.cpp
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include
