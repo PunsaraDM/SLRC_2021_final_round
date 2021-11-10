@@ -30,6 +30,7 @@
 #define INVERTED 3
 #define NORMAL 4
 #define INVERTWHITE 5
+#define PATCHNOBOX 6
 
 using namespace std;
 

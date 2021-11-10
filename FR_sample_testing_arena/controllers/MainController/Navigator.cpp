@@ -362,6 +362,10 @@ void Navigator::box_search_algo(bool haveBox)
     else
       juncType = COLORED;
   }
+  else      //didnt found a box
+  {
+    juncType = PATCHNOBOX;
+  }
   
   if (clr < 3)  
   {
@@ -461,9 +465,9 @@ void Navigator::visit_junction(int junctype)
 {
   if (junctype == NORMAL)
     visit_normal_junc();
-  else if (junctype == INVERTED)
+  else if (junctype == INVERTED or junctype == INVERTWHITE)
     visit_inv_junc();
-  else if ((junctype == WHITE_PATCH) or (junctype == COLORED))
+  else if ((junctype == WHITE_PATCH) or (junctype == COLORED) or (junctype == PATCHNOBOX))
     visit_white_patch();    //need lower or upper box and box color
 }
 

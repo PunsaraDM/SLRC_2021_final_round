@@ -31,7 +31,8 @@ using namespace std;
 #define WHITE_PATCH 2
 #define INVERTED 3
 #define NORMAL 4
-#define PATCHNOBOX 5
+#define INVERTWHITE 5
+#define PATCHNOBOX 6        //in discovery state where white patches with no boxes
 
 //path state
 #define NOTACCESIBLE -2

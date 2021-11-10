@@ -6,31 +6,32 @@
 #include <vector>
 #include <algorithm>
 
-//directions
+// directions
 #define UP 0
 #define RIGHT 1
 #define DOWN 2
 #define LEFT 3
 #define INVALID 5
 
-//paths
+// paths
 #define NOTACCESIBLE -2
 #define NOPATH -1
 #define UNDISCOVERED 0
 #define DISCOVERED 1
 #define SKIPPATH 2
 
-//CONTENT STATE
+// CONTENT STATE
 #define COLORED 1
 #define WHITE_PATCH 2
 #define INVERTED 3
 #define NORMAL 4
 #define INVERTWHITE 5
+#define PATCHNOBOX 6
 
 #define COLS 9
 #define ROWS 7
 
-//junctions
+// junctions
 #define VISITEDWITHOUTWHITE 2
 
 #define COLORED 1
@@ -204,21 +205,21 @@ int Strategy::find_next_direction(int robot_col, int robot_row, Maze maze, int r
                                             {robot_col, robot_row - 1},
                                             {robot_col - 1, robot_row}};
 
-            //get the discovered paths from the current junction
+            // get the discovered paths from the current junction
             vector<int> paths = maze.junctions[robot_col][robot_row].get_paths();
 
-            //loop for probable locations
+            // loop for probable locations
             for (int i = 0; i < 4; i++)
             {
-                //if the path is discovered and coordinates are acceptable
+                // if the path is discovered and coordinates are acceptable
                 if (0 <= achievables[i][0] && achievables[i][0] < COLS and 0 <= achievables[i][1] and achievables[i][1] < ROWS && paths[i] == DISCOVERED)
                 {
-                    //if the location is undiscovered push to unvisited queue its index and distance
+                    // if the location is undiscovered push to unvisited queue its index and distance
                     if (maze.junctions[achievables[i][0]][achievables[i][1]].get_state() == UNDISCOVERED)
                     {
                         unvisited.push_back(i);
                     }
-                    //if the location is discovered push to visited queue its index and distance and not over yet
+                    // if the location is discovered push to visited queue its index and distance and not over yet
                     else if (maze.junctions[achievables[i][0]][achievables[i][1]].get_state() == DISCOVERED)
                     {
                         visited.push_back(i);
@@ -227,6 +228,28 @@ int Strategy::find_next_direction(int robot_col, int robot_row, Maze maze, int r
             }
 
             int selected = INVALID;
+
+            cout << "visited"
+
+                 << "\n";
+
+            for (size_t i = 0; i < visited.size(); i++)
+
+            {
+
+                cout << visited[i] << "\n";
+            }
+
+            cout << "unvisited"
+
+                 << "\n";
+
+            for (size_t i = 0; i < unvisited.size(); i++)
+
+            {
+
+                cout << unvisited[i] << "\n";
+            }
 
             if (maze.junctions[robot_col][robot_row].content_state == INVERTED && !has_white)
             {
@@ -322,7 +345,7 @@ int Strategy::find_shortest_path(int col1, int row1, int col2, int row2)
         for (int i = 0; i < 4; i++)
         {
 
-            //if the path is discovered and coordinates are acceptable
+            // if the path is discovered and coordinates are acceptable
             if (0 <= achievables[i][0] && achievables[i][0] < COLS and 0 <= achievables[i][1] and achievables[i][1] < ROWS && paths[i] == DISCOVERED && (c_maze.junctions[achievables[i][0]][achievables[i][1]].get_state() == DISCOVERED || (achievables[i][0] == col1 && achievables[i][1] == row1)))
             {
                 vector<int> coord{achievables[i][0], achievables[i][1]};

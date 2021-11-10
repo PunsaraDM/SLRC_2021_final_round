@@ -19,7 +19,8 @@
 #define WHITE_PATCH 2
 #define INVERTED 3
 #define NORMAL 4
-#define PATCHNOBOX 5
+#define INVERTWHITE 5
+#define PATCHNOBOX 6
 
 //size
 #define COLS 9
@@ -206,13 +207,15 @@ vector<vector<int>> PathFinder::create_next_data_packet()
     {
         navigate_state.push_back(NAVIGATE_STATE_VISITED);
         junc_type[0] = maze.junctions[robot_col][robot_row].content_state;
-        for (size_t i = 0; i < strategy.white_locations.size(); i++)
-        {
-            vector<int> loc = strategy.white_locations[i];
-            if (loc[0] == robot_col && loc[1] == robot_row)
+        if (!has_white){
+            for (size_t i = 0; i < strategy.white_locations.size(); i++)
             {
-                box_grab[1] = WHITE_COL;
-                box_grab[0] = LOWER;
+                vector<int> loc = strategy.white_locations[i];
+                if (loc[0] == robot_col && loc[1] == robot_row)
+                {
+                    box_grab[1] = WHITE_COL;
+                    box_grab[0] = LOWER;
+                }
             }
         }
     }
