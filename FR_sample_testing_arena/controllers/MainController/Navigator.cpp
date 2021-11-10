@@ -332,7 +332,7 @@ void Navigator::centre_box(double distance)  //centre the box
 void Navigator::arm_parking() //place the robot arm in the intermediate position 
 {
   arm_grab_box(grabDist_min,grabDist_min);
-  arm_vertical_move(verticalMiddle);
+  arm_vertical_move(verticalHighest);
   arm_base_move(distArmBase_carry);
 }
 
@@ -369,7 +369,7 @@ void Navigator::box_search_algo(bool haveBox)
       cout<<"found upper box"<<endl;
     }
   }
-
+  arm_parking();
   //if white box need to be picked call function
   //currently robot doesnt have a box and next box is a white one
   if ((var[INV_PATCH][BOX_CARRY] == FALSE) and (boxType[WHITE_CLR] == 1))
