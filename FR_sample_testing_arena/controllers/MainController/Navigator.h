@@ -110,7 +110,7 @@ extern "C"
         void place_white_box_before_search();
         void grab_white_box_after_search();
         int search_box_color(int level);
-        void centre_box();
+        void centre_box(double distance);
         void arm_parking();
         void grab_box(int color, int level);
         void place_white_box_in_red_square();
@@ -205,7 +205,11 @@ extern "C"
         const double DELTA_single = 0.001;     //other linear motors
         double distArmBase_max = 0.19;
         double distArmBase_mid = 0.16;  //distance to grab a box
-        double distArmBase_centre = 0.1;   //centre the box in white square
+        //double distArmBase_centre = 0.1;   //centre the box in white square
+        double distArmBase_centre_red = 0.095;
+        double distArmBase_centre_green = 0.105;
+        double distArmBase_centre_blue = 0.115;
+        double distArmBase_centre_white = 0.115;
         double distArmBase_min = 0.0;
         double distArmBase_place = 0.01;     //place white box before searching and centering a box
         double distArmBase_carry = 0.03; 

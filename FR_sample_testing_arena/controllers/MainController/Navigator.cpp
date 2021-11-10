@@ -268,7 +268,7 @@ int Navigator::search_box_color(int level)
           cout<<"RED"<<endl;
           if (level==1) {
             arm_grab_box(grabDistRed,grabDistRed);
-            centre_box();
+            centre_box(distArmBase_centre_red);
             arm_grab_box(grabDist_min,grabDist_min);
           }
           return RED;
@@ -277,7 +277,7 @@ int Navigator::search_box_color(int level)
           cout<<"GREEN"<<endl;
           if (level==1) {
             arm_grab_box(grabDistGreen,grabDistGreen);
-            centre_box();
+            centre_box(distArmBase_centre_green);
             arm_grab_box(grabDist_min,grabDist_min);
           }
           return GREEN;
@@ -286,7 +286,7 @@ int Navigator::search_box_color(int level)
           cout<<"BLUE"<<endl;
           if (level==1) {
             arm_grab_box(grabDistBlue,grabDistBlue);
-            centre_box();
+            centre_box(distArmBase_centre_blue);
             arm_grab_box(grabDist_min,grabDist_min);
           }
           return BLUE;
@@ -295,7 +295,7 @@ int Navigator::search_box_color(int level)
           cout<<"WHITE"<<endl;
           if (level==1) {
             arm_grab_box(grabDistBlue,grabDistBlue);
-            centre_box();
+            centre_box(distArmBase_centre_white);
             arm_grab_box(grabDist_min,grabDist_min);
           }
           return WHITE_CLR;
@@ -321,11 +321,12 @@ int Navigator::search_box_color(int level)
       arm_base_move(currentDist);
     }
   }
+  return 0;
 }
 
-void Navigator::centre_box()  //centre the box
+void Navigator::centre_box(double distance)  //centre the box
 {
-  arm_base_move(distArmBase_centre);  
+  arm_base_move(distance);  
 }
 
 void Navigator::arm_parking() //place the robot arm in the intermediate position 
@@ -386,19 +387,19 @@ void Navigator::grab_box(int color, int level)
   else if (level==2)  //upper level
     arm_vertical_move(verticalGround+0.04);
   if (color==1){
-    arm_base_move(distArmBase_centre);
+    arm_base_move(distArmBase_centre_red);
     arm_grab_box(grabDistRed,grabDistRed);
   }
   else if (color==2){
-    arm_base_move(distArmBase_centre);
+    arm_base_move(distArmBase_centre_green);
     arm_grab_box(grabDistGreen,grabDistGreen);
   }
   else if (color==3){
-    arm_base_move(distArmBase_centre);
+    arm_base_move(distArmBase_centre_blue);
     arm_grab_box(grabDistBlue,grabDistBlue);
   }
   else if (color==4){
-    arm_base_move(distArmBase_centre);
+    arm_base_move(distArmBase_centre_white);
     arm_grab_box(grabDistBlue,grabDistBlue);
   }
   arm_carrying();
@@ -436,7 +437,7 @@ void Navigator::place_box(int level)    //at the placement square
   {
     arm_vertical_move(verticalGround+0.08);
   }
-  centre_box();
+  //centre_box();
   arm_parking();
 
 }
