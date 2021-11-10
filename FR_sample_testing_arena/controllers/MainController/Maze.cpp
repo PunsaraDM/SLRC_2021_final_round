@@ -89,8 +89,9 @@ void Maze::update_junction(int column, int row, vector<int> content, int junctio
         colored_junctions.push_back(junc);
     }
 
-    else if (junction_content_state == WHITE_PATCH)
+    else if (junction_content_state == WHITE_PATCH && !has_white)
     {
+        junctions[column][row].content_state = PATCHNOBOX;
         vector<int> junc{column, row};
         white_junctions.push_back(junc);
     }

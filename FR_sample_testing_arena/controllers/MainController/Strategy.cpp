@@ -215,7 +215,7 @@ int Strategy::find_next_direction(int robot_col, int robot_row, Maze maze, int r
                 if (0 <= achievables[i][0] && achievables[i][0] < COLS and 0 <= achievables[i][1] and achievables[i][1] < ROWS && paths[i] == DISCOVERED)
                 {
                     // if the location is undiscovered push to unvisited queue its index and distance
-                    if (maze.junctions[achievables[i][0]][achievables[i][1]].get_state() == UNDISCOVERED)
+                    if (maze.junctions[achievables[i][0]][achievables[i][1]].get_state() == UNDISCOVERED || (has_white && maze.junctions[achievables[i][0]][achievables[i][1]].get_state() == VISITEDWITHOUTWHITE))
                     {
                         unvisited.push_back(i);
                     }
