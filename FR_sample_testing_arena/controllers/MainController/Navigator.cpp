@@ -457,7 +457,7 @@ bool Navigator::is_junction_detected()
     return false;
 }
 
-void Navigator::visit_junction(int junctype , int boxPlaceDir)
+void Navigator::visit_junction(int junctype)
 {
   if (junctype == NORMAL)
     visit_normal_junc();
@@ -467,7 +467,7 @@ void Navigator::visit_junction(int junctype , int boxPlaceDir)
     visit_white_patch();    //need lower or upper box and box color
 }
 
-void Navigator::discover_junction(int boxPlaceDir)
+void Navigator::discover_junction()
 {
   if (((sensorGroup->get_digital_value(LINE_DETECT_LEFT) == WHITE) and (sensorGroup->get_digital_value(QTR_0) == WHITE) and (sensorGroup->get_digital_value(LINE_DETECT_RIGHT) == WHITE) 
   and(sensorGroup->get_digital_value(QTR_7) == WHITE)) and((sensorGroup->get_digital_value(QTR_3) == BLACK) or (sensorGroup->get_digital_value(QTR_4) == BLACK)))
@@ -478,7 +478,7 @@ void Navigator::discover_junction(int boxPlaceDir)
     // if inverted and invalid
     // next direction back
     if (var[INV_PATCH][BOX_CARRY] == TRUE)
-      discover_inv_junc(boxPlaceDir);
+      discover_inv_junc(var[INV_PATCH][INV_DIRECTION]);
     //else junction will not be descovered. pathStates will be default values and juncType will be INVERTED
     print_pathState();
   }
@@ -512,7 +512,7 @@ void Navigator::discover_junction(int boxPlaceDir)
       juncType = NORMAL;
       discover_path(UP);
       print_pathState();
-      go_forward_specific_distance(0.105);
+      go_forward_specific_distance(0.102);
     }
   }else{
     cout<<"couldnt identify a junction"<<endl;
@@ -551,22 +551,22 @@ void Navigator::discover_white_patch()
   motorGroup->qtr_servo(QTR_DOWN,2.0);
   delay(1200);                            //delay to dqtr down
   discover_path(UP);
-  go_forward_specific_distance(0.015);     //forward until wheels come to the side lines
+  go_forward_specific_distance(0.019);     //forward until wheels come to the side lines
 }
 
 void Navigator::visit_white_patch(bool initial)
 {
   motorGroup->qtr_servo(QTR_UP,2.0);
   delay(500);
-  go_forward_specific_distance(0.1); //forward until side lines discover
+  go_forward_specific_distance(0.099); //forward until side lines discover
 
   if (var[BOX_GRAB][POSITION] > 0)
     grab_box(var[BOX_GRAB][COLOR], var[BOX_GRAB][POSITION]);
   //else to neglect boxes
 
-  motorGroup->qtr_servo(QTR_DOWN,2.0);
+  motorGroup->qtr_servo(QTR_DOWN,2.0);      //
   if (initial == false)
-    go_forward_specific_distance(0.125);    //forward until wheels come to the side lines
+    go_forward_specific_distance(0.13);    //forward until wheels come to the side lines
 }
 
 
@@ -589,7 +589,7 @@ void Navigator::discover_inv_junc(int boxDir)
     turn(LEFT); 
   }
   //else: go without placing the box
-  go_forward_specific_distance(0.09); //forward until side lines discover
+  go_forward_specific_distance(0.095); //forward until side lines discover
   discover_path(RIGHT);
   discover_path(LEFT);
   go_forward_specific_distance(0.115);  //forward until front line appears to clr sensor
@@ -606,7 +606,7 @@ void Navigator::visit_inv_junc()
 
 void Navigator::visit_normal_junc()
 {
-  go_forward_specific_distance(0.144);
+  go_forward_specific_distance(0.142);
 }
 
 void Navigator::resetVariables()
@@ -640,7 +640,10 @@ void Navigator::follow_line_until_junc_detect()
   {
     follow_line(0.0007,0.002,5.5,6.5,7.5);
     if (is_junction_detected())
+    {
+      motorGroup->robot_stop();
       break;
+    }
   }
 }
 
@@ -705,6 +708,13 @@ void Navigator::task()
   while (step(TIME_STEP) != -1) {
     one_cell();
   }
+
+  // var = {{1},{0},{1,1},{4},{2,2}};
+  // follow_line_until_junc_detect();
+  // resetVariables();
+  // //visit_junction(var[JUNC_TYPE][0]);
+  // discover_junction();
+  // delay(3000);
 }
 
 void Navigator::test()

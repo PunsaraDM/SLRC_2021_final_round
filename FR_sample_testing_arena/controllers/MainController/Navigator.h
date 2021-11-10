@@ -89,7 +89,7 @@ extern "C"
         void follow_line(float Kp, float Kd, float minSpd, float baseSpd, float maxSpd);
 
         void go_forward_specific_distance(double distance);
-        void discover_junction(int boxPlaceDir = RIGHT);
+        void discover_junction();
         double getComDir();
         void turnAng(float angle);
         void turn(int dir);
@@ -99,7 +99,7 @@ extern "C"
         void arm_grab_box(double targetLeft, double targetRight);
 
         bool is_junction_detected();
-        void visit_junction(int junctype , int boxPlaceDir = RIGHT);
+        void visit_junction(int junctype);
         void discover_path(int side);
         void discover_white_patch();
         void visit_white_patch(bool initial = false);
