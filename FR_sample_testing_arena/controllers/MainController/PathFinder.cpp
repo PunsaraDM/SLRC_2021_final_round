@@ -59,20 +59,21 @@ PathFinder::PathFinder(int startCol, int startRow)
     robot_col = startCol;
     robot_row = startRow;
 }
-vector<int> PathFinder::adjust_path_state_to_global(vector <int> paths)
+vector<int> PathFinder::adjust_path_state_to_global(vector<int> paths)
 {
-  vector<int> temp_paths;
-  for (int i =0; i<4;i++){
-    int local_dir = i - last_direction;
-    // cout << "local direction: "
-    //      << "direction_to_travel: " << direction_to_travel << " | last_direction" << direction_to_travel << "\n";
-    if (local_dir < 0)
+    vector<int> temp_paths;
+    for (int i = 0; i < 4; i++)
     {
-        local_dir = 4 + local_dir;
+        int local_dir = i - last_direction;
+        // cout << "local direction: "
+        //      << "direction_to_travel: " << direction_to_travel << " | last_direction" << direction_to_travel << "\n";
+        if (local_dir < 0)
+        {
+            local_dir = 4 + local_dir;
+        }
+        temp_paths.push_back(paths[local_dir]);
     }
-    temp_paths.push_back(paths[local_dir]);
-  }
-  return temp_paths;
+    return temp_paths;
 }
 
 void PathFinder::travel_direction(int direction)
@@ -126,14 +127,14 @@ vector<vector<int>> PathFinder::travel_maze(int juncType, vector<int> path_state
     vector<int> paths;
     int junction_content_state;
     vector<int> junction_content;
-    
+    bool white_box = has_white;
 
     //get available directions from the current position
     if (maze.junctions[robot_col][robot_row].get_state() != DISCOVERED)
     {
         if (juncType == WHITE_PATCH)
         {
-            has_white = true;
+            white_box = true;
         }
         paths = adjust_path_state_to_global(path_state);
         junction_content_state = juncType;
@@ -143,7 +144,7 @@ vector<vector<int>> PathFinder::travel_maze(int juncType, vector<int> path_state
     {
         if (maze.junctions[robot_col][robot_row].content_state == WHITE_PATCH)
         {
-            has_white = true;
+            white_box = true;
         }
         junction_content_state = maze.junctions[robot_col][robot_row].content_state;
         paths = maze.junctions[robot_col][robot_row].get_paths();
@@ -163,10 +164,11 @@ vector<vector<int>> PathFinder::travel_maze(int juncType, vector<int> path_state
 
     if (junction_content_state == INVERTED && has_white)
     {
-        has_white = false;
+        white_box = false;
     }
 
     travel_direction(direction_to_travel);
+    has_white = white_box;
     cout << "has box: " << has_white << '\n';
 
     update_robot_position(direction_to_travel);
@@ -199,7 +201,7 @@ vector<vector<int>> PathFinder::create_next_data_packet()
     vector<int> inv_patch{has_white, get_invert_box_dir()};
     vector<int> junc_type{NORMAL};
     vector<int> box_grab{NEGLECT, NOCOLOR};
-    cout<<robot_col<<" "<<robot_row<<endl;
+    cout << robot_col << " " << robot_row << endl;
     if (maze.junctions[robot_col][robot_row].get_state() == DISCOVERED)
     {
         navigate_state.push_back(NAVIGATE_STATE_VISITED);
@@ -242,7 +244,7 @@ int PathFinder::get_local_direction()
 int PathFinder::get_invert_box_dir()
 {
     int dir = RIGHT;
-    if (robot_col == 0 && direction_to_travel == 2 || robot_col == COLS - 1 && direction_to_travel == 0 || robot_row == 0 && direction_to_travel == 1 || robot_row == ROWS - 1 && direction_to_travel == 3)
+    if ((robot_col == 0 && direction_to_travel == 2) || (robot_col == COLS - 1 && direction_to_travel == 0) || (robot_row == 0 && direction_to_travel == 1) || (robot_row == ROWS - 1 && direction_to_travel == 3))
     {
         dir = LEFT;
     }
