@@ -191,40 +191,47 @@ vector<vector<int>> PathFinder::search_maze(int juncType, vector<int> path_state
         maze.update_path(robot_col, robot_row, paths);
     }
 
-    direction_to_travel = strategy.find_next_direction(robot_col, robot_row, maze, LEFT, last_direction, has_white);
-
-    if (junction_content_state == INVERTED && has_white)
-    {
-        white_box = false;
-    }
-
-    travel_direction(direction_to_travel);
-    has_white = white_box;
-    cout << "has box: " << has_white << '\n';
-
-    update_robot_position(direction_to_travel);
-    packet = create_next_data_packet();
-    cout << "data packet: "
-         << "\n";
-    for (size_t i = 0; i < packet.size(); i++)
-    {
-        for (size_t j = 0; j < packet[i].size(); j++)
-        {
-            cout << packet[i][j] << " | ";
-        }
-        cout << "\n";
-    }
-    cout << "------------------------"
-         << "\n";
-    last_direction = direction_to_travel;
     if (maze.discovered == 6)
     {
         cout << "over"
              << "\n";
         scan_over = true;
+        pick_strategy.left_start_col = robot_col;
+        pick_strategy.left_start_row = robot_row;
         pick_strategy.initialize(maze);
+        return travel_with_color();
     }
-    return packet;
+    else
+    {
+
+        direction_to_travel = strategy.find_next_direction(robot_col, robot_row, maze, LEFT, last_direction, has_white);
+
+        if (junction_content_state == INVERTED && has_white)
+        {
+            white_box = false;
+        }
+
+        travel_direction(direction_to_travel);
+        has_white = white_box;
+        cout << "has box: " << has_white << '\n';
+
+        update_robot_position(direction_to_travel);
+        packet = create_next_data_packet();
+        cout << "data packet: "
+             << "\n";
+        for (size_t i = 0; i < packet.size(); i++)
+        {
+            for (size_t j = 0; j < packet[i].size(); j++)
+            {
+                cout << packet[i][j] << " | ";
+            }
+            cout << "\n";
+        }
+        cout << "------------------------"
+             << "\n";
+        last_direction = direction_to_travel;
+        return packet;
+    }
 }
 
 vector<vector<int>> PathFinder::create_next_data_packet()
