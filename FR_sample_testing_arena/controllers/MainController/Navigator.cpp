@@ -433,25 +433,67 @@ void Navigator::grab_white_box_from_red_square()
   arm_base_move(distArmBase_carry); 
 }
 
-void Navigator::place_box(int level)    //at the placement square
+void Navigator::place_box(int color)    //at the placement square
 {
-  if (level==1) //lower level
-  {
+  if (color==RED){
+    arm_base_move(0.1512);
     arm_vertical_move(verticalGround);
+    arm_grab_box(grabDist_min,grabDist_min);  //release the box
   }
-  else if (level==2)  //niddle level
-  {
-    arm_vertical_move(verticalGround+0.04);
+  else if (color==GREEN){
+    arm_base_move(0.0512);
+    arm_vertical_move(verticalGround);
+    arm_grab_box(0.0232,0.1432);  //release the box
+    arm_grab_box(grabDist_min,0.1232+0.02);
   }
-  else if (level==3)  //upper level
-  {
-    arm_vertical_move(verticalGround+0.08);
-  }
-  //centre_box();
-  arm_parking();
-
+  else if (color==BLUE){
+    arm_base_move(0.0512);
+    arm_vertical_move(verticalGround);
+    arm_grab_box(0.1632,0.0232);  //release the box
+    arm_grab_box(0.1632-0.02,grabDist_min);
+  }  
+  arm_carrying();
+  arm_grab_box(grabDist_min,grabDist_min);
 }
 
+void Navigator::final_stack_box(int color,int row)    //at the placement square
+{
+  //function calls after go_forward_specific_distance(0.099);
+  if (color==GREEN){
+    if (row==2)
+      go_forward_specific_distance(-0.01);
+    arm_base_move(0.0510);
+    arm_grab_box(0.0232-0.01,0.1432-0.01); 
+    arm_vertical_move(verticalGround);
+    arm_grab_box(0.0232,0.1432);  
+    arm_grab_box(grabDistGreen,grabDistGreen);
+    arm_vertical_move(verticalHighest);
+    if (row==2)
+      go_forward_specific_distance(0.01);
+    arm_base_move(0.1512+0.01);
+    arm_vertical_move(verticalGround+0.04);
+    arm_grab_box(grabDist_min,grabDist_min);
+    
+  }
+  else if (color==BLUE){
+      if (row==2)
+        go_forward_specific_distance(-0.01);
+    arm_base_move(0.0510);
+    arm_grab_box(0.1632-0.01,0.0232-0.01);  
+    arm_vertical_move(verticalGround);
+    arm_grab_box(0.1632,0.0232);
+    arm_grab_box(grabDistBlue,grabDistBlue);
+    arm_vertical_move(verticalHighest);
+    if (row==2)
+      go_forward_specific_distance(0.01);
+    arm_base_move(0.1512+0.02);
+    arm_vertical_move(verticalGround+0.08);
+    arm_grab_box(grabDist_min,grabDist_min);
+    
+  }  
+  arm_carrying();
+  arm_grab_box(grabDist_min,grabDist_min);
+}
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool Navigator::is_junction_detected()
 {
@@ -706,19 +748,26 @@ void Navigator::one_cell()
 void Navigator::task()
 {
   delay(500);
-  initial_phase();
-  follow_line_until_junc_detect();
-  resetVariables();
-  discover_junction();
-
-  while (step(TIME_STEP) != -1) {
-    one_cell();
-  }
-
-  // var = {{1},{0},{1,1},{4},{2,2}};
+  // initial_phase();
   // follow_line_until_junc_detect();
   // resetVariables();
-  // //visit_junction(var[JUNC_TYPE][0]);
+  // discover_junction();
+
+  // while (step(TIME_STEP) != -1) {
+  //   one_cell();
+  // }
+
+  // var = {{1},{0},{1,1},{4},{2,2}};
+  arm_carrying();
+  arm_grab_box(grabDistBlue,grabDistBlue);
+  follow_line_until_junc_detect();
+  delay(5000);
+  motorGroup->qtr_servo(QTR_UP,2.0);
+  delay(2000);
+  go_forward_specific_distance(0.099);  //0.089 , 0.099
+  final_stack_box(GREEN,2);
+  final_stack_box(BLUE,1);
+  // resetVariables();  // //visit_junction(var[JUNC_TYPE][0]);
   // discover_junction();
   // delay(3000);
 }
