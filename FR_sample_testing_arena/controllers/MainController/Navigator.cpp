@@ -130,6 +130,24 @@ void Navigator::go_forward_specific_distance(double distance)
 
 }
 
+void Navigator::go_backward_specific_distance(double distance)
+{
+  //sensorGroup->stabilize_encoder(this);
+
+  double initialLeftENcount = sensorGroup->get_encoder_val(EN_LEFT);
+  double initialRightENcount = sensorGroup->get_encoder_val(EN_RIGH);
+
+  //motorGroup->set_control_pid(8, 0, 0);
+  double angle = distance/WHEEL_RADIUS;
+
+  motorGroup->set_position(initialLeftENcount - angle, initialRightENcount - angle);
+  motorGroup->set_velocity(7.5, 7.5);
+
+  passive_wait_wheel(initialLeftENcount - angle, initialRightENcount - angle);
+  motorGroup->enable_motor_velocity_control();
+
+}
+
 //Function to get the initial postion by number of 90's from north
 double Navigator::getComDir(){
   const double *cVals = sensorGroup->get_compass_value();
@@ -355,7 +373,7 @@ void Navigator::box_search_algo(bool haveBox)
   if (clr < 5)  
   {
     cout<<"found lower box"<<endl;
-    boxType[clr-1] = 1 ;    //updates box count and color
+    boxType[LOWER-1] = clr ;    //updates box count and color
 
     if (clr == 4)                 //updating junction types
       juncType = WHITE_PATCH;
@@ -372,16 +390,16 @@ void Navigator::box_search_algo(bool haveBox)
     clr = search_box_color(2);  //seach for a upper box
     if (clr < 5) 
     { 
-      boxType[clr-1] = 1 ;        //updates box count and color
+      boxType[MIDDLE-1] = clr ;        //updates box count and color
       cout<<"found upper box"<<endl;
     }
   }
   arm_parking();
   //if white box need to be picked call function
   //currently robot doesnt have a box and next box is a white one
-  if ((var[INV_PATCH][BOX_CARRY] == FALSE) and (boxType[WHITE_CLR-1] == 1))
+  if ((var[INV_PATCH][BOX_CARRY] == FALSE) and (boxType[LOWER-1] == WHITE_CLR))
   {
-    cout<<"here"<<endl;
+    cout<<"grabbed a white box while in discovery satate."<<endl;
     grab_box(WHITE_CLR,LOWER);       //box_carry need to update??
   }
 
@@ -413,6 +431,7 @@ void Navigator::grab_box(int color, int level)
     arm_grab_box(grabDistBlue,grabDistBlue);
   }
   arm_carrying();
+  carryingBox = color;            //is this the proper place??
 }
 
 void Navigator::place_white_box_in_red_square()
@@ -659,7 +678,7 @@ void Navigator::visit_normal_junc()
 
 void Navigator::resetVariables()
 {
-  for (int i=0;i<4;i++)
+  for (int i=0;i<2;i++)
     boxType[i] = 0;
   
   pathState[0] = UNDISCOVERED; 
@@ -695,20 +714,44 @@ void Navigator::follow_line_until_junc_detect()
   }
 }
 
-// void Navigator::goto_placement_cell()
-// {
-//   follow_line_until_junc_detect();
-//   visit_normal_junc();
-//   turn(RIGHT);
-//   follow_line_until_junc_detect();
+void Navigator::goto_placement_cell_last_box()
+{
+  follow_line_until_junc_detect();
+  visit_normal_junc();
+  turn(RIGHT);
+  follow_line_until_junc_detect();
 
-//   motorGroup->qtr_servo(QTR_UP,2.0);
-//   delay(500);
-//   go_forward_specific_distance(0.1); //forward until side lines discover
+  motorGroup->qtr_servo(QTR_UP,2.0);
+  delay(500);
+  go_forward_specific_distance(0.099); 
 
-//   //place the boxes
-//   motorGroup->qtr_servo(QTR_DOWN,2.0);
-// }
+  //place the boxes
+  go_backward_specific_distance(0.15);
+  motorGroup->qtr_servo(QTR_DOWN,2.0);
+  turn(BACK);
+  follow_line_until_junc_detect();
+  visit_normal_junc();
+  turn(LEFT);               //after this oncell need to be called to reach the (0,0) cell
+}
+
+void Navigator::goto_placement_cell()
+{
+  visit_normal_junc();
+  turn(RIGHT);
+  follow_line_until_junc_detect();
+
+  motorGroup->qtr_servo(QTR_UP,2.0);
+  delay(500);
+  go_forward_specific_distance(0.099); 
+
+  //place the boxes (carryingBox);
+  carryingBox = NO_COLOR;
+  go_backward_specific_distance(0.15);
+  motorGroup->qtr_servo(QTR_DOWN,2.0);
+  turn(BACK);
+  follow_line_until_junc_detect();
+  visit_normal_junc();          
+}
 
 void Navigator::initial_phase()
 {
@@ -724,6 +767,7 @@ void Navigator::initial_phase()
   follow_line_until_junc_detect();
   visit_normal_junc();
   turn(LEFT);
+  follow_line_until_junc_detect();
 }
 
 void Navigator::one_cell()
@@ -743,6 +787,18 @@ void Navigator::one_cell()
     cout<<"in visiting state"<<endl;
     visit_junction(var[JUNC_TYPE][0]);
   }
+  else if(var[NAVIGATE_STATE][0] == PLACEMENT)
+  {
+    cout<<"in PLACEMENT state"<<endl;
+    goto_placement_cell();
+  }
+  else if(var[NAVIGATE_STATE][0] == FINISH_PLACEMENT)
+  {
+    cout<<"in FINISH_PLACEMENT state"<<endl;
+    goto_placement_cell_last_box();
+    cout<<"TASK COMPLETED"<<endl;
+    taskCompleted = true;
+  }
 }
 
 void Navigator::task()
@@ -753,9 +809,11 @@ void Navigator::task()
   // resetVariables();
   // discover_junction();
 
-  // while (step(TIME_STEP) != -1) {
-  //   one_cell();
-  // }
+  while (step(TIME_STEP) != -1) {
+    one_cell();
+    if (taskCompleted)
+      break;
+  }
 
   // var = {{1},{0},{1,1},{4},{2,2}};
   arm_carrying();
