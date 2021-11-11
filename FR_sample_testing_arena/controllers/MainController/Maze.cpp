@@ -90,15 +90,16 @@ void Maze::update_junction(int column, int row, vector<int> content, int junctio
     {
         vector<int> junc{column, row};
         int count = 0;
-        for (size_t i = 0; i < 2; i++)
+        for (int i = 1; i > -1; i--)
         {
+            vector<int> colored_context{column, row, content[i]};
             if (RED <= content[i] && content[i] <= BLUE)
             {
                 count += 1;
+                colored_sequential.push_back(colored_context);
             }
         }
         discovered += count;
-        cout <<"current discovered count: " << discovered <<"\n";
 
         for (size_t i = 0; i < 2; i++)
         {

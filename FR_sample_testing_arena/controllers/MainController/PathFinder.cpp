@@ -110,33 +110,47 @@ void PathFinder::travel_direction(int direction)
     }
 }
 
-//returns the array of content in the junction
-vector<int> PathFinder::find_junction_content(vector<int> box_type)
-{
-    vector<int> content;
-    for (size_t i = 0; i < box_type.size(); i++)
-    {
-        int num = box_type[i];
-        for (int j = 0; j < num; j++)
-        {
-            content.push_back(i + 1);
-        }
-    }
-    return content;
-}
 vector<vector<int>> PathFinder::travel_maze(int juncType, vector<int> path_state, vector<int> box_type)
 {
     if (!scan_over)
     {
+        cout << "junc content color received:"
+             << "\n";
+        for (size_t i = 0; i < 2; i++)
+        {
+            cout << box_type[i] << "\n";
+        }
         return search_maze(juncType, path_state, box_type);
     }
-    else{
-        cout << "scan over" <<"\n";
-        cout << "visited: " << maze.visited << "\n";
-        cout << "discovered: " << maze.discovered << "\n";
-        cout << "scan over" <<"\n";
+    else
+    {
+        return travel_with_color();
     }
 }
+
+vector<vector<int>> PathFinder::travel_with_color()
+{
+    vector<vector<int>> packet;
+    cout << "robot: (" << robot_col << "," << robot_row << ")\n";
+    direction_to_travel = pick_strategy.find_next_direction_pick(robot_col, robot_row, LEFT, maze);
+    update_robot_position(direction_to_travel);
+    packet = create_next_data_packet();
+    cout << "data packet: "
+         << "\n";
+    for (size_t i = 0; i < packet.size(); i++)
+    {
+        for (size_t j = 0; j < packet[i].size(); j++)
+        {
+            cout << packet[i][j] << " | ";
+        }
+        cout << "\n";
+    }
+    cout << "------------------------"
+         << "\n";
+    last_direction = direction_to_travel;
+    return packet;
+}
+
 //juncType,pathState,boxType
 vector<vector<int>> PathFinder::search_maze(int juncType, vector<int> path_state, vector<int> box_type)
 {
@@ -155,7 +169,7 @@ vector<vector<int>> PathFinder::search_maze(int juncType, vector<int> path_state
         }
         paths = adjust_path_state_to_global(path_state);
         junction_content_state = juncType;
-        junction_content = find_junction_content(box_type);
+        junction_content = box_type;
     }
     else
     {
@@ -205,7 +219,10 @@ vector<vector<int>> PathFinder::search_maze(int juncType, vector<int> path_state
     last_direction = direction_to_travel;
     if (maze.discovered == 6)
     {
+        cout << "over"
+             << "\n";
         scan_over = true;
+        pick_strategy.initialize(maze);
     }
     return packet;
 }
@@ -219,11 +236,12 @@ vector<vector<int>> PathFinder::create_next_data_packet()
     vector<int> junc_type{NORMAL};
     vector<int> box_grab{NEGLECT, NOCOLOR};
     cout << robot_col << " " << robot_row << endl;
+
     if (maze.junctions[robot_col][robot_row].get_state() == DISCOVERED)
     {
         navigate_state.push_back(NAVIGATE_STATE_VISITED);
         junc_type[0] = maze.junctions[robot_col][robot_row].content_state;
-        if (!has_white)
+        if (!scan_over && !has_white)
         {
             for (size_t i = 0; i < strategy.white_locations.size(); i++)
             {
@@ -234,6 +252,12 @@ vector<vector<int>> PathFinder::create_next_data_packet()
                     box_grab[0] = LOWER;
                 }
             }
+        }
+        else if (scan_over && junc_type[0] == COLORED)
+        {
+            get_next_junc_color();
+            box_grab[0] = current_pos;
+            box_grab[1] = current_color;
         }
     }
     else
@@ -297,5 +321,44 @@ void PathFinder::update_robot_position(int direction)
         cout << "Invalid direction"
              << "\n";
         break;
+    }
+}
+
+void PathFinder::get_next_junc_color()
+{
+    bool found = false;
+    int count = 0;
+    int index = 0;
+    current_color = NOCOLOR;
+    for (size_t i = 0; i < maze.colored_sequential.size(); i++)
+    {
+        if (maze.colored_sequential[i][0] == robot_col && maze.colored_sequential[i][1] == robot_row)
+        {
+            if (!found)
+            {
+                current_color = maze.colored_sequential[i][2];
+                found = true;
+                index = i;
+            }
+            count += 1;
+        }
+    }
+
+    if (found)
+    {
+        maze.colored_sequential.erase(maze.colored_sequential.begin() + index);
+    }
+
+    if (count == 2)
+    {
+        current_pos = MIDDLE;
+    }
+    else if (count == 1)
+    {
+        current_pos = LOWER;
+    }
+    else
+    {
+        current_pos = NEGLECT;
     }
 }
