@@ -298,7 +298,7 @@ int PickStrategy::get_opposite_dir(int direction)
     return opposite_dir;
 }
 
-int PickStrategy::find_next_direction_pick(int robot, Maze maze)
+int PickStrategy::find_next_direction_pick(int col, int row, int robot, Maze maze)
 {
     int direction = INVALID;
     if (robot == LEFT)

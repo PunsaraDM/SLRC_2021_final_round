@@ -47,6 +47,15 @@
 #define NEGLECT 0
 #define LOWER 1
 #define MIDDLE 2
+#define UPPER 3
+
+#define DOUBLETOP 1
+#define DOUBLEBOTTOM 2
+#define TOP 3
+// #define NAVIGATE_STATE = (SEARCHED = 0), (VISIT = 1)
+
+//  DIRECTION = DIRECTION INV_PATCH[VALID = TRUE(HAS A WHITE_PATCH BOX) / INVALID(DOES NOT HAVE A WHITE_PATCH WHITE_PATCH BOX), WHITE_PATCH BOX PLACING DIRECTION] JUNC_TYPE[VISITED_JUNC_TYPE]
+//                                  BOX_GRAB [POSITION:NEGELECT 0, LOWER 1, MIDDLE 2, UPPER 3, COLOR:RGB = 123, WHITE_PATCH = 4, NOCOLOR = 5]
 
 using namespace std;
 
@@ -55,13 +64,14 @@ PathFinder::PathFinder(int startCol, int startRow)
     robot_col = startCol;
     robot_row = startRow;
 }
-
 vector<int> PathFinder::adjust_path_state_to_global(vector<int> paths)
 {
     vector<int> temp_paths;
     for (int i = 0; i < 4; i++)
     {
         int local_dir = i - last_direction;
+        // cout << "local direction: "
+        //      << "direction_to_travel: " << direction_to_travel << " | last_direction" << direction_to_travel << "\n";
         if (local_dir < 0)
         {
             local_dir = 4 + local_dir;
@@ -71,12 +81,45 @@ vector<int> PathFinder::adjust_path_state_to_global(vector<int> paths)
     return temp_paths;
 }
 
+void PathFinder::travel_direction(int direction)
+{
+    switch (direction)
+    {
+    case 0:
+    case 4:
+        std::cout << "travel_direction: UP"
+                  << "\n";
+        break;
+    case 1:
+        std::cout << "travel_direction: RIGHT"
+                  << "\n";
+        break;
+    case 2:
+        std::cout << "travel_direction: DOWN"
+                  << "\n";
+        break;
+    case 3:
+        std::cout << "travel_direction: LEFT"
+                  << "\n";
+        break;
+
+    default:
+        std::cout << "UNDEFINED"
+                  << "\n";
+        break;
+    }
+}
+
 vector<vector<int>> PathFinder::travel_maze(int juncType, vector<int> path_state, vector<int> box_type)
 {
-    cout << "robot: (" << robot_col << "," << robot_row << ")\n";
-
     if (!scan_over)
     {
+        cout << "junc content color received:"
+             << "\n";
+        for (size_t i = 0; i < 2; i++)
+        {
+            cout << box_type[i] << "\n";
+        }
         return search_maze(juncType, path_state, box_type);
     }
     else
@@ -88,13 +131,27 @@ vector<vector<int>> PathFinder::travel_maze(int juncType, vector<int> path_state
 vector<vector<int>> PathFinder::travel_with_color()
 {
     vector<vector<int>> packet;
-    direction_to_travel = pick_strategy.find_next_direction_pick(LEFT, maze);
+    cout << "robot: (" << robot_col << "," << robot_row << ")\n";
+    direction_to_travel = pick_strategy.find_next_direction_pick(robot_col, robot_row, LEFT, maze);
     update_robot_position(direction_to_travel);
     packet = create_next_data_packet();
+    cout << "data packet: "
+         << "\n";
+    for (size_t i = 0; i < packet.size(); i++)
+    {
+        for (size_t j = 0; j < packet[i].size(); j++)
+        {
+            cout << packet[i][j] << " | ";
+        }
+        cout << "\n";
+    }
+    cout << "------------------------"
+         << "\n";
     last_direction = direction_to_travel;
     return packet;
 }
 
+//juncType,pathState,boxType
 vector<vector<int>> PathFinder::search_maze(int juncType, vector<int> path_state, vector<int> box_type)
 {
     vector<vector<int>> packet;
@@ -125,6 +182,8 @@ vector<vector<int>> PathFinder::search_maze(int juncType, vector<int> path_state
         junction_content = maze.junctions[robot_col][robot_row].get_content();
     }
 
+    cout << "robot: (" << robot_col << "," << robot_row << ")\n";
+
     maze.update_junction(robot_col, robot_row, junction_content, junction_content_state, has_white);
 
     if (junction_content_state != INVERTED || has_white)
@@ -152,9 +211,24 @@ vector<vector<int>> PathFinder::search_maze(int juncType, vector<int> path_state
             white_box = false;
         }
 
+        travel_direction(direction_to_travel);
         has_white = white_box;
+        cout << "has box: " << has_white << '\n';
+
         update_robot_position(direction_to_travel);
         packet = create_next_data_packet();
+        cout << "data packet: "
+             << "\n";
+        for (size_t i = 0; i < packet.size(); i++)
+        {
+            for (size_t j = 0; j < packet[i].size(); j++)
+            {
+                cout << packet[i][j] << " | ";
+            }
+            cout << "\n";
+        }
+        cout << "------------------------"
+             << "\n";
         last_direction = direction_to_travel;
         return packet;
     }
@@ -168,6 +242,7 @@ vector<vector<int>> PathFinder::create_next_data_packet()
     vector<int> inv_patch{has_white, get_invert_box_dir()};
     vector<int> junc_type{NORMAL};
     vector<int> box_grab{NEGLECT, NOCOLOR};
+    cout << robot_col << " " << robot_row << endl;
 
     if (maze.junctions[robot_col][robot_row].get_state() == DISCOVERED)
     {
@@ -202,25 +277,14 @@ vector<vector<int>> PathFinder::create_next_data_packet()
     data_packet.push_back(junc_type);
     data_packet.push_back(box_grab);
 
-    cout << "data packet: "
-         << "\n";
-    for (size_t i = 0; i < data_packet.size(); i++)
-    {
-        for (size_t j = 0; j < data_packet[i].size(); j++)
-        {
-            cout << data_packet[i][j] << " | ";
-        }
-        cout << "\n";
-    }
-    cout << "------------------------"
-         << "\n";
-
     return data_packet;
 }
 
 int PathFinder::get_local_direction()
 {
     int local_dir = direction_to_travel - last_direction;
+    // cout << "local direction: "
+    //      << "direction_to_travel: " << direction_to_travel << " | last_direction" << direction_to_travel << "\n";
     if (local_dir < 0)
     {
         local_dir = 4 + local_dir;

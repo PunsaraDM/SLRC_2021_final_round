@@ -65,6 +65,7 @@ extern "C"
         vector<vector<int>> travel_maze(int juncType, vector<int> path_state, vector<int> box_type);
         vector<vector<int>> travel_with_color();
         vector<vector<int>> search_maze(int juncType, vector<int> path_state, vector<int> box_type);
+        void travel_direction(int direction);
         vector<int> find_junction_content(vector<int> box_type);
         int find_junction_content_state();
         void update_robot_position(int direction);

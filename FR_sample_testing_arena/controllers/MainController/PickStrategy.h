@@ -26,7 +26,7 @@ extern "C"
         vector<int> get_reverse_path(vector<int> path);
         bool check_for_top_boxes(int red, int green, int blue, vector<vector<vector<int>>> locations);
         int get_opposite_dir(int direction);
-        int find_next_direction_pick(int robot, Maze maze);
+        int find_next_direction_pick(int col, int row, int robot, Maze maze);
         void initialize(Maze m);
 
     private:
