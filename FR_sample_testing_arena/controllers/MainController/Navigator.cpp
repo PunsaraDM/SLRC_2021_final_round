@@ -385,7 +385,7 @@ void Navigator::box_search_algo(bool haveBox)
     juncType = PATCHNOBOX;
   }
   
-  if (clr < 3)  
+  if (clr < 4)  
   {
     clr = search_box_color(2);  //seach for a upper box
     if (clr < 5) 
@@ -695,7 +695,7 @@ void Navigator::goto_placement_cell_last_box()
 void Navigator::goto_placement_cell()
 {
   visit_normal_junc();
-  turn(RIGHT);
+  //go forward
   follow_line_until_junc_detect();
 
   motorGroup->qtr_servo(QTR_UP,2.0);
