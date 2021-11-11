@@ -252,7 +252,7 @@ void Navigator::place_white_box_before_search() //place the white box before sea
   arm_base_move(distArmBase_place); 
   arm_vertical_move(verticalGround);
   arm_grab_box(grabDist_min,grabDist_min);  //release the box
-  arm_vertical_move(verticalMiddle);
+  arm_vertical_move(verticalHighest);
 }
 
 void Navigator::grab_white_box_after_search() //grab the white box before searching and centering a color box
@@ -439,7 +439,7 @@ void Navigator::place_white_box_in_red_square()
   arm_base_move(distArmBase_inverted_place); 
   arm_vertical_move(verticalGround);
   arm_grab_box(grabDistToDetectColor,grabDistToDetectColor);  //release the box
-  arm_vertical_move(verticalMiddle);
+  arm_vertical_move(verticalHighest);
   arm_base_move(distArmBase_carry); 
 }
 
