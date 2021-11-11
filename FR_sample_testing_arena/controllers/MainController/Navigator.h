@@ -127,9 +127,9 @@ extern "C"
         void grab_box(int color, int level);
         void place_white_box_in_red_square();
         void grab_white_box_from_red_square();
-        void place_box(int level);
+        void place_box(int color);
         void arm_carrying();
-
+        void final_stack_box(int color,int row); 
     private:
         SensorGroup *sensorGroup;
         MotorGroup *motorGroup;

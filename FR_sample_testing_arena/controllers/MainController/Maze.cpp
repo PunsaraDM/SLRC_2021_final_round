@@ -32,6 +32,13 @@
 #define INVERTWHITE 5
 #define PATCHNOBOX 6
 
+#define LOWER 1
+#define MIDDLE 2
+
+#define TOP 1
+#define DOUBLETOP 2
+#define DOUBLEBOTTOM 3
+
 using namespace std;
 
 //maze following
@@ -75,18 +82,57 @@ void Maze::update_junction(int column, int row, vector<int> content, int junctio
     if (junctions[column][row].get_state() != DISCOVERED)
     {
         visited += 1;
-        discovered += content.size();
-        cout << print_content(content) << "\n";
     }
 
     int junc_state = DISCOVERED;
 
-    if (junction_content_state == COLORED)
+    if (junction_content_state == COLORED && junctions[column][row].get_state() != DISCOVERED)
     {
         vector<int> junc{column, row};
-        junc.reserve(junc.size() + distance(content.begin(), content.end()));
-        junc.insert(junc.end(), content.begin(), content.end());
-        colored_junctions.push_back(junc);
+        int count = 0;
+        for (int i = 1; i > -1; i--)
+        {
+            vector<int> colored_context{column, row, content[i]};
+            if (RED <= content[i] && content[i] <= BLUE)
+            {
+                count += 1;
+                colored_sequential.push_back(colored_context);
+            }
+        }
+        discovered += count;
+
+        for (size_t i = 0; i < 2; i++)
+        {
+            int state = i + 1;
+            if (count == 2)
+            {
+                if (i == 0)
+                {
+                    state = DOUBLEBOTTOM;
+                }
+                else
+                {
+                    state = DOUBLETOP;
+                }
+            }
+            vector<int> val{column, row, state};
+
+            if (RED <= content[i] && content[i] <= BLUE)
+            {
+                if (content[i] == RED)
+                {
+                    colored_junctions[RED - 1].push_back(val);
+                }
+                else if (content[i] == GREEN)
+                {
+                    colored_junctions[GREEN - 1].push_back(val);
+                }
+                else
+                {
+                    colored_junctions[BLUE - 1].push_back(val);
+                }
+            }
+        }
     }
 
     else if (junction_content_state == WHITE_PATCH && !has_white)

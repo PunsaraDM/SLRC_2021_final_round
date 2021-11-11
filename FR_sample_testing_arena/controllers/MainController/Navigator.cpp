@@ -385,7 +385,7 @@ void Navigator::box_search_algo(bool haveBox)
     juncType = PATCHNOBOX;
   }
   
-  if (clr < 3)  
+  if (clr < 4)  
   {
     clr = search_box_color(2);  //seach for a upper box
     if (clr < 5) 
@@ -452,25 +452,67 @@ void Navigator::grab_white_box_from_red_square()
   arm_base_move(distArmBase_carry); 
 }
 
-void Navigator::place_box(int level)    //at the placement square
+void Navigator::place_box(int color)    //at the placement square
 {
-  if (level==1) //lower level
-  {
+  if (color==RED){
+    arm_base_move(0.1512);
     arm_vertical_move(verticalGround);
+    arm_grab_box(grabDist_min,grabDist_min);  //release the box
   }
-  else if (level==2)  //niddle level
-  {
-    arm_vertical_move(verticalGround+0.04);
+  else if (color==GREEN){
+    arm_base_move(0.0512);
+    arm_vertical_move(verticalGround);
+    arm_grab_box(0.0232,0.1432);  //release the box
+    arm_grab_box(grabDist_min,0.1232+0.02);
   }
-  else if (level==3)  //upper level
-  {
-    arm_vertical_move(verticalGround+0.08);
-  }
-  //centre_box();
-  arm_parking();
-
+  else if (color==BLUE){
+    arm_base_move(0.0512);
+    arm_vertical_move(verticalGround);
+    arm_grab_box(0.1632,0.0232);  //release the box
+    arm_grab_box(0.1632-0.02,grabDist_min);
+  }  
+  arm_carrying();
+  arm_grab_box(grabDist_min,grabDist_min);
 }
 
+void Navigator::final_stack_box(int color,int row)    //at the placement square
+{
+  //function calls after go_forward_specific_distance(0.099);
+  if (color==GREEN){
+    if (row==2)
+      go_forward_specific_distance(-0.01);
+    arm_base_move(0.0510);
+    arm_grab_box(0.0232-0.01,0.1432-0.01); 
+    arm_vertical_move(verticalGround);
+    arm_grab_box(0.0232,0.1432);  
+    arm_grab_box(grabDistGreen,grabDistGreen);
+    arm_vertical_move(verticalHighest);
+    if (row==2)
+      go_forward_specific_distance(0.01);
+    arm_base_move(0.1512+0.01);
+    arm_vertical_move(verticalGround+0.04);
+    arm_grab_box(grabDist_min,grabDist_min);
+    
+  }
+  else if (color==BLUE){
+      if (row==2)
+        go_forward_specific_distance(-0.01);
+    arm_base_move(0.0510);
+    arm_grab_box(0.1632-0.01,0.0232-0.01);  
+    arm_vertical_move(verticalGround);
+    arm_grab_box(0.1632,0.0232);
+    arm_grab_box(grabDistBlue,grabDistBlue);
+    arm_vertical_move(verticalHighest);
+    if (row==2)
+      go_forward_specific_distance(0.01);
+    arm_base_move(0.1512+0.02);
+    arm_vertical_move(verticalGround+0.08);
+    arm_grab_box(grabDist_min,grabDist_min);
+    
+  }  
+  arm_carrying();
+  arm_grab_box(grabDist_min,grabDist_min);
+}
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool Navigator::is_junction_detected()
 {
@@ -695,7 +737,7 @@ void Navigator::goto_placement_cell_last_box()
 void Navigator::goto_placement_cell()
 {
   visit_normal_junc();
-  turn(RIGHT);
+  //go forward
   follow_line_until_junc_detect();
 
   motorGroup->qtr_servo(QTR_UP,2.0);
@@ -774,9 +816,16 @@ void Navigator::task()
   }
 
   // var = {{1},{0},{1,1},{4},{2,2}};
-  // follow_line_until_junc_detect();
-  // resetVariables();
-  // //visit_junction(var[JUNC_TYPE][0]);
+  arm_carrying();
+  arm_grab_box(grabDistBlue,grabDistBlue);
+  follow_line_until_junc_detect();
+  delay(5000);
+  motorGroup->qtr_servo(QTR_UP,2.0);
+  delay(2000);
+  go_forward_specific_distance(0.099);  //0.089 , 0.099
+  final_stack_box(GREEN,2);
+  final_stack_box(BLUE,1);
+  // resetVariables();  // //visit_junction(var[JUNC_TYPE][0]);
   // discover_junction();
   // delay(3000);
 }
@@ -787,7 +836,7 @@ void Navigator::test()
     //cout<<sensorGroup->get_ir_value(0)<<endl;
     go_forward_specific_distance(0.045);
     motorGroup->robot_stop();
-
+//
   // cout<<sensorGroup->get_digital_value(8) << sensorGroup->get_digital_value(0)
   //   << sensorGroup->get_digital_value(1) << sensorGroup->get_digital_value(2)
   //   << sensorGroup->get_digital_value(3)
