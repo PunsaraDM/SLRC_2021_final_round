@@ -111,8 +111,7 @@ extern "C"
         void visit_normal_junc();
         void print_pathState();
 
-        void goto_placement_cell_last_box();
-        void goto_placement_cell();
+        void goto_placement_cell(bool final = false);
         void follow_line_until_junc_detect();
         void initial_phase();
         void one_cell();
@@ -175,6 +174,7 @@ extern "C"
         int detectedJunction = 0;
 
         int currentBoxColor = NO_COLOR;
+        bool carriedGreenorBlue = false;
 
         float rightIRVal = 0;
         float leftIRVal = 0;
@@ -184,8 +184,8 @@ extern "C"
 
         int carryingBox = NO_COLOR;
         bool taskCompleted = false;
-
-
+        int greenBoxCount = 0;
+        int blueBoxCount = 0;
 
         // float WALL_MAX_VELOCITY = 7.0;
         // float WALL_MIN_VELOCITY = 2.0;
