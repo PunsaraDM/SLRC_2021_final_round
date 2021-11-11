@@ -836,7 +836,7 @@ void Navigator::test()
     //cout<<sensorGroup->get_ir_value(0)<<endl;
     go_forward_specific_distance(0.045);
     motorGroup->robot_stop();
-
+//
   // cout<<sensorGroup->get_digital_value(8) << sensorGroup->get_digital_value(0)
   //   << sensorGroup->get_digital_value(1) << sensorGroup->get_digital_value(2)
   //   << sensorGroup->get_digital_value(3)
