@@ -48,6 +48,10 @@
 #define LOWER 1
 #define MIDDLE 2
 #define UPPER 3
+
+#define DOUBLETOP 1
+#define DOUBLEBOTTOM 2
+#define TOP 3
 // #define NAVIGATE_STATE = (SEARCHED = 0), (VISIT = 1)
 
 //  DIRECTION = DIRECTION INV_PATCH[VALID = TRUE(HAS A WHITE_PATCH BOX) / INVALID(DOES NOT HAVE A WHITE_PATCH WHITE_PATCH BOX), WHITE_PATCH BOX PLACING DIRECTION] JUNC_TYPE[VISITED_JUNC_TYPE]
@@ -120,9 +124,21 @@ vector<int> PathFinder::find_junction_content(vector<int> box_type)
     }
     return content;
 }
-
-//juncType,pathState,boxType
 vector<vector<int>> PathFinder::travel_maze(int juncType, vector<int> path_state, vector<int> box_type)
+{
+    if (!scan_over)
+    {
+        return search_maze(juncType, path_state, box_type);
+    }
+    else{
+        cout << "scan over" <<"\n";
+        cout << "visited: " << maze.visited << "\n";
+        cout << "discovered: " << maze.discovered << "\n";
+        cout << "scan over" <<"\n";
+    }
+}
+//juncType,pathState,boxType
+vector<vector<int>> PathFinder::search_maze(int juncType, vector<int> path_state, vector<int> box_type)
 {
     vector<vector<int>> packet;
     vector<int> paths;
@@ -187,7 +203,7 @@ vector<vector<int>> PathFinder::travel_maze(int juncType, vector<int> path_state
     cout << "------------------------"
          << "\n";
     last_direction = direction_to_travel;
-    if (maze.visited < 63 && maze.discovered < 6)
+    if (maze.discovered == 6)
     {
         scan_over = true;
     }
@@ -207,7 +223,8 @@ vector<vector<int>> PathFinder::create_next_data_packet()
     {
         navigate_state.push_back(NAVIGATE_STATE_VISITED);
         junc_type[0] = maze.junctions[robot_col][robot_row].content_state;
-        if (!has_white){
+        if (!has_white)
+        {
             for (size_t i = 0; i < strategy.white_locations.size(); i++)
             {
                 vector<int> loc = strategy.white_locations[i];

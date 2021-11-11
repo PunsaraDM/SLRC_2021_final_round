@@ -1,3 +1,4 @@
+#include "PickStrategy.h"
 #include "Strategy.h"
 #include "Maze.h"
 
@@ -31,6 +32,8 @@ extern "C"
     public:
         PathFinder(int startCol, int startRow);
         vector<vector<int>> travel_maze(int juncType, vector<int> path_state, vector<int> box_type);
+        vector<vector<int>> pick_color();
+        vector<vector<int>> search_maze(int juncType, vector<int> path_state, vector<int> box_type);
         void travel_direction(int direction);
         vector<int> find_junction_content(vector<int> box_type);
         int find_junction_content_state();
@@ -43,6 +46,7 @@ extern "C"
     private:
         Maze maze;
         Strategy strategy;
+        PickStrategy pick_strategy;
         int travel_dir = LEFT;
         int direction_to_travel = UP;
         int robot_col = 0;

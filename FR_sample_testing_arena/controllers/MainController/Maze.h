@@ -17,7 +17,7 @@ extern "C"
         int discovered = 0;
         int visited = 0;
         Junction junctions[COLS][ROWS];
-        vector<vector<int>> colored_junctions;
+        vector<vector<vector<int>>> colored_junctions{vector<vector<int>>(), vector<vector<int>>(), vector<vector<int>>()};
         vector<vector<int>> white_junctions;
 
         Maze();
