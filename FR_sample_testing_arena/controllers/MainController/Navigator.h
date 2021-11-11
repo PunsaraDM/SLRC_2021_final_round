@@ -90,6 +90,7 @@ extern "C"
         void follow_line(float Kp, float Kd, float minSpd, float baseSpd, float maxSpd);
 
         void go_forward_specific_distance(double distance);
+        void go_backward_specific_distance(double distance);
         void discover_junction();
         double getComDir();
         void turnAng(float angle);
@@ -110,6 +111,8 @@ extern "C"
         void visit_normal_junc();
         void print_pathState();
 
+        void goto_placement_cell_last_box();
+        void goto_placement_cell();
         void follow_line_until_junc_detect();
         void initial_phase();
         void one_cell();
@@ -165,7 +168,7 @@ extern "C"
 
         vector<vector<int>> var {{0},{0},{0,0},{0},{0,0}};
 
-        vector<int> boxType {0,0,0,0};
+        vector<int> boxType {0,0};
         vector<int> pathState {UNDISCOVERED,UNDISCOVERED,NOTACCESIBLE,UNDISCOVERED};   //down path is always keep as notaccesible since robot coming from that side
         int juncType = UNDISCOVERED;
 
@@ -178,6 +181,9 @@ extern "C"
 
         float TURN90_EN_COUNT = 5.85;
         float TURN180_EN_COUNT = 11.4;
+
+        int carryingBox = NO_COLOR;
+        bool taskCompleted = false;
 
 
 
