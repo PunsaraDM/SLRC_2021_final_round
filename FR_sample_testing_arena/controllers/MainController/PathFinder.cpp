@@ -54,10 +54,19 @@
 
 using namespace std;
 
-PathFinder::PathFinder(int startCol, int startRow)
+PathFinder::PathFinder(int startCol, int startRow, int robot_dir, Maze m, vector<int> priority,PickStrategy pickStrategy)
 {
     robot_col = startCol;
     robot_row = startRow;
+    start_robot_col = startCol;
+    start_robot_row = startRow;
+    pick_strategy = pickStrategy;
+    maze = m;
+    robot = robot_dir;
+    if (robot_dir == RIGHT)
+    {
+        last_direction = LEFT;
+    }
 }
 
 vector<int> PathFinder::adjust_path_state_to_global(vector<int> paths)
@@ -88,21 +97,27 @@ vector<vector<int>> PathFinder::travel_maze(int juncType, vector<int> path_state
     }
 }
 
+//this
 vector<vector<int>> PathFinder::travel_with_color()
 {
-    if (robot_col == 0 && robot_row == 0 && last_direction != RIGHT)
+    if ((robot == LEFT && robot_col == 0 && robot_row == 0 && last_direction != RIGHT) || (robot == RIGHT && robot_col == 8 && robot_row == 6 && last_direction != LEFT))
     {
         vector<vector<int>> packet;
-        direction_to_travel = LEFT;
+        direction_to_travel = robot;
         update_robot_position(direction_to_travel);
         packet = create_next_data_packet();
-        last_direction = LEFT;
+        last_direction = robot;
         return packet;
     }
-    else if (robot_col == -1 && robot_row == 0)
+    else if ((robot == LEFT && robot_col == -1 && robot_row == 0) || (robot == LEFT && robot_col == 9 && robot_row == 6))
     {
-        last_direction = RIGHT;
-        direction_to_travel = RIGHT;
+        int dir = RIGHT;
+        if (robot == RIGHT)
+        {
+            dir = LEFT;
+        }
+        last_direction = dir;
+        direction_to_travel = dir;
         update_robot_position(direction_to_travel);
 
         return create_next_data_packet();
@@ -110,7 +125,7 @@ vector<vector<int>> PathFinder::travel_with_color()
     else
     {
         vector<vector<int>> packet;
-        direction_to_travel = pick_strategy.find_next_direction_pick(LEFT, maze);
+        direction_to_travel = pick_strategy.find_next_direction_pick(robot, maze);
         update_robot_position(direction_to_travel);
         packet = create_next_data_packet();
         last_direction = direction_to_travel;
@@ -167,6 +182,8 @@ vector<vector<int>> PathFinder::search_maze(int juncType, vector<int> path_state
         if (found)
         {
             direction_to_travel = STALL;
+            packet = create_next_data_packet();
+            return packet;
         }
         else
         {
@@ -176,7 +193,7 @@ vector<vector<int>> PathFinder::search_maze(int juncType, vector<int> path_state
     else
     {
 
-        direction_to_travel = strategy.find_next_direction(robot_col, robot_row, maze, LEFT, last_direction, has_white);
+        direction_to_travel = strategy.find_next_direction(robot_col, robot_row, maze, robot, last_direction, has_white);
 
         if (junction_content_state == INVERTED && has_white)
         {
@@ -199,7 +216,6 @@ vector<vector<int>> PathFinder::create_next_data_packet()
     vector<int> inv_patch{has_white, get_invert_box_dir()};
     vector<int> junc_type{NORMAL};
     vector<int> box_grab{NEGLECT, NOCOLOR};
-    vector<int> over{scan_over};
 
     if (maze.junctions[robot_col][robot_row].get_state() == DISCOVERED)
     {
@@ -228,7 +244,8 @@ vector<vector<int>> PathFinder::create_next_data_packet()
             {
                 navigate_state.push_back(PLACEMENT);
             }
-            else{
+            else
+            {
                 navigate_state.push_back(PLACEMENT_FULL);
             }
         }
@@ -246,7 +263,6 @@ vector<vector<int>> PathFinder::create_next_data_packet()
     data_packet.push_back(inv_patch);
     data_packet.push_back(junc_type);
     data_packet.push_back(box_grab);
-    data_packet.push_back(over);
 
     cout << "data packet: "
          << "\n";

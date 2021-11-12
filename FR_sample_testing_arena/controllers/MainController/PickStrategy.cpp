@@ -48,10 +48,14 @@
 #define TOP 3
 using namespace std;
 
-void PickStrategy::find_combinations(Maze m)
+PickStrategy::PickStrategy(Maze maze){
+    c_maze = maze;
+}
+
+void PickStrategy::find_combinations()
 {
     //asumming that the location vector is 3d {{{red_col1,red_row1},{red_col2,red_row2}} }
-    vector<vector<vector<int>>> locations = m.colored_junctions;
+    vector<vector<vector<int>>> locations = c_maze.colored_junctions;
     vector<vector<int>> red_locations = locations[RED - 1];
     vector<vector<int>> green_locations = locations[GREEN - 1];
     vector<vector<int>> blue_locations = locations[BLUE - 1];
@@ -60,7 +64,7 @@ void PickStrategy::find_combinations(Maze m)
 
     //find the shortest path distances
 
-    discover_shortest_paths(locations, m);
+    discover_shortest_paths(locations);
     for (int red = 0; red < 2; red++)
     {
         for (int green = 0; green < 2; green++)
@@ -108,7 +112,7 @@ void PickStrategy::find_combinations(Maze m)
     order_right = find_order(selected_right, locations);
 }
 
-void PickStrategy::discover_shortest_paths(vector<vector<vector<int>>> locations, Maze maze)
+void PickStrategy::discover_shortest_paths(vector<vector<vector<int>>> locations)
 {
     cout << "size: " << locations.size() << "\n";
     for (size_t i = 0; i < locations.size(); i++)
@@ -121,20 +125,20 @@ void PickStrategy::discover_shortest_paths(vector<vector<vector<int>>> locations
             //left even right odd
             if (i == RED - 1)
             {
-                red_distances.push_back(find_shortest_path(0, 0, locations[i][j][0], locations[i][j][1], RED, 0, maze));
+                red_distances.push_back(find_shortest_path(0, 0, locations[i][j][0], locations[i][j][1], RED, 0, c_maze));
                 cout << "here"
                      << "\n";
-                red_distances.push_back(find_shortest_path(8, 6, locations[i][j][0], locations[i][j][1], RED, 0, maze));
+                red_distances.push_back(find_shortest_path(8, 6, locations[i][j][0], locations[i][j][1], RED, 0, c_maze));
             }
             else if (i == GREEN - 1)
             {
-                green_distances.push_back(find_shortest_path(0, 0, locations[i][j][0], locations[i][j][1], GREEN, 0, maze));
-                green_distances.push_back(find_shortest_path(8, 6, locations[i][j][0], locations[i][j][1], GREEN, 0, maze));
+                green_distances.push_back(find_shortest_path(0, 0, locations[i][j][0], locations[i][j][1], GREEN, 0, c_maze));
+                green_distances.push_back(find_shortest_path(8, 6, locations[i][j][0], locations[i][j][1], GREEN, 0, c_maze));
             }
             else
             {
-                blue_distances.push_back(find_shortest_path(0, 0, locations[i][j][0], locations[i][j][1], BLUE, 0, maze));
-                blue_distances.push_back(find_shortest_path(8, 6, locations[i][j][0], locations[i][j][1], BLUE, 0, maze));
+                blue_distances.push_back(find_shortest_path(0, 0, locations[i][j][0], locations[i][j][1], BLUE, 0, c_maze));
+                blue_distances.push_back(find_shortest_path(8, 6, locations[i][j][0], locations[i][j][1], BLUE, 0, c_maze));
             }
         }
     }
@@ -195,10 +199,7 @@ bool PickStrategy::check_for_top_boxes(int red, int green, int blue, vector<vect
     return false;
 }
 
-//give the destination as the start
-//col1 -> 0,0 || 8,6
-//col2-> colored box
-int PickStrategy::find_shortest_path(int col1, int row1, int col2, int row2, int color, int dir, Maze c_maze)
+int PickStrategy::find_shortest_path(int col1, int row1, int col2, int row2, int color, int dir)
 {
     cout << "start: " << col1 << "," << row1 << "\n";
     cout << "end: " << col2 << "," << row2 << "\n";
@@ -313,7 +314,7 @@ int PickStrategy::get_opposite_dir(int direction)
     return opposite_dir;
 }
 
-int PickStrategy::find_next_direction_pick(int robot, Maze maze)
+int PickStrategy::find_next_direction_pick(int robot)
 {
     int direction = INVALID;
     if (robot == LEFT)
@@ -330,35 +331,19 @@ int PickStrategy::find_next_direction_pick(int robot, Maze maze)
     return direction;
 }
 
-void PickStrategy::initialize(Maze m)
+void PickStrategy::initialize()
 {
     cout << "initializing"
          << "\n";
-    vector<vector<vector<int>>> locations = m.colored_junctions;
-    find_combinations(m);
+    vector<vector<vector<int>>> locations = c_maze.colored_junctions;
+    find_combinations();
 
-    for (size_t i = 0; i < order_left.size(); i++)
-    {
-        cout << "order_left: " << order_left[i][0] << "," << order_left[i][1] << '\n';
-    }
-
-    cout << "left col: " << left_start_col << "\n";
-    cout << "left row: " << left_start_row << "\n";
-    cout << "start col: " << locations[order_left[0][0]][order_left[0][1]][0] << "\n";
-    cout << "start row: " << locations[order_left[0][0]][order_left[0][1]][1] << "\n";
     find_shortest_path(locations[order_left[0][0]][order_left[0][1]][0], locations[order_left[0][0]][order_left[0][1]][1], left_start_col, left_start_row, 0, LEFT, m);
-    // find_shortest_path(int col1, int row1, right_start_col, right_start_row, 0, RIGHT);
+    find_shortest_path(locations[order_right[0][0]][order_right[0][1]][0], locations[order_right[0][0]][order_right[0][1]][1], right_start_col, right_start_row, 0, RIGHT, m);
 
     for (size_t i = 0; i < 3; i++)
     {
         vector<int> path = shortest_path_seq[order_left[i][0]][order_left[i][1]];
-        cout << "this _path:" << order_left[i][0] << "," << order_left[i][1] <<"\n";
-        for (size_t i = 0; i < path.size(); i++)
-        {
-            cout << path[i] << "| ";
-        }
-        cout << "\n";
-
         if (i == 0)
         {
             left_stack.reserve(left_stack.size() + distance(path.begin(), path.end()));
@@ -374,20 +359,27 @@ void PickStrategy::initialize(Maze m)
             left_stack.insert(left_stack.end(), path.begin(), path.end());
         }
     }
-
-    cout << "left_Stack:"
-         << "\n";
-    for (size_t i = 0; i < left_stack.size(); i++)
+    
+    for (size_t i = 0; i < 3; i++)
     {
-        cout << left_stack[i] << "|";
+        vector<int> path = shortest_path_seq[right[i][0]][right[i][1]];
+        if (i == 0)
+        {
+            right_stack.reserve(right_stack.size() + distance(path.begin(), path.end()));
+            right_stack.insert(right_stack.end(), path.begin(), path.end());
+        }
+        else
+        {
+            vector<int> reverse_path = get_reverse_path(path);
+            right_stack.reserve(right_stack.size() + distance(reverse_path.begin(), reverse_path.end()));
+            right_stack.insert(right_stack.end(), reverse_path.begin(), reverse_path.end());
+
+            right_stack.reserve(right_stack.size() + distance(path.begin(), path.end()));
+            right_stack.insert(right_stack.end(), path.begin(), path.end());
+        }
     }
-    cout << "\n";
-    // for (size_t i = 0; i < 3; i++)
-    // {
-    //     vector<int> path = shortest_path_seq[order_right[i][0]][order_right[i][1]];
-    //     right_stack.reserve(right_stack.size() + distance(path.begin(), path.end()));
-    //     right_stack.insert(right_stack.end(), path.begin(), path.end());
-    // }
+
+  
 }
 
 vector<int> PickStrategy::get_reverse_path(vector<int> path)

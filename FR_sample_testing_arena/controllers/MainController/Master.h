@@ -1,4 +1,5 @@
 #include "PickStrategy.h"
+#include "PathFinder.h"
 #include "Strategy.h"
 #include "Maze.h"
 
@@ -61,33 +62,18 @@ extern "C"
     class Master
     {
     public:
-        Master(int startCol, int startRow);
-        vector<vector<int>> travel_maze(int juncType, vector<int> path_state, vector<int> box_type);
-        vector<vector<int>> travel_with_color();
-        vector<vector<int>> search_maze(int juncType, vector<int> path_state, vector<int> box_type);
-        vector<int> find_junction_content(vector<int> box_type);
-        int find_junction_content_state();
-        void update_robot_position(int direction);
-        vector<vector<int>> create_next_data_packet();
-        int get_local_direction();
-        int get_invert_box_dir();
-        vector<int> adjust_path_state_to_global(vector<int> paths);
-        void get_next_junc_color();
+        void communicate();
+
+        vector<vector<int>> get_next_data(int juncType, vector<int> path_state, vector<int> box_type, int robot);
 
     private:
         Maze maze;
         Strategy strategy;
-        PickStrategy pick_strategy;
-        int travel_dir = LEFT;
-        int direction_to_travel = UP;
-        int robot_col = 0;
-        int robot_row = 0;
-        bool isTravelUp = true;
-        int last_direction = RIGHT;
-        bool has_white = true;
-        bool scan_over = false;
-        int current_color = NOCOLOR;
-        int current_pos = LOWER;
+        vector<int> priorityLeft{LEFT, DOWN, UP, RIGHT};
+        vector<int> priorityRight{RIGHT, UP, DOWN, LEFT};
+        PickStrategy *pick_strategy = new PickStrategy(maze);
+        PathFinder *path_finder_left = new PathFinder(0, 0, LEFT, maze, priority_left);
+        PathFinder *path_finder_right = new PathFinder(8, 6, RIGHT, maze, priority_right);
     };
 #ifdef __cplusplus
 }

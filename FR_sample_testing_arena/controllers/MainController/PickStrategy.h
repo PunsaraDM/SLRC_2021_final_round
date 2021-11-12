@@ -18,6 +18,7 @@ extern "C"
         int left_start_row;
         int right_start_col;
         int right_start_row;
+        PickStrategy(Maze maze);
         vector<vector<int>> white_locations;
         void find_combinations(Maze m);
         int find_shortest_path(int col1, int row1, int col2, int row2, int color, int dir,Maze c_maze);

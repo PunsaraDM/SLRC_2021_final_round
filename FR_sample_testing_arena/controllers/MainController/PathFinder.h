@@ -61,7 +61,7 @@ extern "C"
     class PathFinder
     {
     public:
-        PathFinder(int startCol, int startRow);
+        PathFinder(int startCol, int startRow, int robot_dir, Maze m,vector<int> priority, PickStrategy pickStrategy);
         vector<vector<int>> travel_maze(int juncType, vector<int> path_state, vector<int> box_type);
         vector<vector<int>> travel_with_color();
         vector<vector<int>> search_maze(int juncType, vector<int> path_state, vector<int> box_type);
@@ -78,10 +78,12 @@ extern "C"
         Maze maze;
         Strategy strategy;
         PickStrategy pick_strategy;
-        int travel_dir = LEFT;
+        int robot;
         int direction_to_travel = UP;
         int robot_col = 0;
+        int start_robot_col = 0;
         int robot_row = 0;
+        int start_robot_row = 0;
         bool isTravelUp = true;
         int last_direction = RIGHT;
         bool has_white = true;
