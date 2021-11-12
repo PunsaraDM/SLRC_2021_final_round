@@ -271,7 +271,7 @@ void Navigator::grab_white_box_after_search() // grab the white box before searc
 
 int Navigator::search_box_color(int level)
 {
-  double currentDist = distArmBase_place + 0.08;
+  double currentDist = distArmBase_place + 0.05;
   arm_base_move(currentDist);
   arm_grab_box(grabDist_min, grabDist_min);
   if (level == 1) // lower search
@@ -336,7 +336,7 @@ int Navigator::search_box_color(int level)
         else
         { // Not detected any color
           cout << "Not yet detect any color" << endl;
-          distToDetectLocal += 0.01;
+          distToDetectLocal += 0.005;
           arm_grab_box(distToDetectLocal, distToDetectLocal);
         }
       }
@@ -351,7 +351,7 @@ int Navigator::search_box_color(int level)
     }
     else
     {
-      currentDist += 0.01;
+      currentDist += 0.005;
       arm_base_move(currentDist);
     }
   }
@@ -644,6 +644,13 @@ void Navigator::visit_white_patch(bool initial)
   delay(500);
   go_forward_specific_distance(0.099); // forward until side lines discover
 
+  if(initial)
+  {
+    int clr = search_box_color(1);
+    var[BOX_GRAB][COLOR] = clr;
+    var[BOX_GRAB][POSITION] = LOWER;
+  }
+
   if (var[BOX_GRAB][POSITION] > 0)
     grab_box(var[BOX_GRAB][COLOR], var[BOX_GRAB][POSITION]);
   // else to neglect boxes
@@ -793,8 +800,8 @@ void Navigator::initial_phase()
   visit_normal_junc();
   turn(LEFT);
   follow_line_until_junc_detect();
-  var[BOX_GRAB][COLOR] = WHITE_CLR;
-  var[BOX_GRAB][POSITION] = LOWER;
+  // var[BOX_GRAB][COLOR] = WHITE_CLR;
+  // var[BOX_GRAB][POSITION] = LOWER;
   visit_white_patch(true);
   turn(DOWN);
   follow_line_until_junc_detect();
