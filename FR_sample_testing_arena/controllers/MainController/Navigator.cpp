@@ -699,6 +699,17 @@ void Navigator::visit_normal_junc()
   go_forward_specific_distance(0.142);
 }
 
+void Navigator::stall_cell()
+{
+  motorGroup->qtr_servo(QTR_UP, 2.0);
+  delay(500);
+  go_backward_specific_distance(0.132);
+  grab_box(var[BOX_GRAB][COLOR], var[BOX_GRAB][POSITION]);
+  go_forward_specific_distance(0.132);
+  motorGroup->qtr_servo(QTR_DOWN, 2.0);
+  delay(500);
+}
+
 void Navigator::resetVariables()
 {
   for (int i = 0; i < 2; i++)
@@ -815,8 +826,11 @@ void Navigator::one_cell()
 {
   //[NAVIGATE_STATE , DIRECTION , INV_PATCH[BOX_CARRY,INV_DIRECTION],JUNC_TYPE, BOX_GRAB[POSITION,COLOR]]
   var = pathFinder->travel_maze(juncType, pathState, boxType); // need to know we are carrying box
-  turn(var[DIRECTION][0]);
-  follow_line_until_junc_detect();
+  if (var[NAVIGATE_STATE][0] != STALL)
+  {
+    turn(var[DIRECTION][0]);
+    follow_line_until_junc_detect();
+  }
   if (var[NAVIGATE_STATE][0] == SEARCH)
   {
     resetVariables();
@@ -839,6 +853,11 @@ void Navigator::one_cell()
     goto_placement_cell(true);
     cout << "TASK COMPLETED" << endl;
     taskCompleted = true;
+  }
+  else if (var[NAVIGATE_STATE][0] == STALL)
+  {
+    cout << "in STALL state" << endl;
+    stall_cell();
   }
 }
 

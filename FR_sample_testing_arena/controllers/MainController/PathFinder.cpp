@@ -167,6 +167,8 @@ vector<vector<int>> PathFinder::search_maze(int juncType, vector<int> path_state
         if (found)
         {
             direction_to_travel = STALL;
+            packet = create_next_data_packet();
+            return packet;
         }
         else
         {
@@ -222,20 +224,8 @@ vector<vector<int>> PathFinder::create_next_data_packet()
             box_grab[0] = current_pos;
             box_grab[1] = current_color;
         }
-        if (scan_over)
-        {
-            if (maze.colored_sequential.size() > 0)
-            {
-                navigate_state.push_back(PLACEMENT);
-            }
-            else{
-                navigate_state.push_back(PLACEMENT_FULL);
-            }
-        }
-        else
-        {
-            navigate_state.push_back(NAVIGATE_STATE_VISITED);
-        }
+
+        navigate_state.push_back(NAVIGATE_STATE_VISITED);
     }
     else
     {

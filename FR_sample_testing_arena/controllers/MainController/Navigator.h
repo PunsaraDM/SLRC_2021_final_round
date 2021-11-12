@@ -111,6 +111,7 @@ extern "C"
         void resetVariables();
         void visit_normal_junc();
         void print_pathState();
+        void stall_cell();
 
         void goto_placement_cell(bool final = false);
         void follow_line_until_junc_detect();
