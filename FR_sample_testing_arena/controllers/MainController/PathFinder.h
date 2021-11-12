@@ -72,7 +72,7 @@ extern "C"
         int get_local_direction();
         int get_invert_box_dir();
         vector<int> adjust_path_state_to_global(vector<int> paths);
-        void get_next_junc_color();
+        bool get_next_junc_color();
 
     private:
         Maze maze;

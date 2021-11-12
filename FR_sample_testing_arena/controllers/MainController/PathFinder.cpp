@@ -7,6 +7,7 @@
 #define RIGHT 1
 #define DOWN 2
 #define LEFT 3
+#define STALL 4
 #define INVALID 5
 
 #define RED 1
@@ -40,6 +41,9 @@
 #define NAVIGATE_STATE 0
 #define NAVIGATE_STATE_SEARCH 0
 #define NAVIGATE_STATE_VISITED 1
+#define PLACEMENT 2
+#define PLACEMENT_FULL 3
+
 #define DIRECTION 1
 #define INV_PATCH 2
 #define JUNC_TYPE 3
@@ -80,38 +84,38 @@ vector<vector<int>> PathFinder::travel_maze(int juncType, vector<int> path_state
     }
     else
     {
-        if (robot_col == 0 && robot_row == 0 && last_direction != RIGHT)
-        {
-            vector<vector<int>> packet;
-            direction_to_travel = LEFT;
-            update_robot_position(direction_to_travel);
-            packet = create_next_data_packet();
-            last_direction = LEFT;
-            return packet;
-        }
-        else if (robot_col == -1 && robot_row == 0)
-        {
-            last_direction = RIGHT;
-            direction_to_travel = RIGHT;
-            update_robot_position(direction_to_travel);
-
-            return create_next_data_packet();
-        }
-        else
-        {
-            return travel_with_color();
-        }
+        return travel_with_color();
     }
 }
 
 vector<vector<int>> PathFinder::travel_with_color()
 {
-    vector<vector<int>> packet;
-    direction_to_travel = pick_strategy.find_next_direction_pick(LEFT, maze);
-    update_robot_position(direction_to_travel);
-    packet = create_next_data_packet();
-    last_direction = direction_to_travel;
-    return packet;
+    if (robot_col == 0 && robot_row == 0 && last_direction != RIGHT)
+    {
+        vector<vector<int>> packet;
+        direction_to_travel = LEFT;
+        update_robot_position(direction_to_travel);
+        packet = create_next_data_packet();
+        last_direction = LEFT;
+        return packet;
+    }
+    else if (robot_col == -1 && robot_row == 0)
+    {
+        last_direction = RIGHT;
+        direction_to_travel = RIGHT;
+        update_robot_position(direction_to_travel);
+
+        return create_next_data_packet();
+    }
+    else
+    {
+        vector<vector<int>> packet;
+        direction_to_travel = pick_strategy.find_next_direction_pick(LEFT, maze);
+        update_robot_position(direction_to_travel);
+        packet = create_next_data_packet();
+        last_direction = direction_to_travel;
+        return packet;
+    }
 }
 
 vector<vector<int>> PathFinder::search_maze(int juncType, vector<int> path_state, vector<int> box_type)
@@ -159,7 +163,15 @@ vector<vector<int>> PathFinder::search_maze(int juncType, vector<int> path_state
         pick_strategy.left_start_col = robot_col;
         pick_strategy.left_start_row = robot_row;
         pick_strategy.initialize(maze);
-        return travel_with_color();
+        bool found = get_next_junc_color();
+        if (found)
+        {
+            direction_to_travel = STALL;
+        }
+        else
+        {
+            return travel_with_color();
+        }
     }
     else
     {
@@ -191,7 +203,6 @@ vector<vector<int>> PathFinder::create_next_data_packet()
 
     if (maze.junctions[robot_col][robot_row].get_state() == DISCOVERED)
     {
-        navigate_state.push_back(NAVIGATE_STATE_VISITED);
         junc_type[0] = maze.junctions[robot_col][robot_row].content_state;
         if (!scan_over && !has_white)
         {
@@ -210,6 +221,20 @@ vector<vector<int>> PathFinder::create_next_data_packet()
             get_next_junc_color();
             box_grab[0] = current_pos;
             box_grab[1] = current_color;
+        }
+        if (scan_over)
+        {
+            if (maze.colored_sequential.size() > 0)
+            {
+                navigate_state.push_back(PLACEMENT);
+            }
+            else{
+                navigate_state.push_back(PLACEMENT_FULL);
+            }
+        }
+        else
+        {
+            navigate_state.push_back(NAVIGATE_STATE_VISITED);
         }
     }
     else
@@ -288,7 +313,7 @@ void PathFinder::update_robot_position(int direction)
     }
 }
 
-void PathFinder::get_next_junc_color()
+bool PathFinder::get_next_junc_color()
 {
     bool found = false;
     int count = 0;
@@ -326,4 +351,5 @@ void PathFinder::get_next_junc_color()
     {
         current_pos = NEGLECT;
     }
+    return false;
 }
