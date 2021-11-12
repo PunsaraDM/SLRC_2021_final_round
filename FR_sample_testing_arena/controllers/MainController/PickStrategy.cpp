@@ -140,6 +140,52 @@ void PickStrategy::discover_shortest_paths(vector<vector<vector<int>>> locations
     }
 }
 
+vector<vector<int>> PickStrategy::order_lower(vector<vector<vector<int>>> locations, vector<vector<int>> top, vector<vector<int>> lower)
+{
+    vector<vector<int>> temp_lower_priority;
+    vector<vector<int>> temp_lower_least;
+    int lower_col;
+    int lower_row;
+    int top_col;
+    int top_row;
+    bool found = false;
+
+    for (size_t i = 0; i < lower.size(); i++)
+    {
+        lower_col = locations[lower[i][0]][lower[i][1]][0];
+        lower_row = locations[lower[i][0]][lower[i][1]][1];
+        cout << "lower: " << lower_col << "," << lower_row << "\n";
+        found = false;
+        for (size_t j = 0; j < top.size(); j++)
+        {
+            top_col = locations[top[j][0]][top[j][1]][0];
+            top_row = locations[top[j][0]][top[j][1]][1];
+            cout << "top: " << top_col << "," << top_row << "\n";
+
+            if (top_col == lower_col && lower_row == top_row)
+            {
+                cout << "found" << "\n";
+                found = true;
+                break;
+            }
+        }
+        if (found)
+        {
+            temp_lower_priority.push_back(lower[i]);
+        }
+        else
+        {
+            temp_lower_least.push_back(lower[i]);
+        }
+    }
+    temp_lower_priority.reserve(temp_lower_priority.size() + distance(temp_lower_least.begin(), temp_lower_least.end()));
+    temp_lower_priority.insert(temp_lower_priority.end(), temp_lower_least.begin(), temp_lower_least.end());
+
+    
+    
+
+    return temp_lower_priority;
+}
 vector<vector<int>> PickStrategy::find_order(vector<int> selected, vector<vector<vector<int>>> locations)
 {
     vector<vector<int>> lower;
@@ -165,6 +211,7 @@ vector<vector<int>> PickStrategy::find_order(vector<int> selected, vector<vector
         }
     }
 
+    lower = order_lower(locations, middle, lower);
     order.reserve(order.size() + distance(middle.begin(), middle.end()));
     order.insert(order.end(), middle.begin(), middle.end());
 
@@ -352,7 +399,7 @@ void PickStrategy::initialize(Maze m)
     for (size_t i = 0; i < 3; i++)
     {
         vector<int> path = shortest_path_seq[order_left[i][0]][order_left[i][1]];
-        cout << "this _path:" << order_left[i][0] << "," << order_left[i][1] <<"\n";
+        cout << "this _path:" << order_left[i][0] << "," << order_left[i][1] << "\n";
         for (size_t i = 0; i < path.size(); i++)
         {
             cout << path[i] << "| ";

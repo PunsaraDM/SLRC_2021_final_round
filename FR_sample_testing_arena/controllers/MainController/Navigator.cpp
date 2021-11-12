@@ -300,6 +300,7 @@ int Navigator::search_box_color(int level)
             arm_base_move(currentDist);
             delay(500);
             arm_grab_box(grabDistRed, grabDistRed);
+            delay(500);
             centre_box(distArmBase_centre_red);
             arm_grab_box(grabDist_min, grabDist_min);
           }
@@ -314,6 +315,7 @@ int Navigator::search_box_color(int level)
             arm_base_move(currentDist);
             delay(500);
             arm_grab_box(grabDistGreen, grabDistGreen);
+            delay(500);
             centre_box(distArmBase_centre_green);
             arm_grab_box(grabDist_min, grabDist_min);
           }
@@ -328,6 +330,7 @@ int Navigator::search_box_color(int level)
             arm_base_move(currentDist);
             delay(500);
             arm_grab_box(grabDistBlue, grabDistBlue);
+            delay(500);
             centre_box(distArmBase_centre_blue);
             arm_grab_box(grabDist_min, grabDist_min);
           }
@@ -342,6 +345,7 @@ int Navigator::search_box_color(int level)
             arm_base_move(currentDist);
             delay(500);
             arm_grab_box(grabDistBlue, grabDistBlue);
+            delay(500);
             centre_box(distArmBase_centre_white);
             arm_grab_box(grabDist_min, grabDist_min);
           }

@@ -103,8 +103,10 @@ vector<vector<int>> PathFinder::travel_with_color()
     {
         last_direction = RIGHT;
         direction_to_travel = RIGHT;
-        update_robot_position(direction_to_travel);
-
+        if (placement_back)
+        {
+            update_robot_position(direction_to_travel);
+        }
         return create_next_data_packet();
     }
     else
@@ -219,23 +221,25 @@ vector<vector<int>> PathFinder::create_next_data_packet()
 
     if (scan_over && robot_col == -1 && robot_row == 0)
     {
-        if (current_pick < 2 && placement_back)
+        cout << "current_pick" << current_pick << "\n";
+        cout << "placement_back" << placement_back << "\n";
+        if (current_pick < 3 && placement_back)
         {
             junc_type[0] = maze.junctions[0][0].content_state;
             navigate_state.push_back(NAVIGATE_STATE_VISITED);
             placement_back = false;
-            if (junc_type[0] == COLORED && get_next_junc_color())
-            {
-                box_grab[0] = current_pos;
-                box_grab[1] = current_color;
-            }
+            // if (junc_type[0] == COLORED && get_next_junc_color())
+            // {
+            //     box_grab[0] = current_pos;
+            //     box_grab[1] = current_color;
+            // }
         }
-        else if (current_pick < 2 && !placement_back)
+        else if (current_pick < 3 && !placement_back)
         {
             navigate_state.push_back(PLACEMENT);
             placement_back = true;
         }
-        else if (current_pick == 2)
+        else if (current_pick == 3)
         {
             navigate_state.push_back(PLACEMENT_FULL);
         }

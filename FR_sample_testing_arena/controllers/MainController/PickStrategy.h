@@ -30,6 +30,7 @@ extern "C"
         int get_opposite_dir(int direction);
         int find_next_direction_pick(int robot, Maze maze);
         void initialize(Maze m);
+        vector<vector<int>> order_lower(vector<vector<vector<int>>> locations, vector<vector<int>> top, vector<vector<int>> lower);
 
     private:
         vector<int> shortest_path;
