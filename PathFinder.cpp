@@ -187,7 +187,6 @@ vector<vector<int>> PathFinder::create_next_data_packet()
     vector<int> inv_patch{has_white, get_invert_box_dir()};
     vector<int> junc_type{NORMAL};
     vector<int> box_grab{NEGLECT, NOCOLOR};
-    vector<int> over{scan_over};
 
     if (maze.junctions[robot_col][robot_row].get_state() == DISCOVERED)
     {
@@ -221,7 +220,6 @@ vector<vector<int>> PathFinder::create_next_data_packet()
     data_packet.push_back(inv_patch);
     data_packet.push_back(junc_type);
     data_packet.push_back(box_grab);
-    data_packet.push_back(over);
 
     cout << "data packet: "
          << "\n";

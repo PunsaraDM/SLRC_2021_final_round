@@ -229,28 +229,7 @@ int Strategy::find_next_direction(int robot_col, int robot_row, Maze maze, int r
 
             int selected = INVALID;
 
-            cout << "visited"
-
-                 << "\n";
-
-            for (size_t i = 0; i < visited.size(); i++)
-
-            {
-
-                cout << visited[i] << "\n";
-            }
-
-            cout << "unvisited"
-
-                 << "\n";
-
-            for (size_t i = 0; i < unvisited.size(); i++)
-
-            {
-
-                cout << unvisited[i] << "\n";
-            }
-
+           
             if (maze.junctions[robot_col][robot_row].content_state == INVERTED && !has_white)
             {
                 selected = get_opposite_dir(last_direction);

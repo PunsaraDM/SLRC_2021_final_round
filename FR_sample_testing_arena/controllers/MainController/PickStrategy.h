@@ -20,13 +20,13 @@ extern "C"
         int right_start_row;
         vector<vector<int>> white_locations;
         void find_combinations(Maze m);
-        int find_shortest_path(int col1, int row1, int col2, int row2, int color, int dir);
-        void discover_shortest_paths(vector<vector<vector<int>>> locations);
+        int find_shortest_path(int col1, int row1, int col2, int row2, int color, int dir,Maze c_maze);
+        void discover_shortest_paths(vector<vector<vector<int>>> locations, Maze m);
         vector<vector<int>> find_order(vector<int> selected, vector<vector<vector<int>>> locations);
         vector<int> get_reverse_path(vector<int> path);
         bool check_for_top_boxes(int red, int green, int blue, vector<vector<vector<int>>> locations);
         int get_opposite_dir(int direction);
-        int find_next_direction_pick(int col, int row, int robot, Maze maze);
+        int find_next_direction_pick(int robot, Maze maze);
         void initialize(Maze m);
 
     private:
