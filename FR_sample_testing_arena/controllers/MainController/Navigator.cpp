@@ -398,8 +398,8 @@ void Navigator::box_search_algo(bool haveBox)
   {
     juncType = PATCHNOBOX;
   }
-
-  if (clr < 4)
+  
+  if (clr < 4)  
   {
     clr = search_box_color(2); // seach for a upper box
     if (clr < 5)
@@ -752,23 +752,11 @@ void Navigator::goto_placement_cell(bool final)
 
   bool distanceAdjust = false;
 
-  if (carryingBox == RED)
-    go_forward_specific_distance(0.099);
-  else if (carryingBox == BLUE and greenBoxCount == 0)
-  {
-    go_forward_specific_distance(0.099);
-    blueBoxCount = 1;
-  }
-  else if (carryingBox == GREEN and blueBoxCount == 0)
-  {
-    go_forward_specific_distance(0.099);
-    greenBoxCount = 1;
-  }
-  else
-  {
-    distanceAdjust = true;
-    go_forward_specific_distance(0.089);
-  }
+void Navigator::goto_placement_cell()
+{
+  visit_normal_junc();
+  //go forward
+  follow_line_until_junc_detect();
 
   place_box(carryingBox);
 

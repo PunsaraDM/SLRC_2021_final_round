@@ -1,6 +1,20 @@
 #include "Master.h"
+#include "PathFinder.h"
 #include <bits/stdc++.h>
 #include "Maze.h"
+#include <webots/Receiver.hpp>
+#include <webots/Emitter.hpp>
+#include <iostream>
+#include <math.h>
+#include <webots/Robot.hpp>
+#include <webots/LED.hpp>
+#include <string>
+#include <vector>
+
+#define TIME_STEP 64
+
+using namespace std;
+using namespace webots;
 
 //directions
 #define UP 0
@@ -47,291 +61,93 @@
 #define NEGLECT 0
 #define LOWER 1
 #define MIDDLE 2
+#define UPPER 3
 
-using namespace std;
 
-Master::Master(int startCol, int startRow)
+void Master::initMaster(Master *master)
 {
-    robot_col = startCol;
-    robot_row = startRow;
+    for (int i = 0; i < rx_count; i++)
+    {
+    receiver[i] = master->getReceiver(rx_name[i]);
+    receiver[i]->enable(TIME_STEP);
+    }
+    for (int i = 0; i < tx_count; i++)
+    {
+    emmiter[i] = master->getEmmiter(tx_name[i]);
+    emmiter[i]->enable(TIME_STEP);
+    }
 }
 
 void Master::communicate()
 {
-    
+    for{int i==0, i<2, i++}
+    {
+        GetReceiver(i);
+        if (i) 
+        {varRx[i] = pathfinderright->travel_maze(juncTypeRx[i], pathStateRx[i], boxTypeRx[i]); 
+    }
+
+
+
 }
 
-
-
-
-vector<int> PathFinder::adjust_path_state_to_global(vector<int> paths)
-{
-    vector<int> temp_paths;
-    for (int i = 0; i < 4; i++)
-    {
-        int local_dir = i - last_direction;
-        if (local_dir < 0)
-        {
-            local_dir = 4 + local_dir;
-        }
-        temp_paths.push_back(paths[local_dir]);
-    }
-    return temp_paths;
-}
-
-vector<vector<int>> PathFinder::travel_maze(int juncType, vector<int> path_state, vector<int> box_type)
-{
-    cout << "robot: (" << robot_col << "," << robot_row << ")\n";
-    if (!scan_over)
-    {
-        return search_maze(juncType, path_state, box_type);
-    }
-    else
-    {
-        if (robot_col == 0 && robot_row == 0 && last_direction != RIGHT)
-        {
-            vector<vector<int>> packet;
-            direction_to_travel = LEFT;
-            update_robot_position(direction_to_travel);
-            packet = create_next_data_packet();
-            last_direction = LEFT;
-            return packet;
-        }
-        else if (robot_col == -1 && robot_row == 0)
-        {
-            last_direction = RIGHT;
-            direction_to_travel = RIGHT;
-            update_robot_position(direction_to_travel);
-
-            return create_next_data_packet();
-        }
-        else
-        {
-            return travel_with_color();
-        }
-    }
-}
-
-vector<vector<int>> PathFinder::travel_with_color()
-{
-    vector<vector<int>> packet;
-    direction_to_travel = pick_strategy.find_next_direction_pick(LEFT, maze);
-    update_robot_position(direction_to_travel);
-    packet = create_next_data_packet();
-    last_direction = direction_to_travel;
-    return packet;
-}
-
-vector<vector<int>> PathFinder::search_maze(int juncType, vector<int> path_state, vector<int> box_type)
-{
-    vector<vector<int>> packet;
-    vector<int> paths;
-    int junction_content_state;
-    vector<int> junction_content;
-    bool white_box = has_white;
-
-    //get available directions from the current position
-    if (maze.junctions[robot_col][robot_row].get_state() != DISCOVERED)
-    {
-        if (juncType == WHITE_PATCH)
-        {
-            white_box = true;
-        }
-        paths = adjust_path_state_to_global(path_state);
-        junction_content_state = juncType;
-        junction_content = box_type;
-    }
-    else
-    {
-        if (maze.junctions[robot_col][robot_row].content_state == WHITE_PATCH)
-        {
-            white_box = true;
-        }
-        junction_content_state = maze.junctions[robot_col][robot_row].content_state;
-        paths = maze.junctions[robot_col][robot_row].get_paths();
-        junction_content = maze.junctions[robot_col][robot_row].get_content();
-    }
-
-    maze.update_junction(robot_col, robot_row, junction_content, junction_content_state, has_white);
-
-    if (junction_content_state != INVERTED || has_white)
-    {
-        maze.update_path(robot_col, robot_row, paths);
-    }
-
-    if (maze.discovered == 6)
-    {
-        cout << "over"
-             << "\n";
-        scan_over = true;
-        pick_strategy.left_start_col = robot_col;
-        pick_strategy.left_start_row = robot_row;
-        pick_strategy.initialize(maze);
-        return travel_with_color();
-    }
-    else
-    {
-
-        direction_to_travel = strategy.find_next_direction(robot_col, robot_row, maze, LEFT, last_direction, has_white);
-
-        if (junction_content_state == INVERTED && has_white)
-        {
-            white_box = false;
-        }
-
-        has_white = white_box;
-        update_robot_position(direction_to_travel);
-        packet = create_next_data_packet();
-        last_direction = direction_to_travel;
-        return packet;
-    }
-}
-
-vector<vector<int>> PathFinder::create_next_data_packet()
-{
-    vector<vector<int>> data_packet;
-    vector<int> navigate_state;
-    vector<int> direction{get_local_direction()};
-    vector<int> inv_patch{has_white, get_invert_box_dir()};
-    vector<int> junc_type{NORMAL};
-    vector<int> box_grab{NEGLECT, NOCOLOR};
-    vector<int> over{scan_over};
-
-    if (maze.junctions[robot_col][robot_row].get_state() == DISCOVERED)
-    {
-        navigate_state.push_back(NAVIGATE_STATE_VISITED);
-        junc_type[0] = maze.junctions[robot_col][robot_row].content_state;
-        if (!scan_over && !has_white)
-        {
-            for (size_t i = 0; i < strategy.white_locations.size(); i++)
-            {
-                vector<int> loc = strategy.white_locations[i];
-                if (loc[0] == robot_col && loc[1] == robot_row)
-                {
-                    box_grab[1] = WHITE_COL;
-                    box_grab[0] = LOWER;
-                }
-            }
-        }
-        else if (scan_over && junc_type[0] == COLORED)
-        {
-            get_next_junc_color();
-            box_grab[0] = current_pos;
-            box_grab[1] = current_color;
-        }
-    }
-    else
-    {
-        navigate_state.push_back(NAVIGATE_STATE_SEARCH);
-    }
-    data_packet.push_back(navigate_state);
-    data_packet.push_back(direction);
-    data_packet.push_back(inv_patch);
-    data_packet.push_back(junc_type);
-    data_packet.push_back(box_grab);
-    data_packet.push_back(over);
-
-    cout << "data packet: "
-         << "\n";
-    for (size_t i = 0; i < data_packet.size(); i++)
-    {
-        for (size_t j = 0; j < data_packet[i].size(); j++)
-        {
-            cout << data_packet[i][j] << " | ";
-        }
-        cout << "\n";
-    }
-    cout << "------------------------"
-         << "\n";
-
-    return data_packet;
-}
-
-int PathFinder::get_local_direction()
-{
-    int local_dir = direction_to_travel - last_direction;
-    if (local_dir < 0)
-    {
-        local_dir = 4 + local_dir;
-    }
-    return local_dir;
-}
-
-int PathFinder::get_invert_box_dir()
-{
-    int dir = RIGHT;
-    if ((robot_col == 0 && direction_to_travel == 2) || (robot_col == COLS - 1 && direction_to_travel == 0) || (robot_row == 0 && direction_to_travel == 1) || (robot_row == ROWS - 1 && direction_to_travel == 3))
-    {
-        dir = LEFT;
-    }
-
-    return dir;
-}
-
-void PathFinder::update_robot_position(int direction)
+void Master::GetReceiver(int rx)
 {
 
-    switch (direction)
+    if (receiver[rx]->getQueueLength() > 0)
     {
-    case UP:
-        robot_row += 1;
-        break;
+        string RxMessage[rx]((const char *)receiver[rx]->getData());
 
-    case RIGHT:
-        robot_col += 1;
-        break;
+        cout <<"received msg "<< RxMessage[rx] << endl;
+        receiver[rx]->nextPacket();
+        
+        // for (int i = 0; i < 7; i++)
+        // {
+        //   tempStr = TxMessage[i];
+        //   if (i == 0)
+        //     varRx[0][0] = stoi(tempStr);
+        //   else if (i == 1)
+        //     varRx[1][0] = stoi(tempStr);
+        //   else if (i == 2)
+        //     varRx[2][0] = stoi(tempStr);
+        //   else if (i == 3)
+        //     varRx[2][1] = stoi(tempStr);
+        //   else if (i == 4)
+        //     varRx[3][0] = stoi(tempStr);
+        //   else if (i == 5)
+        //     varRx[4][0] = stoi(tempStr);
+        //   else if (i == 6)
+        //     varRx[4][1] = stoi(tempStr);
+        // }
 
-    case DOWN:
-        robot_row -= 1;
-        break;
+        //cout << "rxmsg: " << varRx[0][0] << varRx[1][0] << varRx[2][0] << varRx[2][1] << varRx[3][0] << varRx[4][0] << varRx[4][1] << endl;
 
-    case LEFT:
-        robot_col -= 1;
-        break;
-
-    default:
-        cout << "Invalid direction"
-             << "\n";
-        break;
-    }
-}
-
-void PathFinder::get_next_junc_color()
-{
-    bool found = false;
-    int count = 0;
-    int index = 0;
-    current_color = NOCOLOR;
-    for (size_t i = 0; i < maze.colored_sequential.size(); i++)
-    {
-        if (maze.colored_sequential[i][0] == robot_col && maze.colored_sequential[i][1] == robot_row)
+        for (int i = 0; i < 7; i++)
         {
-
-            if (!found)
-            {
-                current_color = maze.colored_sequential[i][2];
-                found = true;
-                index = i;
-            }
-            count += 1;
+        tempStr = RxMessage[rx][i];
+        if (i == 0)
+            juncTypeRx[rx] = stoi(tempStr);
+        else if (i == 1)
+            pathStateRx[rx][0] = stoi(tempStr);
+        else if (i == 2)
+            pathStateRx[rx][1] = stoi(tempStr);
+        else if (i == 3)
+            pathStateRx[rx][2] = stoi(tempStr);
+        else if (i == 4)
+            pathStateRx[rx][3] = stoi(tempStr);
+        else if (i == 5)
+            boxTypeRx[rx][0] = stoi(tempStr);
+        else if (i == 6)
+            boxTypeRx[rx][1] = stoi(tempStr);
         }
-    }
 
-    if (found)
-    {
-        maze.colored_sequential.erase(maze.colored_sequential.begin() + index);
-    }
+        cout << "juncType: " << juncTypeRx[rx] << endl;
+        cout << "pathState: " << pathStateRx[rx][0] << pathStateRx[rx][1] << pathStateRx[rx][2] << pathStateRx[rx][3] << endl;
+        cout << "boxType: " << boxTypeRx[rx][0] << boxTypeRx[rx][1] << endl;
 
-    if (count == 2)
-    {
-        current_pos = MIDDLE;
-    }
-    else if (count == 1)
-    {
-        current_pos = LOWER;
-    }
-    else
-    {
-        current_pos = NEGLECT;
     }
 }
+
+
+
+
