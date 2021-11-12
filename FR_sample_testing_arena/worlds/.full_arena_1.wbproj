@@ -5,7 +5,7 @@ sceneTreePerspectives: 000000ff0000000100000002000000c0000000fa01000000020100000
 maximizedDockId: -1
 centralWidgetVisible: 1
 orthographicViewHeight: 1
-textFiles: 0 "MainController.cpp"
+textFiles: 19 "controllers/MainController/Junction.cpp" "controllers/MainController/Junction.h" "controllers/MainController/MainController.cpp" "controllers/MainController/Makefile" "controllers/MainController/Maze.cpp" "controllers/MainController/Maze.h" "controllers/MainController/MotorGroup.cpp" "controllers/MainController/MotorGroup.h" "controllers/MainController/Navigator.cpp" "controllers/MainController/Navigator.h" "controllers/MainController/PathFinder.cpp" "controllers/MainController/PathFinder.h" "controllers/MainController/PickStrategy.cpp" "controllers/MainController/PickStrategy.h" "controllers/MainController/ref_Robot.wbo" "controllers/MainController/Robot.wbo" "controllers/MainController/SensorGroup.cpp" "controllers/MainController/SensorGroup.h" "controllers/MainController/Strategy.cpp" "controllers/MainController/Strategy.h"
 globalOptionalRendering: DistanceSensorRays
 consoles: Console:All:All
 renderingDevicePerspectives: robot(1):cs_arm;1;1;0;0

@@ -213,7 +213,7 @@ extern "C"
         double grabDistGreen = 0.0832;
         double grabDistBlue = 0.0932;
         double grabDistToDetectColor = 0.07;
-        double linearMotorVelocity = 0.2;
+        double linearMotorVelocity = 0.1;
         double turnSpeed = 5.0;
         double expoValTurnThresh = 0.5;
         int turnAccu = 10000;
