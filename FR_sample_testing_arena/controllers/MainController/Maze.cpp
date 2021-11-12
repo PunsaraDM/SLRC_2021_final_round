@@ -92,6 +92,7 @@ void Maze::update_junction(int column, int row, vector<int> content, int junctio
         int count = 0;
         for (int i = 1; i > -1; i--)
         {
+            cout << "colors: " << content[i] << "\n";
             vector<int> colored_context{column, row, content[i]};
             if (RED <= content[i] && content[i] <= BLUE)
             {
@@ -115,7 +116,12 @@ void Maze::update_junction(int column, int row, vector<int> content, int junctio
                     state = DOUBLETOP;
                 }
             }
+            else
+            {
+                state = TOP;
+            }
             vector<int> val{column, row, state};
+            cout << "inserting: " << column<<", " <<row <<", " <<state << content[i] <<"\n";
 
             if (RED <= content[i] && content[i] <= BLUE)
             {

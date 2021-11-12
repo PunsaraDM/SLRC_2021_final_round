@@ -167,6 +167,12 @@ vector<vector<int>> PathFinder::search_maze(int juncType, vector<int> path_state
         if (robot == LEFT)
         {
             pick_order = pick_strategy.order_left;
+            cout << "order"
+                 << "\n";
+            for (size_t i = 0; i < pick_order.size(); i++)
+            {
+                cout << pick_order[i][0] << "," << pick_order[i][1] << "\n";
+            }
         }
         else
         {
@@ -352,19 +358,23 @@ bool PathFinder::get_next_junc_color()
     bool found = false;
     int state = 0;
     current_color = NOCOLOR;
+
     if (maze.colored_junctions[pick_order[current_pick][0]][pick_order[current_pick][1]][0] == robot_col && maze.colored_junctions[pick_order[current_pick][0]][pick_order[current_pick][1]][1] == robot_row)
     {
         found = true;
-        current_pick += 1;
         current_color = pick_order[current_pick][0] + 1;
+
         state = maze.colored_junctions[pick_order[current_pick][0]][pick_order[current_pick][1]][2];
     }
 
-    if (state != LOWER || state != MIDDLE)
+    if (state != LOWER && state != MIDDLE)
     {
         state = LOWER;
+    }
+    if (found)
+    {
+        current_pick += 1;
     }
     current_pos = state;
     return found;
 }
-
