@@ -60,6 +60,7 @@ using namespace std;
 #define VISIT 1
 #define PLACEMENT 2
 #define FINISH_PLACEMENT 3
+#define STALL 4
 
 #define FALSE 0
 #define TRUE 1
@@ -227,7 +228,7 @@ extern "C"
         double distArmBase_centre_blue = 0.115;
         double distArmBase_centre_white = 0.115;
         double distArmBase_min = 0.0;
-        double distArmBase_place = 0.01;     //place white box before searching and centering a box
+        double distArmBase_place = 0.00;     //place white box before searching and centering a box
         double distArmBase_carry = 0.03; 
         double verticalGround = 0.0;
         //double verticalLowest = ;

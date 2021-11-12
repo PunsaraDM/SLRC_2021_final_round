@@ -271,9 +271,10 @@ void Navigator::grab_white_box_after_search() // grab the white box before searc
 
 int Navigator::search_box_color(int level)
 {
-  double currentDist = distArmBase_place + 0.05;
+  double currentDist = distArmBase_place + 0.07;
   arm_base_move(currentDist);
   arm_grab_box(grabDist_min, grabDist_min);
+  
   if (level == 1) // lower search
     arm_vertical_move(verticalGround);
   else if (level == 2) // upper search
