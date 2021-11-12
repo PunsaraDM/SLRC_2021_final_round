@@ -163,10 +163,18 @@ vector<vector<int>> PathFinder::search_maze(int juncType, vector<int> path_state
         pick_strategy.left_start_col = robot_col;
         pick_strategy.left_start_row = robot_row;
         pick_strategy.initialize(maze);
-        bool found = get_next_junc_color();
-        if (found)
+
+        if (robot == LEFT)
         {
-            direction_to_travel = STALL;
+            pick_order = pick_strategy.order_left;
+        }
+        else
+        {
+            pick_order = pick_strategy.order_right;
+        }
+        if (get_next_junc_color())
+        {
+            in_last = true;
             packet = create_next_data_packet();
             return packet;
         }
@@ -203,7 +211,31 @@ vector<vector<int>> PathFinder::create_next_data_packet()
     vector<int> box_grab{NEGLECT, NOCOLOR};
     vector<int> over{scan_over};
 
-    if (maze.junctions[robot_col][robot_row].get_state() == DISCOVERED)
+    if (scan_over && robot_col == -1 && robot_row == 0)
+    {
+        if (current_pick < 2 && placement_back)
+        {
+            junc_type[0] = maze.junctions[0][0].content_state;
+            navigate_state.push_back(NAVIGATE_STATE_VISITED);
+            placement_back = false;
+            if (junc_type[0] == COLORED && get_next_junc_color())
+            {
+                box_grab[0] = current_pos;
+                box_grab[1] = current_color;
+            }
+        }
+        else if (current_pick < 2 && !placement_back)
+        {
+            navigate_state.push_back(PLACEMENT);
+            placement_back = true;
+        }
+        else if (current_pick == 2)
+        {
+            navigate_state.push_back(PLACEMENT_FULL);
+        }
+    }
+
+    else if (maze.junctions[robot_col][robot_row].get_state() == DISCOVERED)
     {
         junc_type[0] = maze.junctions[robot_col][robot_row].content_state;
         if (!scan_over && !has_white)
@@ -217,20 +249,32 @@ vector<vector<int>> PathFinder::create_next_data_packet()
                     box_grab[0] = LOWER;
                 }
             }
+            navigate_state.push_back(NAVIGATE_STATE_VISITED);
         }
-        else if (scan_over && junc_type[0] == COLORED)
+        else if (in_last)
         {
-            get_next_junc_color();
+            navigate_state.push_back(STALL);
+            box_grab[0] = current_pos;
+            box_grab[1] = current_color;
+            in_last = false;
+        }
+        else
+        {
+            navigate_state.push_back(NAVIGATE_STATE_VISITED);
+        }
+
+        if (scan_over && junc_type[0] == COLORED && !in_last && get_next_junc_color())
+        {
             box_grab[0] = current_pos;
             box_grab[1] = current_color;
         }
-
-        navigate_state.push_back(NAVIGATE_STATE_VISITED);
     }
+
     else
     {
         navigate_state.push_back(NAVIGATE_STATE_SEARCH);
     }
+
     data_packet.push_back(navigate_state);
     data_packet.push_back(direction);
     data_packet.push_back(inv_patch);
@@ -306,40 +350,21 @@ void PathFinder::update_robot_position(int direction)
 bool PathFinder::get_next_junc_color()
 {
     bool found = false;
-    int count = 0;
-    int index = 0;
+    int state = 0;
     current_color = NOCOLOR;
-    for (size_t i = 0; i < maze.colored_sequential.size(); i++)
+    if (maze.colored_junctions[pick_order[current_pick][0]][pick_order[current_pick][1]][0] == robot_col && maze.colored_junctions[pick_order[current_pick][0]][pick_order[current_pick][1]][1] == robot_row)
     {
-        if (maze.colored_sequential[i][0] == robot_col && maze.colored_sequential[i][1] == robot_row)
-        {
-
-            if (!found)
-            {
-                current_color = maze.colored_sequential[i][2];
-                found = true;
-                index = i;
-            }
-            count += 1;
-        }
+        found = true;
+        current_pick += 1;
+        current_color = pick_order[current_pick][0] + 1;
+        state = maze.colored_junctions[pick_order[current_pick][0]][pick_order[current_pick][1]][2];
     }
 
-    if (found)
+    if (state != LOWER || state != MIDDLE)
     {
-        maze.colored_sequential.erase(maze.colored_sequential.begin() + index);
+        state = LOWER;
     }
-
-    if (count == 2)
-    {
-        current_pos = MIDDLE;
-    }
-    else if (count == 1)
-    {
-        current_pos = LOWER;
-    }
-    else
-    {
-        current_pos = NEGLECT;
-    }
-    return false;
+    current_pos = state;
+    return found;
 }
+

@@ -43,8 +43,8 @@
 #define GREEN 2
 #define BLUE 3
 
-#define DOUBLETOP 1
-#define DOUBLEBOTTOM 2
+#define DOUBLETOP 2
+#define DOUBLEBOTTOM 1
 #define TOP 3
 using namespace std;
 

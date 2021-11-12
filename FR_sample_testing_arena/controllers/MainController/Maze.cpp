@@ -35,9 +35,9 @@
 #define LOWER 1
 #define MIDDLE 2
 
-#define TOP 1
 #define DOUBLETOP 2
-#define DOUBLEBOTTOM 3
+#define DOUBLEBOTTOM 1
+#define TOP 3
 
 using namespace std;
 

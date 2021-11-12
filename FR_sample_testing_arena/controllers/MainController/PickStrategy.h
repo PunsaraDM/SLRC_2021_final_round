@@ -18,9 +18,11 @@ extern "C"
         int left_start_row;
         int right_start_col;
         int right_start_row;
+        vector<vector<int>> order_left;
+        vector<vector<int>> order_right;
         vector<vector<int>> white_locations;
         void find_combinations(Maze m);
-        int find_shortest_path(int col1, int row1, int col2, int row2, int color, int dir,Maze c_maze);
+        int find_shortest_path(int col1, int row1, int col2, int row2, int color, int dir, Maze c_maze);
         void discover_shortest_paths(vector<vector<vector<int>>> locations, Maze m);
         vector<vector<int>> find_order(vector<int> selected, vector<vector<vector<int>>> locations);
         vector<int> get_reverse_path(vector<int> path);
@@ -36,15 +38,13 @@ extern "C"
         vector<int> red_distances;
         vector<int> blue_distances;
         vector<int> green_distances;
-
+        int placement_back = false;
         vector<int> selected_left;
         vector<int> selected_right;
         bool left_initialized = false;
         bool right_initialized = false;
         vector<int> left_stack;
         vector<int> right_stack;
-        vector<vector<int>> order_left;
-        vector<vector<int>> order_right;
     };
 #ifdef __cplusplus
 }
