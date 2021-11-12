@@ -8,7 +8,7 @@ WorldInfo {
 }
 Viewpoint {
   orientation 1 0 0 4.71238898038469
-  position 3.219355880097406 12.98328765032489 -4.647757717149675
+  position 2.249759689901531 9.378619869897484 -4.572333951065755
 }
 DirectionalLight {
   direction 0 -1 0
@@ -227,7 +227,7 @@ DEF Boxes_new Group {
       physics USE Box_Ph
     }
     DEF Green_Box Solid {
-      translation 1.4786984988072553 0.01995176050958297 -4.650106200967451
+      translation 2.11 0.0199082 -3.41
       rotation -0.0006394602827402947 0.9999955758589103 -0.002905056480187 0.0074902703390441585
       children [
         DEF Green_Box Shape {
@@ -246,7 +246,7 @@ DEF Boxes_new Group {
       physics USE Box_Ph
     }
     DEF Red_Box Solid {
-      translation 2.11 0.019908184076112643 -3.41
+      translation 1.4786984988072553 0.01995176050958297 -4.650106200967451
       rotation -0.6769411330989211 -0.03985496793615769 0.7349573347137618 -5.171690830117331e-15
       children [
         DEF Red_Box Shape {
@@ -265,7 +265,7 @@ DEF Boxes_new Group {
       physics USE Box_Ph
     }
     DEF White_Box Solid {
-      translation 4.62 0.019985308537234084 -3.39
+      translation 4.64 0.0199853 -3.38
       rotation -0.03550972115955072 -0.9836449809103156 0.17658315670843536 1.6840752361607301e-15
       children [
         DEF White_Box Shape {
@@ -305,8 +305,7 @@ DEF Boxes_new Group {
       }
     }
     DEF White_Box Solid {
-      translation 3.99 0.019985308537234087 -6.53
-      rotation 0.2334164434068821 -0.9711792809261605 0.04824487793566767 1.5541313172704707e-15
+      translation 3.96 0.0199853 -6.54
       children [
         DEF White_Box Shape {
           appearance PBRAppearance {
@@ -325,8 +324,7 @@ DEF Boxes_new Group {
       }
     }
     DEF White_Box Solid {
-      translation 4.62 0.019985308537234087 -5.28
-      rotation -0.2031129762267745 -0.95594093016152 0.21194824115861274 1.7178696696742388e-15
+      translation 4.62 0.0199853 -5.29
       children [
         DEF White_Box Shape {
           appearance PBRAppearance {
@@ -345,7 +343,7 @@ DEF Boxes_new Group {
       }
     }
     DEF White_Box Solid {
-      translation 0.84 0.019985308537234084 -4.65
+      translation 0.87 0.0199853 -4.63
       rotation -0.24925241521983413 -0.9681949291483035 -0.021721249471222153 1.6675535709536447e-15
       children [
         DEF White_Box Shape {
@@ -365,7 +363,7 @@ DEF Boxes_new Group {
       }
     }
     DEF White_Box Solid {
-      translation -0.52 0.019985308537234084 -3.47
+      translation -0.49 0.0199853 -3.465
       rotation -0.08139159156602219 -0.9966416169624102 -0.00899422931120619 1.5544747719616621e-15
       children [
         DEF White_Box Shape {
@@ -404,8 +402,7 @@ DEF Boxes_new Group {
       physics USE Box_Ph
     }
     DEF Green_Box Solid {
-      translation 2.1100000000001833 0.05987410301059294 -3.409999999999817
-      rotation 0.11563953189965825 0.9859834109235084 -0.1202672525905206 1.6121852555771345e-14
+      translation 2.11 0.0599082 -3.41
       children [
         DEF Green_Box Shape {
           appearance PBRAppearance {
@@ -423,7 +420,7 @@ DEF Boxes_new Group {
       physics USE Box_Ph
     }
     DEF Blue_Box Solid {
-      translation 1.4800804325046544 0.05993699529502642 -4.6504052595762335
+      translation 1.4787 0.0599518 -4.65011
       rotation 0.0001627585986399832 -0.9999997583826529 0.0006758285836511043 -0.03409976837927114
       children [
         DEF Blue_Box Shape {
@@ -15393,7 +15390,7 @@ Robot {
         }
       ]
       endPoint DEF QTR_PANEL Solid {
-        translation 5.1486592766991635e-15 -0.12799961411752706 0.11998805549600902
+        translation 5.259681579161679e-15 -0.12799961411752694 0.11998805549600902
         rotation -0.9999999999999999 0 0 1.5707
         children [
           DEF QTR_SENSORS Transform {
@@ -15839,6 +15836,7 @@ Robot {
         }
         LinearMotor {
           name "base_motor"
+          controlPID 4.5 0 0
           minPosition -10
           maxPosition 10
         }
@@ -15856,6 +15854,7 @@ Robot {
               }
               LinearMotor {
                 name "vertical_motor"
+                controlPID 4.5 0 0
                 maxPosition 10
               }
             ]
@@ -15871,6 +15870,7 @@ Robot {
                     }
                     LinearMotor {
                       name "gripper_right_motor"
+                      controlPID 4.5 0 0
                       minPosition -10
                       maxPosition 10
                     }
@@ -15952,6 +15952,7 @@ Robot {
                     }
                     LinearMotor {
                       name "gripper_left_motor"
+                      controlPID 4.5 0 0
                       minPosition -10
                       maxPosition 10
                     }

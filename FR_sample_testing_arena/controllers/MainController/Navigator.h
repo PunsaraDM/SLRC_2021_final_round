@@ -130,7 +130,8 @@ extern "C"
         void grab_white_box_from_red_square();
         void place_box(int color);
         void arm_carrying();
-        void final_stack_box(int color,int row); 
+        // void final_stack_box(int color,int row); 
+        void final_stack_box(int color); 
     private:
         SensorGroup *sensorGroup;
         MotorGroup *motorGroup;
@@ -208,7 +209,7 @@ extern "C"
         int QTR_UP = 0;
         int QTR_DOWN = 1;
 
-
+        int boxCountPlacement = 0;  //to solve the error in goto_placement_cell
         ////////////For robot arm/////////////// 
         double grabDist_min = 0.0;
         double grabDistRed = 0.0732;

@@ -232,7 +232,7 @@ void Navigator::turn(int dir)
 
 void Navigator::arm_base_move(double target)
 {
-  motorGroup->set_linear_target(2, target, linearMotorVelocity);
+  motorGroup->set_linear_target_PID(2, target, linearMotorVelocity);
   passive_wait_servo(2, target);
 }
 
@@ -244,8 +244,8 @@ void Navigator::arm_vertical_move(double target)
 
 void Navigator::arm_grab_box(double targetLeft, double targetRight)
 {
-  motorGroup->set_linear_target(4, targetLeft, linearMotorVelocity);
-  motorGroup->set_linear_target(5, targetRight, linearMotorVelocity);
+  motorGroup->set_linear_target_PID(4, targetLeft, linearMotorVelocity);
+  motorGroup->set_linear_target_PID(5, targetRight, linearMotorVelocity);
   passive_wait(targetLeft, targetRight);
 }
 
@@ -425,7 +425,7 @@ void Navigator::box_search_algo(bool haveBox)
       cout << "found upper box" << endl;
     }
   }
-  arm_parking();
+  
   // if white box need to be picked call function
   // currently robot doesnt have a box and next box is a white one
   if ((var[INV_PATCH][BOX_CARRY] == FALSE) and (boxType[LOWER - 1] == WHITE_CLR))
@@ -433,6 +433,8 @@ void Navigator::box_search_algo(bool haveBox)
     cout << "grabbed a white box while in discovery satate." << endl;
     grab_box(WHITE_CLR, LOWER); // box_carry need to update??
   }
+  else
+    arm_parking();
 
   if (var[INV_PATCH][BOX_CARRY] == TRUE)
     grab_white_box_after_search(); // grab the white box after searching and centering a color box
@@ -497,22 +499,24 @@ void Navigator::place_box(int color) // at the placement square
   }
   else if (color == GREEN)
   {
-    arm_base_move(0.0512);
+    arm_base_move(0.0512-0.01);
     arm_vertical_move(verticalGround);
+    arm_base_move(0.0512);
     arm_grab_box(0.0232, 0.1432); // release the box
     arm_grab_box(grabDist_min, 0.1232 + 0.02);
   }
   else if (color == BLUE)
   {
-    arm_base_move(0.0512);
+    arm_base_move(0.0512-0.01);
     arm_vertical_move(verticalGround);
+    arm_base_move(0.0512);
     arm_grab_box(0.1632, 0.0232); // release the box
     arm_grab_box(0.1632 - 0.02, grabDist_min);
   }
   arm_carrying();
   arm_grab_box(grabDist_min, grabDist_min);
 }
-
+/*
 void Navigator::final_stack_box(int color, int row) // at the placement square
 {
   // function calls after go_forward_specific_distance(0.099);
@@ -550,7 +554,43 @@ void Navigator::final_stack_box(int color, int row) // at the placement square
   }
   arm_carrying();
   arm_grab_box(grabDist_min, grabDist_min);
+}*/
+
+
+void Navigator::final_stack_box(int color) // at the placement square
+{
+  // function calls after go_forward_specific_distance(0.099);
+  if (color == GREEN)
+  {
+    //arm_base_move(0.0510);
+    arm_grab_box(0.0232 - 0.02, 0.1432 - 0.02);
+    arm_vertical_move(verticalGround);
+    arm_base_move(0.0510);
+    arm_grab_box(0.0232, 0.1432);
+    arm_grab_box(grabDistGreen, grabDistGreen);
+    arm_vertical_move(verticalHighest);
+    arm_base_move(0.1512 + 0.01);
+    arm_vertical_move(verticalGround + 0.04);
+    arm_grab_box(grabDist_min, grabDist_min);
+  }
+  else if (color == BLUE)
+  {
+    //arm_base_move(0.0510);
+    arm_grab_box(0.1632 - 0.02, 0.0232 - 0.02);
+    arm_vertical_move(verticalGround);
+    arm_base_move(0.0510);
+    arm_grab_box(0.1632, 0.0232);
+    arm_grab_box(grabDistBlue, grabDistBlue);
+    arm_vertical_move(verticalHighest);
+    arm_base_move(0.1512 + 0.02);
+    arm_vertical_move(verticalGround + 0.08);
+    arm_grab_box(grabDist_min, grabDist_min);
+  }
+  arm_carrying();
+  arm_grab_box(grabDist_min, grabDist_min);
 }
+
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool Navigator::is_junction_detected()
 {
@@ -769,14 +809,14 @@ void Navigator::follow_line_until_junc_detect()
     }
   }
 }
-
+/*
 void Navigator::goto_placement_cell(bool final)
 {
   visit_normal_junc(); // go forward
   follow_line_until_junc_detect();
 
   motorGroup->qtr_servo(QTR_UP, 2.0);
-  delay(500);
+  delay(1500);
 
   bool distanceAdjust = false;
 
@@ -807,6 +847,42 @@ void Navigator::goto_placement_cell(bool final)
     }
     final_stack_box(GREEN, greenBoxCount);
     final_stack_box(BLUE, blueBoxCount);
+    go_backward_specific_distance(0.15);
+    motorGroup->qtr_servo(QTR_DOWN, 2.0);
+  }
+  else
+  {
+    go_backward_specific_distance(0.15);
+    motorGroup->qtr_servo(QTR_DOWN, 2.0);
+    turn(BACK);
+    follow_line_until_junc_detect();
+    visit_normal_junc();
+  }
+  carryingBox = NO_COLOR;
+
+}
+*/
+
+
+void Navigator::goto_placement_cell(bool final)
+{
+  boxCountPlacement += 1;
+  if (boxCountPlacement != 2){
+    visit_normal_junc(); // go forward
+  }
+
+  follow_line_until_junc_detect();
+  motorGroup->qtr_servo(QTR_UP, 2.0);
+  delay(500);
+
+  go_forward_specific_distance(0.109);
+  
+  place_box(carryingBox);
+
+  if(final)
+  {
+    final_stack_box(GREEN);
+    final_stack_box(BLUE);
     go_backward_specific_distance(0.15);
     motorGroup->qtr_servo(QTR_DOWN, 2.0);
   }

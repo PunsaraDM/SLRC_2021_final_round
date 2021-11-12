@@ -58,9 +58,14 @@ void MotorGroup::set_linear_target(int motor, double tartget, double vel)
 {
     motors[motor]->setPosition(tartget);
     motors[motor]->setVelocity(vel);
-
 }
 
+void MotorGroup::set_linear_target_PID(int motor, double tartget, double vel)
+{
+    motors[motor]->setControlPID(4.5, 0, 0);
+    motors[motor]->setPosition(tartget);
+    motors[motor]->setVelocity(vel);
+}
 void MotorGroup::qtr_servo(int tartget, double vel)
 {
     motors[6]->setPosition(qtr_servo_target[tartget]);
