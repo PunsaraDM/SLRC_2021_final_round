@@ -78,76 +78,167 @@ void Master::initMaster(Master *master)
     }
 }
 
-void Master::communicate()
+void Master::main_control()
 {
-    for{int i==0, i<2, i++}
+    int rx = 0;
+    while(master->step(TIME_STEP) != -1)
     {
-        GetReceiver(i);
-        if (i) 
-        {varRx[i] = pathfinderright->travel_maze(juncTypeRx[i], pathStateRx[i], boxTypeRx[i]); 
-    }
-
-
-
-}
-
-void Master::GetReceiver(int rx)
-{
-
-    if (receiver[rx]->getQueueLength() > 0)
-    {
-        string RxMessage[rx]((const char *)receiver[rx]->getData());
-
-        cout <<"received msg "<< RxMessage[rx] << endl;
-        receiver[rx]->nextPacket();
-        
-        // for (int i = 0; i < 7; i++)
-        // {
-        //   tempStr = TxMessage[i];
-        //   if (i == 0)
-        //     varRx[0][0] = stoi(tempStr);
-        //   else if (i == 1)
-        //     varRx[1][0] = stoi(tempStr);
-        //   else if (i == 2)
-        //     varRx[2][0] = stoi(tempStr);
-        //   else if (i == 3)
-        //     varRx[2][1] = stoi(tempStr);
-        //   else if (i == 4)
-        //     varRx[3][0] = stoi(tempStr);
-        //   else if (i == 5)
-        //     varRx[4][0] = stoi(tempStr);
-        //   else if (i == 6)
-        //     varRx[4][1] = stoi(tempStr);
-        // }
-
-        //cout << "rxmsg: " << varRx[0][0] << varRx[1][0] << varRx[2][0] << varRx[2][1] << varRx[3][0] << varRx[4][0] << varRx[4][1] << endl;
-
-        for (int i = 0; i < 7; i++)
+        if (receiver[rx]->getQueueLength() > 0)
         {
-        tempStr = RxMessage[rx][i];
-        if (i == 0)
-            juncTypeRx[rx] = stoi(tempStr);
-        else if (i == 1)
-            pathStateRx[rx][0] = stoi(tempStr);
-        else if (i == 2)
-            pathStateRx[rx][1] = stoi(tempStr);
-        else if (i == 3)
-            pathStateRx[rx][2] = stoi(tempStr);
-        else if (i == 4)
-            pathStateRx[rx][3] = stoi(tempStr);
-        else if (i == 5)
-            boxTypeRx[rx][0] = stoi(tempStr);
-        else if (i == 6)
-            boxTypeRx[rx][1] = stoi(tempStr);
-        }
+            receive(rx);
+            if (rx==0) 
+            {
+                var = pathfinder_left->travel_maze(juncTypeRx, pathStateRx, boxTypeRx); 
+                if (maze.junctions[pathfinder_left ->robot_col][pathfinder_left ->robot_row].get_state() == RESERVED)
+                {
+                    
+                }
+                else
+                {
+                    maze.junctions[pathfinder_left ->robot_col][pathfinder_left ->robot_row].set_state() = RESERVED;
+                    emmit(rx);
+                }
+            }
+            else 
+            {
+                var = pathfinder_right->travel_maze(juncTypeRx, pathStateRx, boxTypeRx);
+                if (maze.junctions[pathfinder_right ->robot_col][pathfinder_right ->robot_row].get_state() == RESERVED)
+                {
 
-        cout << "juncType: " << juncTypeRx[rx] << endl;
-        cout << "pathState: " << pathStateRx[rx][0] << pathStateRx[rx][1] << pathStateRx[rx][2] << pathStateRx[rx][3] << endl;
-        cout << "boxType: " << boxTypeRx[rx][0] << boxTypeRx[rx][1] << endl;
+                }
+                else
+                {
+                    maze.junctions[pathfinder_right ->robot_col][pathfinder_right ->robot_row].set_state() = RESERVED;
+                    emmit(rx);
+                }
+            }
+        }
+        rx = rx + 1;
+        if (rx > 1) rx=0;
 
     }
+
+
+// void Master::main_control()
+// {
+//     while(master->step(TIME_STEP) != -1)
+//     {
+//         // current_left_robot_col = pathfinder_left -> robot_col;
+//         // current_left_robot_row = pathfinder_left -> robot_row;
+
+//         // current_right_robot_col = pathfinder_right -> robot_col;
+//         // current_right_robot_row = pathfinder_right -> robot_row;
+
+//         for{int i==0, i<2, i++}
+//         {
+//             if (receiver[i]->getQueueLength() > 0)
+//             {
+//             receive(i);
+//             if (i==0) var[i] = pathfinder_left->travel_maze(juncTypeRx[i], pathStateRx[i], boxTypeRx[i]); 
+//             else var[i] = pathfinder_right->travel_maze(juncTypeRx[i], pathStateRx[i], boxTypeRx[i]);
+//         }
+
+//         target_left_robot_col = pathfinder_left -> robot_col;
+//         target_left_robot_row = pathfinder_left -> robot_row;
+
+//         target_right_robot_col = pathfinder_right -> robot_col;
+//         target_right_robot_row = pathfinder_right -> robot_row;
+
+//         if ((target_left_robot_col==current_right_robot_col) && (target_left_robot_row == current_right_robot_row) ) && ((target_right_robot_col==current_left_robot_col) && (target_right_robot_row==current_left_robot_row))
+//         {
+//             //back one robot out of the path of other robot
+//         }
+
+//         else if ((target_left_robot_col == target_right_robot_col) && (target_left_robot_row==target_right_robot_row))
+//         {
+//             //one robot wait and other proceeds
+//             emmit(0);
+
+//         }
+
+//         else
+//         {
+//             emmit(0);
+//             emmit(1);
+//         }
+
+//     }
+
+// }
+
+void Master::receive(int rx)
+{
+
+    string RxMessage((const char *)receiver[rx]->getData());
+
+    cout <<"received msg "<< RxMessage << endl;
+    receiver[rx]->nextPacket();
+    
+    // for (int i = 0; i < 7; i++)
+    // {
+    //   tempStr = TxMessage[i];
+    //   if (i == 0)
+    //     var[0][0] = stoi(tempStr);
+    //   else if (i == 1)
+    //     var[1][0] = stoi(tempStr);
+    //   else if (i == 2)
+    //     var[2][0] = stoi(tempStr);
+    //   else if (i == 3)
+    //     var[2][1] = stoi(tempStr);
+    //   else if (i == 4)
+    //     var[3][0] = stoi(tempStr);
+    //   else if (i == 5)
+    //     var[4][0] = stoi(tempStr);
+    //   else if (i == 6)
+    //     var[4][1] = stoi(tempStr);
+    // }
+
+    //cout << "rxmsg: " << var[0][0] << var[1][0] << var[2][0] << var[2][1] << var[3][0] << var[4][0] << var[4][1] << endl;
+
+    string tempStr;
+    for (int i = 0; i < 7; i++)
+    {
+    tempStr = RxMessage[i];
+    if (i == 0)
+        juncTypeRx = stoi(tempStr);
+    else if (i == 1)
+        pathStateRx[0] = stoi(tempStr);
+    else if (i == 2)
+        pathStateRx[1] = stoi(tempStr);
+    else if (i == 3)
+        pathStateRx[2] = stoi(tempStr);
+    else if (i == 4)
+        pathStateRx[3] = stoi(tempStr);
+    else if (i == 5)
+        boxTypeRx[0] = stoi(tempStr);
+    else if (i == 6)
+        boxTypeRx[1] = stoi(tempStr);
+    }
+
+    cout << "juncType: " << juncTypeRx << endl;
+    cout << "pathState: " << pathStateRx[0] << pathStateRx[1] << pathStateRx[2] << pathStateRx[3] << endl;
+    cout << "boxType: " << boxTypeRx[0] << boxTypeRx[1] << endl;
+
+
 }
 
+void emmit(int tx)
+{
+    string TxMessage = "";
+
+    for (int i = 0; i < var.size(); i++)
+    {
+        for (int j = 0; j < var[i].size(); j++)
+        {
+            TxMessage = TxMessage + to_string(var[i][j]);
+        }
+    }
+    
+    cout << "txmsg: " << TxMessage << endl;
+    emitter[tx]->send(TxMessage.c_str(), (int)strlen(TxMessage.c_str()) + 1);
+
+
+}
 
 
 
