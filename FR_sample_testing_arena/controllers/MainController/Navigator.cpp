@@ -262,8 +262,9 @@ void Navigator::place_white_box_before_search() // place the white box before se
 
 void Navigator::grab_white_box_after_search() // grab the white box before searching and centering a color box
 {
-  arm_base_move(distArmBase_place);
+  arm_base_move(distArmBase_place-0.02);
   arm_vertical_move(verticalGround);
+  arm_base_move(distArmBase_place);
   arm_grab_box(grabDistBlue, grabDistBlue);
   arm_vertical_move(verticalHighest);
   arm_base_move(distArmBase_carry);
@@ -295,6 +296,9 @@ int Navigator::search_box_color(int level)
           cout << "RED BOX" << endl;
           if (level == 1)
           {
+            currentDist += 0.005;
+            arm_base_move(currentDist);
+            delay(500);
             arm_grab_box(grabDistRed, grabDistRed);
             centre_box(distArmBase_centre_red);
             arm_grab_box(grabDist_min, grabDist_min);
@@ -306,6 +310,9 @@ int Navigator::search_box_color(int level)
           cout << "GREEN BOX" << endl;
           if (level == 1)
           {
+            currentDist += 0.005;
+            arm_base_move(currentDist);
+            delay(500);
             arm_grab_box(grabDistGreen, grabDistGreen);
             centre_box(distArmBase_centre_green);
             arm_grab_box(grabDist_min, grabDist_min);
@@ -317,6 +324,9 @@ int Navigator::search_box_color(int level)
           cout << "BLUE BOX" << endl;
           if (level == 1)
           {
+            currentDist += 0.005;
+            arm_base_move(currentDist);
+            delay(500);
             arm_grab_box(grabDistBlue, grabDistBlue);
             centre_box(distArmBase_centre_blue);
             arm_grab_box(grabDist_min, grabDist_min);
@@ -328,6 +338,9 @@ int Navigator::search_box_color(int level)
           cout << "WHITE BOX" << endl;
           if (level == 1)
           {
+            currentDist += 0.005;
+            arm_base_move(currentDist);
+            delay(500);
             arm_grab_box(grabDistBlue, grabDistBlue);
             centre_box(distArmBase_centre_white);
             arm_grab_box(grabDist_min, grabDist_min);
