@@ -77,11 +77,6 @@ const double* SensorGroup::get_compass_value()
     return compass->getValues();;
 }
 
-// float SensorGroup::get_ir_value_distance_sensors(int index)     //only for stabilization
-// {
-//     float val = ds[index]->getValue();
-//     return val;
-// }
 
 float SensorGroup::get_distance_value(int index)
 {
@@ -103,42 +98,6 @@ int SensorGroup::get_digital_value(int index)
     else
         return WHITE;
 }
-
-// bool SensorGroup::is_junction_detected()
-// {
-//     if (((get_digital_value(LINE_DETECT_LEFT) == WHITE) and (get_digital_value(QTR_0) == WHITE) and (get_digital_value(LINE_DETECT_RIGHT) == WHITE) 
-//     and(get_digital_value(QTR_7) == WHITE)) and((get_digital_value(QTR_3) == BLACK) or (get_digital_value(QTR_4) == BLACK)))
-//     {
-//         //inverted patch detected
-//         cout<<"inverted"<<endl;
-//         return true;
-//     }
-//     else if (((get_digital_value(LINE_DETECT_LEFT) == WHITE) and (get_digital_value(QTR_0) == WHITE) and (get_digital_value(QTR_1) == WHITE) 
-//     and (get_digital_value(QTR_2) == WHITE) and (get_digital_value(QTR_3) == WHITE)) or 
-//     ((get_digital_value(LINE_DETECT_RIGHT) == WHITE) and (get_digital_value(QTR_4) == WHITE) and (get_digital_value(QTR_5) == WHITE) 
-//     and (get_digital_value(QTR_6) == WHITE) and (get_digital_value(QTR_7) == WHITE)))
-//     {
-//         //normal juction or a white patch
-//         //detct the line colors left and right
-//         //gor forward specific distance
-//         cout<<"second"<<endl;
-//         if ((get_digital_value(LINE_DETECT_LEFT) == WHITE) and (get_digital_value(QTR_0) == WHITE) 
-//         and (get_digital_value(QTR_1) == WHITE) and (get_digital_value(QTR_2) == WHITE) 
-//         and (get_digital_value(QTR_3) == WHITE) and (get_digital_value(LINE_DETECT_RIGHT) == WHITE) 
-//         and (get_digital_value(QTR_4) == WHITE) and (get_digital_value(QTR_5) == WHITE) 
-//         and (get_digital_value(QTR_6) == WHITE) and (get_digital_value(QTR_7) == WHITE))
-//         {
-//             //white patch detected
-//         }
-//         else
-//         {
-//             //a normal junction
-//         }
-//         return true;
-//     }
-//     else
-//         return false;
-// }
 
 bool SensorGroup::is_deadend()
 {
@@ -193,31 +152,6 @@ int SensorGroup::qtr_read_line()
     return (numerator/denominator);
 }
 
-
-// bool SensorGroup::is_pillar_detected(int side)
-// {
-//     float distance;
-
-//     if (side == LEFT)
-//         distance = get_generic_value(TOF_LEFT); 
-//     else 
-//         distance = get_generic_value(TOF_RIGHT); 
-    
-
-//     if (distance < 15 ) 
-//         return 1;
-//     else
-//         return 0;
-// }
-
-// bool SensorGroup::is_gate_detected(int sensor)
-// {
-//     if (get_generic_value(sensor) < GATE_RANGE ) 
-//         return 1;
-//     else
-//         return 0;
-// }
-
 void SensorGroup::stabilize_encoder(Navigator *follower)
 {
     if (isnan(get_encoder_val(EN_LEFT)) || isnan(get_encoder_val(EN_RIGH)) || isnan(get_encoder_val(2)) || isnan(get_encoder_val(3)))    //2,3 for arm and box servos
@@ -240,49 +174,6 @@ void SensorGroup::stabilize_encoder(Navigator *follower)
 //         && isnan(get_ir_value(LINE_DETECT_RIGHT))))
 //             break; //to make sure that ir and distance sensors dosent return NaN
 //     }
-// }
-
-// int SensorGroup::get_colour(int cam)
-// {
-//     const unsigned char *IMAGE = camera[cam]->getImage();
-
-//     WIDTH = camera[cam]->getWidth();
-//     HEIGHT = camera[cam]->getHeight();
-
-//     int redpix = 0;
-//     int greenpix = 0;
-//     int bluepix = 0;
-
-//     int i, j;
-    
-//     for (j = CAM_PIXEL_THRESH ; j < (HEIGHT-CAM_PIXEL_THRESH); j++)
-//     {
-//         for (i = CAM_PIXEL_THRESH; i < (WIDTH-CAM_PIXEL_THRESH); i++)
-//         {
-
-//             redpix += camera[cam]->imageGetRed(IMAGE, WIDTH, i, j);
-//             bluepix += camera[cam]->imageGetBlue(IMAGE, WIDTH, i, j);
-//             greenpix += camera[cam]->imageGetGreen(IMAGE, WIDTH, i, j);
-
-//             if ((redpix > greenpix) && (redpix >  bluepix))
-//             {
-//                 recentColor = RED;
-//                 return RED;
-//             }
-//             else if ((greenpix >  redpix) && (greenpix >  bluepix))
-//             {
-//                 recentColor = GREEN;
-//                 return GREEN;
-//             }
-//             else if ((bluepix >  redpix) && (bluepix >  greenpix))
-//             {
-//                 recentColor = BLUE;
-//                 return BLUE;
-//             }
-//         }
-//     }
-//     //cout<<"no colour"<<endl;
-//     return NO_COLOR;
 // }
 
 int SensorGroup::get_colour(int cam)

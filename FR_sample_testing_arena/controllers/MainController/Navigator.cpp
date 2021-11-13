@@ -294,8 +294,6 @@ int Navigator::search_box_color(int level)
         if (colorBox == 1)
         { // Red box
           cout << "RED BOX" << endl;
-          // if (level == 1)
-          // {
           currentDist += 0.005;
           arm_base_move(currentDist);
           delay(500);
@@ -303,14 +301,11 @@ int Navigator::search_box_color(int level)
           delay(500);
           centre_box(distArmBase_centre_red);
           arm_grab_box(grabDist_min, grabDist_min);
-          // }
           return RED;
         }
         else if (colorBox == 2)
         { // Green box
           cout << "GREEN BOX" << endl;
-          // if (level == 1)
-          // {
           currentDist += 0.005;
           arm_base_move(currentDist);
           delay(500);
@@ -318,14 +313,11 @@ int Navigator::search_box_color(int level)
           delay(500);
           centre_box(distArmBase_centre_green);
           arm_grab_box(grabDist_min, grabDist_min);
-          //}
           return GREEN;
         }
         else if (colorBox == 3)
         { // Blue box
           cout << "BLUE BOX" << endl;
-          // if (level == 1)
-          // {
           currentDist += 0.005;
           arm_base_move(currentDist);
           delay(500);
@@ -333,14 +325,11 @@ int Navigator::search_box_color(int level)
           delay(500);
           centre_box(distArmBase_centre_blue);
           arm_grab_box(grabDist_min, grabDist_min);
-          //}
           return BLUE;
         }
         else if (colorBox == 4)
         { // Blue box
           cout << "WHITE BOX" << endl;
-          // if (level == 1)
-          // {
           currentDist += 0.005;
           arm_base_move(currentDist);
           delay(500); 
@@ -348,7 +337,6 @@ int Navigator::search_box_color(int level)
           delay(500);
           centre_box(distArmBase_centre_white);
           arm_grab_box(grabDist_min, grabDist_min);
-          // }
           return WHITE_CLR;
         }
         else
@@ -465,6 +453,7 @@ void Navigator::grab_box(int color, int level)
       arm_grab_box(grabDistBlue-0.01, grabDistBlue-0.01);
       arm_grab_box(grabDistBlue, grabDistBlue);
       delay(2000);
+      temclr +=1;               //this step is to get rid of unused vsrisble
     }
     else
     {
@@ -526,46 +515,6 @@ void Navigator::place_box(int color) // at the placement square
   arm_carrying();
   arm_grab_box(grabDist_min, grabDist_min);
 }
-/*
-void Navigator::final_stack_box(int color, int row) // at the placement square
-{
-  // function calls after go_forward_specific_distance(0.099);
-  if (color == GREEN)
-  {
-    if (row == 2)
-      go_forward_specific_distance(-0.01);
-    arm_base_move(0.0510);
-    arm_grab_box(0.0232 - 0.01, 0.1432 - 0.01);
-    arm_vertical_move(verticalGround);
-    arm_grab_box(0.0232, 0.1432);
-    arm_grab_box(grabDistGreen, grabDistGreen);
-    arm_vertical_move(verticalHighest);
-    if (row == 2)
-      go_forward_specific_distance(0.01);
-    arm_base_move(0.1512 + 0.01);
-    arm_vertical_move(verticalGround + 0.04);
-    arm_grab_box(grabDist_min, grabDist_min);
-  }
-  else if (color == BLUE)
-  {
-    if (row == 2)
-      go_forward_specific_distance(-0.01);
-    arm_base_move(0.0510);
-    arm_grab_box(0.1632 - 0.01, 0.0232 - 0.01);
-    arm_vertical_move(verticalGround);
-    arm_grab_box(0.1632, 0.0232);
-    arm_grab_box(grabDistBlue, grabDistBlue);
-    arm_vertical_move(verticalHighest);
-    if (row == 2)
-      go_forward_specific_distance(0.01);
-    arm_base_move(0.1512 + 0.02);
-    arm_vertical_move(verticalGround + 0.08);
-    arm_grab_box(grabDist_min, grabDist_min);
-  }
-  arm_carrying();
-  arm_grab_box(grabDist_min, grabDist_min);
-}*/
-
 
 void Navigator::final_stack_box(int color) // at the placement square
 {
@@ -638,11 +587,6 @@ void Navigator::discover_junction()
   }
   else if ((sensorGroup->get_digital_value(LINE_DETECT_LEFT) == WHITE) or (sensorGroup->get_digital_value(LINE_DETECT_RIGHT) == WHITE))
   {
-
-    //   (((sensorGroup->get_digital_value(LINE_DETECT_LEFT) == WHITE) and (sensorGroup->get_digital_value(QTR_0) == WHITE) and (sensorGroup->get_digital_value(QTR_1) == WHITE)
-    // and (sensorGroup->get_digital_value(QTR_2) == WHITE) and (sensorGroup->get_digital_value(QTR_3) == WHITE)) or
-    // ((sensorGroup->get_digital_value(LINE_DETECT_RIGHT) == WHITE) and (sensorGroup->get_digital_value(QTR_4) == WHITE) and (sensorGroup->get_digital_value(QTR_5) == WHITE)
-    // and (sensorGroup->get_digital_value(QTR_6) == WHITE) and (sensorGroup->get_digital_value(QTR_7) == WHITE)))
     // normal juction or a white patch
     discover_path(RIGHT);
     discover_path(LEFT);
@@ -819,59 +763,6 @@ void Navigator::follow_line_until_junc_detect()
     }
   }
 }
-/*
-void Navigator::goto_placement_cell(bool final)
-{
-  visit_normal_junc(); // go forward
-  follow_line_until_junc_detect();
-
-  motorGroup->qtr_servo(QTR_UP, 2.0);
-  delay(1500);
-
-  bool distanceAdjust = false;
-
-  if (carryingBox == RED)
-    go_forward_specific_distance(0.099);
-  else if (carryingBox == BLUE and greenBoxCount == 0)
-  {
-    go_forward_specific_distance(0.099);
-    blueBoxCount = 1;
-  }
-  else if (carryingBox == GREEN and blueBoxCount == 0)
-  {
-    go_forward_specific_distance(0.099);
-    greenBoxCount = 1;
-  }
-  else
-  {
-    distanceAdjust = true;
-    go_forward_specific_distance(0.089);
-  }
-
-  place_box(carryingBox);
-
-  if(final)
-  {
-    if (distanceAdjust){
-      go_forward_specific_distance(0.01);
-    }
-    final_stack_box(GREEN, greenBoxCount);
-    final_stack_box(BLUE, blueBoxCount);
-    go_backward_specific_distance(0.15);
-    motorGroup->qtr_servo(QTR_DOWN, 2.0);
-  }
-  else
-  {
-    go_backward_specific_distance(0.15);
-    motorGroup->qtr_servo(QTR_DOWN, 2.0);
-    turn(BACK);
-    follow_line_until_junc_detect();
-    visit_normal_junc();
-  }
-  carryingBox = NO_COLOR;
-
-}
-*/
 
 
 void Navigator::goto_placement_cell(bool final)
@@ -915,8 +806,6 @@ void Navigator::initial_phase()
   visit_normal_junc();
   turn(LEFT);
   follow_line_until_junc_detect();
-  // var[BOX_GRAB][COLOR] = WHITE_CLR;
-  // var[BOX_GRAB][POSITION] = LOWER;
   visit_white_patch(true);
   turn(DOWN);
   follow_line_until_junc_detect();
@@ -979,38 +868,11 @@ void Navigator::task()
       break;
   }
 
-  // var = {{1},{0},{1,1},{4},{2,2}};
-  // arm_carrying();
-  // arm_grab_box(grabDistBlue, grabDistBlue);
-  // follow_line_until_junc_detect();
-  // delay(5000);
-  // motorGroup->qtr_servo(QTR_UP, 2.0);
-  // delay(2000);
-  // go_forward_specific_distance(0.099); // 0.089 , 0.099
-  // final_stack_box(GREEN, 2);
-  // final_stack_box(BLUE, 1);
-  // resetVariables();  // //visit_junction(var[JUNC_TYPE][0]);
-  // discover_junction();
-  // delay(3000);
 }
 
 void Navigator::test()
 {
-  // follow_line(0.0007,0.002,5.5,6.5,7.5);
-  // cout<<sensorGroup->get_ir_value(0)<<endl;
   go_forward_specific_distance(0.045);
   motorGroup->robot_stop();
-  //
-  // cout<<sensorGroup->get_digital_value(8) << sensorGroup->get_digital_value(0)
-  //   << sensorGroup->get_digital_value(1) << sensorGroup->get_digital_value(2)
-  //   << sensorGroup->get_digital_value(3)
-  //   << sensorGroup->get_digital_value(4)<< sensorGroup->get_digital_value(5)
-  //   << sensorGroup->get_digital_value(6) << sensorGroup->get_digital_value(7)
-  //   << sensorGroup->get_digital_value(9)<< endl;
-  // cout<<sensorGroup->get_ir_value(8) <<" "<< sensorGroup->get_ir_value(0)<<" "
-  //     << sensorGroup->get_ir_value(1) <<" "<< sensorGroup->get_ir_value(2)<<" "
-  //     << sensorGroup->get_ir_value(3)<<" "
-  //     << sensorGroup->get_ir_value(4)<<" "<< sensorGroup->get_ir_value(5)<<" "
-  //     << sensorGroup->get_ir_value(6) <<" "<< sensorGroup->get_ir_value(7)<<" "
-  //     << sensorGroup->get_ir_value(9)<< endl;
+
 }

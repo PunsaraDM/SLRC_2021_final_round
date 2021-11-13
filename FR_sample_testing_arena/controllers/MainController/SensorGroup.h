@@ -21,7 +21,6 @@ public:
 
     const double* get_compass_value();
     float get_ir_value(int index);
-    //float get_ir_value_distance_sensors(int index);
     float get_distance_value(int index);
     double get_encoder_val(int index);
     int get_digital_value(int index);
@@ -30,12 +29,8 @@ public:
     
     int get_colour(int cam);
 
-    //bool is_junction_detected();
     bool is_line_segment_detected();
     bool is_deadend();
-
-    //bool is_pillar_detected(int side);
-    //bool is_gate_detected(int sensor);
 
     int qtr_read_line();
 
@@ -66,8 +61,6 @@ private:
     int BLACK = 0;
     int WHITE = 1;
 
-    //int LEFT = 0;
-    //int RIGHT = 1;
     int BACK = 2;
     int FRONT = 4;
 
@@ -84,17 +77,7 @@ private:
 
     int previousQTR_7 = 0;
     int previousQTR_0 = 0;
-
-    // int DS_SENSOR_BOX = 3;
-    // int DS_SENSOR_FRONT = 2;
-    // int DS_SENSOR_RIGHT = 1;
-    // int DS_SENSOR_LEFT = 0;
-    // int TOF_RIGHT = 5;
-    // int TOF_LEFT = 4;
-
-    // int CAM_ARM = 0;
-    // int CAM_BACK = 1;
-    // int CAM_FRONT = 2;
+    
     int CAM_PIXEL_THRESH = 20;
 
     int WIDTH, HEIGHT;
