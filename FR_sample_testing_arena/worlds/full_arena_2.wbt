@@ -7,8 +7,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.2769333022453235 -0.9555569328285151 -0.10108854648703122 5.553387833263475
-  position -0.9618203714135432 0.048118125772656645 0.007913743337967974
+  orientation -0.5547946847283497 0.6085299896499279 0.5673571269437178 2.068040255157009
+  position -1.078498139014527 0.32328607453296904 -0.12040554004160146
 }
 DirectionalLight {
   direction 0 -1 0
@@ -1896,7 +1896,7 @@ DEF New_maze Solid {
     }
   ]
 }
-Robot {
+DEF ROBOT_LEFT Robot {
   translation -1.22 0.01 -0.12
   children [
     DEF RIGHT HingeJoint {
@@ -2027,6 +2027,15 @@ Robot {
       }
     }
     Compass {
+    }
+    Receiver {
+      translation 0 0.17 0
+      rotation 0 0 1 0
+      channel 1
+    }
+    Emitter {
+      translation 0 0.17 0
+      channel 1
     }
     Camera {
       translation 0.133 -0.007 -0.123
@@ -2943,11 +2952,11 @@ Robot {
         }
       ]
       endPoint DEF QTR_PANEL Solid {
-        translation 0 -0.128 0.119988
+        translation 5.551115123125783e-17 -0.12799999999999995 0.119988
         rotation -0.9999999999999999 0 0 1.5707
         children [
           DEF QTR_SENSORS Transform {
-            translation 0.13 0.1235 0.123
+            translation 0.13 0.12 0.123
             rotation 1 0 0 1.5708
             children [
               Camera {
@@ -3344,6 +3353,7 @@ Robot {
         }
         LinearMotor {
           name "base_motor"
+          controlPID 4.5 0 0
           minPosition -10
           maxPosition 10
         }
@@ -3376,6 +3386,7 @@ Robot {
                     }
                     LinearMotor {
                       name "gripper_right_motor"
+                      controlPID 4.5 0 0
                       minPosition -10
                       maxPosition 10
                     }
@@ -3457,6 +3468,7 @@ Robot {
                     }
                     LinearMotor {
                       name "gripper_left_motor"
+                      controlPID 4.5 0 0
                       minPosition -10
                       maxPosition 10
                     }
@@ -3723,7 +3735,7 @@ Robot {
       }
     }
   ]
-  name "robot(1)"
+  name "robot_left"
   boundingObject Group {
     children [
       DEF TOP Transform {
