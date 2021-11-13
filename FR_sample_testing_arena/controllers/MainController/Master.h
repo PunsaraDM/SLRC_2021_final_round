@@ -1,5 +1,7 @@
 #include "Strategy.h"
 #include "Maze.h"
+#include "PathFinder.h"
+#include "PickStrategy.h"
 
 #ifndef MASTER_H
 #define MASTER_H
@@ -38,11 +40,10 @@ extern "C"
 
     private:
         Master master;
-        PathFinder* pathfinder_left = new PathFinder(0,0,LEFT);
-        PathFinder* pathfinder_right = new PathFinder(8,6,RIGHT);
-
-        Maze right_maze = pathfinder_right -> maze;
-        Maze left_maze = pathfinder_left -> maze;
+        Maze maze;
+        PickStrategy pick_strategy;
+        PathFinder* pathfinder_left;
+        PathFinder* pathfinder_right;
 
         static const int rx_count = 2;
         Receiver *receiver[rx_count];

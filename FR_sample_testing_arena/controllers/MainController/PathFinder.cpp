@@ -164,53 +164,21 @@ vector<vector<int>> PathFinder::search_maze(int juncType, vector<int> path_state
 
     if (junction_content_state != INVERTED || has_white)
     {
-        maze.update_path(robot_col, robot_row, paths);
+        maze.update_path(robot_col, robot_row, paths, robot);
     }
 
-    if (maze.discovered == 6)
+    direction_to_travel = strategy->find_next_direction(robot_col, robot_row, maze, LEFT, last_direction, has_white);
+
+    if (junction_content_state == INVERTED && has_white)
     {
-        cout << "over"
-             << "\n";
-        scan_over = true;
-        pick_strategy.left_start_col = robot_col;
-        pick_strategy.left_start_row = robot_row;
-        pick_strategy.initialize(maze);
-
-        if (robot == LEFT)
-        {
-            pick_order = pick_strategy.order_left;
-        }
-        else
-        {
-            pick_order = pick_strategy.order_right;
-        }
-        if (get_next_junc_color())
-        {
-            in_last = true;
-            packet = create_next_data_packet();
-            return packet;
-        }
-        else
-        {
-            return travel_with_color();
-        }
+        white_box = false;
     }
-    else
-    {
 
-        direction_to_travel = strategy->find_next_direction(robot_col, robot_row, maze, LEFT, last_direction, has_white);
-
-        if (junction_content_state == INVERTED && has_white)
-        {
-            white_box = false;
-        }
-
-        has_white = white_box;
-        update_robot_position(direction_to_travel);
-        packet = create_next_data_packet();
-        last_direction = direction_to_travel;
-        return packet;
-    }
+    has_white = white_box;
+    update_robot_position(direction_to_travel);
+    packet = create_next_data_packet();
+    last_direction = direction_to_travel;
+    return packet;
 }
 
 vector<vector<int>> PathFinder::create_next_data_packet()
@@ -383,4 +351,20 @@ bool PathFinder::get_next_junc_color()
     }
     current_pos = state;
     return found;
+}
+
+vector<vector<int>> PathFinder::initiate_pick()
+{
+    pick_order = pick_strategy.get_pick_order(robot);
+
+    if (get_next_junc_color())
+    {
+        in_last = true;
+        packet = create_next_data_packet();
+        return packet;
+    }
+    else
+    {
+        return travel_with_color();
+    }
 }

@@ -75,6 +75,29 @@ void Junction::set_content(vector<int> recieved)
     content = recieved;
 }
 
+bool Junction::set_found_by(int dir, int robot)
+{
+    bool match_found = false;
+    vector<int> founded = found_by[dir];
+    for (size_t i = 0; i < founded.size(); i++)
+    {
+        if (robot == founded[i])
+        {
+            match_found = true;
+        }
+    }
+
+    if (!match_found)
+    {
+        found_by[dir].push_back(robot);
+    }
+    if (found_by[dir].size() == 2)
+    {
+        return true;
+    }
+    return false;
+}
+
 vector<int> Junction::get_content()
 {
     return content;

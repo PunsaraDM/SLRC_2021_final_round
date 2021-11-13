@@ -29,6 +29,7 @@ extern "C"
         int discovered = 0;
         int visited = 0;
         bool next_colored = false;
+        bool paths_joined = false;
         int color = NOCOLOR;
         int pos = NEGLECT;
         Junction junctions[COLS][ROWS];
@@ -38,10 +39,12 @@ extern "C"
 
         Maze();
         void initialize();
-        void update_path(int column, int row, vector<int> paths);
+        void update_path(int column, int row, vector<int> paths, int robot);
         void update_junction(int column, int row, vector<int> content, int junction_content_state, bool has_white);
         void check_inverted(int col, int row);
         string print_content(vector<int> content);
+        void update_path_helper(bool juncs_found, int new_col, int new_row, int robot, int found_dir, int state);
+
 
     private:
     };

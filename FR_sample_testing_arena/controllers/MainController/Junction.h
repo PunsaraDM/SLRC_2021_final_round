@@ -43,9 +43,11 @@ extern "C"
         void set_content(vector<int> content);
         vector<int> get_content();
         void increment_found_junc();
+        bool set_found_by(int dir, int robot);
 
     private:
         vector<int> paths{0, 0, 0, 0};
+        vector<vector<int>> found_by{vector<int>(), vector<int>(), vector<int>(), vector<int>()};
         int state = UNDISCOVERED;
         vector<int> content;
     };

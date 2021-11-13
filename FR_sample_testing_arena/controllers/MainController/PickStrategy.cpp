@@ -375,8 +375,12 @@ int PickStrategy::find_next_direction_pick(int robot, Maze maze)
     return direction;
 }
 
-void PickStrategy::initialize(Maze m)
+void PickStrategy::initialize(Maze m, int left_col, int left_row, int right_col, int right_row)
 {
+    left_start_col = left_col;
+    left_start_row = left_row;
+    right_start_col = right_col;
+    right_start_row = right_row;
     cout << "initializing"
          << "\n";
     vector<vector<vector<int>>> locations = m.colored_junctions;
@@ -385,7 +389,6 @@ void PickStrategy::initialize(Maze m)
     // for (size_t i = 0; i < order_left.size(); i++)
     // {
     //     cout << "order_left: " << order_left[i][0] << "," << order_left[i][1] << '\n';
-    }
 
     find_shortest_path(locations[order_left[0][0]][order_left[0][1]][0], locations[order_left[0][0]][order_left[0][1]][1], left_start_col, left_start_row, 0, LEFT, m);
     find_shortest_path(locations[order_right[0][0]][order_right[0][1]][0], locations[order_right[0][0]][order_right[0][1]][1], right_start_col, right_start_row, 0, RIGHT, m);
@@ -434,6 +437,13 @@ void PickStrategy::initialize(Maze m)
             right_stack.insert(right_stack.end(), path.begin(), path.end());
         }
     }
+}
+
+vector<vector<int>> PickStrategy::get_pick_order(int dir){
+    if(dir == LEFT){
+        return order_left;
+    }
+    return order_right;
 }
 
 vector<int> PickStrategy::get_reverse_path(vector<int> path)

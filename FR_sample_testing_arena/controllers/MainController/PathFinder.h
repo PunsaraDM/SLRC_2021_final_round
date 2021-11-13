@@ -74,17 +74,19 @@ extern "C"
         vector<int> adjust_path_state_to_global(vector<int> paths);
         bool get_next_junc_color();
         bool paths_remaining();
+        vector<vector<int>> initiate_pick();
+        int robot_col = 0;
+        int robot_row = 0;
 
     private:
         Maze maze;
-        Strategy* strategy;
+        Strategy *strategy;
         PickStrategy pick_strategy;
         vector<vector<int>> pick_order;
         int current_pick = 0;
         int travel_dir = LEFT;
         int direction_to_travel = UP;
-        int robot_col = 0;
-        int robot_row = 0;
+
         int robot = LEFT;
         bool isTravelUp = true;
         int last_direction = RIGHT;

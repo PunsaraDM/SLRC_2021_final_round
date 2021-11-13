@@ -121,7 +121,7 @@ void Maze::update_junction(int column, int row, vector<int> content, int junctio
                 state = TOP;
             }
             vector<int> val{column, row, state};
-            cout << "inserting: " << column<<", " <<row <<", " <<state << content[i] <<"\n";
+            cout << "inserting: " << column << ", " << row << ", " << state << content[i] << "\n";
 
             if (RED <= content[i] && content[i] <= BLUE)
             {
@@ -163,46 +163,41 @@ void Maze::update_junction(int column, int row, vector<int> content, int junctio
     junctions[column][row].set_state(junc_state);
 }
 
-void Maze::update_path(int column, int row, vector<int> paths)
+void Maze::update_path(int column, int row, vector<int> paths, int robot)
 {
+    bool juncs_found = junctions[column][row].found_junctions_set;
     junctions[column][row].set_paths(paths);
     if (column > 0)
     {
-        junctions[column - 1][row].set_path(RIGHT, paths[LEFT]);
-        if (!junctions[column][row].found_junctions_set)
-        {
-            junctions[column - 1][row].increment_found_junc();
-        }
-        check_inverted(column - 1, row);
+        update_path_helper(juncs_found, column - 1, row, robot, RIGHT, paths[LEFT]);
     }
     if (column + 1 < COLS)
     {
-        junctions[column + 1][row].set_path(LEFT, paths[RIGHT]);
-        if (!junctions[column][row].found_junctions_set)
-        {
-            junctions[column + 1][row].increment_found_junc();
-        }
-        check_inverted(column + 1, row);
+        update_path_helper(juncs_found, column + 1, row, robot, LEFT, paths[RIGHT]);
     }
     if (row > 0)
     {
-        junctions[column][row - 1].set_path(UP, paths[DOWN]);
-        if (!junctions[column][row].found_junctions_set)
-        {
-            junctions[column][row - 1].increment_found_junc();
-        }
-        check_inverted(column, row - 1);
+        update_path_helper(juncs_found, column, row - 1, robot, UP, paths[DOWN]);
     }
     if (row + 1 < ROWS)
     {
-        junctions[column][row + 1].set_path(DOWN, paths[UP]);
-        if (!junctions[column][row].found_junctions_set)
-        {
-            junctions[column][row + 1].increment_found_junc();
-        }
-        check_inverted(column, row + 1);
+        update_path_helper(juncs_found, column, row + 1, robot, DOWN, paths[UP]);
     }
     junctions[column][row].found_junctions_set = true;
+}
+
+void Maze::update_path_helper(bool juncs_found, int new_col, int new_row, int robot, int found_dir, int state)
+{
+    junctions[new_col][new_row].set_path(found_dir, state);
+    bool joined = junctions[new_col][new_row].set_found_by(found_dir, robot);
+    if(!paths_joined){
+        paths_joined = joined;
+    }
+    if (!juncs_found)
+    {
+        junctions[new_col][new_row].increment_found_junc();
+    }
+    check_inverted(new_col, new_row);
 }
 
 string Maze::print_content(vector<int> content)
