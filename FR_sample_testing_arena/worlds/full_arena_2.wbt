@@ -8,7 +8,7 @@ WorldInfo {
 }
 Viewpoint {
   orientation 1 0 0 4.71238898038469
-  position 2.2055340494434414 18.712262575472018 -1.9236778835741106
+  position 2.8301521716052305 8.47203119709309 -1.9647830831088522
 }
 DirectionalLight {
   direction 0 -1 0
@@ -42,7 +42,7 @@ RectangleArena {
 DEF Boxes_new Group {
   children [
     DEF Blue_Box Solid {
-      translation 2.18 0.0199853 -2.65046
+      translation 4.07 0.0199853 -3.91046
       rotation -0.00014142968455996098 0.9999999069616033 -0.00040752230519008436 6.499625360383806e-13
       children [
         DEF Blue_Box Shape {
@@ -125,7 +125,7 @@ DEF Boxes_new Group {
       }
     }
     DEF White_Box Solid {
-      translation 4.72 0.0199853 -2.64
+      translation 3.45 0.0199853 -2.01
       rotation -0.031057027549404922 -0.9991994440875168 0.02521769170628074 1.2094202326419658e-15
       children [
         DEF White_Box Shape {
@@ -165,7 +165,7 @@ DEF Boxes_new Group {
       }
     }
     DEF White_Box Solid {
-      translation 4.08 0.0199853 -3.9
+      translation 2.19 0.0199853 -2.64
       rotation -0.22660584659932115 -0.9686829936441335 0.10150393150831233 1.8342057864181284e-15
       children [
         DEF White_Box Shape {
@@ -225,7 +225,7 @@ DEF Boxes_new Group {
       }
     }
     DEF Red_Box Solid {
-      translation 3.45 0.0199412 -2.02
+      translation 4.7 0.0199412 -2.64
       rotation -0.2909943894257105 -0.9563059766324882 -0.028304493984890763 -2.3047650526100404e-16
       children [
         DEF Red_Box Shape {
@@ -2952,7 +2952,7 @@ DEF ROBOT_LEFT Robot {
         }
       ]
       endPoint DEF QTR_PANEL Solid {
-        translation 8.326672684688674e-17 -0.12799999999999992 0.119988
+        translation 1.3877787807814457e-16 -0.12799999999999986 0.119988
         rotation -0.9999999999999999 0 0 1.5707
         children [
           DEF QTR_SENSORS Transform {
