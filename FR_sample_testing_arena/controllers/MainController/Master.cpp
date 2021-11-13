@@ -1,6 +1,20 @@
 #include "Master.h"
+#include "PathFinder.h"
 #include <bits/stdc++.h>
 #include "Maze.h"
+#include <webots/Receiver.hpp>
+#include <webots/Emitter.hpp>
+#include <iostream>
+#include <math.h>
+#include <webots/Robot.hpp>
+#include <webots/LED.hpp>
+#include <string>
+#include <vector>
+
+#define TIME_STEP 64
+
+using namespace std;
+using namespace webots;
 
 //directions
 #define UP 0
@@ -47,291 +61,184 @@
 #define NEGLECT 0
 #define LOWER 1
 #define MIDDLE 2
+#define UPPER 3
 
-using namespace std;
 
-Master::Master(int startCol, int startRow)
+void Master::initMaster(Master *master)
 {
-    robot_col = startCol;
-    robot_row = startRow;
-}
-
-void Master::communicate()
-{
-    
-}
-
-
-
-
-vector<int> PathFinder::adjust_path_state_to_global(vector<int> paths)
-{
-    vector<int> temp_paths;
-    for (int i = 0; i < 4; i++)
+    for (int i = 0; i < rx_count; i++)
     {
-        int local_dir = i - last_direction;
-        if (local_dir < 0)
-        {
-            local_dir = 4 + local_dir;
-        }
-        temp_paths.push_back(paths[local_dir]);
+    receiver[i] = master->getReceiver(rx_name[i]);
+    receiver[i]->enable(TIME_STEP);
     }
-    return temp_paths;
-}
-
-vector<vector<int>> PathFinder::travel_maze(int juncType, vector<int> path_state, vector<int> box_type)
-{
-    cout << "robot: (" << robot_col << "," << robot_row << ")\n";
-    if (!scan_over)
+    for (int i = 0; i < tx_count; i++)
     {
-        return search_maze(juncType, path_state, box_type);
-    }
-    else
-    {
-        if (robot_col == 0 && robot_row == 0 && last_direction != RIGHT)
-        {
-            vector<vector<int>> packet;
-            direction_to_travel = LEFT;
-            update_robot_position(direction_to_travel);
-            packet = create_next_data_packet();
-            last_direction = LEFT;
-            return packet;
-        }
-        else if (robot_col == -1 && robot_row == 0)
-        {
-            last_direction = RIGHT;
-            direction_to_travel = RIGHT;
-            update_robot_position(direction_to_travel);
-
-            return create_next_data_packet();
-        }
-        else
-        {
-            return travel_with_color();
-        }
+    emmiter[i] = master->getEmmiter(tx_name[i]);
+    emmiter[i]->enable(TIME_STEP);
     }
 }
 
-vector<vector<int>> PathFinder::travel_with_color()
+void Master::main_control()
 {
-    vector<vector<int>> packet;
-    direction_to_travel = pick_strategy.find_next_direction_pick(LEFT, maze);
-    update_robot_position(direction_to_travel);
-    packet = create_next_data_packet();
-    last_direction = direction_to_travel;
-    return packet;
-}
-
-vector<vector<int>> PathFinder::search_maze(int juncType, vector<int> path_state, vector<int> box_type)
-{
-    vector<vector<int>> packet;
-    vector<int> paths;
-    int junction_content_state;
-    vector<int> junction_content;
-    bool white_box = has_white;
-
-    //get available directions from the current position
-    if (maze.junctions[robot_col][robot_row].get_state() != DISCOVERED)
+    int rx = 0;
+    while(master->step(TIME_STEP) != -1)
     {
-        if (juncType == WHITE_PATCH)
+        if (receiver[rx]->getQueueLength() > 0)
         {
-            white_box = true;
-        }
-        paths = adjust_path_state_to_global(path_state);
-        junction_content_state = juncType;
-        junction_content = box_type;
-    }
-    else
-    {
-        if (maze.junctions[robot_col][robot_row].content_state == WHITE_PATCH)
-        {
-            white_box = true;
-        }
-        junction_content_state = maze.junctions[robot_col][robot_row].content_state;
-        paths = maze.junctions[robot_col][robot_row].get_paths();
-        junction_content = maze.junctions[robot_col][robot_row].get_content();
-    }
-
-    maze.update_junction(robot_col, robot_row, junction_content, junction_content_state, has_white);
-
-    if (junction_content_state != INVERTED || has_white)
-    {
-        maze.update_path(robot_col, robot_row, paths);
-    }
-
-    if (maze.discovered == 6)
-    {
-        cout << "over"
-             << "\n";
-        scan_over = true;
-        pick_strategy.left_start_col = robot_col;
-        pick_strategy.left_start_row = robot_row;
-        pick_strategy.initialize(maze);
-        return travel_with_color();
-    }
-    else
-    {
-
-        direction_to_travel = strategy.find_next_direction(robot_col, robot_row, maze, LEFT, last_direction, has_white);
-
-        if (junction_content_state == INVERTED && has_white)
-        {
-            white_box = false;
-        }
-
-        has_white = white_box;
-        update_robot_position(direction_to_travel);
-        packet = create_next_data_packet();
-        last_direction = direction_to_travel;
-        return packet;
-    }
-}
-
-vector<vector<int>> PathFinder::create_next_data_packet()
-{
-    vector<vector<int>> data_packet;
-    vector<int> navigate_state;
-    vector<int> direction{get_local_direction()};
-    vector<int> inv_patch{has_white, get_invert_box_dir()};
-    vector<int> junc_type{NORMAL};
-    vector<int> box_grab{NEGLECT, NOCOLOR};
-    vector<int> over{scan_over};
-
-    if (maze.junctions[robot_col][robot_row].get_state() == DISCOVERED)
-    {
-        navigate_state.push_back(NAVIGATE_STATE_VISITED);
-        junc_type[0] = maze.junctions[robot_col][robot_row].content_state;
-        if (!scan_over && !has_white)
-        {
-            for (size_t i = 0; i < strategy.white_locations.size(); i++)
+            receive(rx);
+            if (rx==0) 
             {
-                vector<int> loc = strategy.white_locations[i];
-                if (loc[0] == robot_col && loc[1] == robot_row)
+                var = pathfinder_left->travel_maze(juncTypeRx, pathStateRx, boxTypeRx); 
+                if (maze.junctions[pathfinder_left ->robot_col][pathfinder_left ->robot_row].get_state() == RESERVED)
                 {
-                    box_grab[1] = WHITE_COL;
-                    box_grab[0] = LOWER;
+                    
+                }
+                else
+                {
+                    maze.junctions[pathfinder_left ->robot_col][pathfinder_left ->robot_row].set_state() = RESERVED;
+                    emmit(rx);
+                }
+            }
+            else 
+            {
+                var = pathfinder_right->travel_maze(juncTypeRx, pathStateRx, boxTypeRx);
+                if (maze.junctions[pathfinder_right ->robot_col][pathfinder_right ->robot_row].get_state() == RESERVED)
+                {
+
+                }
+                else
+                {
+                    maze.junctions[pathfinder_right ->robot_col][pathfinder_right ->robot_row].set_state() = RESERVED;
+                    emmit(rx);
                 }
             }
         }
-        else if (scan_over && junc_type[0] == COLORED)
+        rx = rx + 1;
+        if (rx > 1) rx=0;
+
+    }
+
+
+// void Master::main_control()
+// {
+//     while(master->step(TIME_STEP) != -1)
+//     {
+//         // current_left_robot_col = pathfinder_left -> robot_col;
+//         // current_left_robot_row = pathfinder_left -> robot_row;
+
+//         // current_right_robot_col = pathfinder_right -> robot_col;
+//         // current_right_robot_row = pathfinder_right -> robot_row;
+
+//         for{int i==0, i<2, i++}
+//         {
+//             if (receiver[i]->getQueueLength() > 0)
+//             {
+//             receive(i);
+//             if (i==0) var[i] = pathfinder_left->travel_maze(juncTypeRx[i], pathStateRx[i], boxTypeRx[i]); 
+//             else var[i] = pathfinder_right->travel_maze(juncTypeRx[i], pathStateRx[i], boxTypeRx[i]);
+//         }
+
+//         target_left_robot_col = pathfinder_left -> robot_col;
+//         target_left_robot_row = pathfinder_left -> robot_row;
+
+//         target_right_robot_col = pathfinder_right -> robot_col;
+//         target_right_robot_row = pathfinder_right -> robot_row;
+
+//         if ((target_left_robot_col==current_right_robot_col) && (target_left_robot_row == current_right_robot_row) ) && ((target_right_robot_col==current_left_robot_col) && (target_right_robot_row==current_left_robot_row))
+//         {
+//             //back one robot out of the path of other robot
+//         }
+
+//         else if ((target_left_robot_col == target_right_robot_col) && (target_left_robot_row==target_right_robot_row))
+//         {
+//             //one robot wait and other proceeds
+//             emmit(0);
+
+//         }
+
+//         else
+//         {
+//             emmit(0);
+//             emmit(1);
+//         }
+
+//     }
+
+// }
+
+void Master::receive(int rx)
+{
+
+    string RxMessage((const char *)receiver[rx]->getData());
+
+    cout <<"received msg "<< RxMessage << endl;
+    receiver[rx]->nextPacket();
+    
+    // for (int i = 0; i < 7; i++)
+    // {
+    //   tempStr = TxMessage[i];
+    //   if (i == 0)
+    //     var[0][0] = stoi(tempStr);
+    //   else if (i == 1)
+    //     var[1][0] = stoi(tempStr);
+    //   else if (i == 2)
+    //     var[2][0] = stoi(tempStr);
+    //   else if (i == 3)
+    //     var[2][1] = stoi(tempStr);
+    //   else if (i == 4)
+    //     var[3][0] = stoi(tempStr);
+    //   else if (i == 5)
+    //     var[4][0] = stoi(tempStr);
+    //   else if (i == 6)
+    //     var[4][1] = stoi(tempStr);
+    // }
+
+    //cout << "rxmsg: " << var[0][0] << var[1][0] << var[2][0] << var[2][1] << var[3][0] << var[4][0] << var[4][1] << endl;
+
+    string tempStr;
+    for (int i = 0; i < 7; i++)
+    {
+    tempStr = RxMessage[i];
+    if (i == 0)
+        juncTypeRx = stoi(tempStr);
+    else if (i == 1)
+        pathStateRx[0] = stoi(tempStr);
+    else if (i == 2)
+        pathStateRx[1] = stoi(tempStr);
+    else if (i == 3)
+        pathStateRx[2] = stoi(tempStr);
+    else if (i == 4)
+        pathStateRx[3] = stoi(tempStr);
+    else if (i == 5)
+        boxTypeRx[0] = stoi(tempStr);
+    else if (i == 6)
+        boxTypeRx[1] = stoi(tempStr);
+    }
+
+    cout << "juncType: " << juncTypeRx << endl;
+    cout << "pathState: " << pathStateRx[0] << pathStateRx[1] << pathStateRx[2] << pathStateRx[3] << endl;
+    cout << "boxType: " << boxTypeRx[0] << boxTypeRx[1] << endl;
+
+
+}
+
+void emmit(int tx)
+{
+    string TxMessage = "";
+
+    for (int i = 0; i < var.size(); i++)
+    {
+        for (int j = 0; j < var[i].size(); j++)
         {
-            get_next_junc_color();
-            box_grab[0] = current_pos;
-            box_grab[1] = current_color;
+            TxMessage = TxMessage + to_string(var[i][j]);
         }
     }
-    else
-    {
-        navigate_state.push_back(NAVIGATE_STATE_SEARCH);
-    }
-    data_packet.push_back(navigate_state);
-    data_packet.push_back(direction);
-    data_packet.push_back(inv_patch);
-    data_packet.push_back(junc_type);
-    data_packet.push_back(box_grab);
-    data_packet.push_back(over);
+    
+    cout << "txmsg: " << TxMessage << endl;
+    emitter[tx]->send(TxMessage.c_str(), (int)strlen(TxMessage.c_str()) + 1);
 
-    cout << "data packet: "
-         << "\n";
-    for (size_t i = 0; i < data_packet.size(); i++)
-    {
-        for (size_t j = 0; j < data_packet[i].size(); j++)
-        {
-            cout << data_packet[i][j] << " | ";
-        }
-        cout << "\n";
-    }
-    cout << "------------------------"
-         << "\n";
 
-    return data_packet;
 }
 
-int PathFinder::get_local_direction()
-{
-    int local_dir = direction_to_travel - last_direction;
-    if (local_dir < 0)
-    {
-        local_dir = 4 + local_dir;
-    }
-    return local_dir;
-}
 
-int PathFinder::get_invert_box_dir()
-{
-    int dir = RIGHT;
-    if ((robot_col == 0 && direction_to_travel == 2) || (robot_col == COLS - 1 && direction_to_travel == 0) || (robot_row == 0 && direction_to_travel == 1) || (robot_row == ROWS - 1 && direction_to_travel == 3))
-    {
-        dir = LEFT;
-    }
 
-    return dir;
-}
-
-void PathFinder::update_robot_position(int direction)
-{
-
-    switch (direction)
-    {
-    case UP:
-        robot_row += 1;
-        break;
-
-    case RIGHT:
-        robot_col += 1;
-        break;
-
-    case DOWN:
-        robot_row -= 1;
-        break;
-
-    case LEFT:
-        robot_col -= 1;
-        break;
-
-    default:
-        cout << "Invalid direction"
-             << "\n";
-        break;
-    }
-}
-
-void PathFinder::get_next_junc_color()
-{
-    bool found = false;
-    int count = 0;
-    int index = 0;
-    current_color = NOCOLOR;
-    for (size_t i = 0; i < maze.colored_sequential.size(); i++)
-    {
-        if (maze.colored_sequential[i][0] == robot_col && maze.colored_sequential[i][1] == robot_row)
-        {
-
-            if (!found)
-            {
-                current_color = maze.colored_sequential[i][2];
-                found = true;
-                index = i;
-            }
-            count += 1;
-        }
-    }
-
-    if (found)
-    {
-        maze.colored_sequential.erase(maze.colored_sequential.begin() + index);
-    }
-
-    if (count == 2)
-    {
-        current_pos = MIDDLE;
-    }
-    else if (count == 1)
-    {
-        current_pos = LOWER;
-    }
-    else
-    {
-        current_pos = NEGLECT;
-    }
-}
