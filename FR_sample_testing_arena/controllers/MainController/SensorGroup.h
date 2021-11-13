@@ -30,6 +30,10 @@ public:
     
     int get_colour(int cam);
 
+    void receiver_ready();
+    void receive();
+    void emmit(string TxMessage);
+
     //bool is_junction_detected();
     bool is_line_segment_detected();
     bool is_deadend();
@@ -62,6 +66,12 @@ private:
 
     Compass *compass;
     char compass_name[8] = "compass";
+
+    Receiver *receiver;
+    char rx_name[10] = "receiver";
+
+    Emmiter *emmiter;
+    char tx_name[10] = "emmiter";
 
     int BLACK = 0;
     int WHITE = 1;

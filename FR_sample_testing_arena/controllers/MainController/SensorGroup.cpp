@@ -21,6 +21,20 @@ void SensorGroup::initialize(Navigator *follower)
     stabilize_encoder(follower);
     //stabilize_ir_and_distance_sensors(follower);
     init_compass(follower);
+    init_receiver(follower);
+    init_emmiter(follower);
+}
+
+void SensorGroup::init_receiver(Navigator *follower)
+{
+    receiver = follower->getReceiver(rx_name);
+    receiver -> enable(TIME_STEP);
+}
+
+void SensorGroup::init_emmiter(Navigator *follower)
+{
+    emmiter = follower->getEmmiter(tx_name);
+    emmiter -> enable(TIME_STEP);
 }
 
 void SensorGroup::init_distance_sensor(Navigator *follower)
@@ -358,3 +372,26 @@ int SensorGroup::get_colour(int cam)
     }
     return NO_COLOR;
 }
+
+void SensorGroup::receiver_ready()
+{
+    if (receiver->getQueueLength() > 0) return true;
+    else return false;
+}
+
+string SensorGroup::receive()
+{
+  string RxMessage((const char *)receiver->getData());
+
+  cout << "received msg " << RxMessage << endl;
+  receiver->nextPacket();
+
+  return RxMessage;
+}
+
+void SensorGroup::emmit(string TxMessage)
+{
+    cout << "txmsg: " << TxMessage << endl;
+    emitter->send(TxMessage.c_str(), (int)strlen(TxMessage.c_str()) + 1);
+}
+

@@ -132,6 +132,11 @@ extern "C"
         void arm_carrying();
         // void final_stack_box(int color,int row); 
         void final_stack_box(int color); 
+
+        void update_var(string RxMessage);
+        string make_TxMessage();
+
+{
     private:
         SensorGroup *sensorGroup;
         MotorGroup *motorGroup;

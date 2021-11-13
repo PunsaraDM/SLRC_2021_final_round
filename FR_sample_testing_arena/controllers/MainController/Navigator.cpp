@@ -917,7 +917,20 @@ void Navigator::initial_phase()
 void Navigator::one_cell()
 {
   //[NAVIGATE_STATE , DIRECTION , INV_PATCH[BOX_CARRY,INV_DIRECTION],JUNC_TYPE, BOX_GRAB[POSITION,COLOR]]
-  var = pathFinder->travel_maze(juncType, pathState, boxType); // need to know we are carrying box
+
+  string TxMessage = make_TxMessage();
+  sensorGroup ->emmit(TxMessage);
+
+  while(step(TIME_STEP) != -1)
+  {
+    if (sensorGroup -> receiver_ready())
+    {
+      string RxMessage = sensorGroup -> receive();
+      update_var(RxMessage);
+      break;
+    }
+  }
+  //var = pathFinder->travel_maze(juncType, pathState, boxType); // need to know we are carrying box
   if (var[NAVIGATE_STATE][0] != STALL)
   {
     turn(var[DIRECTION][0]);
@@ -951,6 +964,61 @@ void Navigator::one_cell()
     cout << "in STALL state" << endl;
     stall_cell();
   }
+
+
+}
+
+void Navigator::update_var(string RxMessage)
+{
+  string tempStr;
+
+  for (int i = 0; i < 7; i++)
+  {
+    tempStr = RxMessage[i];
+    if (i == 0)
+      var[0][0] = stoi(tempStr);
+    else if (i == 1)
+      var[1][0] = stoi(tempStr);
+    else if (i == 2)
+      var[2][0] = stoi(tempStr);
+    else if (i == 3)
+      var[2][1] = stoi(tempStr);
+    else if (i == 4)
+      var[3][0] = stoi(tempStr);
+    else if (i == 5)
+      var[4][0] = stoi(tempStr);
+    else if (i == 6)
+      var[4][1] = stoi(tempStr);
+  }
+
+  //cout << "rxmsg: " << var[0][0] << var[1][0] << var[2][0] << var[2][1] << var[3][0] << var[4][0] << var[4][1] << endl;
+
+}
+
+string Navigator::make_TxMessage()
+{
+  string TxMessage;
+  int temp;
+  for (int i = 0; i < 7; i++)
+  {
+    if (i == 0)
+        temp = juncType;
+    else if (i == 1)
+        temp = pathState[0];
+    else if (i == 2)
+        temp = pathState[1];
+    else if (i == 3)
+        temp = pathState[2];
+    else if (i == 4)
+        temp = pathState[3];
+    else if (i == 5)
+        temp = boxType[0];
+    else if (i == 6)
+        temp = boxType[1];
+    
+    TxMessage = TxMessage + to_string(temp);
+  }
+  return TxMessage;
 }
 
 void Navigator::task()
