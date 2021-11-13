@@ -176,20 +176,29 @@ void Maze::update_path(int column, int row, vector<int> paths, int robot)
 {
     bool juncs_found = junctions[column][row].found_junctions_set;
     junctions[column][row].set_paths(paths);
+    cout << "robot" << robot << "\n";
     if (column > 0)
     {
+        cout << "col" << column - 1 << ", row" << row << "\n";
+
         update_path_helper(juncs_found, column - 1, row, robot, RIGHT, paths[LEFT]);
     }
     if (column + 1 < COLS)
     {
+        cout << "col" << column + 1 << ", row" << row << "\n";
+
         update_path_helper(juncs_found, column + 1, row, robot, LEFT, paths[RIGHT]);
     }
     if (row > 0)
     {
+        cout << "col" << column << ", row" << row - 1 << "\n";
+
         update_path_helper(juncs_found, column, row - 1, robot, UP, paths[DOWN]);
     }
     if (row + 1 < ROWS)
     {
+        cout << "col" << column << ", row" << row + 1 << "\n";
+
         update_path_helper(juncs_found, column, row + 1, robot, DOWN, paths[UP]);
     }
     junctions[column][row].found_junctions_set = true;
@@ -269,7 +278,8 @@ bool Maze::color_match()
             count += 1;
         }
     }
-    if(count==6){
+    if (count == 6)
+    {
         return true;
     }
     return false;

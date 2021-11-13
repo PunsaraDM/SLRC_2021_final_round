@@ -77,8 +77,20 @@ void Junction::set_content(vector<int> recieved)
 
 bool Junction::set_found_by(int dir, int robot)
 {
+
     bool match_found = false;
     vector<int> founded = found_by[dir];
+      cout << "found by: " << robot << "," << dir << "\n";
+    for (size_t i = 0; i < found_by.size(); i++)
+    {
+        cout << "dir: " << i << "| "
+             << "\n";
+        for (size_t j = 0; j < found_by[i].size(); j++)
+        {
+            cout << found_by[i][j] << "|";
+        }
+        cout << "\n";
+    }
     for (size_t i = 0; i < founded.size(); i++)
     {
         if (robot == founded[i])
@@ -90,6 +102,18 @@ bool Junction::set_found_by(int dir, int robot)
     if (!match_found)
     {
         found_by[dir].push_back(robot);
+    }
+
+    cout << "found by: " << robot << "," << dir << "\n";
+    for (size_t i = 0; i < found_by.size(); i++)
+    {
+        cout << "dir: " << i << "| "
+             << "\n";
+        for (size_t j = 0; j < found_by[i].size(); j++)
+        {
+            cout << found_by[i][j] << "|";
+        }
+        cout << "\n";
     }
     if (found_by[dir].size() == 2)
     {

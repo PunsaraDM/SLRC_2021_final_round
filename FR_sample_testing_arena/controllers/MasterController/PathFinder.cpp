@@ -53,6 +53,8 @@
 #define LOWER 1
 #define MIDDLE 2
 
+#define RESERVED 0
+#define UNRESERVED 1
 using namespace std;
 
 PathFinder::PathFinder(int startCol, int startRow, Maze *c_maze, int dir, PickStrategy pickStrategy)
@@ -191,9 +193,14 @@ vector<vector<int>> PathFinder::search_maze(int juncType, vector<int> path_state
     }
 
     has_white = white_box;
-    update_robot_position(direction_to_travel);
+    maze->junctions[robot_col][robot_row].travel_state = UNRESERVED;
+    junc_available = check_and_set_available_direction();
+    maze->junctions[robot_col][robot_row].travel_state = RESERVED;
     packet = create_next_data_packet();
-    last_direction = direction_to_travel;
+    if (junc_available)
+    {
+        last_direction = direction_to_travel;
+    }
     return packet;
 }
 
@@ -207,7 +214,11 @@ vector<vector<int>> PathFinder::create_next_data_packet()
     vector<int> box_grab{NEGLECT, NOCOLOR};
     vector<int> over{scan_over};
 
-    if ((scan_over && robot_col == -1 && robot_row == 0 && robot == LEFT) || (scan_over && robot_col == 9 && robot_row == 6 && robot == RIGHT))
+    if (!junc_available)
+    {
+        navigate_state.push_back(STALL);
+    }
+    else if ((scan_over && robot_col == -1 && robot_row == 0 && robot == LEFT) || (scan_over && robot_col == 9 && robot_row == 6 && robot == RIGHT))
     {
         if (current_pick < 3 && placement_back)
         {
@@ -238,7 +249,7 @@ vector<vector<int>> PathFinder::create_next_data_packet()
         {
             box_grab[1] = WHITE_COL;
             box_grab[0] = LOWER;
-            has_white =true;
+            has_white = true;
             navigate_state.push_back(NAVIGATE_STATE_VISITED);
         }
         else if (in_last)
@@ -309,25 +320,27 @@ int PathFinder::get_invert_box_dir()
     return dir;
 }
 
-void PathFinder::update_robot_position(int direction)
+vector<int> PathFinder::update_robot_position(int direction)
 {
-
+    vector<int> loc;
+    int row = robot_row;
+    int col = robot_col;
     switch (direction)
     {
     case UP:
-        robot_row += 1;
+        row += 1;
         break;
 
     case RIGHT:
-        robot_col += 1;
+        col += 1;
         break;
 
     case DOWN:
-        robot_row -= 1;
+        row -= 1;
         break;
 
     case LEFT:
-        robot_col -= 1;
+        col -= 1;
         break;
 
     default:
@@ -335,6 +348,10 @@ void PathFinder::update_robot_position(int direction)
              << "\n";
         break;
     }
+
+    loc.push_back(col);
+    loc.push_back(row);
+    return loc;
 }
 
 bool PathFinder::get_next_junc_color()
@@ -376,5 +393,20 @@ void PathFinder::initiate_pick()
     else
     {
         initial_pick_packet = travel_with_color();
+    }
+}
+
+bool PathFinder::check_and_set_available_direction()
+{
+    vector<int> loc = update_robot_position(direction_to_travel);
+    if (maze->junctions[loc[0]][loc[1]].travel_state == RESERVED)
+    {
+        return false;
+    }
+    else
+    {
+        robot_col = loc[0];
+        robot_row = loc[1];
+        return true;
     }
 }

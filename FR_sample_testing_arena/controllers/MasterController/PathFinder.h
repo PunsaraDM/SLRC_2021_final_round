@@ -67,11 +67,12 @@ extern "C"
         vector<vector<int>> search_maze(int juncType, vector<int> path_state, vector<int> box_type);
         vector<int> find_junction_content(vector<int> box_type);
         int find_junction_content_state();
-        void update_robot_position(int direction);
+        vector<int> update_robot_position(int direction);
         vector<vector<int>> create_next_data_packet();
         int get_local_direction();
         int get_invert_box_dir();
         vector<int> adjust_path_state_to_global(vector<int> paths);
+        bool check_and_set_available_direction();
         bool get_next_junc_color();
         bool paths_remaining();
         void initiate_pick();
@@ -84,6 +85,7 @@ extern "C"
         bool scan_just_over = false;
         bool hold = false;
         bool scan_over = false;
+        bool junc_available = false;
 
     private:
         Maze* maze;

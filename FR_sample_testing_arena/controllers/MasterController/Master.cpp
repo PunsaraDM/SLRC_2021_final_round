@@ -48,20 +48,26 @@ void Master::initMaster()
 
 void Master::main_control()
 {
-    if (maze->discovered == 6 && scan_just_over && (maze->paths_joined || maze->color_match()))
-    {
-        pick_strategy.initialize(maze, pathfinder_left->robot_col, pathfinder_left->robot_row, pathfinder_right->robot_col, pathfinder_right->robot_row);
-        pathfinder_left->initiate_pick();
-        pathfinder_right->initiate_pick();
-        pathfinder_left->scan_just_over = true;
-        pathfinder_left->scan_over = true;
-        pathfinder_right->scan_just_over = true;
-        pathfinder_right->scan_over = true;
-        scan_just_over = false;
-    }
 
     if (receiver[rx]->getQueueLength() > 0)
     {
+        cout << "paths joined" << maze->paths_joined << "\n"; 
+        cout << "color match" << maze->color_match() << "\n";  
+        // if (maze->discovered == 6 && scan_just_over && (maze->paths_joined || maze->color_match()))
+        if (maze->discovered == 6 && scan_just_over)
+        {
+            cout << "all six found"
+                 << "\n";
+            pick_strategy.initialize(maze, pathfinder_left->robot_col, pathfinder_left->robot_row, pathfinder_right->robot_col, pathfinder_right->robot_row);
+            pathfinder_left->initiate_pick();
+            pathfinder_right->initiate_pick();
+            pathfinder_left->scan_just_over = true;
+            pathfinder_left->scan_over = true;
+            pathfinder_right->scan_just_over = true;
+            pathfinder_right->scan_over = true;
+            scan_just_over = false;
+        }
+        cout << "discovered master" << maze->discovered << "\n";
         receive(rx);
 
         if (rx == 0)
@@ -80,6 +86,10 @@ void Master::main_control()
     if (rx > 1)
         rx = 0;
 }
+
+
+
+
 // void Master::main_control()
 // {
 //     while(master->step(TIME_STEP) != -1)
@@ -157,12 +167,13 @@ void Master::receive(int rx)
     //cout << "rxmsg: " << var[0][0] << var[1][0] << var[2][0] << var[2][1] << var[3][0] << var[4][0] << var[4][1] << endl;
 
     string tempStr = "";
-    size_t i=0;
-    int j=0;
+    size_t i = 0;
+    int j = 0;
     while (i < RxMessage.size())
     {
         tempStr = RxMessage[i];
-        if (tempStr == "-") {
+        if (tempStr == "-")
+        {
             i = i + 1;
             tempStr = tempStr + RxMessage[i];
         }

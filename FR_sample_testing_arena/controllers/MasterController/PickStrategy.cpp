@@ -415,7 +415,7 @@ void PickStrategy::initialize(Maze* m, int left_col, int left_row, int right_col
 
     for (size_t i = 0; i < 3; i++)
     {
-        vector<int> path = shortest_path_seq[order_left[i][0]][order_left[i][1]];
+        vector<int> path = shortest_path_seq[order_left[i][0]][order_left[i][1]*2];
         if (i == 0)
         {
             left_stack.reserve(left_stack.size() + distance(path.begin(), path.end()));
@@ -441,7 +441,7 @@ void PickStrategy::initialize(Maze* m, int left_col, int left_row, int right_col
     // cout << "\n";
     for (size_t i = 0; i < 3; i++)
     {
-        vector<int> path = shortest_path_seq[order_right[i][0]][order_right[i][1]];
+        vector<int> path = shortest_path_seq[order_right[i][0]][order_right[i][1]*2+1];
         if (i == 0)
         {
             right_stack.reserve(right_stack.size() + distance(path.begin(), path.end()));
