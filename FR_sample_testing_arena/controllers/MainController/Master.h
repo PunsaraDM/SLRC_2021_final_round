@@ -32,6 +32,7 @@ extern "C"
     {
     public:
         void initMaster(Master *master);
+        void initialize(Master *master);
         void main_control();
         void receive(int rx);
         void emmit(int tx);
