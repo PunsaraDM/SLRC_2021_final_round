@@ -143,6 +143,7 @@ vector<vector<int>> PathFinder::search_maze(int juncType, vector<int> path_state
     {
         if (maze.junctions[robot_col][robot_row].content_state == WHITE_PATCH)
         {
+            cout << "here" <<"\n";
             white_box = true;
         }
         junction_content_state = maze.junctions[robot_col][robot_row].content_state;
@@ -247,18 +248,16 @@ vector<vector<int>> PathFinder::create_next_data_packet()
 
     else if (maze.junctions[robot_col][robot_row].get_state() == DISCOVERED)
     {
+        cout << "up"
+             << "\n";
         junc_type[0] = maze.junctions[robot_col][robot_row].content_state;
-        if (!scan_over && !has_white)
+        if (!scan_over && !has_white && junc_type[0] == WHITE_PATCH)
         {
-            for (size_t i = 0; i < strategy.white_locations.size(); i++)
-            {
-                vector<int> loc = strategy.white_locations[i];
-                if (loc[0] == robot_col && loc[1] == robot_row)
-                {
-                    box_grab[1] = WHITE_COL;
-                    box_grab[0] = LOWER;
-                }
-            }
+
+            box_grab[1] = WHITE_COL;
+            box_grab[0] = LOWER;
+            maze.junctions[robot_col][robot_row].content_state = PATCHNOBOX;
+            has_white = true;
             navigate_state.push_back(NAVIGATE_STATE_VISITED);
         }
         else if (in_last)

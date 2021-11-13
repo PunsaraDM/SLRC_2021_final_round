@@ -106,7 +106,7 @@ void Navigator::follow_line(float Kp, float Kd, float minSpd, float baseSpd, flo
     leftSpeed = minSpd;
   else if (leftSpeed > maxSpd)
     leftSpeed = maxSpd;
-  cout<<leftSpeed<<"  "<<rightSpeed<<endl;
+  // cout<<leftSpeed<<"  "<<rightSpeed<<endl;
   motorGroup->set_velocity(leftSpeed, rightSpeed);
 }
 
