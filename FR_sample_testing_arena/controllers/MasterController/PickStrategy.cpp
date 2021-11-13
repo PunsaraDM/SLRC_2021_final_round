@@ -49,10 +49,10 @@
 #define TOP 3
 using namespace std;
 
-void PickStrategy::find_combinations(Maze m)
+void PickStrategy::find_combinations(Maze* m)
 {
     //asumming that the location vector is 3d {{{red_col1,red_row1},{red_col2,red_row2}} }
-    vector<vector<vector<int>>> locations = m.colored_junctions;
+    vector<vector<vector<int>>> locations = m->colored_junctions;
     vector<vector<int>> red_locations = locations[RED - 1];
     vector<vector<int>> green_locations = locations[GREEN - 1];
     vector<vector<int>> blue_locations = locations[BLUE - 1];
@@ -128,7 +128,7 @@ void PickStrategy::find_combinations(Maze m)
     order_right = find_order(selected_right, locations);
 }
 
-void PickStrategy::discover_shortest_paths(vector<vector<vector<int>>> locations, Maze maze)
+void PickStrategy::discover_shortest_paths(vector<vector<vector<int>>> locations, Maze* maze)
 {
     cout << "size: " << locations.size() << "\n";
     for (size_t i = 0; i < locations.size(); i++)
@@ -263,7 +263,7 @@ bool PickStrategy::check_for_top_boxes(int red, int green, int blue, vector<vect
 //give the destination as the start
 //col1 -> 0,0 || 8,6
 //col2-> colored box
-int PickStrategy::find_shortest_path(int col1, int row1, int col2, int row2, int color, int dir, Maze c_maze)
+int PickStrategy::find_shortest_path(int col1, int row1, int col2, int row2, int color, int dir, Maze* c_maze)
 {
     cout << "start: " << col1 << "," << row1 << "\n";
     cout << "end: " << col2 << "," << row2 << "\n";
@@ -289,13 +289,13 @@ int PickStrategy::find_shortest_path(int col1, int row1, int col2, int row2, int
                                         {current_junc[0] + 1, current_junc[1]},
                                         {current_junc[0], current_junc[1] - 1},
                                         {current_junc[0] - 1, current_junc[1]}};
-        vector<int> paths = c_maze.junctions[current_junc[0]][current_junc[1]].get_paths();
+        vector<int> paths = c_maze->junctions[current_junc[0]][current_junc[1]].get_paths();
 
         for (int i = 0; i < 4; i++)
         {
 
             // if the path is discovered and coordinates are acceptable
-            if (0 <= achievables[i][0] && achievables[i][0] < COLS and 0 <= achievables[i][1] and achievables[i][1] < ROWS && paths[i] == DISCOVERED && (c_maze.junctions[achievables[i][0]][achievables[i][1]].get_state() == DISCOVERED || (achievables[i][0] == col1 && achievables[i][1] == row1)))
+            if (0 <= achievables[i][0] && achievables[i][0] < COLS and 0 <= achievables[i][1] and achievables[i][1] < ROWS && paths[i] == DISCOVERED && (c_maze->junctions[achievables[i][0]][achievables[i][1]].get_state() == DISCOVERED || (achievables[i][0] == col1 && achievables[i][1] == row1)))
             {
 
                 vector<int> coord{achievables[i][0], achievables[i][1]};
@@ -378,7 +378,7 @@ int PickStrategy::get_opposite_dir(int direction)
     return opposite_dir;
 }
 
-int PickStrategy::find_next_direction_pick(int robot, Maze maze)
+int PickStrategy::find_next_direction_pick(int robot, Maze* maze)
 {
     int direction = INVALID;
     if (robot == LEFT)
@@ -395,7 +395,7 @@ int PickStrategy::find_next_direction_pick(int robot, Maze maze)
     return direction;
 }
 
-void PickStrategy::initialize(Maze m, int left_col, int left_row, int right_col, int right_row)
+void PickStrategy::initialize(Maze* m, int left_col, int left_row, int right_col, int right_row)
 {
     left_start_col = left_col;
     left_start_row = left_row;
@@ -403,7 +403,7 @@ void PickStrategy::initialize(Maze m, int left_col, int left_row, int right_col,
     right_start_row = right_row;
     cout << "initializing"
          << "\n";
-    vector<vector<vector<int>>> locations = m.colored_junctions;
+    vector<vector<vector<int>>> locations = m->colored_junctions;
     find_combinations(m);
 
     // for (size_t i = 0; i < order_left.size(); i++)
@@ -478,12 +478,12 @@ vector<int> PickStrategy::get_reverse_path(vector<int> path)
     return reverse;
 }
 
-int PickStrategy::check_combination(vector<int> pos, vector<int> pos_opposite, Maze m)
+int PickStrategy::check_combination(vector<int> pos, vector<int> pos_opposite, Maze* m)
 {
-    bool left_pos = check_one_combination(pos, m.left_colors,  m);
-    bool right_pos_opposite = check_one_combination(pos_opposite, m.right_colors,  m);
-    bool left_pos_opposite = check_one_combination(pos_opposite, m.left_colors,  m);
-    bool right_pos = check_one_combination(pos, m.right_colors,  m);
+    bool left_pos = check_one_combination(pos, m->left_colors,  m);
+    bool right_pos_opposite = check_one_combination(pos_opposite, m->right_colors,  m);
+    bool left_pos_opposite = check_one_combination(pos_opposite, m->left_colors,  m);
+    bool right_pos = check_one_combination(pos, m->right_colors,  m);
 
     if (right_pos && left_pos_opposite && left_pos && right_pos_opposite)
     {
@@ -502,7 +502,7 @@ int PickStrategy::check_combination(vector<int> pos, vector<int> pos_opposite, M
         return INVALID;
     }
 }
-bool PickStrategy::check_one_combination(vector<int> pos, vector<vector<vector<int>>> robot_found_colors, Maze m)
+bool PickStrategy::check_one_combination(vector<int> pos, vector<vector<vector<int>>> robot_found_colors, Maze* m)
 {
     vector<bool> founded{false, false, false};
 
@@ -510,7 +510,7 @@ bool PickStrategy::check_one_combination(vector<int> pos, vector<vector<vector<i
     {
         for (size_t i = 0; i < robot_found_colors[j].size(); i++)
         {
-            if (robot_found_colors[j][i][0] == m.colored_junctions[j][pos[j]][0] && robot_found_colors[j][i][1] == m.colored_junctions[j][pos[j]][1]) /* code */
+            if (robot_found_colors[j][i][0] == m->colored_junctions[j][pos[j]][0] && robot_found_colors[j][i][1] == m->colored_junctions[j][pos[j]][1]) /* code */
             {
                 founded[j] = true;
             }

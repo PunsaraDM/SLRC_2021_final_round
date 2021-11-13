@@ -31,6 +31,7 @@ Master::Master()
 
 void Master::initMaster()
 {
+    maze = new Maze();
     pathfinder_left = new PathFinder(0, 0, maze, LEFT, pick_strategy);
     pathfinder_right = new PathFinder(8, 6, maze, RIGHT, pick_strategy);
     for (int i = 0; i < rx_count; i++)
@@ -47,7 +48,7 @@ void Master::initMaster()
 
 void Master::main_control()
 {
-    if (maze.discovered == 6 && scan_just_over && (maze.paths_joined || maze.color_match()))
+    if (maze->discovered == 6 && scan_just_over && (maze->paths_joined || maze->color_match()))
     {
         pick_strategy.initialize(maze, pathfinder_left->robot_col, pathfinder_left->robot_row, pathfinder_right->robot_col, pathfinder_right->robot_row);
         pathfinder_left->initiate_pick();

@@ -50,7 +50,7 @@ extern "C"
         Master();
 
     private:
-        Maze maze;
+        Maze* maze;
         int rx = 0;
         PickStrategy pick_strategy;
         PathFinder *pathfinder_left;

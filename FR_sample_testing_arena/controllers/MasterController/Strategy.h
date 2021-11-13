@@ -22,7 +22,7 @@ extern "C"
     {
     public:
         vector<vector<int>> white_locations;
-        Strategy(Maze c_maze, vector<int> priority_vec);
+        Strategy(Maze* c_maze, vector<int> priority_vec);
         int find_next_direction(int robot_col, int robot_row, int last_direction, bool has_white);
         int find_next_direction_normal(vector<int> visited, vector<int> unvisited);
         int get_from_priority(vector<int> juncs, bool is_visited);
@@ -31,7 +31,7 @@ extern "C"
 
     private:
         vector<int> shortest_path;
-        Maze maze;
+        Maze* maze;
         vector<int> robot_stack;
         int current_col = 0;
         int current_row = 0;

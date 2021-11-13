@@ -55,14 +55,14 @@
 
 using namespace std;
 
-PathFinder::PathFinder(int startCol, int startRow, Maze c_maze, int dir, PickStrategy pickStrategy)
+PathFinder::PathFinder(int startCol, int startRow, Maze* c_maze, int dir, PickStrategy pickStrategy)
 {
     robot_col = startCol;
     robot_row = startRow;
     maze = c_maze;
     pick_strategy = pickStrategy;
     robot = dir;
-    vector<int> priority{RIGHT, UP, DOWN, LEFT};
+    vector<int> priority{RIGHT,DOWN, UP, LEFT};
     last_direction = LEFT;
     if (robot == LEFT)
     {
@@ -155,7 +155,7 @@ vector<vector<int>> PathFinder::search_maze(int juncType, vector<int> path_state
     bool white_box = has_white;
 
     //get available directions from the current position
-    if (maze.junctions[robot_col][robot_row].get_state() != DISCOVERED)
+    if (maze->junctions[robot_col][robot_row].get_state() != DISCOVERED)
     {
         if (juncType == WHITE_PATCH)
         {
@@ -167,20 +167,20 @@ vector<vector<int>> PathFinder::search_maze(int juncType, vector<int> path_state
     }
     else
     {
-        if (maze.junctions[robot_col][robot_row].content_state == WHITE_PATCH)
+        if (maze->junctions[robot_col][robot_row].content_state == WHITE_PATCH)
         {
             white_box = true;
         }
-        junction_content_state = maze.junctions[robot_col][robot_row].content_state;
-        paths = maze.junctions[robot_col][robot_row].get_paths();
-        junction_content = maze.junctions[robot_col][robot_row].get_content();
+        junction_content_state = maze->junctions[robot_col][robot_row].content_state;
+        paths = maze->junctions[robot_col][robot_row].get_paths();
+        junction_content = maze->junctions[robot_col][robot_row].get_content();
     }
 
-    maze.update_junction(robot_col, robot_row, junction_content, junction_content_state, has_white, robot);
+    maze->update_junction(robot_col, robot_row, junction_content, junction_content_state, has_white, robot);
 
     if (junction_content_state != INVERTED || has_white)
     {
-        maze.update_path(robot_col, robot_row, paths, robot);
+        maze->update_path(robot_col, robot_row, paths, robot);
     }
 
     direction_to_travel = strategy->find_next_direction(robot_col, robot_row, last_direction, has_white);
@@ -211,7 +211,7 @@ vector<vector<int>> PathFinder::create_next_data_packet()
     {
         if (current_pick < 3 && placement_back)
         {
-            junc_type[0] = maze.junctions[0][0].content_state;
+            junc_type[0] = maze->junctions[0][0].content_state;
             navigate_state.push_back(NAVIGATE_STATE_VISITED);
             placement_back = false;
             if (junc_type[0] == COLORED && get_next_junc_color())
@@ -231,9 +231,9 @@ vector<vector<int>> PathFinder::create_next_data_packet()
         }
     }
 
-    else if (maze.junctions[robot_col][robot_row].get_state() == DISCOVERED)
+    else if (maze->junctions[robot_col][robot_row].get_state() == DISCOVERED)
     {
-        junc_type[0] = maze.junctions[robot_col][robot_row].content_state;
+        junc_type[0] = maze->junctions[robot_col][robot_row].content_state;
         if (!scan_over && !has_white)
         {
             for (size_t i = 0; i < strategy->white_locations.size(); i++)
@@ -349,12 +349,12 @@ bool PathFinder::get_next_junc_color()
     int state = 0;
     current_color = NOCOLOR;
 
-    if (maze.colored_junctions[pick_order[current_pick][0]][pick_order[current_pick][1]][0] == robot_col && maze.colored_junctions[pick_order[current_pick][0]][pick_order[current_pick][1]][1] == robot_row)
+    if (maze->colored_junctions[pick_order[current_pick][0]][pick_order[current_pick][1]][0] == robot_col && maze->colored_junctions[pick_order[current_pick][0]][pick_order[current_pick][1]][1] == robot_row)
     {
         found = true;
         current_color = pick_order[current_pick][0] + 1;
 
-        state = maze.colored_junctions[pick_order[current_pick][0]][pick_order[current_pick][1]][2];
+        state = maze->colored_junctions[pick_order[current_pick][0]][pick_order[current_pick][1]][2];
     }
 
     if (state != LOWER && state != MIDDLE)

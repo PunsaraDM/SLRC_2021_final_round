@@ -61,7 +61,7 @@ extern "C"
     class PathFinder
     {
     public:
-        PathFinder(int startCol, int startRow, Maze c_maze, int dir, PickStrategy pickStrategy);
+        PathFinder(int startCol, int startRow, Maze* c_maze, int dir, PickStrategy pickStrategy);
         vector<vector<int>> travel_maze(int juncType, vector<int> path_state, vector<int> box_type);
         vector<vector<int>> travel_with_color();
         vector<vector<int>> search_maze(int juncType, vector<int> path_state, vector<int> box_type);
@@ -86,7 +86,7 @@ extern "C"
         bool scan_over = false;
 
     private:
-        Maze maze;
+        Maze* maze;
         Strategy *strategy;
         PickStrategy pick_strategy;
         vector<vector<int>> pick_order;
