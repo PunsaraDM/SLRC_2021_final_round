@@ -42,8 +42,9 @@
 using namespace std;
 
 
-Strategy::Strategy(Maze c_maze){
+Strategy::Strategy(Maze c_maze, vector<int> priority_vec){
     maze = c_maze;
+    priority = priority_vec;
 }
 
 int Strategy::get_from_priority(vector<int> juncs, bool is_visited)

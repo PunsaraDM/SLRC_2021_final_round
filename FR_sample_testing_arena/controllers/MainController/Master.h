@@ -28,31 +28,31 @@
 extern "C"
 {
 #endif
-    class Master
+    class Master : public Robot
     {
     public:
-        void initMaster(Master *master);
-        void initialize(Master *master);
+        void initMaster();
+        void initialize();
         void main_control();
         void receive(int rx);
         void emmit(int tx);
-
-        
+        Master();
 
     private:
-        Master master;
         Maze maze;
+        int rx = 0;
         PickStrategy pick_strategy;
-        PathFinder* pathfinder_left;
-        PathFinder* pathfinder_right;
+        PathFinder *pathfinder_left;
+        PathFinder *pathfinder_right;
+        bool scan_just_over = true;
 
         static const int rx_count = 2;
         Receiver *receiver[rx_count];
-        char rx_name[rx_count][10] = {"receiver1","receiver2"};
+        char rx_name[rx_count][10] = {"receiver1", "receiver2"};
 
         static const int tx_count = 2;
         Emitter *emitter[tx_count];
-        char tx_name[tx_count][10] = {"emmiter1","emmiter2"};
+        char tx_name[tx_count][10] = {"emmiter1", "emmiter2"};
 
         vector<vector<int>> var{{0}, {0}, {0, 0}, {0}, {0, 0}};
 
