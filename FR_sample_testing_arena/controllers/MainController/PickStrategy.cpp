@@ -164,7 +164,8 @@ vector<vector<int>> PickStrategy::order_lower(vector<vector<vector<int>>> locati
 
             if (top_col == lower_col && lower_row == top_row)
             {
-                cout << "found" << "\n";
+                cout << "found"
+                     << "\n";
                 found = true;
                 break;
             }
@@ -180,9 +181,6 @@ vector<vector<int>> PickStrategy::order_lower(vector<vector<vector<int>>> locati
     }
     temp_lower_priority.reserve(temp_lower_priority.size() + distance(temp_lower_least.begin(), temp_lower_least.end()));
     temp_lower_priority.insert(temp_lower_priority.end(), temp_lower_least.begin(), temp_lower_least.end());
-
-    
-    
 
     return temp_lower_priority;
 }
@@ -384,28 +382,17 @@ void PickStrategy::initialize(Maze m)
     vector<vector<vector<int>>> locations = m.colored_junctions;
     find_combinations(m);
 
-    for (size_t i = 0; i < order_left.size(); i++)
-    {
-        cout << "order_left: " << order_left[i][0] << "," << order_left[i][1] << '\n';
+    // for (size_t i = 0; i < order_left.size(); i++)
+    // {
+    //     cout << "order_left: " << order_left[i][0] << "," << order_left[i][1] << '\n';
     }
 
-    cout << "left col: " << left_start_col << "\n";
-    cout << "left row: " << left_start_row << "\n";
-    cout << "start col: " << locations[order_left[0][0]][order_left[0][1]][0] << "\n";
-    cout << "start row: " << locations[order_left[0][0]][order_left[0][1]][1] << "\n";
     find_shortest_path(locations[order_left[0][0]][order_left[0][1]][0], locations[order_left[0][0]][order_left[0][1]][1], left_start_col, left_start_row, 0, LEFT, m);
-    // find_shortest_path(int col1, int row1, right_start_col, right_start_row, 0, RIGHT);
+    find_shortest_path(locations[order_right[0][0]][order_right[0][1]][0], locations[order_right[0][0]][order_right[0][1]][1], right_start_col, right_start_row, 0, RIGHT, m);
 
     for (size_t i = 0; i < 3; i++)
     {
         vector<int> path = shortest_path_seq[order_left[i][0]][order_left[i][1]];
-        cout << "this _path:" << order_left[i][0] << "," << order_left[i][1] << "\n";
-        for (size_t i = 0; i < path.size(); i++)
-        {
-            cout << path[i] << "| ";
-        }
-        cout << "\n";
-
         if (i == 0)
         {
             left_stack.reserve(left_stack.size() + distance(path.begin(), path.end()));
@@ -422,19 +409,31 @@ void PickStrategy::initialize(Maze m)
         }
     }
 
-    cout << "left_Stack:"
-         << "\n";
-    for (size_t i = 0; i < left_stack.size(); i++)
-    {
-        cout << left_stack[i] << "|";
-    }
-    cout << "\n";
-    // for (size_t i = 0; i < 3; i++)
+    // cout << "left_Stack:"
+    //      << "\n";
+    // for (size_t i = 0; i < left_stack.size(); i++)
     // {
-    //     vector<int> path = shortest_path_seq[order_right[i][0]][order_right[i][1]];
-    //     right_stack.reserve(right_stack.size() + distance(path.begin(), path.end()));
-    //     right_stack.insert(right_stack.end(), path.begin(), path.end());
+    //     cout << left_stack[i] << "|";
     // }
+    // cout << "\n";
+    for (size_t i = 0; i < 3; i++)
+    {
+        vector<int> path = shortest_path_seq[order_right[i][0]][order_right[i][1]];
+        if (i == 0)
+        {
+            right_stack.reserve(right_stack.size() + distance(path.begin(), path.end()));
+            right_stack.insert(right_stack.end(), path.begin(), path.end());
+        }
+        else
+        {
+            vector<int> reverse_path = get_reverse_path(path);
+            right_stack.reserve(right_stack.size() + distance(reverse_path.begin(), reverse_path.end()));
+            right_stack.insert(right_stack.end(), reverse_path.begin(), reverse_path.end());
+
+            right_stack.reserve(right_stack.size() + distance(path.begin(), path.end()));
+            right_stack.insert(right_stack.end(), path.begin(), path.end());
+        }
+    }
 }
 
 vector<int> PickStrategy::get_reverse_path(vector<int> path)

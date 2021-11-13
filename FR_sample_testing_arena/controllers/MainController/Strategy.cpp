@@ -41,37 +41,23 @@
 
 using namespace std;
 
-int Strategy::get_from_priority(vector<int> juncs, int robot, bool is_visited)
+
+Strategy::Strategy(Maze c_maze){
+    maze = c_maze;
+}
+
+int Strategy::get_from_priority(vector<int> juncs, bool is_visited)
 {
 
     int dir = INVALID;
-    vector<int> stack = robot_right_stack;
-    if (robot == LEFT)
-    {
-        stack = robot_left_stack;
-    }
+
     if (is_visited)
     {
-        // dir = find_visited_next(juncs);
-        // if (dir == INVALID)
-        // {
-        dir = stack[stack.size() - 1];
-        stack.pop_back();
-        // }
-        // else
-        // {
-        //     stack.push_back(get_opposite_dir(dir));
-        // }
+        dir = robot_stack[robot_stack.size() - 1];
+        robot_stack.pop_back();
     }
     else
     {
-        vector<int> priorityLeft{LEFT, DOWN, UP, RIGHT};
-        vector<int> priorityRight{RIGHT, UP, DOWN, LEFT};
-        vector<int> priority = priorityRight;
-        if (robot == LEFT)
-        {
-            priority = priorityLeft;
-        }
 
         for (int i = 0; i < 4; i++)
         {
@@ -82,25 +68,16 @@ int Strategy::get_from_priority(vector<int> juncs, int robot, bool is_visited)
             }
         }
 
-        stack.push_back(get_opposite_dir(dir));
-    }
-    if (robot == LEFT)
-    {
-        robot_left_stack = stack;
-    }
-    else
-    {
-        robot_right_stack = stack;
+        robot_stack.push_back(get_opposite_dir(dir));
     }
 
     return dir;
 }
 
-int Strategy::find_next_direction(int robot_col, int robot_row, Maze maze, int robot, int last_direction, bool has_white)
+int Strategy::find_next_direction(int robot_col, int robot_row, int last_direction, bool has_white)
 {
     current_col = robot_col;
     current_row = robot_row;
-    c_maze = maze;
     vector<int> current_loc{robot_col, robot_row};
     int content_state = maze.junctions[robot_col][robot_row].content_state;
 
@@ -115,21 +92,10 @@ int Strategy::find_next_direction(int robot_col, int robot_row, Maze maze, int r
             vector<int> white_coord = white_locations[white_locations.size() - 1];
             white_locations.pop_back();
             find_shortest_path(invert_col, invert_row, white_coord[0], white_coord[1]);
-            if (robot == LEFT)
-            {
 
-                for (size_t i = 0; i < shortest_path.size(); i++)
-                {
-                    robot_left_stack.push_back(get_opposite_dir(shortest_path[i]));
-                }
-            }
-            else
+            for (size_t i = 0; i < shortest_path.size(); i++)
             {
-
-                for (size_t i = 0; i < shortest_path.size(); i++)
-                {
-                    robot_right_stack.push_back(get_opposite_dir(shortest_path[i]));
-                }
+                robot_stack.push_back(get_opposite_dir(shortest_path[i]));
             }
         }
         return selected;
@@ -177,21 +143,11 @@ int Strategy::find_next_direction(int robot_col, int robot_row, Maze maze, int r
                 short_col -= 1;
             }
             find_shortest_path(white_coord[0], white_coord[1], short_col, short_row);
-            if (robot == LEFT)
+
+            robot_stack.pop_back();
+            for (size_t i = 0; i < shortest_path.size(); i++)
             {
-                robot_left_stack.pop_back();
-                for (size_t i = 0; i < shortest_path.size(); i++)
-                {
-                    robot_left_stack.push_back(get_opposite_dir(shortest_path[i]));
-                }
-            }
-            else
-            {
-                robot_right_stack.pop_back();
-                for (size_t i = 0; i < shortest_path.size(); i++)
-                {
-                    robot_right_stack.push_back(get_opposite_dir(shortest_path[i]));
-                }
+                robot_left_stack.push_back(get_opposite_dir(shortest_path[i]));
             }
 
             return selected;
@@ -229,22 +185,14 @@ int Strategy::find_next_direction(int robot_col, int robot_row, Maze maze, int r
 
             int selected = INVALID;
 
-           
             if (maze.junctions[robot_col][robot_row].content_state == INVERTED && !has_white)
             {
                 selected = get_opposite_dir(last_direction);
-                if (robot == LEFT)
-                {
-                    robot_left_stack.pop_back();
-                }
-                else
-                {
-                    robot_right_stack.pop_back();
-                }
+                robot_stack.pop_back();
             }
             else
             {
-                selected = find_next_direction_normal(visited, unvisited, robot);
+                selected = find_next_direction_normal(visited, unvisited);
             }
 
             cout << "Selected: " << selected << "\n";
@@ -254,7 +202,7 @@ int Strategy::find_next_direction(int robot_col, int robot_row, Maze maze, int r
     }
 }
 
-int Strategy::find_next_direction_normal(vector<int> visited, vector<int> unvisited, int robot)
+int Strategy::find_next_direction_normal(vector<int> visited, vector<int> unvisited)
 {
     int selected = INVALID;
 
@@ -267,20 +215,6 @@ int Strategy::find_next_direction_normal(vector<int> visited, vector<int> unvisi
         selected = get_from_priority(visited, robot, true);
     }
     return selected;
-}
-
-bool Strategy::check_existence(vector<int> arr, int val)
-{
-    bool found = false;
-    for (size_t i = 0; i < arr.size(); i++)
-    {
-        if (arr[i] == val)
-        {
-            found = true;
-            break;
-        }
-    }
-    return found;
 }
 
 int Strategy::get_opposite_dir(int direction)
@@ -298,7 +232,6 @@ int Strategy::get_opposite_dir(int direction)
 int Strategy::find_shortest_path(int col1, int row1, int col2, int row2)
 {
     string key = to_string(col1) + to_string(row1);
-
     vector<int> start{col1, row1};
     vector<int> destination{col2, row2};
     vector<vector<int>> queue{start};
@@ -319,13 +252,13 @@ int Strategy::find_shortest_path(int col1, int row1, int col2, int row2)
                                         {current_junc[0] + 1, current_junc[1]},
                                         {current_junc[0], current_junc[1] - 1},
                                         {current_junc[0] - 1, current_junc[1]}};
-        vector<int> paths = c_maze.junctions[current_junc[0]][current_junc[1]].get_paths();
+        vector<int> paths = maze.junctions[current_junc[0]][current_junc[1]].get_paths();
 
         for (int i = 0; i < 4; i++)
         {
 
             // if the path is discovered and coordinates are acceptable
-            if (0 <= achievables[i][0] && achievables[i][0] < COLS and 0 <= achievables[i][1] and achievables[i][1] < ROWS && paths[i] == DISCOVERED && (c_maze.junctions[achievables[i][0]][achievables[i][1]].get_state() == DISCOVERED || (achievables[i][0] == col1 && achievables[i][1] == row1)))
+            if (0 <= achievables[i][0] && achievables[i][0] < COLS and 0 <= achievables[i][1] and achievables[i][1] < ROWS && paths[i] == DISCOVERED && (maze.junctions[achievables[i][0]][achievables[i][1]].get_state() == DISCOVERED || (achievables[i][0] == col1 && achievables[i][1] == row1)))
             {
                 vector<int> coord{achievables[i][0], achievables[i][1]};
                 string neighbour_key = to_string(coord[0]) + to_string(coord[1]);
@@ -360,41 +293,4 @@ int Strategy::find_shortest_path(int col1, int row1, int col2, int row2)
     }
     shortest_path = sequence;
     return distance[destination_key];
-}
-
-int Strategy::find_visited_next(vector<int> juncs)
-{
-    int dir = INVALID;
-    int min_founds = 4;
-
-    for (size_t i = 0; i < juncs.size(); i++)
-    {
-        int founds = 4;
-        int col = current_col;
-        int row = current_row;
-        if (juncs[i] == 0)
-        {
-            row = current_row + 1;
-        }
-        else if (juncs[i] == 1)
-        {
-            col = col + 1;
-        }
-        else if (juncs[i] == 2)
-        {
-            row = row - 1;
-        }
-        else
-        {
-            col = col - 1;
-        }
-        founds = c_maze.junctions[col][row].found_junctions;
-        if (min_founds > founds)
-        {
-            min_founds = founds;
-            dir = juncs[i];
-        }
-    }
-
-    return dir;
 }
