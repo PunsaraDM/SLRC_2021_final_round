@@ -62,7 +62,13 @@ PathFinder::PathFinder(int startCol, int startRow, Maze c_maze, int dir, PickStr
     maze = c_maze;
     pick_strategy = pickStrategy;
     robot = dir;
-    strategy = new Strategy(maze);
+    vector<int> priority{RIGHT, UP, DOWN, LEFT};
+    if (robot == LEFT)
+    {
+        vector<int> priorityLeft{LEFT, DOWN, UP, RIGHT};
+        priority = priorityLeft;
+    }
+    strategy = new Strategy(maze, priority);
 }
 
 vector<int> PathFinder::adjust_path_state_to_global(vector<int> paths)
@@ -89,7 +95,15 @@ vector<vector<int>> PathFinder::travel_maze(int juncType, vector<int> path_state
     }
     else
     {
-        return travel_with_color();
+        if (scan_just_over)
+        {
+            scan_just_over = false;
+            return initial_pick_packet;
+        }
+        else
+        {
+            return travel_with_color();
+        }
     }
 }
 
@@ -167,7 +181,7 @@ vector<vector<int>> PathFinder::search_maze(int juncType, vector<int> path_state
         maze.update_path(robot_col, robot_row, paths, robot);
     }
 
-    direction_to_travel = strategy->find_next_direction(robot_col, robot_row, maze, LEFT, last_direction, has_white);
+    direction_to_travel = strategy->find_next_direction(robot_col, robot_row, last_direction, has_white);
 
     if (junction_content_state == INVERTED && has_white)
     {
@@ -353,7 +367,7 @@ bool PathFinder::get_next_junc_color()
     return found;
 }
 
-vector<vector<int>> PathFinder::initiate_pick()
+void PathFinder::initiate_pick()
 {
     pick_order = pick_strategy.get_pick_order(robot);
 
@@ -361,10 +375,10 @@ vector<vector<int>> PathFinder::initiate_pick()
     {
         in_last = true;
         packet = create_next_data_packet();
-        return packet;
+        initial_pick_packet = packet;
     }
     else
     {
-        return travel_with_color();
+        initiate_pick_packet = travel_with_color();
     }
 }

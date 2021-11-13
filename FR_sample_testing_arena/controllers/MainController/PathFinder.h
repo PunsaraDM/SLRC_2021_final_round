@@ -74,12 +74,14 @@ extern "C"
         vector<int> adjust_path_state_to_global(vector<int> paths);
         bool get_next_junc_color();
         bool paths_remaining();
-        vector<vector<int>> initiate_pick();
+        void initiate_pick();
         int robot_col = 0;
         int robot_row = 0;
         int last_robot_col = 0;
         int last_robot_row = 0;
         int get_opposite_dir(int direction);
+        vector<vector<int>> initial_pick_packet;
+        bool scan_just_over = false;
         bool hold =false;
 
     private:

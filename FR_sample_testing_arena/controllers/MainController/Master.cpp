@@ -23,64 +23,16 @@ using namespace webots;
 #define LEFT 3
 #define INVALID 5
 
-#define RED 1
-#define GREEN 2
-#define BLUE 3
-#define WHITE_COL 4
-#define NOCOLOR 5
 
-#define COLORED 1
-#define WHITE_PATCH 2
-#define INVERTED 3
-#define NORMAL 4
-#define INVERTWHITE 5
-#define PATCHNOBOX 6
+Master::Master()
+{
+    initMaster();
+}
 
-//size
-#define COLS 9
-#define ROWS 7
-
-//paths
-#define NOTACCESIBLE -2
-#define NOPATH -1
-#define UNDISCOVERED 0
-#define DISCOVERED 1
-#define SKIPPATH 2
-
-//junction
-#define VISITEDWITHOUTWHITE 2
-
-//data packet structure
-#define NAVIGATE_STATE 0
-#define NAVIGATE_STATE_SEARCH 0
-#define NAVIGATE_STATE_VISITED 1
-#define DIRECTION 1
-#define INV_PATCH 2
-#define JUNC_TYPE 3
-#define BOX_GRAB 4
-#define NEGLECT 0
-#define LOWER 1
-#define MIDDLE 2
-#define UPPER 3
-// if (maze.discovered == 6 && scan_just_over && (maze.paths_joined || maze.color_match()))
-// {
-//     pick_strategy.initialize(maze, pathfinder_left->robot_col,pathfinder_left->robot_row,pathfinder_right->robot_col,pathfinder_right->robot_row);
-//     pathfinder_left->initiate_pick();
-//     pathfinder_right->initiate_pick();
-//only one asks next one to send also should be ready
-// }
-// else{
-
-// }
-
-void Master::initialize()
+void Master::initMaster()
 {
     path_finder_left = new PathFinder(0, 0, maze, LEFT, pick_strategy);
     path_finder_right = new PathFinder(8, 6, maze, RIGHT, pick_strategy);
-}
-
-void Master::initMaster(Master *master)
-{
     for (int i = 0; i < rx_count; i++)
     {
         receiver[i] = master->getReceiver(rx_name[i]);
@@ -95,131 +47,37 @@ void Master::initMaster(Master *master)
 
 void Master::main_control()
 {
-    int rx = 0;
-
-    while (master->step(TIME_STEP) != -1)
+    if (maze.discovered == 6 && scan_just_over && (maze.paths_joined || maze.color_match()))
     {
-        int back_count = 0;
-
-        if (going_forward[0] == 1)
-        {
-            while (master->step(TIME_STEP) != -1)
-            {
-                bool leftDone = false;
-                bool rightDone = false;
-                while (master->step(TIME_STEP) != -1)
-                {
-                    //give chanse first for right
-                    if ((receiver[1]->getQueueLength() > 0) && (!rightDone))
-                    {
-                        emmit(1);
-                        rightDone = true;
-                    }
-
-                    if ((receiver[0]->getQueueLength() > 0) && (!leftDone) && (rightDone))
-                    {
-                        emmit(0);
-                        leftDone = true;
-                    }
-
-                    if (leftDone && rightDone)
-                        break;
-                }
-                back_count += 1;
-                if (back_count == lcount)
-                    break;
-            }
-        }
-        else if (going_forward[1] == 1)
-        {
-            while (master->step(TIME_STEP) != -1)
-            {
-                bool leftDone = false;
-                bool rightDone = false;
-                while (master->step(TIME_STEP) != -1)
-                {
-                    //give chanse for left first
-                    if ((receiver[0]->getQueueLength() > 0) && (!leftDone))
-                    {
-                        emmit(0);
-                        leftDone = true;
-                    }
-                    if ((receiver[1]->getQueueLength() > 0) && (!rightDone) && leftDone)
-                    {
-                        emmit(1);
-                        rightDone = true;
-                    }
-
-                    if (leftDone && rightDone)
-                        break;
-                }
-                back_count += 1;
-                if (back_count == lcount)
-                    break;
-            }
-        }
-        else if (hold[0] == 1 && hold[1] == 1)
-        {
-            left_forward_path;
-            left_backward_path;
-            right_forward_path;
-            right_backward_path;
-
-            for (int i = 0, i < left_forward_path.size(), i++)
-            {
-                if (left_forward_path[i + 1] == right_backward_path[i])
-                    lcount = lcount + 1;
-                else
-                    break;
-            }
-
-            for (int i = 0, i < right_forward_path.size(), i++)
-            {
-                if (right_forward_path[i + 1] == left_backward_path[i])
-                    rcount = rcount + 1;
-                else
-                    break;
-            }
-
-            if (lcount <= rcount)
-                going_forward[0] = 1;
-            else
-                going_forward[1] = 1;
-        }
-        else if (receiver[rx]->getQueueLength() > 0)
-        {
-            receive(rx);
-            if (rx == 0)
-            {
-                var = pathfinder_left->travel_maze(juncTypeRx, pathStateRx, boxTypeRx);
-                if (maze.junctions[pathfinder_left->robot_col][pathfinder_left->robot_row].get_state() == RESERVED)
-                {
-                    hold[rx] = 1;
-                }
-                else
-                {
-                    maze.junctions[pathfinder_left->robot_col][pathfinder_left->robot_row].set_state() = RESERVED;
-                    emmit(rx);
-                }
-            }
-            else
-            {
-                var = pathfinder_right->travel_maze(juncTypeRx, pathStateRx, boxTypeRx);
-                if (maze.junctions[pathfinder_right->robot_col][pathfinder_right->robot_row].get_state() == RESERVED)
-                {
-                    hold[rx] = 1;
-                }
-                else
-                {
-                    maze.junctions[pathfinder_right->robot_col][pathfinder_right->robot_row].set_state() = RESERVED;
-                    emmit(rx);
-                }
-            }
-        }
-        rx = rx + 1;
-        if (rx > 1)
-            rx = 0;
+        pick_strategy.initialize(maze, pathfinder_left->robot_col, pathfinder_left->robot_row, pathfinder_right->robot_col, pathfinder_right->robot_row);
+        pathfinder_left->initiate_pick();
+        pathfinder_right->initiate_pick();
+        pathfinder_left->scan_just_over = true;
+        pathfinder_left->scan_over = true;
+        pathfinder_right->scan_just_over = true;
+        pathfinder_right->scan_over = true;
+        scan_just_over = false;
     }
+
+    if (receiver[rx]->getQueueLength() > 0)
+    {
+        receive(rx);
+
+        if (rx == 0)
+        {
+            var = pathfinder_left->travel_maze(juncTypeRx, pathStateRx, boxTypeRx);
+            emmit(rx);
+        }
+        else
+        {
+            var = pathfinder_right->travel_maze(juncTypeRx, pathStateRx, boxTypeRx);
+
+            emmit(rx);
+        }
+    }
+    rx = rx + 1;
+    if (rx > 1)
+        rx = 0;
 
     // void Master::main_control()
     // {

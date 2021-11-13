@@ -17,7 +17,6 @@ Navigator::Navigator()
 {
   sensorGroup = new SensorGroup();
   motorGroup = new MotorGroup();
-  pathFinder = new PathFinder(0, 0);
   sensorGroup->initialize(this);
   motorGroup->initialize(this);
 }
