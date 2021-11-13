@@ -41,7 +41,7 @@
 
 using namespace std;
 
-Strategy::Strategy(Maze* c_maze, vector<int> priority_vec)
+Strategy::Strategy(Maze *c_maze, vector<int> priority_vec)
 {
     maze = c_maze;
     priority = priority_vec;
@@ -294,4 +294,32 @@ int Strategy::find_shortest_path(int col1, int row1, int col2, int row2)
     }
     shortest_path = sequence;
     return distance[destination_key];
+}
+
+void Strategy::add_to_stack(vector<int> seq)
+{
+    vector<int> reverse_seq = get_reverse_path(seq);   
+    if (backtracking_white || backtracking_invert)
+    {
+        shortest_path.reserve(shortest_path.size() + distance(seq.begin(), seq.end()));
+        shortest_path.insert(shortest_path.begin(), seq.begin(), seq.end());
+        shortest_path.reserve(shortest_path.size() + distance(seq.begin(), seq.end()));
+        shortest_path.insert(shortest_path.begin(), reverse_seq.begin(), reverse_seq.end());
+    }else{
+        robot_stack.reserve(robot_stack.size() + distance(seq.begin(), seq.end()));
+        robot_stack.insert(robot_stack.begin(), seq.begin(), seq.end());
+        robot_stack.reserve(robot_stack.size() + distance(seq.begin(), seq.end()));
+        robot_stack.insert(robot_stack.begin(), reverse_seq.begin(), reverse_seq.end());
+    }
+    
+}
+
+vector<int> Strategy::get_reverse_path(vector<int> path)
+{
+    vector<int> reverse;
+    for (int i = path.size() - 1; i > -1; i--)
+    {
+        reverse.push_back(get_opposite_dir(path[i]));
+    }
+    return reverse;
 }

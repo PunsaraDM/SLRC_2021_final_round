@@ -63,35 +63,26 @@ void Master::main_control()
         }
     }
 
-    else if(!(pathfinder_left->junc_available) && !(pathfinder_right->junc_available))
+    else if (!(pathfinder_left->junc_available) && !(pathfinder_right->junc_available))
     {
-        if  (pathfinder_left->strategy->backtracking_white||pathfinder_left->strategy->backtracking_invert)  find_back_path(0, pathfinder_left->strategy->shortest_path);
-        else find_back_path(0, pathfinder_left->strategy->robot_stack);
+        if (pathfinder_left->strategy->backtracking_white || pathfinder_left->strategy->backtracking_invert)
+            find_back_path(0, pathfinder_left->strategy->shortest_path);
+        else
+            find_back_path(0, pathfinder_left->strategy->robot_stack);
 
-        if  (pathfinder_right->strategy->backtracking_white||pathfinder_right->strategy->backtracking_invert) find_back_path(1, pathfinder_right->strategy->shortest_path);
-        else find_back_path(1, pathfinder_right->strategy->robot_stack);
+        if (pathfinder_right->strategy->backtracking_white || pathfinder_right->strategy->backtracking_invert)
+            find_back_path(1, pathfinder_right->strategy->shortest_path);
+        else
+            find_back_path(1, pathfinder_right->strategy->robot_stack);
 
         if (lcount <= rcount)
         {
-            if  (pathfinder_left->strategy->backtracking_white||pathfinder_left->strategy->backtracking_invert)
-            {
-                
-            }
-            else 
-            {
-
-            }
+            pathfinder_right->strategy->add_to_stack(rightbackpath);
         }
         else
         {
-            if (pathfinder_right->strategy->backtracking_white||pathfinder_right->strategy->backtracking_invert) 
-            {
-
-            }
-            else
-            {
-
-            }
+            pathfinder_left->strategy->add_to_stack(leftbackpath);
+            
         }
     }
     else if (receiver[rx]->getQueueLength() > 0)
@@ -172,10 +163,10 @@ void Master::find_back_path(int robot, vector<int> forward_path)
                                             {backcol, backrow - 1},
                                             {backcol - 1, backrow}};
 
-            vector<int> target{0,0};
+            vector<int> target{0, 0};
             if (i != forward_path.size() - 1)
             {
-                target = update_robot_position(forward_path[i+1], backcol, backrow);
+                target = update_robot_position(forward_path[i + 1], backcol, backrow);
             }
 
             for (int j = 0; j < 4; j++)
@@ -228,7 +219,6 @@ void Master::find_back_path(int robot, vector<int> forward_path)
         leftbackpath = backpath;
     }
 }
-
 
 // void Master::main_control()
 // {

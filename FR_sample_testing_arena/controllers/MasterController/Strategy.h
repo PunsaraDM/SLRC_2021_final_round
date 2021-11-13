@@ -2,7 +2,6 @@
 #include <bits/stdc++.h>
 #include <cmath>
 
-
 using namespace std;
 
 #ifndef STRATEGY_H
@@ -22,12 +21,14 @@ extern "C"
     {
     public:
         vector<vector<int>> white_locations;
-        Strategy(Maze* c_maze, vector<int> priority_vec);
+        Strategy(Maze *c_maze, vector<int> priority_vec);
         int find_next_direction(int robot_col, int robot_row, int last_direction, bool has_white);
         int find_next_direction_normal(vector<int> visited, vector<int> unvisited);
         int get_from_priority(vector<int> juncs, bool is_visited);
         int get_opposite_dir(int direction);
         int find_shortest_path(int col1, int row1, int col2, int row2);
+        vector<int> get_reverse_path(vector<int> path);
+        void add_to_stack(vector<int> seq);
 
         vector<int> shortest_path;
         vector<int> robot_stack;
@@ -35,13 +36,12 @@ extern "C"
         bool backtracking_invert = false;
 
     private:
-        Maze* maze;
+        Maze *maze;
         int current_col = 0;
         int current_row = 0;
         int invert_row = 0;
         int invert_col = 0;
         vector<int> priority{LEFT, DOWN, UP, RIGHT};
-      
     };
 #ifdef __cplusplus
 }
