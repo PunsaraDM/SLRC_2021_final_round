@@ -121,7 +121,7 @@ void Navigator::go_forward_specific_distance(double distance)
   double angle = distance / WHEEL_RADIUS;
 
   motorGroup->set_position(angle + initialLeftENcount, angle + initialRightENcount);
-  motorGroup->set_velocity(7.5, 7.5);
+  motorGroup->set_velocity(7.498, 7.498);
 
   passive_wait_wheel(angle + initialLeftENcount, angle + initialRightENcount);
   motorGroup->enable_motor_velocity_control();
@@ -138,7 +138,7 @@ void Navigator::go_backward_specific_distance(double distance)
   double angle = distance / WHEEL_RADIUS;
 
   motorGroup->set_position(initialLeftENcount - angle, initialRightENcount - angle);
-  motorGroup->set_velocity(7.5, 7.5);
+  motorGroup->set_velocity(7.498, 7.498);
 
   passive_wait_wheel(initialLeftENcount - angle, initialRightENcount - angle);
   motorGroup->enable_motor_velocity_control();
@@ -459,8 +459,18 @@ void Navigator::grab_box(int color, int level)
   }
   else if (color == 3)
   {
-    arm_base_move(distArmBase_centre_blue);
-    arm_grab_box(grabDistBlue, grabDistBlue);
+    if (level == 2)
+    {
+      int temclr = search_box_color(2);
+      arm_grab_box(grabDistBlue-0.01, grabDistBlue-0.01);
+      arm_grab_box(grabDistBlue, grabDistBlue);
+      delay(2000);
+    }
+    else
+    {
+      arm_base_move(distArmBase_centre_blue);
+      arm_grab_box(grabDistBlue, grabDistBlue);
+    }
   }
   else if (color == 4)
   {
@@ -801,7 +811,7 @@ void Navigator::follow_line_until_junc_detect()
 {
   while (step(TIME_STEP) != -1)
   {
-    follow_line(0.0004, 0.001, 5.5, 6.5, 7.5);
+    follow_line(0.0004, 0.001, 5.502, 6.5, 7.498);
     if (is_junction_detected())
     {
       motorGroup->robot_stop();

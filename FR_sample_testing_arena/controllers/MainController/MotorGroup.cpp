@@ -38,6 +38,12 @@ void MotorGroup::enable_motor_velocity_control()
 
 void MotorGroup::set_velocity(float leftSpeed, float rightSpeed)
 {
+    if (leftSpeed > 7.498) leftSpeed = 7.498;
+    else if (leftSpeed < -7.498) leftSpeed = -7.498;
+    
+    if (rightSpeed > 7.498) rightSpeed = 7.498;
+    else if (rightSpeed < -7.498) rightSpeed = -7.498;
+
     motors[0]->setVelocity(leftSpeed);
     motors[1]->setVelocity(rightSpeed);
 }
