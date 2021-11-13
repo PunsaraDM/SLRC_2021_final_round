@@ -55,18 +55,18 @@
 
 using namespace std;
 
-PathFinder::PathFinder(int startCol, int startRow, Maze* c_maze, int dir, PickStrategy pickStrategy)
+PathFinder::PathFinder(int startCol, int startRow, Maze *c_maze, int dir, PickStrategy pickStrategy)
 {
     robot_col = startCol;
     robot_row = startRow;
     maze = c_maze;
     pick_strategy = pickStrategy;
     robot = dir;
-    vector<int> priority{RIGHT,DOWN, UP, LEFT};
+    vector<int> priority{RIGHT, DOWN, UP, LEFT};
     last_direction = LEFT;
     if (robot == LEFT)
     {
-        last_direction =RIGHT;
+        last_direction = RIGHT;
         vector<int> priorityLeft{LEFT, DOWN, UP, RIGHT};
         priority = priorityLeft;
     }
@@ -234,17 +234,11 @@ vector<vector<int>> PathFinder::create_next_data_packet()
     else if (maze->junctions[robot_col][robot_row].get_state() == DISCOVERED)
     {
         junc_type[0] = maze->junctions[robot_col][robot_row].content_state;
-        if (!scan_over && !has_white)
+        if (!scan_over && !has_white && junc_type[0] == WHITE_PATCH)
         {
-            for (size_t i = 0; i < strategy->white_locations.size(); i++)
-            {
-                vector<int> loc = strategy->white_locations[i];
-                if (loc[0] == robot_col && loc[1] == robot_row)
-                {
-                    box_grab[1] = WHITE_COL;
-                    box_grab[0] = LOWER;
-                }
-            }
+            box_grab[1] = WHITE_COL;
+            box_grab[0] = LOWER;
+            has_white =true;
             navigate_state.push_back(NAVIGATE_STATE_VISITED);
         }
         else if (in_last)
