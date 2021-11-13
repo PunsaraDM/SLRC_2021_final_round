@@ -106,7 +106,11 @@ void PickStrategy::find_combinations(Maze m)
 
     //order_left each element a vector with first element the color, second element the selected index of the color(either 0,1)
     order_left = find_order(selected_left, locations);
+    cout<<"-------------------------------------------------------------------"<<endl;
+    cout<<order_left[0][0]<<" | "<<order_left[1][0]<<" | "<<order_left[2][0]<<endl;
     order_right = find_order(selected_right, locations);
+    cout<<"-------------------------------------------------------------------"<<endl;
+    cout<<order_right[0][0]<<" | "<<order_right[1][0]<<" | "<<order_right[2][0]<<endl;
     cout<<"after order"<<endl;
 }
 

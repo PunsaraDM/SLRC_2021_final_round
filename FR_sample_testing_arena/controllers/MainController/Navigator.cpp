@@ -436,9 +436,6 @@ void Navigator::grab_box(int color, int level)
   else if (level == 2) // upper level
     arm_vertical_move(verticalGround + 0.04);
 
-  if (color>0 and color<4)
-    boxCountPlacement += 1;
-
   if (color == 1)
   {
     arm_base_move(distArmBase_centre_red);
@@ -667,17 +664,23 @@ void Navigator::visit_white_patch(bool initial)
     var[BOX_GRAB][POSITION] = LOWER;
   }
 
-  if ((boxCountPlacement == 1) and (var[INV_PATCH][BOX_CARRY] == WHITE_CLR)){   // when the robot reaches to the first color box with carrying a white box
-    // motorGroup->qtr_servo(QTR_UP, 2.0);
-    go_forward_specific_distance(0.13);
-    turnAng(45.0);
-    place_white_box_in_red_square();    //doesn't update the var[INV_PATCH][BOX_CARRY] to not carrying a white box
-    turnAng(-45.0);
-    go_backward_specific_distance(0.13);
-  }
+  
 
   if (var[BOX_GRAB][POSITION] > 0)
+  {
+    if (var[BOX_GRAB][COLOR]>0 and var[BOX_GRAB][COLOR]<4)
+      boxCountPlacement += 1;
+
+    if ((boxCountPlacement == 1) and (var[INV_PATCH][BOX_CARRY] == TRUE)){   // when the robot reaches to the first color box with carrying a white box
+        // motorGroup->qtr_servo(QTR_UP, 2.0);
+        go_forward_specific_distance(0.13);
+        turnAng(45.0);
+        place_white_box_in_red_square();    //doesn't update the var[INV_PATCH][BOX_CARRY] to not carrying a white box
+        turnAng(-45.0);
+        go_backward_specific_distance(0.13);
+      }
     grab_box(var[BOX_GRAB][COLOR], var[BOX_GRAB][POSITION]);
+  }
   // else to neglect boxes
 
   motorGroup->qtr_servo(QTR_DOWN, 2.0); //
