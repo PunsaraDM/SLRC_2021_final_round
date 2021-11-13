@@ -6,7 +6,6 @@
 #define COLS 9
 #define ROWS 7
 
-
 #define RED 1
 #define GREEN 2
 #define BLUE 3
@@ -34,17 +33,19 @@ extern "C"
         int pos = NEGLECT;
         Junction junctions[COLS][ROWS];
         vector<vector<vector<int>>> colored_junctions{vector<vector<int>>(), vector<vector<int>>(), vector<vector<int>>()};
+        vector<vector<vector<int>>> right_colors{vector<vector<int>>(), vector<vector<int>>(), vector<vector<int>>()};
+        vector<vector<vector<int>>> left_colors{vector<vector<int>>(), vector<vector<int>>(), vector<vector<int>>()};
         vector<vector<int>> colored_sequential;
         vector<vector<int>> white_junctions;
 
         Maze();
         void initialize();
         void update_path(int column, int row, vector<int> paths, int robot);
-        void update_junction(int column, int row, vector<int> content, int junction_content_state, bool has_white);
+        void update_junction(int column, int row, vector<int> content, int junction_content_state, bool has_white, int robot);
         void check_inverted(int col, int row);
         string print_content(vector<int> content);
         void update_path_helper(bool juncs_found, int new_col, int new_row, int robot, int found_dir, int state);
-
+        bool color_match();
 
     private:
     };

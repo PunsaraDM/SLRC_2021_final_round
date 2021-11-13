@@ -87,7 +87,7 @@ void Master::main_control()
         if (receiver[rx]->getQueueLength() > 0)
         {
             receive(rx);
-            // if (maze.discovered == 6 && scan_just_over && maze.paths_joined)
+            // if (maze.discovered == 6 && scan_just_over && (maze.paths_joined || maze.color_match()))
             // {
             //     pick_strategy.initialize(maze, pathfinder_left->robot_col,pathfinder_left->robot_row,pathfinder_right->robot_col,pathfinder_right->robot_row);
             //     pathfinder_left->initiate_pick();

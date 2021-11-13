@@ -76,7 +76,7 @@ void Maze::initialize()
     }
 }
 
-void Maze::update_junction(int column, int row, vector<int> content, int junction_content_state, bool has_white)
+void Maze::update_junction(int column, int row, vector<int> content, int junction_content_state, bool has_white, int robot)
 {
     junctions[column][row].content_state = junction_content_state;
     if (junctions[column][row].get_state() != DISCOVERED)
@@ -96,6 +96,15 @@ void Maze::update_junction(int column, int row, vector<int> content, int junctio
             vector<int> colored_context{column, row, content[i]};
             if (RED <= content[i] && content[i] <= BLUE)
             {
+                vector<int> vec{column, row};
+                if (robot == LEFT)
+                {
+                    left_colors[content[i] - 1].push_back(vec);
+                }
+                else
+                {
+                    right_colors[content[i] - 1].push_back(vec);
+                }
                 count += 1;
                 colored_sequential.push_back(colored_context);
             }
@@ -120,7 +129,7 @@ void Maze::update_junction(int column, int row, vector<int> content, int junctio
             {
                 state = TOP;
             }
-            vector<int> val{column, row, state};
+            vector<int> val{column, row, state, robot};
             cout << "inserting: " << column << ", " << row << ", " << state << content[i] << "\n";
 
             if (RED <= content[i] && content[i] <= BLUE)
@@ -190,7 +199,8 @@ void Maze::update_path_helper(bool juncs_found, int new_col, int new_row, int ro
 {
     junctions[new_col][new_row].set_path(found_dir, state);
     bool joined = junctions[new_col][new_row].set_found_by(found_dir, robot);
-    if(!paths_joined){
+    if (!paths_joined)
+    {
         paths_joined = joined;
     }
     if (!juncs_found)
@@ -240,4 +250,27 @@ void Maze::check_inverted(int col, int row)
              << "\n";
         junctions[col][row].set_state(DISCOVERED);
     }
+}
+
+bool Maze::color_match()
+{
+    int count = 0;
+    for (size_t i = 0; i < left_colors.size(); i++)
+    {
+        if (left_colors[i].size() > 0)
+        {
+            count += 1;
+        }
+    }
+    for (size_t i = 0; i < right_colors.size(); i++)
+    {
+        if (right_colors[i].size() > 0)
+        {
+            count += 1;
+        }
+    }
+    if(count==6){
+        return true;
+    }
+    return false;
 }

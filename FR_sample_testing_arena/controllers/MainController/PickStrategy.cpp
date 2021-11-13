@@ -13,6 +13,7 @@
 #define DOWN 2
 #define LEFT 3
 #define INVALID 5
+#define ANY 6
 
 //paths
 #define NOTACCESIBLE -2
@@ -71,9 +72,9 @@ void PickStrategy::find_combinations(Maze m)
                 vector<int> pos_opposite{!red, !green, !blue};
                 bool pos_valid = check_for_top_boxes(pos[0], pos[1], pos[2], locations);
                 bool pos_opposite_valid = check_for_top_boxes(pos_opposite[0], pos_opposite[1], pos_opposite[2], locations);
-
+                int valid = check_combination(pos, pos_opposite, m);
                 //at least one box is in top
-                if (pos_valid && pos_opposite_valid)
+                if (pos_valid && pos_opposite_valid && valid != INVALID)
                 {
                     int left_dist = red_distances[2 * red] + green_distances[2 * green] + blue_distances[2 * blue];
                     int right_dist = red_distances[2 * red + 1] + green_distances[2 * green + 1] + blue_distances[2 * blue + 1];
@@ -84,15 +85,34 @@ void PickStrategy::find_combinations(Maze m)
                     int first_left = left_dist + rest_right_dist;
                     int first_right = right_dist + rest_left_dist;
 
-                    if (first_left < min_dist || first_right < min_dist)
+                    if (valid == ANY)
                     {
+                        if (first_left < min_dist || first_right < min_dist)
+                        {
 
-                        if (first_left < first_right)
+                            if (first_left < first_right)
+                            {
+                                selected_left = pos;
+                                selected_right = pos_opposite;
+                            }
+                            else
+                            {
+                                selected_left = pos_opposite;
+                                selected_right = pos;
+                            }
+                        }
+                    }
+                    else if (valid == LEFT)
+                    {
+                        if (first_left < min_dist)
                         {
                             selected_left = pos;
                             selected_right = pos_opposite;
                         }
-                        else
+                    }
+                    else
+                    {
+                        if (first_right < min_dist)
                         {
                             selected_left = pos_opposite;
                             selected_right = pos;
@@ -102,10 +122,12 @@ void PickStrategy::find_combinations(Maze m)
             }
         }
     }
+}
+}
 
-    //order_left each element a vector with first element the color, second element the selected index of the color(either 0,1)
-    order_left = find_order(selected_left, locations);
-    order_right = find_order(selected_right, locations);
+//order_left each element a vector with first element the color, second element the selected index of the color(either 0,1)
+order_left = find_order(selected_left, locations);
+order_right = find_order(selected_right, locations);
 }
 
 void PickStrategy::discover_shortest_paths(vector<vector<vector<int>>> locations, Maze maze)
@@ -439,8 +461,10 @@ void PickStrategy::initialize(Maze m, int left_col, int left_row, int right_col,
     }
 }
 
-vector<vector<int>> PickStrategy::get_pick_order(int dir){
-    if(dir == LEFT){
+vector<vector<int>> PickStrategy::get_pick_order(int dir)
+{
+    if (dir == LEFT)
+    {
         return order_left;
     }
     return order_right;
@@ -454,4 +478,55 @@ vector<int> PickStrategy::get_reverse_path(vector<int> path)
         reverse.push_back(get_opposite_dir(path[i]));
     }
     return reverse;
+}
+
+int PickStrategy::check_combination(vector<int> pos, vector<int> pos_opposite, Maze m)
+{
+    bool left_pos = check_one_combination(pos, m.left_colors, Maze m);
+    bool right_pos_opposite = check_one_combination(pos_opposite, m.right_colors, Maze m);
+    bool left_pos_opposite = check_one_combination(pos_opposite, m.left_colors, Maze m);
+    bool right_pos = check_one_combination(pos, m.right_colors, Maze m);
+
+    if (right_pos && left_pos_opposite && left_pos && right_pos_opposite)
+    {
+        return ANY;
+    }
+    else if (right_pos && left_pos_opposite && !left_pos && !right_pos_opposite)
+    {
+        return RIGHT;
+    }
+    else if (!right_pos && !left_pos_opposite && left_pos && right_pos_opposite)
+    {
+        return LEFT;
+    }
+    else
+    {
+        return INVALID;
+    }
+}
+bool PickStrategy::check_one_combination(vector<int> pos, vector<vector<vector<int>>> robot_found_colors, Maze m)
+{
+    vector<bool> founded{false, false, false};
+
+    for (size_t j = 0; j < robot_found_colors.size(); j++)
+    {
+        for (size_t i = 0; i < robot_found_colors[j].size(); i++)
+        {
+            if (robot_found_colors[j][i][0] == m.colored_junctions[j][pos[j]][0] && robot_found_colors[j][i][1] == m.colored_junctions[j][pos[j]][1]) /* code */
+            {
+                founded[j] = true;
+            }
+        }
+    }
+
+    bool valid = true;
+    for (size_t i = 0; i < founded.size(); i++)
+    {
+        if (!founded[i])
+        {
+            valid = false;
+        }
+    }
+
+    return valid;
 }

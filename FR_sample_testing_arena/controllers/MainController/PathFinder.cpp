@@ -160,7 +160,7 @@ vector<vector<int>> PathFinder::search_maze(int juncType, vector<int> path_state
         junction_content = maze.junctions[robot_col][robot_row].get_content();
     }
 
-    maze.update_junction(robot_col, robot_row, junction_content, junction_content_state, has_white);
+    maze.update_junction(robot_col, robot_row, junction_content, junction_content_state, has_white, robot);
 
     if (junction_content_state != INVERTED || has_white)
     {

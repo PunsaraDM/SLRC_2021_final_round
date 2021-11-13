@@ -32,6 +32,8 @@ extern "C"
         void initialize(Maze m, int left_col, int left_row, int right_col, int right_row);
         vector<vector<int>> order_lower(vector<vector<vector<int>>> locations, vector<vector<int>> top, vector<vector<int>> lower);
         vector<vector<int>> get_pick_order(int dir);
+        bool check_one_combination(vector<int> pos, vector<vector<vector<int>>> robot_found_colors, Maze m);
+        int check_combination(vector<int> pos, vector<int> pos_opposite, Maze m);
 
     private:
         vector<int> shortest_path;
