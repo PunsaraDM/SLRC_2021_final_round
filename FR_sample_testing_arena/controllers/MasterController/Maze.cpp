@@ -176,29 +176,30 @@ void Maze::update_path(int column, int row, vector<int> paths, int robot)
 {
     bool juncs_found = junctions[column][row].found_junctions_set;
     junctions[column][row].set_paths(paths);
-    cout << "robot" << robot << "\n";
+    for (size_t i = 0; i < 4; i++)
+    {
+        bool joined = junctions[column][row].set_found_by(i, robot, paths[i]);
+        if (!paths_joined)
+        {
+            paths_joined = joined;
+        }
+    }
+
     if (column > 0)
     {
-        cout << "col" << column - 1 << ", row" << row << "\n";
 
         update_path_helper(juncs_found, column - 1, row, robot, RIGHT, paths[LEFT]);
     }
     if (column + 1 < COLS)
     {
-        cout << "col" << column + 1 << ", row" << row << "\n";
-
         update_path_helper(juncs_found, column + 1, row, robot, LEFT, paths[RIGHT]);
     }
     if (row > 0)
     {
-        cout << "col" << column << ", row" << row - 1 << "\n";
-
         update_path_helper(juncs_found, column, row - 1, robot, UP, paths[DOWN]);
     }
     if (row + 1 < ROWS)
     {
-        cout << "col" << column << ", row" << row + 1 << "\n";
-
         update_path_helper(juncs_found, column, row + 1, robot, DOWN, paths[UP]);
     }
     junctions[column][row].found_junctions_set = true;
@@ -207,7 +208,7 @@ void Maze::update_path(int column, int row, vector<int> paths, int robot)
 void Maze::update_path_helper(bool juncs_found, int new_col, int new_row, int robot, int found_dir, int state)
 {
     junctions[new_col][new_row].set_path(found_dir, state);
-    bool joined = junctions[new_col][new_row].set_found_by(found_dir, robot);
+    bool joined = junctions[new_col][new_row].set_found_by(found_dir, robot, state);
     if (!paths_joined)
     {
         paths_joined = joined;

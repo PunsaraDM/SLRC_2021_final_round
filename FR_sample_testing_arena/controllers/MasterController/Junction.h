@@ -49,7 +49,7 @@ extern "C"
         void set_content(vector<int> content);
         vector<int> get_content();
         void increment_found_junc();
-        bool set_found_by(int dir, int robot);
+        bool set_found_by(int dir, int robot, int state);
 
     private:
         vector<int> paths{0, 0, 0, 0};
