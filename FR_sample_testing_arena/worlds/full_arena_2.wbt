@@ -1,0 +1,1898 @@
+#VRML_SIM R2021a utf8
+WorldInfo {
+  info [
+    "Sample testing arena for final round of SLRC2021 university category"
+  ]
+  title "SLRC2021 UniFR"
+  coordinateSystem "NUE"
+}
+Viewpoint {
+  orientation 1 0 0 4.71238898038469
+  position 3.2392001174698954 11.473066232487426 -1.910837821060711
+}
+DirectionalLight {
+  direction 0 -1 0
+}
+DirectionalLight {
+  direction -1 -1 0
+}
+DirectionalLight {
+  direction 0 -1 -1
+}
+DirectionalLight {
+  direction 1 -1 0
+}
+DirectionalLight {
+  direction 0 -1 1
+}
+RectangleArena {
+  name "Floor_black"
+  floorSize 16 17
+  floorTileSize 2 2
+  floorAppearance Parquetry {
+    type "dark strip"
+    colorOverride 0 0 0
+  }
+  wallAppearance DEF Wall_white PBRAppearance {
+    roughness 1
+    metalness 0
+    name "Wall_white"
+  }
+}
+DEF Boxes_new Group {
+  children [
+    DEF Blue_Box Solid {
+      translation 2.18 0.0199853 -2.65046
+      rotation -0.00014142968455996098 0.9999999069616033 -0.00040752230519008436 6.499625360383806e-13
+      children [
+        DEF Blue_Box Shape {
+          appearance PBRAppearance {
+            baseColor 0 0 1
+            roughness 0.9
+            metalness 0
+          }
+          geometry Box {
+            size 0.04 0.04 0.04
+          }
+        }
+      ]
+      name "Blue_Box(2)"
+      boundingObject USE Blue_Box
+      physics DEF Box_Ph Physics {
+        density 585
+      }
+    }
+    DEF Green_Box Solid {
+      translation 1.56806 0.0199603 -2.02061
+      rotation -0.0006410027649747535 0.999995243762159 -0.003016880593524043 0.007490272826512341
+      children [
+        DEF Green_Box Shape {
+          appearance PBRAppearance {
+            baseColor 0 1 0
+            roughness 0.9
+            metalness 0
+          }
+          geometry Box {
+            size 0.06 0.04 0.06
+          }
+        }
+      ]
+      name "Green_Box(2)"
+      boundingObject USE Green_Box
+      physics DEF Box_Ph Physics {
+        density 585
+      }
+    }
+    DEF Red_Box Solid {
+      translation 2.19 0.0199082 -0.77
+      rotation -0.7032972631931477 -0.08180972375985127 0.7061728745026712 -5.344702680130768e-15
+      children [
+        DEF Red_Box Shape {
+          appearance PBRAppearance {
+            baseColor 1 0 0
+            roughness 0.9
+            metalness 0
+          }
+          geometry Box {
+            size 0.08 0.04 0.08
+          }
+        }
+      ]
+      name "Red_Box(2)"
+      boundingObject USE Red_Box
+      physics DEF Box_Ph Physics {
+        density 585
+      }
+    }
+    DEF White_Box Solid {
+      translation 6.06 0.0199853 -3.19
+      rotation 0.019526652523444408 -0.9900197190793433 0.13956957288494778 1.4932992827337643e-15
+      children [
+        DEF White_Box Shape {
+          appearance PBRAppearance {
+            roughness 0.9
+            metalness 0
+          }
+          geometry Box {
+            size 0.04 0.04 0.04
+          }
+        }
+      ]
+      name "White_Box(6)"
+      boundingObject USE White_Box
+      physics DEF Box_Ph Physics {
+        density 585
+      }
+    }
+    DEF White_Box Solid {
+      translation 4.72 0.0199853 -2.64
+      rotation -0.031057027549404922 -0.9991994440875168 0.02521769170628074 1.2094202326419658e-15
+      children [
+        DEF White_Box Shape {
+          appearance PBRAppearance {
+            roughness 0.9
+            metalness 0
+          }
+          geometry Box {
+            size 0.04 0.04 0.04
+          }
+        }
+      ]
+      name "White_Box(5)"
+      boundingObject USE White_Box
+      physics DEF Box_Ph Physics {
+        density 585
+      }
+    }
+    DEF White_Box Solid {
+      translation 4.71 0.0199853 -0.75
+      rotation -0.038664824967247303 -0.990124295271542 0.13475500444616026 1.5466523409438034e-15
+      children [
+        DEF White_Box Shape {
+          appearance PBRAppearance {
+            roughness 0.9
+            metalness 0
+          }
+          geometry Box {
+            size 0.04 0.04 0.04
+          }
+        }
+      ]
+      name "White_Box(4)"
+      boundingObject USE White_Box
+      physics DEF Box_Ph Physics {
+        density 585
+      }
+    }
+    DEF White_Box Solid {
+      translation 4.08 0.0199853 -3.9
+      rotation -0.22660584659932115 -0.9686829936441335 0.10150393150831233 1.8342057864181284e-15
+      children [
+        DEF White_Box Shape {
+          appearance PBRAppearance {
+            roughness 0.9
+            metalness 0
+          }
+          geometry Box {
+            size 0.04 0.04 0.04
+          }
+        }
+      ]
+      name "White_Box(3)"
+      boundingObject USE White_Box
+      physics DEF Box_Ph Physics {
+        density 585
+      }
+    }
+    DEF White_Box Solid {
+      translation 0.93 0.0199853 -2.02
+      rotation 0.056340508525698 -0.9972035097198888 -0.04910099083930655 2.0965255293853217e-15
+      children [
+        DEF White_Box Shape {
+          appearance PBRAppearance {
+            roughness 0.9
+            metalness 0
+          }
+          geometry Box {
+            size 0.04 0.04 0.04
+          }
+        }
+      ]
+      name "White_Box(2)"
+      boundingObject USE White_Box
+      physics DEF Box_Ph Physics {
+        density 585
+      }
+    }
+    DEF White_Box Solid {
+      translation -0.43 0.0199853 -0.84
+      rotation -0.21830142589038415 -0.9705775094737773 0.10160603110989491 1.394592504414089e-15
+      children [
+        DEF White_Box Shape {
+          appearance PBRAppearance {
+            roughness 0.9
+            metalness 0
+          }
+          geometry Box {
+            size 0.04 0.04 0.04
+          }
+        }
+      ]
+      name "White_Box(1)"
+      boundingObject USE White_Box
+      physics DEF Box_Ph Physics {
+        density 585
+      }
+    }
+    DEF Red_Box Solid {
+      translation 3.45 0.0199412 -2.02
+      rotation -0.2909943894257105 -0.9563059766324882 -0.028304493984890763 -2.3047650526100404e-16
+      children [
+        DEF Red_Box Shape {
+          appearance PBRAppearance {
+            baseColor 1 0 0
+            roughness 0.9
+            metalness 0
+          }
+          geometry Box {
+            size 0.08 0.04 0.08
+          }
+        }
+      ]
+      name "Red_Box(1)"
+      boundingObject USE Red_Box
+      physics USE Box_Ph
+    }
+    DEF Green_Box Solid {
+      translation 2.19 0.0598751 -0.77
+      rotation 0.23347210614249198 0.9491140419876016 -0.21136061826969155 1.5332273568895776e-14
+      children [
+        DEF Green_Box Shape {
+          appearance PBRAppearance {
+            baseColor 0 1 0
+            roughness 0.9
+            metalness 0
+          }
+          geometry Box {
+            size 0.06 0.04 0.06
+          }
+        }
+      ]
+      name "Green_Box(1)"
+      boundingObject USE Green_Box
+      physics USE Box_Ph
+    }
+    DEF Blue_Box Solid {
+      translation 1.56962 0.0599469 -2.02208
+      rotation 0.000132075122921748 -0.9999997701562366 0.000665014011599718 -0.034099767969201056
+      children [
+        DEF Blue_Box Shape {
+          appearance PBRAppearance {
+            baseColor 0 0 1
+            roughness 0.9
+            metalness 0
+          }
+          geometry Box {
+            size 0.04 0.04 0.04
+          }
+        }
+      ]
+      name "Blue_Box(1)"
+      boundingObject USE Blue_Box
+      physics USE Box_Ph
+    }
+  ]
+}
+DEF New_maze Solid {
+  translation -1.3 0 0
+  children [
+    DEF Red_Lines Group {
+      children [
+        DEF Black_Cross_4_JUNC Solid {
+          translation 4.645 -0.0048 -1.485
+          children [
+            DEF Black_Cross Shape {
+              appearance PBRAppearance {
+                baseColor 0 0 0
+                roughness 0.9
+                metalness 0
+              }
+              geometry Mesh {
+                url [
+                  "../solidworks/BlackCross.STL"
+                ]
+              }
+            }
+          ]
+          name "Black_Cross(4)"
+          locked TRUE
+        }
+        DEF Black_Cross_4_JUNC Solid {
+          translation 4.645 -0.0048 -3.375
+          children [
+            DEF Black_Cross Shape {
+              appearance PBRAppearance {
+                baseColor 0 0 0
+                roughness 0.9
+                metalness 0
+              }
+              geometry Mesh {
+                url [
+                  "../solidworks/BlackCross.STL"
+                ]
+              }
+            }
+          ]
+          name "Black_Cross(3)"
+          locked TRUE
+        }
+        DEF Black_Cross_4_JUNC Solid {
+          translation 2.125 -0.0048 -3.375
+          children [
+            DEF Black_Cross Shape {
+              appearance PBRAppearance {
+                baseColor 0 0 0
+                roughness 0.9
+                metalness 0
+              }
+              geometry Mesh {
+                url [
+                  "../solidworks/BlackCross.STL"
+                ]
+              }
+            }
+          ]
+          name "Black_Cross(2)"
+          locked TRUE
+        }
+        DEF Black_Cross_4_JUNC Solid {
+          translation 2.755 -0.0048 -0.855
+          children [
+            DEF Black_Cross Shape {
+              appearance PBRAppearance {
+                baseColor 0 0 0
+                roughness 0.9
+                metalness 0
+              }
+              geometry Mesh {
+                url [
+                  "../solidworks/BlackCross.STL"
+                ]
+              }
+            }
+          ]
+          name "Black_Cross(1)"
+          locked TRUE
+        }
+        DEF Black_Cross_3_JUNC Solid {
+          translation 4.015 -0.0048 -0.225
+          children [
+            DEF Black_Cross Shape {
+              appearance PBRAppearance {
+                baseColor 0 0 0
+                roughness 0.9
+                metalness 0
+              }
+              geometry Mesh {
+                url [
+                  "../solidworks/BlackCross.STL"
+                ]
+              }
+            }
+          ]
+          name "Black_Cross"
+          locked TRUE
+        }
+        DEF Red_Line_2_V_F Solid {
+          translation 6.62 -0.0049 -2.03
+          rotation 0 1 0 1.5708
+          children [
+            DEF Red_Line_Long Shape {
+              appearance PBRAppearance {
+                baseColor 1 0 0
+                roughness 0.9
+                metalness 0
+              }
+              geometry Mesh {
+                url [
+                  "../solidworks/RedLineLong.STL"
+                ]
+              }
+            }
+          ]
+          name "Red Line 2(1)"
+          locked TRUE
+        }
+        DEF Red_Line_1_V_F Solid {
+          translation 3.47 -0.0049 -3.29
+          rotation 0 1 0 1.5708
+          children [
+            DEF Red_Line_Long Shape {
+              appearance PBRAppearance {
+                baseColor 1 0 0
+                roughness 0.9
+                metalness 0
+              }
+              geometry Mesh {
+                url [
+                  "../solidworks/RedLineLong.STL"
+                ]
+              }
+            }
+          ]
+          name "Red Line 2"
+          locked TRUE
+        }
+        DEF Red_Line_4_H_M Solid {
+          translation 5.475 -0.0049 -3.92
+          rotation 0 -1 0 -5.307179586466759e-06
+          children [
+            DEF Red_Line_Medium Shape {
+              appearance PBRAppearance {
+                baseColor 1 0 0
+                roughness 0.9
+                metalness 0
+              }
+              geometry Mesh {
+                url [
+                  "../solidworks/RedLineMedium.STL"
+                ]
+              }
+            }
+          ]
+          name "Red Line 5(3)"
+          locked TRUE
+        }
+        DEF Red_Line_3_H_M Solid {
+          translation 4.845 -0.0049 -2.03
+          rotation 0 -1 0 -5.307179586466759e-06
+          children [
+            DEF Red_Line_Medium Shape {
+              appearance PBRAppearance {
+                baseColor 1 0 0
+                roughness 0.9
+                metalness 0
+              }
+              geometry Mesh {
+                url [
+                  "../solidworks/RedLineMedium.STL"
+                ]
+              }
+            }
+          ]
+          name "Red Line 5(2)"
+          locked TRUE
+        }
+        DEF Red_Line_2_H_M Solid {
+          translation 4.13 -0.0049 -2.03
+          rotation 0 -1 0 -5.307179586466759e-06
+          children [
+            DEF Red_Line_Medium Shape {
+              appearance PBRAppearance {
+                baseColor 1 0 0
+                roughness 0.9
+                metalness 0
+              }
+              geometry Mesh {
+                url [
+                  "../solidworks/RedLineMedium.STL"
+                ]
+              }
+            }
+          ]
+          name "Red Line 5(1)"
+          locked TRUE
+        }
+        DEF Red_Line_4_V_M Solid {
+          translation 4.73 -0.0049 -2.115
+          rotation 0 1 0 1.5708
+          children [
+            DEF Red_Line_Medium Shape {
+              appearance PBRAppearance {
+                baseColor 1 0 0
+                roughness 0.9
+                metalness 0
+              }
+              geometry Mesh {
+                url [
+                  "../solidworks/RedLineMedium.STL"
+                ]
+              }
+            }
+          ]
+          name "Red Line 4(3)"
+          locked TRUE
+        }
+        DEF Red_Line_3_V_M Solid {
+          translation 3.47 -0.0049 -2.03
+          rotation 0 1 0 1.5708
+          children [
+            DEF Red_Line_Medium Shape {
+              appearance PBRAppearance {
+                baseColor 1 0 0
+                roughness 0.9
+                metalness 0
+              }
+              geometry Mesh {
+                url [
+                  "../solidworks/RedLineMedium.STL"
+                ]
+              }
+            }
+          ]
+          name "Red Line 4(2)"
+          locked TRUE
+        }
+        DEF Red_Line_2_V_M Solid {
+          translation 5.99 -0.0049 -0.855
+          rotation 0 1 0 1.5708
+          children [
+            DEF Red_Line_Medium Shape {
+              appearance PBRAppearance {
+                baseColor 1 0 0
+                roughness 0.9
+                metalness 0
+              }
+              geometry Mesh {
+                url [
+                  "../solidworks/RedLineMedium.STL"
+                ]
+              }
+            }
+          ]
+          name "Red Line 4(1)"
+          locked TRUE
+        }
+        DEF Red_Line_4_H_F Solid {
+          translation 4.76 -0.0049 -2.66
+          children [
+            DEF Red_Line_Long Shape {
+              appearance PBRAppearance {
+                baseColor 1 0 0
+                roughness 0.9
+                metalness 0
+              }
+              geometry Mesh {
+                url [
+                  "../solidworks/RedLineLong.STL"
+                ]
+              }
+            }
+          ]
+          name "Red_Line_1(3)"
+          locked TRUE
+        }
+        DEF Red_Line_3_H_F Solid {
+          translation 1.61 -0.0049 -2.66
+          children [
+            DEF Red_Line_Long Shape {
+              appearance PBRAppearance {
+                baseColor 1 0 0
+                roughness 0.9
+                metalness 0
+              }
+              geometry Mesh {
+                url [
+                  "../solidworks/RedLineLong.STL"
+                ]
+              }
+            }
+          ]
+          name "Red_Line_1(2)"
+          locked TRUE
+        }
+        DEF Red_Line_2_H_F Solid {
+          translation 2.87 -0.0049 -1.4
+          children [
+            DEF Red_Line_Long Shape {
+              appearance PBRAppearance {
+                baseColor 1 0 0
+                roughness 0.9
+                metalness 0
+              }
+              geometry Mesh {
+                url [
+                  "../solidworks/RedLineLong.STL"
+                ]
+              }
+            }
+          ]
+          name "Red_Line_1(1)"
+          locked TRUE
+        }
+        DEF Red_Line_1_H_F Solid {
+          translation 2.87 -0.0049 -0.14
+          children [
+            DEF Red_Line_Long Shape {
+              appearance PBRAppearance {
+                baseColor 1 0 0
+                roughness 0.9
+                metalness 0
+              }
+              geometry Mesh {
+                url [
+                  "../solidworks/RedLineLong.STL"
+                ]
+              }
+            }
+          ]
+          name "Red_Line_1"
+          locked TRUE
+        }
+        DEF Red_Line_1_V_M Solid {
+          translation 5.99 -0.0049 -0.14
+          rotation 0 1 0 1.5708
+          children [
+            DEF Red_Line_Medium Shape {
+              appearance PBRAppearance {
+                baseColor 1 0 0
+                roughness 0.9
+                metalness 0
+              }
+              geometry Mesh {
+                url [
+                  "../solidworks/RedLineMedium.STL"
+                ]
+              }
+            }
+          ]
+          name "Red Line 4"
+          locked TRUE
+        }
+        DEF Red_Line_1_H_M Solid {
+          translation 3.585 -0.0049 -2.66
+          rotation 0 -1 0 -5.307179586466759e-06
+          children [
+            DEF Red_Line_Medium Shape {
+              appearance PBRAppearance {
+                baseColor 1 0 0
+                roughness 0.9
+                metalness 0
+              }
+              geometry Mesh {
+                url [
+                  "../solidworks/RedLineMedium.STL"
+                ]
+              }
+            }
+          ]
+          name "Red Line 5"
+          locked TRUE
+        }
+        DEF Red_Line_1_V_S Solid {
+          translation 2.325 -0.0049 -2.03
+          children [
+            DEF Red_Line_Short Shape {
+              appearance PBRAppearance {
+                baseColor 1 0 0
+                roughness 0.9
+                metalness 0
+              }
+              geometry Mesh {
+                url [
+                  "../solidworks/RedLineShort.STL"
+                ]
+              }
+            }
+          ]
+          name "Red Line 6"
+          locked TRUE
+        }
+      ]
+    }
+    DEF Red_Cells_4_1 Group {
+      children [
+        DEF Cell_4 Solid {
+          translation 4.91 -0.0049 -3.56
+          children [
+            DEF Cell Shape {
+              appearance PBRAppearance {
+                baseColor 1 0 0
+                roughness 0.9
+                metalness 0
+              }
+              geometry Mesh {
+                url [
+                  "../solidworks/RedCell.STL"
+                ]
+              }
+            }
+          ]
+          name "Cell_9"
+          locked TRUE
+        }
+        DEF Cell_1 Solid {
+          translation 4.46 -0.0049 -3.56
+          children [
+            DEF Cell Shape {
+              appearance PBRAppearance {
+                baseColor 1 0 0
+                roughness 0.9
+                metalness 0
+              }
+              geometry Mesh {
+                url [
+                  "../solidworks/RedCell.STL"
+                ]
+              }
+            }
+          ]
+          name "Cell_10"
+          locked TRUE
+        }
+        DEF Cell_3 Solid {
+          translation 4.91 -0.0049 -3.11
+          children [
+            DEF Cell Shape {
+              appearance PBRAppearance {
+                baseColor 1 0 0
+                roughness 0.9
+                metalness 0
+              }
+              geometry Mesh {
+                url [
+                  "../solidworks/RedCell.STL"
+                ]
+              }
+            }
+          ]
+          name "Cell_11"
+          locked TRUE
+        }
+        DEF Cell_2 Solid {
+          translation 4.46 -0.0049 -3.11
+          children [
+            DEF Cell Shape {
+              appearance PBRAppearance {
+                baseColor 1 0 0
+                roughness 0.9
+                metalness 0
+              }
+              geometry Mesh {
+                url [
+                  "../solidworks/RedCell.STL"
+                ]
+              }
+            }
+          ]
+          name "Cell_12"
+          locked TRUE
+        }
+      ]
+    }
+    DEF Red_Cells_4_3 Group {
+      children [
+        DEF Cell_4 Solid {
+          translation 2.39 -0.0049 -3.56
+          children [
+            DEF Cell Shape {
+              appearance PBRAppearance {
+                baseColor 1 0 0
+                roughness 0.9
+                metalness 0
+              }
+              geometry Mesh {
+                url [
+                  "../solidworks/RedCell.STL"
+                ]
+              }
+            }
+          ]
+          name "Cell_13"
+          locked TRUE
+        }
+        DEF Cell_3 Solid {
+          translation 1.94 -0.0049 -3.56
+          children [
+            DEF Cell Shape {
+              appearance PBRAppearance {
+                baseColor 1 0 0
+                roughness 0.9
+                metalness 0
+              }
+              geometry Mesh {
+                url [
+                  "../solidworks/RedCell.STL"
+                ]
+              }
+            }
+          ]
+          name "Cell_14"
+          locked TRUE
+        }
+        DEF Cell_1 Solid {
+          translation 1.94 -0.0049 -3.11
+          children [
+            DEF Cell Shape {
+              appearance PBRAppearance {
+                baseColor 1 0 0
+                roughness 0.9
+                metalness 0
+              }
+              geometry Mesh {
+                url [
+                  "../solidworks/RedCell.STL"
+                ]
+              }
+            }
+          ]
+          name "Cell_15"
+          locked TRUE
+        }
+        DEF Cell_2 Solid {
+          translation 2.39 -0.0049 -3.11
+          children [
+            USE Cell
+          ]
+          name "Cell_16"
+          locked TRUE
+        }
+      ]
+    }
+    DEF Red_Cells_4_2 Group {
+      children [
+        DEF Cell_4 Solid {
+          translation 3.02 -0.0049 -1.04
+          children [
+            DEF Cell Shape {
+              appearance PBRAppearance {
+                baseColor 1 0 0
+                roughness 0.9
+                metalness 0
+              }
+              geometry Mesh {
+                url [
+                  "../solidworks/RedCell.STL"
+                ]
+              }
+            }
+          ]
+          name "Cell_1(3)"
+          locked TRUE
+        }
+        DEF Cell_3 Solid {
+          translation 2.57 -0.0049 -1.04
+          children [
+            DEF Cell Shape {
+              appearance PBRAppearance {
+                baseColor 1 0 0
+                roughness 0.9
+                metalness 0
+              }
+              geometry Mesh {
+                url [
+                  "../solidworks/RedCell.STL"
+                ]
+              }
+            }
+          ]
+          name "Cell_1(2)"
+          locked TRUE
+        }
+        DEF Cell_1 Solid {
+          translation 2.57 -0.0049 -0.59
+          children [
+            DEF Cell Shape {
+              appearance PBRAppearance {
+                baseColor 1 0 0
+                roughness 0.9
+                metalness 0
+              }
+              geometry Mesh {
+                url [
+                  "../solidworks/RedCell.STL"
+                ]
+              }
+            }
+          ]
+          name "Cell_1(1)"
+          locked TRUE
+        }
+        DEF Cell_2 Solid {
+          translation 3.02 -0.0049 -0.59
+          children [
+            USE Cell
+          ]
+          name "Cell_2(5)"
+          locked TRUE
+        }
+      ]
+    }
+    DEF Red_Cells_4_4 Group {
+      children [
+        DEF Cell_4 Solid {
+          translation 4.91 -0.0049 -1.67
+          children [
+            USE Cell
+          ]
+          name "Cell_5"
+          locked TRUE
+        }
+        DEF Cell_1 Solid {
+          translation 4.46 -0.0049 -1.67
+          children [
+            USE Cell
+          ]
+          name "Cell_6"
+          locked TRUE
+        }
+        DEF Cell_2 Solid {
+          translation 4.91 -0.0049 -1.22
+          children [
+            USE Cell
+          ]
+          name "Cell_7"
+          locked TRUE
+        }
+        DEF Cell_3 Solid {
+          translation 4.46 -0.0049 -1.22
+          children [
+            USE Cell
+          ]
+          name "Cell_8"
+          locked TRUE
+        }
+      ]
+    }
+    DEF Red_Cells_2 Group {
+      children [
+        DEF Cell_1 Solid {
+          translation 3.83 -0.0049 -0.41
+          children [
+            DEF Cell Shape {
+              appearance PBRAppearance {
+                baseColor 1 0 0
+                roughness 0.9
+                metalness 0
+              }
+              geometry Mesh {
+                url [
+                  "../solidworks/RedCell.STL"
+                ]
+              }
+            }
+          ]
+          name "Cell_1"
+          locked TRUE
+        }
+        DEF Cell_2 Solid {
+          translation 4.28 -0.0049 -0.41
+          children [
+            USE Cell
+          ]
+          name "Cell_2"
+          locked TRUE
+        }
+      ]
+    }
+    DEF white_area Group {
+      children [
+        Transform {
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  ambientIntensity 1
+                  diffuseColor 1 1 1
+                  shininess 0.4
+                  specularColor 0.5 0.5 0.5
+                }
+              }
+              geometry IndexedFaceSet {
+                coord Coordinate {
+                  point [
+                    2.24 0 -3.375
+                    2.24 0 -3.29
+                    2.24 0.001 -3.375
+                    2.24 0.001 -3.29
+                    2.325 0 -3.375
+                    2.325 0 -3.29
+                    2.325 0.001 -3.375
+                    2.325 0.001 -3.29
+                  ]
+                }
+                normal Normal {
+                  vector [
+                    -1 0 0
+                    0 -1 0
+                    0 0 -1
+                    0 0 1
+                    0 1 0
+                    1 0 0
+                  ]
+                }
+                coordIndex [
+                  6, 7, 4, -1, 4, 7, 5, -1, 2, 6, 0, -1, 0, 6, 4, -1, 4, 5, 0, -1, 0, 5, 1, -1, 3, 7, 2, -1, 2, 7, 6, -1, 7, 3, 5, -1, 5, 3, 1, -1, 3, 2, 1, -1, 1, 2, 0, -1
+                ]
+                normalIndex [
+                  5, 5, 5, -1, 5, 5, 5, -1, 2, 2, 2, -1, 2, 2, 2, -1, 1, 1, 1, -1, 1, 1, 1, -1, 4, 4, 4, -1, 4, 4, 4, -1, 3, 3, 3, -1, 3, 3, 3, -1, 0, 0, 0, -1, 0, 0, 0, -1
+                ]
+              }
+            }
+          ]
+        }
+        Transform {
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  ambientIntensity 1
+                  diffuseColor 1 1 1
+                  shininess 0.4
+                  specularColor 0.5 0.5 0.5
+                }
+              }
+              geometry IndexedFaceSet {
+                coord Coordinate {
+                  point [
+                    2.24 0 -3.26
+                    2.24 0 -3.175
+                    2.24 0.001 -3.26
+                    2.24 0.001 -3.175
+                    2.325 0 -3.26
+                    2.325 0 -3.175
+                    2.325 0.001 -3.26
+                    2.325 0.001 -3.175
+                  ]
+                }
+                normal Normal {
+                  vector [
+                    -1 0 0
+                    0 -1 0
+                    0 0 -1
+                    0 0 1
+                    0 1 0
+                    1 0 0
+                  ]
+                }
+                coordIndex [
+                  7, 3, 5, -1, 5, 3, 1, -1, 6, 7, 4, -1, 4, 7, 5, -1, 5, 1, 4, -1, 4, 1, 0, -1, 2, 3, 6, -1, 6, 3, 7, -1, 3, 2, 1, -1, 1, 2, 0, -1, 2, 6, 0, -1, 0, 6, 4, -1
+                ]
+                normalIndex [
+                  3, 3, 3, -1, 3, 3, 3, -1, 5, 5, 5, -1, 5, 5, 5, -1, 1, 1, 1, -1, 1, 1, 1, -1, 4, 4, 4, -1, 4, 4, 4, -1, 0, 0, 0, -1, 0, 0, 0, -1, 2, 2, 2, -1, 2, 2, 2, -1
+                ]
+              }
+            }
+          ]
+        }
+        Transform {
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  ambientIntensity 1
+                  diffuseColor 1 1 1
+                  shininess 0.4
+                  specularColor 0.5 0.5 0.5
+                }
+              }
+              geometry IndexedFaceSet {
+                coord Coordinate {
+                  point [
+                    2.125 0 -3.26
+                    2.125 0 -3.175
+                    2.125 0.001 -3.26
+                    2.125 0.001 -3.175
+                    2.21 0 -3.26
+                    2.21 0 -3.175
+                    2.21 0.001 -3.26
+                    2.21 0.001 -3.175
+                  ]
+                }
+                normal Normal {
+                  vector [
+                    -1 0 0
+                    0 -1 0
+                    0 0 -1
+                    0 0 1
+                    0 1 0
+                    1 0 0
+                  ]
+                }
+                coordIndex [
+                  3, 2, 1, -1, 1, 2, 0, -1, 7, 3, 5, -1, 5, 3, 1, -1, 1, 0, 5, -1, 5, 0, 4, -1, 6, 2, 7, -1, 7, 2, 3, -1, 6, 7, 4, -1, 4, 7, 5, -1, 2, 6, 0, -1, 0, 6, 4, -1
+                ]
+                normalIndex [
+                  0, 0, 0, -1, 0, 0, 0, -1, 3, 3, 3, -1, 3, 3, 3, -1, 1, 1, 1, -1, 1, 1, 1, -1, 4, 4, 4, -1, 4, 4, 4, -1, 5, 5, 5, -1, 5, 5, 5, -1, 2, 2, 2, -1, 2, 2, 2, -1
+                ]
+              }
+            }
+          ]
+        }
+        Transform {
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  ambientIntensity 1
+                  diffuseColor 1 1 1
+                  shininess 0.4
+                  specularColor 0.5 0.5 0.5
+                }
+              }
+              geometry IndexedFaceSet {
+                coord Coordinate {
+                  point [
+                    2.125 0 -3.375
+                    2.125 0 -3.29
+                    2.125 0.001 -3.375
+                    2.125 0.001 -3.29
+                    2.21 0 -3.375
+                    2.21 0 -3.29
+                    2.21 0.001 -3.375
+                    2.21 0.001 -3.29
+                  ]
+                }
+                normal Normal {
+                  vector [
+                    -1 0 0
+                    0 -1 0
+                    0 0 -1
+                    0 0 1
+                    0 1 0
+                    1 0 0
+                  ]
+                }
+                coordIndex [
+                  2, 6, 0, -1, 0, 6, 4, -1, 3, 2, 1, -1, 1, 2, 0, -1, 1, 0, 5, -1, 5, 0, 4, -1, 6, 2, 7, -1, 7, 2, 3, -1, 6, 7, 4, -1, 4, 7, 5, -1, 7, 3, 5, -1, 5, 3, 1, -1
+                ]
+                normalIndex [
+                  2, 2, 2, -1, 2, 2, 2, -1, 0, 0, 0, -1, 0, 0, 0, -1, 1, 1, 1, -1, 1, 1, 1, -1, 4, 4, 4, -1, 4, 4, 4, -1, 5, 5, 5, -1, 5, 5, 5, -1, 3, 3, 3, -1, 3, 3, 3, -1
+                ]
+              }
+            }
+          ]
+        }
+        Transform {
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  ambientIntensity 1
+                  diffuseColor 1 1 1
+                  shininess 0.4
+                  specularColor 0.5 0.5 0.5
+                }
+              }
+              geometry IndexedFaceSet {
+                coord Coordinate {
+                  point [
+                    2.755 0 -0.74
+                    2.755 0 -0.655
+                    2.755 0.001 -0.74
+                    2.755 0.001 -0.655
+                    2.84 0 -0.74
+                    2.84 0 -0.655
+                    2.84 0.001 -0.74
+                    2.84 0.001 -0.655
+                  ]
+                }
+                normal Normal {
+                  vector [
+                    -1 0 0
+                    0 -1 0
+                    0 0 -1
+                    0 0 1
+                    0 1 0
+                    1 0 0
+                  ]
+                }
+                coordIndex [
+                  3, 2, 1, -1, 1, 2, 0, -1, 7, 3, 5, -1, 5, 3, 1, -1, 1, 0, 5, -1, 5, 0, 4, -1, 6, 2, 7, -1, 7, 2, 3, -1, 6, 7, 4, -1, 4, 7, 5, -1, 2, 6, 0, -1, 0, 6, 4, -1
+                ]
+                normalIndex [
+                  0, 0, 0, -1, 0, 0, 0, -1, 3, 3, 3, -1, 3, 3, 3, -1, 1, 1, 1, -1, 1, 1, 1, -1, 4, 4, 4, -1, 4, 4, 4, -1, 5, 5, 5, -1, 5, 5, 5, -1, 2, 2, 2, -1, 2, 2, 2, -1
+                ]
+              }
+            }
+          ]
+        }
+        Transform {
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  ambientIntensity 1
+                  diffuseColor 1 1 1
+                  shininess 0.4
+                  specularColor 0.5 0.5 0.5
+                }
+              }
+              geometry IndexedFaceSet {
+                coord Coordinate {
+                  point [
+                    2.87 0 -0.74
+                    2.87 0 -0.655
+                    2.87 0.001 -0.74
+                    2.87 0.001 -0.655
+                    2.955 0 -0.74
+                    2.955 0 -0.655
+                    2.955 0.001 -0.74
+                    2.955 0.001 -0.655
+                  ]
+                }
+                normal Normal {
+                  vector [
+                    -1 0 0
+                    0 -1 0
+                    0 0 -1
+                    0 0 1
+                    0 1 0
+                    1 0 0
+                  ]
+                }
+                coordIndex [
+                  7, 3, 5, -1, 5, 3, 1, -1, 6, 7, 4, -1, 4, 7, 5, -1, 5, 1, 4, -1, 4, 1, 0, -1, 2, 3, 6, -1, 6, 3, 7, -1, 3, 2, 1, -1, 1, 2, 0, -1, 2, 6, 0, -1, 0, 6, 4, -1
+                ]
+                normalIndex [
+                  3, 3, 3, -1, 3, 3, 3, -1, 5, 5, 5, -1, 5, 5, 5, -1, 1, 1, 1, -1, 1, 1, 1, -1, 4, 4, 4, -1, 4, 4, 4, -1, 0, 0, 0, -1, 0, 0, 0, -1, 2, 2, 2, -1, 2, 2, 2, -1
+                ]
+              }
+            }
+          ]
+        }
+        Transform {
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  ambientIntensity 1
+                  diffuseColor 1 1 1
+                  shininess 0.4
+                  specularColor 0.5 0.5 0.5
+                }
+              }
+              geometry IndexedFaceSet {
+                coord Coordinate {
+                  point [
+                    2.755 0 -0.855
+                    2.755 0 -0.77
+                    2.755 0.001 -0.855
+                    2.755 0.001 -0.77
+                    2.84 0 -0.855
+                    2.84 0 -0.77
+                    2.84 0.001 -0.855
+                    2.84 0.001 -0.77
+                  ]
+                }
+                normal Normal {
+                  vector [
+                    -1 0 0
+                    0 -1 0
+                    0 0 -1
+                    0 0 1
+                    0 1 0
+                    1 0 0
+                  ]
+                }
+                coordIndex [
+                  2, 6, 0, -1, 0, 6, 4, -1, 3, 2, 1, -1, 1, 2, 0, -1, 1, 0, 5, -1, 5, 0, 4, -1, 6, 2, 7, -1, 7, 2, 3, -1, 6, 7, 4, -1, 4, 7, 5, -1, 7, 3, 5, -1, 5, 3, 1, -1
+                ]
+                normalIndex [
+                  2, 2, 2, -1, 2, 2, 2, -1, 0, 0, 0, -1, 0, 0, 0, -1, 1, 1, 1, -1, 1, 1, 1, -1, 4, 4, 4, -1, 4, 4, 4, -1, 5, 5, 5, -1, 5, 5, 5, -1, 3, 3, 3, -1, 3, 3, 3, -1
+                ]
+              }
+            }
+          ]
+        }
+        Transform {
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  ambientIntensity 1
+                  diffuseColor 1 1 1
+                  shininess 0.4
+                  specularColor 0.5 0.5 0.5
+                }
+              }
+              geometry IndexedFaceSet {
+                coord Coordinate {
+                  point [
+                    2.87 0 -0.855
+                    2.87 0 -0.77
+                    2.87 0.001 -0.855
+                    2.87 0.001 -0.77
+                    2.955 0 -0.855
+                    2.955 0 -0.77
+                    2.955 0.001 -0.855
+                    2.955 0.001 -0.77
+                  ]
+                }
+                normal Normal {
+                  vector [
+                    -1 0 0
+                    0 -1 0
+                    0 0 -1
+                    0 0 1
+                    0 1 0
+                    1 0 0
+                  ]
+                }
+                coordIndex [
+                  6, 7, 4, -1, 4, 7, 5, -1, 2, 6, 0, -1, 0, 6, 4, -1, 4, 5, 0, -1, 0, 5, 1, -1, 3, 7, 2, -1, 2, 7, 6, -1, 7, 3, 5, -1, 5, 3, 1, -1, 3, 2, 1, -1, 1, 2, 0, -1
+                ]
+                normalIndex [
+                  5, 5, 5, -1, 5, 5, 5, -1, 2, 2, 2, -1, 2, 2, 2, -1, 1, 1, 1, -1, 1, 1, 1, -1, 4, 4, 4, -1, 4, 4, 4, -1, 3, 3, 3, -1, 3, 3, 3, -1, 0, 0, 0, -1, 0, 0, 0, -1
+                ]
+              }
+            }
+          ]
+        }
+        Transform {
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  ambientIntensity 1
+                  diffuseColor 1 1 1
+                  shininess 0.4
+                  specularColor 0.5 0.5 0.5
+                }
+              }
+              geometry IndexedFaceSet {
+                coord Coordinate {
+                  point [
+                    4.015 0 -0.11
+                    4.015 0 -0.025
+                    4.015 0.001 -0.11
+                    4.015 0.001 -0.025
+                    4.215 0 -0.11
+                    4.215 0 -0.025
+                    4.215 0.001 -0.11
+                    4.215 0.001 -0.025
+                  ]
+                }
+                normal Normal {
+                  vector [
+                    -1 0 0
+                    0 -1 0
+                    0 0 -1
+                    0 0 1
+                    0 1 0
+                    1 0 0
+                  ]
+                }
+                coordIndex [
+                  7, 3, 5, -1, 5, 3, 1, -1, 3, 2, 1, -1, 1, 2, 0, -1, 6, 7, 4, -1, 4, 7, 5, -1, 5, 1, 4, -1, 4, 1, 0, -1, 2, 3, 6, -1, 6, 3, 7, -1, 2, 6, 0, -1, 0, 6, 4, -1
+                ]
+                normalIndex [
+                  3, 3, 3, -1, 3, 3, 3, -1, 0, 0, 0, -1, 0, 0, 0, -1, 5, 5, 5, -1, 5, 5, 5, -1, 1, 1, 1, -1, 1, 1, 1, -1, 4, 4, 4, -1, 4, 4, 4, -1, 2, 2, 2, -1, 2, 2, 2, -1
+                ]
+              }
+            }
+          ]
+        }
+        Transform {
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  ambientIntensity 1
+                  diffuseColor 1 1 1
+                  shininess 0.4
+                  specularColor 0.5 0.5 0.5
+                }
+              }
+              geometry IndexedFaceSet {
+                coord Coordinate {
+                  point [
+                    4.015 0 -0.225
+                    4.015 0 -0.14
+                    4.015 0.001 -0.225
+                    4.015 0.001 -0.14
+                    4.1 0 -0.225
+                    4.1 0 -0.14
+                    4.1 0.001 -0.225
+                    4.1 0.001 -0.14
+                  ]
+                }
+                normal Normal {
+                  vector [
+                    -1 0 0
+                    0 -1 0
+                    0 0 -1
+                    0 0 1
+                    0 1 0
+                    1 0 0
+                  ]
+                }
+                coordIndex [
+                  2, 6, 0, -1, 0, 6, 4, -1, 3, 2, 1, -1, 1, 2, 0, -1, 1, 0, 5, -1, 5, 0, 4, -1, 6, 2, 7, -1, 7, 2, 3, -1, 6, 7, 4, -1, 4, 7, 5, -1, 7, 3, 5, -1, 5, 3, 1, -1
+                ]
+                normalIndex [
+                  2, 2, 2, -1, 2, 2, 2, -1, 0, 0, 0, -1, 0, 0, 0, -1, 1, 1, 1, -1, 1, 1, 1, -1, 4, 4, 4, -1, 4, 4, 4, -1, 5, 5, 5, -1, 5, 5, 5, -1, 3, 3, 3, -1, 3, 3, 3, -1
+                ]
+              }
+            }
+          ]
+        }
+        Transform {
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  ambientIntensity 1
+                  diffuseColor 1 1 1
+                  shininess 0.4
+                  specularColor 0.5 0.5 0.5
+                }
+              }
+              geometry IndexedFaceSet {
+                coord Coordinate {
+                  point [
+                    4.13 0 -0.225
+                    4.13 0 -0.14
+                    4.13 0.001 -0.225
+                    4.13 0.001 -0.14
+                    4.215 0 -0.225
+                    4.215 0 -0.14
+                    4.215 0.001 -0.225
+                    4.215 0.001 -0.14
+                  ]
+                }
+                normal Normal {
+                  vector [
+                    -1 0 0
+                    0 -1 0
+                    0 0 -1
+                    0 0 1
+                    0 1 0
+                    1 0 0
+                  ]
+                }
+                coordIndex [
+                  6, 7, 4, -1, 4, 7, 5, -1, 2, 6, 0, -1, 0, 6, 4, -1, 4, 5, 0, -1, 0, 5, 1, -1, 3, 7, 2, -1, 2, 7, 6, -1, 7, 3, 5, -1, 5, 3, 1, -1, 3, 2, 1, -1, 1, 2, 0, -1
+                ]
+                normalIndex [
+                  5, 5, 5, -1, 5, 5, 5, -1, 2, 2, 2, -1, 2, 2, 2, -1, 1, 1, 1, -1, 1, 1, 1, -1, 4, 4, 4, -1, 4, 4, 4, -1, 3, 3, 3, -1, 3, 3, 3, -1, 0, 0, 0, -1, 0, 0, 0, -1
+                ]
+              }
+            }
+          ]
+        }
+        Transform {
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  ambientIntensity 1
+                  diffuseColor 1 1 1
+                  shininess 0.4
+                  specularColor 0.5 0.5 0.5
+                }
+              }
+              geometry IndexedFaceSet {
+                coord Coordinate {
+                  point [
+                    4.645 0 -1.37
+                    4.645 0 -1.285
+                    4.645 0.001 -1.37
+                    4.645 0.001 -1.285
+                    4.73 0 -1.37
+                    4.73 0 -1.285
+                    4.73 0.001 -1.37
+                    4.73 0.001 -1.285
+                  ]
+                }
+                normal Normal {
+                  vector [
+                    -1 0 0
+                    0 -1 0
+                    0 0 -1
+                    0 0 1
+                    0 1 0
+                    1 0 0
+                  ]
+                }
+                coordIndex [
+                  3, 2, 1, -1, 1, 2, 0, -1, 7, 3, 5, -1, 5, 3, 1, -1, 1, 0, 5, -1, 5, 0, 4, -1, 6, 2, 7, -1, 7, 2, 3, -1, 6, 7, 4, -1, 4, 7, 5, -1, 2, 6, 0, -1, 0, 6, 4, -1
+                ]
+                normalIndex [
+                  0, 0, 0, -1, 0, 0, 0, -1, 3, 3, 3, -1, 3, 3, 3, -1, 1, 1, 1, -1, 1, 1, 1, -1, 4, 4, 4, -1, 4, 4, 4, -1, 5, 5, 5, -1, 5, 5, 5, -1, 2, 2, 2, -1, 2, 2, 2, -1
+                ]
+              }
+            }
+          ]
+        }
+        Transform {
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  ambientIntensity 1
+                  diffuseColor 1 1 1
+                  shininess 0.4
+                  specularColor 0.5 0.5 0.5
+                }
+              }
+              geometry IndexedFaceSet {
+                coord Coordinate {
+                  point [
+                    4.76 0 -1.37
+                    4.76 0 -1.285
+                    4.76 0.001 -1.37
+                    4.76 0.001 -1.285
+                    4.845 0 -1.37
+                    4.845 0 -1.285
+                    4.845 0.001 -1.37
+                    4.845 0.001 -1.285
+                  ]
+                }
+                normal Normal {
+                  vector [
+                    -1 0 0
+                    0 -1 0
+                    0 0 -1
+                    0 0 1
+                    0 1 0
+                    1 0 0
+                  ]
+                }
+                coordIndex [
+                  7, 3, 5, -1, 5, 3, 1, -1, 6, 7, 4, -1, 4, 7, 5, -1, 5, 1, 4, -1, 4, 1, 0, -1, 2, 3, 6, -1, 6, 3, 7, -1, 3, 2, 1, -1, 1, 2, 0, -1, 2, 6, 0, -1, 0, 6, 4, -1
+                ]
+                normalIndex [
+                  3, 3, 3, -1, 3, 3, 3, -1, 5, 5, 5, -1, 5, 5, 5, -1, 1, 1, 1, -1, 1, 1, 1, -1, 4, 4, 4, -1, 4, 4, 4, -1, 0, 0, 0, -1, 0, 0, 0, -1, 2, 2, 2, -1, 2, 2, 2, -1
+                ]
+              }
+            }
+          ]
+        }
+        Transform {
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  ambientIntensity 1
+                  diffuseColor 1 1 1
+                  shininess 0.4
+                  specularColor 0.5 0.5 0.5
+                }
+              }
+              geometry IndexedFaceSet {
+                coord Coordinate {
+                  point [
+                    4.645 0 -1.485
+                    4.645 0 -1.4
+                    4.645 0.001 -1.485
+                    4.645 0.001 -1.4
+                    4.73 0 -1.485
+                    4.73 0 -1.4
+                    4.73 0.001 -1.485
+                    4.73 0.001 -1.4
+                  ]
+                }
+                normal Normal {
+                  vector [
+                    -1 0 0
+                    0 -1 0
+                    0 0 -1
+                    0 0 1
+                    0 1 0
+                    1 0 0
+                  ]
+                }
+                coordIndex [
+                  2, 6, 0, -1, 0, 6, 4, -1, 3, 2, 1, -1, 1, 2, 0, -1, 1, 0, 5, -1, 5, 0, 4, -1, 6, 2, 7, -1, 7, 2, 3, -1, 6, 7, 4, -1, 4, 7, 5, -1, 7, 3, 5, -1, 5, 3, 1, -1
+                ]
+                normalIndex [
+                  2, 2, 2, -1, 2, 2, 2, -1, 0, 0, 0, -1, 0, 0, 0, -1, 1, 1, 1, -1, 1, 1, 1, -1, 4, 4, 4, -1, 4, 4, 4, -1, 5, 5, 5, -1, 5, 5, 5, -1, 3, 3, 3, -1, 3, 3, 3, -1
+                ]
+              }
+            }
+          ]
+        }
+        Transform {
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  ambientIntensity 1
+                  diffuseColor 1 1 1
+                  shininess 0.4
+                  specularColor 0.5 0.5 0.5
+                }
+              }
+              geometry IndexedFaceSet {
+                coord Coordinate {
+                  point [
+                    4.76 0 -1.485
+                    4.76 0 -1.4
+                    4.76 0.001 -1.485
+                    4.76 0.001 -1.4
+                    4.845 0 -1.485
+                    4.845 0 -1.4
+                    4.845 0.001 -1.485
+                    4.845 0.001 -1.4
+                  ]
+                }
+                normal Normal {
+                  vector [
+                    -1 0 0
+                    0 -1 0
+                    0 0 -1
+                    0 0 1
+                    0 1 0
+                    1 0 0
+                  ]
+                }
+                coordIndex [
+                  6, 7, 4, -1, 4, 7, 5, -1, 2, 6, 0, -1, 0, 6, 4, -1, 4, 5, 0, -1, 0, 5, 1, -1, 3, 7, 2, -1, 2, 7, 6, -1, 7, 3, 5, -1, 5, 3, 1, -1, 3, 2, 1, -1, 1, 2, 0, -1
+                ]
+                normalIndex [
+                  5, 5, 5, -1, 5, 5, 5, -1, 2, 2, 2, -1, 2, 2, 2, -1, 1, 1, 1, -1, 1, 1, 1, -1, 4, 4, 4, -1, 4, 4, 4, -1, 3, 3, 3, -1, 3, 3, 3, -1, 0, 0, 0, -1, 0, 0, 0, -1
+                ]
+              }
+            }
+          ]
+        }
+        Transform {
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  ambientIntensity 1
+                  diffuseColor 1 1 1
+                  shininess 0.4
+                  specularColor 0.5 0.5 0.5
+                }
+              }
+              geometry IndexedFaceSet {
+                coord Coordinate {
+                  point [
+                    4.645 0 -3.26
+                    4.645 0 -3.175
+                    4.645 0.001 -3.26
+                    4.645 0.001 -3.175
+                    4.73 0 -3.26
+                    4.73 0 -3.175
+                    4.73 0.001 -3.26
+                    4.73 0.001 -3.175
+                  ]
+                }
+                normal Normal {
+                  vector [
+                    -1 0 0
+                    0 -1 0
+                    0 0 -1
+                    0 0 1
+                    0 1 0
+                    1 0 0
+                  ]
+                }
+                coordIndex [
+                  3, 2, 1, -1, 1, 2, 0, -1, 7, 3, 5, -1, 5, 3, 1, -1, 1, 0, 5, -1, 5, 0, 4, -1, 6, 2, 7, -1, 7, 2, 3, -1, 6, 7, 4, -1, 4, 7, 5, -1, 2, 6, 0, -1, 0, 6, 4, -1
+                ]
+                normalIndex [
+                  0, 0, 0, -1, 0, 0, 0, -1, 3, 3, 3, -1, 3, 3, 3, -1, 1, 1, 1, -1, 1, 1, 1, -1, 4, 4, 4, -1, 4, 4, 4, -1, 5, 5, 5, -1, 5, 5, 5, -1, 2, 2, 2, -1, 2, 2, 2, -1
+                ]
+              }
+            }
+          ]
+        }
+        Transform {
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  ambientIntensity 1
+                  diffuseColor 1 1 1
+                  shininess 0.4
+                  specularColor 0.5 0.5 0.5
+                }
+              }
+              geometry IndexedFaceSet {
+                coord Coordinate {
+                  point [
+                    4.76 0 -3.26
+                    4.76 0 -3.175
+                    4.76 0.001 -3.26
+                    4.76 0.001 -3.175
+                    4.845 0 -3.26
+                    4.845 0 -3.175
+                    4.845 0.001 -3.26
+                    4.845 0.001 -3.175
+                  ]
+                }
+                normal Normal {
+                  vector [
+                    -1 0 0
+                    0 -1 0
+                    0 0 -1
+                    0 0 1
+                    0 1 0
+                    1 0 0
+                  ]
+                }
+                coordIndex [
+                  7, 3, 5, -1, 5, 3, 1, -1, 6, 7, 4, -1, 4, 7, 5, -1, 5, 1, 4, -1, 4, 1, 0, -1, 2, 3, 6, -1, 6, 3, 7, -1, 3, 2, 1, -1, 1, 2, 0, -1, 2, 6, 0, -1, 0, 6, 4, -1
+                ]
+                normalIndex [
+                  3, 3, 3, -1, 3, 3, 3, -1, 5, 5, 5, -1, 5, 5, 5, -1, 1, 1, 1, -1, 1, 1, 1, -1, 4, 4, 4, -1, 4, 4, 4, -1, 0, 0, 0, -1, 0, 0, 0, -1, 2, 2, 2, -1, 2, 2, 2, -1
+                ]
+              }
+            }
+          ]
+        }
+        Transform {
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  ambientIntensity 1
+                  diffuseColor 1 1 1
+                  shininess 0.4
+                  specularColor 0.5 0.5 0.5
+                }
+              }
+              geometry IndexedFaceSet {
+                coord Coordinate {
+                  point [
+                    4.645 0 -3.375
+                    4.645 0 -3.29
+                    4.645 0.001 -3.375
+                    4.645 0.001 -3.29
+                    4.73 0 -3.375
+                    4.73 0 -3.29
+                    4.73 0.001 -3.375
+                    4.73 0.001 -3.29
+                  ]
+                }
+                normal Normal {
+                  vector [
+                    -1 0 0
+                    0 -1 0
+                    0 0 -1
+                    0 0 1
+                    0 1 0
+                    1 0 0
+                  ]
+                }
+                coordIndex [
+                  2, 6, 0, -1, 0, 6, 4, -1, 3, 2, 1, -1, 1, 2, 0, -1, 0, 4, 1, -1, 1, 4, 5, -1, 7, 6, 3, -1, 3, 6, 2, -1, 6, 7, 4, -1, 4, 7, 5, -1, 7, 3, 5, -1, 5, 3, 1, -1
+                ]
+                normalIndex [
+                  2, 2, 2, -1, 2, 2, 2, -1, 0, 0, 0, -1, 0, 0, 0, -1, 1, 1, 1, -1, 1, 1, 1, -1, 4, 4, 4, -1, 4, 4, 4, -1, 5, 5, 5, -1, 5, 5, 5, -1, 3, 3, 3, -1, 3, 3, 3, -1
+                ]
+              }
+            }
+          ]
+        }
+        Transform {
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  ambientIntensity 1
+                  diffuseColor 1 1 1
+                  shininess 0.4
+                  specularColor 0.5 0.5 0.5
+                }
+              }
+              geometry IndexedFaceSet {
+                coord Coordinate {
+                  point [
+                    4.76 0 -3.375
+                    4.76 0 -3.29
+                    4.76 0.001 -3.375
+                    4.76 0.001 -3.29
+                    4.845 0 -3.375
+                    4.845 0 -3.29
+                    4.845 0.001 -3.375
+                    4.845 0.001 -3.29
+                  ]
+                }
+                normal Normal {
+                  vector [
+                    -1 0 0
+                    0 -1 0
+                    0 0 -1
+                    0 0 1
+                    0 1 0
+                    1 0 0
+                  ]
+                }
+                coordIndex [
+                  6, 7, 4, -1, 4, 7, 5, -1, 2, 6, 0, -1, 0, 6, 4, -1, 4, 5, 0, -1, 0, 5, 1, -1, 3, 7, 2, -1, 2, 7, 6, -1, 7, 3, 5, -1, 5, 3, 1, -1, 3, 2, 1, -1, 1, 2, 0, -1
+                ]
+                normalIndex [
+                  5, 5, 5, -1, 5, 5, 5, -1, 2, 2, 2, -1, 2, 2, 2, -1, 1, 1, 1, -1, 1, 1, 1, -1, 4, 4, 4, -1, 4, 4, 4, -1, 3, 3, 3, -1, 3, 3, 3, -1, 0, 0, 0, -1, 0, 0, 0, -1
+                ]
+              }
+            }
+          ]
+        }
+        Transform {
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  ambientIntensity 1
+                  diffuseColor 1 1 1
+                  shininess 0.4
+                  specularColor 0.5 0.5 0.5
+                }
+              }
+              geometry IndexedFaceSet {
+                coord Coordinate {
+                  point [
+                    0 0 -0.25, 0 0 0, 0 0.001 -0.25, 0 0.001 0, 0.25 0 -0.25, 0.25 0 -0.14, 0.25 0 -0.11, 0.25 0 0, 0.25 0.001 -0.25, 0.25 0.001 -0.14, 0.25 0.001 -0.11, 0.25 0.001 0, 0.765 0 -0.94, 0.765 0 -0.755, 0.765 0 -0.74, 0.765 0.001 -0.94, 0.765 0.001 -0.755, 0.765 0.001 -0.74, 0.805 0 -0.94, 0.805 0 -0.755, 0.805 0 -0.74, 0.805 0 -0.14, 0.805 0 -0.11, 0.805 0.001 -0.94, 0.805 0.001 -0.755, 0.805 0.001 -0.74, 0.805 0.001 -0.14, 0.805 0.001 -0.11, 0.85 0 -0.74, 0.85 0 -0.14, 0.85 0.001 -0.74, 0.85 0.001 -0.14, 0.88 0 -0.74, 0.88 0 -0.14, 0.88 0.001 -0.74, 0.88 0.001 -0.14, 0.965 0 -0.94, 0.965 0 -0.755, 0.965 0 -0.74, 0.965 0.001 -0.94, 0.965 0.001 -0.755, 0.965 0.001 -0.74, 1.58 0 -3.92, 1.58 0 -3.275, 1.58 0 -2.645, 1.58 0 -2.015, 1.58 0 -1.385, 1.58 0 -0.755, 1.58 0 -0.14, 1.58 0.001 -3.92, 1.58 0.001 -3.275, 1.58 0.001 -2.645, 1.58 0.001 -2.015, 1.58 0.001 -1.385, 1.58 0.001 -0.755, 1.58 0.001 -0.14, 1.61 0 -3.89, 1.61 0 -3.29, 1.61 0 -3.26, 1.61 0 -2.645, 1.61 0 -2.03, 1.61 0 -2, 1.61 0 -1.4, 1.61 0 -1.37, 1.61 0 -0.77, 1.61 0 -0.74, 1.61 0 -0.14, 1.61 0.001 -3.89, 1.61 0.001 -3.29, 1.61 0.001 -3.26, 1.61 0.001 -2.645, 1.61 0.001 -2.03, 1.61 0.001 -2, 1.61 0.001 -1.4, 1.61 0.001 -1.37, 1.61 0.001 -0.77, 1.61 0.001 -0.74, 1.61 0.001 -0.14, 2.125 0 -3.29, 2.125 0 -3.275, 2.125 0 -3.26, 2.125 0 -2.115, 2.125 0 -2.03, 2.125 0 -2, 2.125 0 -1.915, 2.125 0.001 -3.29, 2.125 0.001 -3.275, 2.125 0.001 -3.26, 2.125 0.001 -2.115, 2.125 0.001 -2.03, 2.125 0.001 -2, 2.125 0.001 -1.915, 2.21 0 -3.89, 2.21 0 -3.375, 2.21 0 -3.175, 2.21 0 -2.645, 2.21 0 -2.115, 2.21 0 -1.915, 2.21 0 -1.4, 2.21 0 -1.37, 2.21 0 -0.77, 2.21 0 -0.74, 2.21 0 -0.14, 2.21 0.001 -3.89, 2.21 0.001 -3.375, 2.21 0.001 -3.175, 2.21 0.001 -2.645, 2.21 0.001 -2.115, 2.21 0.001 -1.915, 2.21 0.001 -1.4, 2.21 0.001 -1.37, 2.21 0.001 -0.77, 2.21 0.001 -0.74, 2.21 0.001 -0.14, 2.225 0 -3.92, 2.225 0 -3.375, 2.225 0 -3.175, 2.225 0 -2.645, 2.225 0 -2.015, 2.225 0 -1.385, 2.225 0 -0.755, 2.225 0 -0.11, 2.225 0.001 -3.92, 2.225 0.001 -3.375, 2.225 0.001 -3.175, 2.225 0.001 -2.645, 2.225 0.001 -2.015, 2.225 0.001 -1.385, 2.225 0.001 -0.755, 2.225 0.001 -0.11, 2.24 0 -3.89, 2.24 0 -3.375, 2.24 0 -3.175, 2.24 0 -2.66, 2.24 0 -2.63, 2.24 0 -2.115, 2.24 0 -1.915, 2.24 0 -1.4, 2.24 0 -1.37, 2.24 0 -0.77, 2.24 0 -0.74, 2.24 0 -0.14, 2.24 0.001 -3.89, 2.24 0.001 -3.375, 2.24 0.001 -3.175, 2.24 0.001 -2.66, 2.24 0.001 -2.63, 2.24 0.001 -2.115, 2.24 0.001 -1.915, 2.24 0.001 -1.4, 2.24 0.001 -1.37, 2.24 0.001 -0.77, 2.24 0.001 -0.74, 2.24 0.001 -0.14, 2.325 0 -3.29, 2.325 0 -3.275, 2.325 0 -3.26, 2.325 0 -2.115, 2.325 0 -2.015, 2.325 0 -1.915, 2.325 0.001 -3.29, 2.325 0.001 -3.275, 2.325 0.001 -3.26, 2.325 0.001 -2.115, 2.325 0.001 -2.015, 2.325 0.001 -1.915, 2.755 0 -2.115, 2.755 0 -2.015, 2.755 0 -1.915, 2.755 0 -0.77, 2.755 0 -0.755, 2.755 0 -0.74, 2.755 0.001 -2.115, 2.755 0.001 -2.015, 2.755 0.001 -1.915, 2.755 0.001 -0.77, 2.755 0.001 -0.755, 2.755 0.001 -0.74, 2.84 0 -3.89, 2.84 0 -3.29, 2.84 0 -3.26, 2.84 0 -2.66, 2.84 0 -2.63, 2.84 0 -2.115, 2.84 0 -1.915, 2.84 0 -1.4, 2.84 0 -1.37, 2.84 0 -0.855, 2.84 0 -0.655, 2.84 0 -0.14, 2.84 0.001 -3.89, 2.84 0.001 -3.29, 2.84 0.001 -3.26, 2.84 0.001 -2.66, 2.84 0.001 -2.63, 2.84 0.001 -2.115, 2.84 0.001 -1.915, 2.84 0.001 -1.4, 2.84 0.001 -1.37, 2.84 0.001 -0.855, 2.84 0.001 -0.655, 2.84 0.001 -0.14, 2.855 0 -3.92, 2.855 0 -3.275, 2.855 0 -2.645, 2.855 0 -2.015, 2.855 0 -1.385, 2.855 0 -0.855, 2.855 0 -0.655, 2.855 0 -0.11, 2.855 0.001 -3.92, 2.855 0.001 -3.275, 2.855 0.001 -2.645, 2.855 0.001 -2.015, 2.855 0.001 -1.385, 2.855 0.001 -0.855, 2.855 0.001 -0.655, 2.855 0.001 -0.11, 2.87 0 -3.89, 2.87 0 -3.29, 2.87 0 -3.26, 2.87 0 -2.66, 2.87 0 -2.63, 2.87 0 -2.115, 2.87 0 -1.915, 2.87 0 -1.385, 2.87 0 -0.855, 2.87 0 -0.655, 2.87 0 -0.11, 2.87 0.001 -3.89, 2.87 0.001 -3.29, 2.87 0.001 -3.26, 2.87 0.001 -2.66, 2.87 0.001 -2.63, 2.87 0.001 -2.115, 2.87 0.001 -1.915, 2.87 0.001 -1.385, 2.87 0.001 -0.855, 2.87 0.001 -0.655, 2.87 0.001 -0.11, 2.955 0 -2.115, 2.955 0 -2.03, 2.955 0 -2, 2.955 0 -1.915, 2.955 0 -0.77, 2.955 0 -0.755, 2.955 0 -0.74, 2.955 0.001 -2.115, 2.955 0.001 -2.03, 2.955 0.001 -2, 2.955 0.001 -1.915, 2.955 0.001 -0.77, 2.955 0.001 -0.755, 2.955 0.001 -0.74, 3.385 0 -2.745, 3.385 0 -2.66, 3.385 0 -2.63, 3.385 0 -2.545, 3.385 0 -0.855, 3.385 0 -0.77, 3.385 0 -0.74, 3.385 0 -0.655, 3.385 0.001 -2.745, 3.385 0.001 -2.66, 3.385 0.001 -2.63, 3.385 0.001 -2.545, 3.385 0.001 -0.855, 3.385 0.001 -0.77, 3.385 0.001 -0.74, 3.385 0.001 -0.655, 3.47 0 -3.26, 3.47 0 -2.745, 3.47 0 -2, 3.47 0 -1.385, 3.47 0 -0.855, 3.47 0 -0.655, 3.47 0 -0.11, 3.47 0.001 -3.26, 3.47 0.001 -2.745, 3.47 0.001 -2, 3.47 0.001 -1.385, 3.47 0.001 -0.855, 3.47 0.001 -0.655, 3.47 0.001 -0.11, 3.485 0 -3.92, 3.485 0 -3.89, 3.485 0 -3.29, 3.485 0 -3.275, 3.485 0 -2.645, 3.485 0 -2.545, 3.485 0 -2.03, 3.485 0 -2.015, 3.485 0 -1.385, 3.485 0 -0.755, 3.485 0 -0.11, 3.485 0.001 -3.92, 3.485 0.001 -3.89, 3.485 0.001 -3.29, 3.485 0.001 -3.275, 3.485 0.001 -2.645, 3.485 0.001 -2.545, 3.485 0.001 -2.03, 3.485 0.001 -2.015, 3.485 0.001 -1.385, 3.485 0.001 -0.755, 3.485 0.001 -0.11, 3.5 0 -3.26, 3.5 0 -2.745, 3.5 0 -2, 3.5 0 -1.4, 3.5 0 -1.37, 3.5 0 -0.855, 3.5 0 -0.655, 3.5 0 -0.14, 3.5 0.001 -3.26, 3.5 0.001 -2.745, 3.5 0.001 -2, 3.5 0.001 -1.4, 3.5 0.001 -1.37, 3.5 0.001 -0.855, 3.5 0.001 -0.655, 3.5 0.001 -0.14, 3.585 0 -2.745, 3.585 0 -2.645, 3.585 0 -2.545, 3.585 0 -0.855, 3.585 0 -0.77, 3.585 0 -0.74, 3.585 0 -0.655, 3.585 0.001 -2.745, 3.585 0.001 -2.645, 3.585 0.001 -2.545, 3.585 0.001 -0.855, 3.585 0.001 -0.77, 3.585 0.001 -0.74, 3.585 0.001 -0.655, 4.015 0 -0.14, 4.015 0 -0.11, 4.015 0.001 -0.14, 4.015 0.001 -0.11, 4.1 0 -3.89, 4.1 0 -3.29, 4.1 0 -3.26, 4.1 0 -2.645, 4.1 0 -2.03, 4.1 0 -2, 4.1 0 -1.4, 4.1 0 -1.37, 4.1 0 -0.77, 4.1 0 -0.74, 4.1 0 -0.225, 4.1 0.001 -3.89, 4.1 0.001 -3.29, 4.1 0.001 -3.26, 4.1 0.001 -2.645, 4.1 0.001 -2.03, 4.1 0.001 -2, 4.1 0.001 -1.4, 4.1 0.001 -1.37, 4.1 0.001 -0.77, 4.1 0.001 -0.74, 4.1 0.001 -0.225, 4.115 0 -3.92, 4.115 0 -3.275, 4.115 0 -2.645, 4.115 0 -2.015, 4.115 0 -1.385, 4.115 0 -0.755, 4.115 0 -0.225, 4.115 0.001 -3.92, 4.115 0.001 -3.275, 4.115 0.001 -2.645, 4.115 0.001 -2.015, 4.115 0.001 -1.385, 4.115 0.001 -0.755, 4.115 0.001 -0.225, 4.13 0 -3.89, 4.13 0 -3.29, 4.13 0 -3.26, 4.13 0 -2.66, 4.13 0 -2.63, 4.13 0 -2.015, 4.13 0 -1.4, 4.13 0 -1.37, 4.13 0 -0.77, 4.13 0 -0.74, 4.13 0 -0.225, 4.13 0.001 -3.89, 4.13 0.001 -3.29, 4.13 0.001 -3.26, 4.13 0.001 -2.66, 4.13 0.001 -2.63, 4.13 0.001 -2.015, 4.13 0.001 -1.4, 4.13 0.001 -1.37, 4.13 0.001 -0.77, 4.13 0.001 -0.74, 4.13 0.001 -0.225, 4.215 0 -0.14, 4.215 0 -0.11, 4.215 0.001 -0.14, 4.215 0.001 -0.11, 4.445 0 -3.92, 4.445 0 -3.89, 4.445 0 -3.29, 4.445 0 -3.275, 4.445 0 -3.26, 4.445 0 -2.66, 4.445 0 -2.645, 4.445 0 -2.63, 4.445 0 -1.4, 4.445 0 -1.385, 4.445 0 -1.37, 4.445 0 -0.77, 4.445 0 -0.755, 4.445 0 -0.74, 4.445 0 -0.14, 4.445 0 -0.11, 4.445 0.001 -3.92, 4.445 0.001 -3.89, 4.445 0.001 -3.29, 4.445 0.001 -3.275, 4.445 0.001 -3.26, 4.445 0.001 -2.66, 4.445 0.001 -2.645, 4.445 0.001 -2.63, 4.445 0.001 -1.4, 4.445 0.001 -1.385, 4.445 0.001 -1.37, 4.445 0.001 -0.77, 4.445 0.001 -0.755, 4.445 0.001 -0.74, 4.445 0.001 -0.14, 4.445 0.001 -0.11, 4.645 0 -3.29, 4.645 0 -3.275, 4.645 0 -3.26, 4.645 0 -1.4, 4.645 0 -1.385, 4.645 0 -1.37, 4.645 0.001 -3.29, 4.645 0.001 -3.275, 4.645 0.001 -3.26, 4.645 0.001 -1.4, 4.645 0.001 -1.385, 4.645 0.001 -1.37, 4.73 0 -3.89, 4.73 0 -3.375, 4.73 0 -3.175, 4.73 0 -2.66, 4.73 0 -1.285, 4.73 0 -0.77, 4.73 0 -0.74, 4.73 0 -0.14, 4.73 0.001 -3.89, 4.73 0.001 -3.375, 4.73 0.001 -3.175, 4.73 0.001 -2.66, 4.73 0.001 -1.285, 4.73 0.001 -0.77, 4.73 0.001 -0.74, 4.73 0.001 -0.14, 4.76 0 -3.89, 4.76 0 -3.375, 4.76 0 -3.175, 4.76 0 -2.645, 4.76 0 -2.63, 4.76 0 -1.285, 4.76 0 -0.77, 4.76 0 -0.74, 4.76 0 -0.14, 4.76 0.001 -3.89, 4.76 0.001 -3.375, 4.76 0.001 -3.175, 4.76 0.001 -2.645, 4.76 0.001 -2.63, 4.76 0.001 -1.285, 4.76 0.001 -0.77, 4.76 0.001 -0.74, 4.76 0.001 -0.14, 4.845 0 -3.29, 4.845 0 -3.275, 4.845 0 -3.26, 4.845 0 -1.4, 4.845 0 -1.385, 4.845 0 -1.37, 4.845 0.001 -3.29, 4.845 0.001 -3.275, 4.845 0.001 -3.26, 4.845 0.001 -1.4, 4.845 0.001 -1.385, 4.845 0.001 -1.37, 5.275 0 -4.005, 5.275 0 -3.92, 5.275 0 -3.89, 5.275 0 -3.805, 5.275 0.001 -4.005, 5.275 0.001 -3.92, 5.275 0.001 -3.89, 5.275 0.001 -3.805, 5.36 0 -3.805, 5.36 0 -3.29, 5.36 0 -3.26, 5.36 0 -2.645, 5.36 0 -2.015, 5.36 0 -1.4, 5.36 0 -1.37, 5.36 0 -0.77, 5.36 0 -0.74, 5.36 0 -0.14, 5.36 0.001 -3.805, 5.36 0.001 -3.29, 5.36 0.001 -3.26, 5.36 0.001 -2.645, 5.36 0.001 -2.015, 5.36 0.001 -1.4, 5.36 0.001 -1.37, 5.36 0.001 -0.77, 5.36 0.001 -0.74, 5.36 0.001 -0.14, 5.375 0 -4.005, 5.375 0 -3.275, 5.375 0 -2.645, 5.375 0 -2.015, 5.375 0 -1.385, 5.375 0 -0.755, 5.375 0 -0.11, 5.375 0.001 -4.005, 5.375 0.001 -3.275, 5.375 0.001 -2.645, 5.375 0.001 -2.015, 5.375 0.001 -1.385, 5.375 0.001 -0.755, 5.375 0.001 -0.11, 5.39 0 -3.805, 5.39 0 -3.29, 5.39 0 -3.26, 5.39 0 -2.66, 5.39 0 -2.63, 5.39 0 -2.03, 5.39 0 -2, 5.39 0 -1.4, 5.39 0 -1.37, 5.39 0 -0.77, 5.39 0 -0.74, 5.39 0 -0.14, 5.39 0.001 -3.805, 5.39 0.001 -3.29, 5.39 0.001 -3.26, 5.39 0.001 -2.66, 5.39 0.001 -2.63, 5.39 0.001 -2.03, 5.39 0.001 -2, 5.39 0.001 -1.4, 5.39 0.001 -1.37, 5.39 0.001 -0.77, 5.39 0.001 -0.74, 5.39 0.001 -0.14, 5.475 0 -4.005, 5.475 0 -3.805, 5.475 0.001 -4.005, 5.475 0.001 -3.805, 5.905 0 -2.745, 5.905 0 -2.66, 5.905 0 -2.63, 5.905 0 -2.545, 5.905 0 -0.855, 5.905 0 -0.77, 5.905 0 -0.74, 5.905 0 -0.655, 5.905 0.001 -2.745, 5.905 0.001 -2.66, 5.905 0.001 -2.63, 5.905 0.001 -2.545, 5.905 0.001 -0.855, 5.905 0.001 -0.77, 5.905 0.001 -0.74, 5.905 0.001 -0.655, 5.99 0 -3.92, 5.99 0 -3.29, 5.99 0 -3.26, 5.99 0 -2.745, 5.99 0 -2.545, 5.99 0 -2.03, 5.99 0 -2, 5.99 0 -1.4, 5.99 0.001 -3.92, 5.99 0.001 -3.29, 5.99 0.001 -3.26, 5.99 0.001 -2.745, 5.99 0.001 -2.545, 5.99 0.001 -2.03, 5.99 0.001 -2, 5.99 0.001 -1.4, 6.005 0 -3.92, 6.005 0 -3.275, 6.005 0 -2.645, 6.005 0 -2.015, 6.005 0 -1.385, 6.005 0 -1.37, 6.005 0 -0.855, 6.005 0 -0.755, 6.005 0 -0.655, 6.005 0 -0.14, 6.005 0 -0.11, 6.005 0.001 -3.92, 6.005 0.001 -3.275, 6.005 0.001 -2.645, 6.005 0.001 -2.015, 6.005 0.001 -1.385, 6.005 0.001 -1.37, 6.005 0.001 -0.855, 6.005 0.001 -0.755, 6.005 0.001 -0.655, 6.005 0.001 -0.14, 6.005 0.001 -0.11, 6.02 0 -3.89, 6.02 0 -3.29, 6.02 0 -3.26, 6.02 0 -2.745, 6.02 0 -2.545, 6.02 0 -2.03, 6.02 0 -2, 6.02 0 -1.4, 6.02 0.001 -3.89, 6.02 0.001 -3.29, 6.02 0.001 -3.26, 6.02 0.001 -2.745, 6.02 0.001 -2.545, 6.02 0.001 -2.03, 6.02 0.001 -2, 6.02 0.001 -1.4, 6.105 0 -2.745, 6.105 0 -2.66, 6.105 0 -2.63, 6.105 0 -2.545, 6.105 0 -0.855, 6.105 0 -0.77, 6.105 0 -0.74, 6.105 0 -0.655, 6.105 0.001 -2.745, 6.105 0.001 -2.66, 6.105 0.001 -2.63, 6.105 0.001 -2.545, 6.105 0.001 -0.855, 6.105 0.001 -0.77, 6.105 0.001 -0.74, 6.105 0.001 -0.655, 6.62 0 -3.89, 6.62 0 -3.29, 6.62 0 -3.26, 6.62 0 -2.66, 6.62 0 -2, 6.62 0 -1.4, 6.62 0 -1.37, 6.62 0 -0.77, 6.62 0 -0.74, 6.62 0 -0.14, 6.62 0.001 -3.89, 6.62 0.001 -3.29, 6.62 0.001 -3.26, 6.62 0.001 -2.66, 6.62 0.001 -2, 6.62 0.001 -1.4, 6.62 0.001 -1.37, 6.62 0.001 -0.77, 6.62 0.001 -0.74, 6.62 0.001 -0.14, 6.65 0 -3.89, 6.65 0 -3.275, 6.65 0 -2.645, 6.65 0 -2.63, 6.65 0 -2.03, 6.65 0 -2.015, 6.65 0 -1.385, 6.65 0 -0.755, 6.65 0 -0.11, 6.65 0.001 -3.89, 6.65 0.001 -3.275, 6.65 0.001 -2.645, 6.65 0.001 -2.63, 6.65 0.001 -2.03, 6.65 0.001 -2.015, 6.65 0.001 -1.385, 6.65 0.001 -0.755, 6.65 0.001 -0.11, 7.265 0 -3.29, 7.265 0 -3.275, 7.265 0 -3.09, 7.265 0.001 -3.29, 7.265 0.001 -3.275, 7.265 0.001 -3.09, 7.35 0 -3.89, 7.35 0 -3.29, 7.35 0.001 -3.89, 7.35 0.001 -3.29, 7.38 0 -3.89, 7.38 0 -3.29, 7.38 0.001 -3.89, 7.38 0.001 -3.29, 7.465 0 -3.29, 7.465 0 -3.275, 7.465 0 -3.09, 7.465 0.001 -3.29, 7.465 0.001 -3.275, 7.465 0.001 -3.09, 7.98 0 -4.03, 7.98 0 -3.92, 7.98 0 -3.89, 7.98 0 -3.78, 7.98 0.001 -4.03, 7.98 0.001 -3.92, 7.98 0.001 -3.89, 7.98 0.001 -3.78, 8.23 0 -4.03, 8.23 0 -3.78, 8.23 0.001 -4.03, 8.23 0.001 -3.78
+                  ]
+                }
+                normal Normal {
+                  vector [
+                    -1 0 0
+                    0 -1 0
+                    0 0 -1
+                    0 0 1
+                    0 1 0
+                    1 0 0
+                  ]
+                }
+                coordIndex [
+                  589, 570, 571, -1, 421, 422, 442, -1, 264, 265, 300, -1, 9, 8, 2, -1, 214, 215, 237, -1, 400, 401, 433, -1, 576, 577, 613, -1, 695, 689, 690, -1, 107, 126, 125, -1, 124, 105, 125, -1, 125, 105, 106, -1, 125, 106, 107, -1, 144, 124, 145, -1, 145, 124, 125, -1, 145, 125, 193, -1, 193, 125, 212, -1, 193, 212, 192, -1, 192, 212, 211, -1, 192, 211, 162, -1, 162, 211, 161, -1, 160, 161, 191, -1, 191, 161, 211, -1, 191, 211, 190, -1, 190, 211, 210, -1, 190, 210, 142, -1, 142, 210, 122, -1, 142, 122, 143, -1, 143, 122, 123, -1, 104, 123, 103, -1, 103, 123, 122, -1, 103, 122, 67, -1, 67, 122, 49, -1, 67, 49, 68, -1, 68, 49, 50, -1, 68, 50, 85, -1, 85, 50, 86, -1, 87, 86, 69, -1, 69, 86, 50, -1, 69, 50, 70, -1, 70, 50, 51, -1, 70, 51, 71, -1, 71, 51, 52, -1, 71, 52, 89, -1, 89, 52, 126, -1, 89, 126, 88, -1, 88, 126, 107, -1, 716, 710, 717, -1, 717, 710, 711, -1, 658, 711, 605, -1, 694, 711, 677, -1, 677, 711, 658, -1, 677, 658, 678, -1, 678, 658, 659, -1, 678, 659, 606, -1, 606, 659, 625, -1, 606, 625, 605, -1, 605, 625, 624, -1, 605, 624, 658, -1, 704, 703, 699, -1, 691, 705, 690, -1, 690, 705, 704, -1, 690, 704, 695, -1, 695, 704, 699, -1, 695, 699, 694, -1, 694, 699, 698, -1, 694, 698, 711, -1, 711, 698, 712, -1, 711, 712, 717, -1, 717, 712, 713, -1, 641, 640, 627, -1, 607, 679, 641, -1, 641, 679, 661, -1, 661, 679, 660, -1, 660, 679, 678, -1, 660, 678, 626, -1, 626, 678, 606, -1, 626, 606, 627, -1, 608, 682, 681, -1, 681, 629, 608, -1, 608, 629, 628, -1, 608, 628, 607, -1, 680, 679, 642, -1, 642, 679, 607, -1, 642, 607, 643, -1, 643, 607, 628, -1, 662, 682, 630, -1, 630, 682, 608, -1, 630, 608, 631, -1, 631, 608, 609, -1, 631, 609, 663, -1, 663, 609, 683, -1, 663, 683, 662, -1, 662, 683, 682, -1, 644, 611, 645, -1, 645, 611, 612, -1, 645, 612, 684, -1, 557, 533, 614, -1, 614, 533, 615, -1, 614, 615, 667, -1, 667, 615, 685, -1, 667, 685, 666, -1, 666, 685, 684, -1, 666, 684, 646, -1, 646, 684, 612, -1, 646, 612, 647, -1, 557, 556, 532, -1, 532, 556, 576, -1, 532, 576, 612, -1, 612, 576, 613, -1, 612, 613, 647, -1, 460, 461, 479, -1, 478, 518, 532, -1, 557, 532, 533, -1, 533, 532, 518, -1, 533, 518, 519, -1, 519, 479, 533, -1, 533, 479, 461, -1, 533, 461, 433, -1, 433, 461, 432, -1, 433, 432, 400, -1, 375, 397, 374, -1, 374, 397, 396, -1, 374, 396, 430, -1, 430, 396, 431, -1, 430, 431, 460, -1, 305, 339, 338, -1, 338, 321, 305, -1, 305, 321, 320, -1, 305, 320, 304, -1, 361, 375, 360, -1, 360, 375, 374, -1, 360, 374, 334, -1, 334, 374, 304, -1, 334, 304, 335, -1, 335, 304, 320, -1, 304, 252, 268, -1, 268, 252, 253, -1, 283, 305, 282, -1, 282, 305, 304, -1, 282, 304, 269, -1, 269, 304, 268, -1, 281, 304, 303, -1, 251, 252, 267, -1, 267, 252, 304, -1, 267, 304, 266, -1, 266, 304, 281, -1, 213, 249, 302, -1, 302, 249, 279, -1, 302, 279, 303, -1, 303, 279, 280, -1, 303, 280, 281, -1, 237, 236, 214, -1, 214, 236, 235, -1, 214, 235, 213, -1, 213, 235, 250, -1, 213, 250, 249, -1, 199, 215, 198, -1, 198, 215, 214, -1, 198, 214, 150, -1, 150, 214, 127, -1, 150, 127, 151, -1, 151, 127, 128, -1, 151, 128, 175, -1, 175, 128, 176, -1, 177, 176, 152, -1, 152, 176, 128, -1, 152, 128, 153, -1, 153, 128, 129, -1, 153, 129, 201, -1, 201, 129, 217, -1, 201, 217, 200, -1, 200, 217, 216, -1, 216, 217, 239, -1, 216, 239, 238, -1, 129, 113, 77, -1, 41, 40, 34, -1, 34, 40, 30, -1, 34, 30, 35, -1, 35, 30, 31, -1, 113, 129, 112, -1, 112, 129, 128, -1, 112, 128, 76, -1, 76, 128, 54, -1, 76, 54, 77, -1, 77, 54, 55, -1, 77, 55, 129, -1, 3, 11, 10, -1, 55, 35, 129, -1, 129, 35, 31, -1, 129, 31, 27, -1, 27, 31, 26, -1, 27, 26, 10, -1, 10, 26, 9, -1, 10, 9, 3, -1, 3, 9, 2, -1, 17, 25, 16, -1, 16, 25, 24, -1, 16, 24, 15, -1, 15, 24, 23, -1, 25, 30, 24, -1, 24, 30, 40, -1, 24, 40, 23, -1, 23, 40, 39, -1, 111, 128, 110, -1, 110, 128, 127, -1, 110, 127, 74, -1, 74, 127, 53, -1, 74, 53, 75, -1, 75, 53, 54, -1, 75, 54, 111, -1, 111, 54, 128, -1, 52, 90, 126, -1, 126, 90, 91, -1, 126, 91, 108, -1, 127, 109, 53, -1, 53, 109, 73, -1, 53, 73, 52, -1, 52, 73, 72, -1, 52, 72, 90, -1, 352, 370, 351, -1, 351, 370, 369, -1, 351, 369, 296, -1, 296, 369, 295, -1, 296, 295, 229, -1, 229, 295, 210, -1, 229, 210, 230, -1, 230, 210, 211, -1, 230, 211, 297, -1, 297, 211, 298, -1, 297, 298, 352, -1, 352, 298, 370, -1, 454, 497, 418, -1, 527, 496, 497, -1, 455, 472, 454, -1, 454, 472, 471, -1, 454, 471, 497, -1, 497, 471, 498, -1, 497, 498, 527, -1, 527, 498, 499, -1, 527, 499, 510, -1, 486, 487, 511, -1, 511, 487, 528, -1, 605, 586, 606, -1, 606, 586, 587, -1, 606, 587, 528, -1, 528, 587, 547, -1, 528, 547, 546, -1, 561, 560, 546, -1, 546, 560, 527, -1, 546, 527, 528, -1, 528, 527, 510, -1, 528, 510, 511, -1, 611, 574, 612, -1, 612, 574, 575, -1, 612, 575, 532, -1, 532, 575, 555, -1, 532, 555, 531, -1, 531, 555, 554, -1, 531, 554, 609, -1, 609, 554, 610, -1, 609, 610, 683, -1, 683, 610, 664, -1, 683, 664, 684, -1, 684, 664, 665, -1, 684, 665, 645, -1, 164, 163, 126, -1, 126, 163, 147, -1, 126, 147, 125, -1, 125, 147, 146, -1, 125, 146, 212, -1, 212, 146, 194, -1, 212, 194, 195, -1, 173, 174, 213, -1, 213, 174, 196, -1, 213, 196, 214, -1, 214, 196, 197, -1, 214, 197, 127, -1, 127, 197, 149, -1, 127, 149, 148, -1, 165, 164, 148, -1, 148, 164, 126, -1, 148, 126, 127, -1, 127, 126, 108, -1, 127, 108, 109, -1, 302, 301, 248, -1, 302, 248, 213, -1, 213, 248, 247, -1, 213, 247, 234, -1, 172, 173, 195, -1, 195, 173, 213, -1, 195, 213, 212, -1, 212, 213, 234, -1, 234, 233, 212, -1, 212, 233, 264, -1, 212, 264, 299, -1, 299, 264, 300, -1, 300, 331, 299, -1, 299, 331, 330, -1, 299, 330, 329, -1, 301, 302, 355, -1, 355, 302, 372, -1, 355, 372, 354, -1, 354, 372, 371, -1, 354, 371, 353, -1, 353, 371, 370, -1, 353, 370, 314, -1, 314, 370, 298, -1, 314, 298, 315, -1, 441, 440, 420, -1, 442, 441, 421, -1, 421, 441, 420, -1, 421, 420, 370, -1, 370, 420, 388, -1, 370, 388, 369, -1, 369, 388, 387, -1, 369, 387, 418, -1, 418, 387, 419, -1, 418, 419, 454, -1, 422, 421, 389, -1, 389, 421, 370, -1, 389, 370, 390, -1, 390, 370, 371, -1, 390, 371, 423, -1, 423, 371, 424, -1, 423, 424, 457, -1, 474, 473, 456, -1, 456, 457, 474, -1, 474, 457, 424, -1, 474, 424, 475, -1, 444, 443, 426, -1, 445, 444, 427, -1, 427, 444, 426, -1, 427, 426, 373, -1, 373, 426, 393, -1, 373, 393, 372, -1, 372, 393, 392, -1, 372, 392, 371, -1, 371, 392, 391, -1, 371, 391, 424, -1, 424, 391, 425, -1, 424, 425, 475, -1, 479, 478, 460, -1, 460, 478, 532, -1, 460, 532, 430, -1, 430, 532, 477, -1, 490, 491, 531, -1, 531, 491, 516, -1, 531, 516, 532, -1, 532, 516, 517, -1, 532, 517, 477, -1, 476, 458, 477, -1, 477, 458, 459, -1, 477, 459, 430, -1, 430, 459, 429, -1, 430, 429, 374, -1, 374, 429, 395, -1, 374, 395, 373, -1, 373, 395, 394, -1, 373, 394, 427, -1, 427, 394, 428, -1, 427, 428, 445, -1, 489, 490, 515, -1, 515, 490, 531, -1, 515, 531, 514, -1, 514, 531, 530, -1, 514, 530, 513, -1, 513, 530, 529, -1, 513, 529, 512, -1, 512, 529, 528, -1, 512, 528, 488, -1, 488, 528, 487, -1, 329, 315, 299, -1, 299, 315, 298, -1, 299, 298, 278, -1, 278, 262, 299, -1, 299, 262, 263, -1, 299, 263, 212, -1, 212, 263, 232, -1, 212, 232, 211, -1, 211, 232, 231, -1, 211, 231, 298, -1, 298, 231, 277, -1, 298, 277, 278, -1, 356, 372, 316, -1, 316, 372, 302, -1, 316, 302, 317, -1, 317, 302, 303, -1, 317, 303, 357, -1, 357, 303, 373, -1, 357, 373, 356, -1, 356, 373, 372, -1, 333, 332, 319, -1, 358, 359, 374, -1, 374, 359, 333, -1, 374, 333, 304, -1, 304, 333, 319, -1, 304, 319, 303, -1, 303, 319, 318, -1, 303, 318, 373, -1, 373, 318, 358, -1, 373, 358, 374, -1, 571, 549, 529, -1, 641, 627, 607, -1, 607, 627, 606, -1, 607, 606, 589, -1, 529, 549, 528, -1, 528, 549, 548, -1, 528, 548, 606, -1, 606, 548, 588, -1, 606, 588, 589, -1, 589, 571, 607, -1, 607, 571, 529, -1, 607, 529, 572, -1, 572, 573, 607, -1, 607, 573, 590, -1, 607, 590, 608, -1, 608, 590, 591, -1, 608, 591, 530, -1, 530, 591, 551, -1, 530, 551, 529, -1, 529, 551, 550, -1, 529, 550, 572, -1, 592, 608, 552, -1, 552, 608, 530, -1, 552, 530, 553, -1, 553, 530, 531, -1, 553, 531, 593, -1, 593, 531, 609, -1, 593, 609, 592, -1, 592, 609, 608, -1, 189, 188, 208, -1, 6, 7, 1, -1, 97, 84, 83, -1, 307, 322, 323, -1, 94, 116, 117, -1, 135, 157, 158, -1, 567, 566, 600, -1, 636, 637, 601, -1, 675, 655, 674, -1, 674, 655, 654, -1, 674, 654, 598, -1, 598, 654, 599, -1, 598, 599, 524, -1, 524, 599, 542, -1, 524, 542, 525, -1, 542, 543, 525, -1, 525, 543, 567, -1, 525, 567, 601, -1, 601, 567, 600, -1, 601, 600, 636, -1, 168, 167, 184, -1, 184, 167, 205, -1, 184, 205, 206, -1, 159, 136, 118, -1, 118, 136, 119, -1, 119, 136, 137, -1, 119, 137, 206, -1, 206, 137, 185, -1, 206, 185, 184, -1, 167, 166, 205, -1, 205, 166, 183, -1, 205, 183, 204, -1, 204, 183, 182, -1, 204, 182, 117, -1, 182, 134, 117, -1, 117, 134, 135, -1, 117, 135, 118, -1, 118, 135, 158, -1, 118, 158, 159, -1, 78, 79, 57, -1, 57, 79, 43, -1, 57, 43, 56, -1, 56, 43, 42, -1, 56, 42, 92, -1, 92, 42, 114, -1, 92, 114, 93, -1, 93, 114, 115, -1, 131, 115, 130, -1, 130, 115, 114, -1, 130, 114, 178, -1, 178, 114, 202, -1, 178, 202, 179, -1, 179, 202, 203, -1, 179, 203, 154, -1, 154, 203, 155, -1, 156, 155, 180, -1, 180, 155, 203, -1, 180, 203, 181, -1, 181, 203, 204, -1, 181, 204, 133, -1, 133, 204, 117, -1, 133, 117, 132, -1, 132, 117, 116, -1, 82, 118, 45, -1, 79, 80, 43, -1, 43, 80, 58, -1, 43, 58, 44, -1, 44, 58, 59, -1, 44, 59, 45, -1, 45, 59, 60, -1, 45, 60, 82, -1, 82, 81, 118, -1, 118, 81, 96, -1, 118, 96, 117, -1, 117, 96, 95, -1, 117, 95, 94, -1, 219, 203, 218, -1, 218, 203, 202, -1, 218, 202, 285, -1, 285, 202, 284, -1, 285, 284, 340, -1, 340, 284, 362, -1, 340, 362, 341, -1, 341, 362, 363, -1, 341, 363, 286, -1, 286, 363, 287, -1, 286, 287, 219, -1, 219, 287, 203, -1, 288, 287, 307, -1, 307, 287, 306, -1, 306, 287, 342, -1, 342, 287, 363, -1, 342, 363, 343, -1, 343, 363, 364, -1, 343, 364, 344, -1, 344, 364, 365, -1, 344, 365, 290, -1, 290, 365, 291, -1, 290, 291, 241, -1, 288, 289, 257, -1, 256, 222, 204, -1, 204, 222, 223, -1, 204, 223, 205, -1, 205, 223, 240, -1, 307, 323, 288, -1, 288, 323, 324, -1, 288, 324, 289, -1, 520, 558, 559, -1, 578, 594, 579, -1, 579, 594, 595, -1, 579, 595, 535, -1, 535, 595, 521, -1, 535, 521, 534, -1, 481, 480, 521, -1, 521, 480, 501, -1, 559, 534, 520, -1, 520, 534, 521, -1, 520, 521, 500, -1, 500, 521, 501, -1, 493, 492, 520, -1, 500, 495, 520, -1, 520, 495, 494, -1, 520, 494, 493, -1, 493, 494, 462, -1, 493, 462, 402, -1, 62, 98, 119, -1, 119, 98, 97, -1, 119, 97, 118, -1, 118, 97, 83, -1, 118, 83, 45, -1, 45, 83, 61, -1, 45, 61, 46, -1, 46, 61, 62, -1, 46, 62, 119, -1, 100, 120, 64, -1, 64, 120, 47, -1, 64, 47, 63, -1, 63, 47, 46, -1, 63, 46, 99, -1, 99, 46, 119, -1, 99, 119, 100, -1, 100, 119, 120, -1, 29, 121, 22, -1, 48, 121, 33, -1, 33, 121, 29, -1, 33, 29, 32, -1, 32, 29, 28, -1, 101, 120, 102, -1, 102, 120, 121, -1, 102, 121, 66, -1, 66, 121, 48, -1, 66, 48, 65, -1, 65, 48, 47, -1, 65, 47, 101, -1, 101, 47, 120, -1, 36, 37, 18, -1, 18, 37, 19, -1, 18, 19, 12, -1, 12, 19, 13, -1, 38, 32, 37, -1, 37, 32, 28, -1, 37, 28, 19, -1, 19, 28, 20, -1, 19, 20, 13, -1, 13, 20, 14, -1, 0, 4, 5, -1, 1, 0, 6, -1, 6, 0, 5, -1, 6, 5, 22, -1, 22, 5, 21, -1, 22, 21, 29, -1, 170, 171, 120, -1, 120, 171, 140, -1, 120, 140, 121, -1, 121, 140, 141, -1, 121, 141, 209, -1, 227, 228, 208, -1, 208, 228, 209, -1, 208, 209, 189, -1, 189, 209, 141, -1, 169, 170, 139, -1, 139, 170, 120, -1, 139, 120, 138, -1, 138, 120, 119, -1, 138, 119, 186, -1, 186, 119, 206, -1, 226, 207, 206, -1, 206, 207, 187, -1, 206, 187, 186, -1, 272, 291, 273, -1, 273, 291, 292, -1, 273, 292, 274, -1, 240, 241, 205, -1, 205, 241, 291, -1, 205, 291, 242, -1, 242, 291, 272, -1, 242, 243, 205, -1, 205, 243, 224, -1, 205, 224, 206, -1, 206, 224, 225, -1, 206, 225, 226, -1, 258, 293, 259, -1, 259, 293, 245, -1, 259, 245, 244, -1, 293, 294, 275, -1, 275, 294, 276, -1, 246, 245, 260, -1, 260, 245, 293, -1, 260, 293, 261, -1, 261, 293, 275, -1, 367, 368, 350, -1, 350, 349, 367, -1, 367, 349, 327, -1, 367, 327, 293, -1, 336, 337, 313, -1, 313, 337, 294, -1, 313, 294, 312, -1, 312, 294, 293, -1, 312, 293, 328, -1, 328, 293, 327, -1, 386, 368, 385, -1, 385, 368, 367, -1, 385, 367, 415, -1, 415, 367, 414, -1, 415, 414, 452, -1, 453, 526, 417, -1, 469, 470, 453, -1, 453, 470, 526, -1, 526, 470, 509, -1, 526, 509, 525, -1, 525, 509, 508, -1, 525, 508, 469, -1, 399, 398, 417, -1, 417, 398, 416, -1, 417, 416, 453, -1, 602, 569, 601, -1, 601, 569, 568, -1, 601, 568, 525, -1, 525, 568, 544, -1, 525, 544, 526, -1, 526, 544, 545, -1, 526, 545, 604, -1, 604, 545, 603, -1, 604, 603, 676, -1, 676, 603, 657, -1, 676, 657, 675, -1, 675, 657, 656, -1, 675, 656, 638, -1, 639, 602, 638, -1, 638, 602, 601, -1, 638, 601, 675, -1, 675, 601, 637, -1, 675, 637, 655, -1, 652, 673, 653, -1, 653, 673, 674, -1, 653, 674, 623, -1, 623, 674, 598, -1, 623, 598, 622, -1, 622, 598, 597, -1, 622, 597, 652, -1, 635, 596, 634, -1, 634, 596, 670, -1, 634, 670, 671, -1, 620, 621, 597, -1, 652, 597, 673, -1, 673, 597, 621, -1, 673, 621, 672, -1, 619, 596, 595, -1, 619, 632, 596, -1, 596, 632, 633, -1, 596, 633, 670, -1, 670, 633, 651, -1, 670, 651, 669, -1, 669, 651, 650, -1, 669, 650, 595, -1, 595, 650, 618, -1, 595, 618, 619, -1, 697, 700, 701, -1, 706, 714, 707, -1, 707, 714, 715, -1, 687, 686, 693, -1, 696, 707, 708, -1, 708, 707, 715, -1, 708, 715, 709, -1, 707, 648, 594, -1, 594, 648, 616, -1, 594, 616, 595, -1, 595, 616, 617, -1, 595, 617, 669, -1, 669, 617, 649, -1, 669, 649, 668, -1, 649, 648, 668, -1, 668, 648, 707, -1, 668, 707, 692, -1, 692, 707, 696, -1, 692, 696, 693, -1, 693, 696, 697, -1, 693, 697, 687, -1, 697, 701, 687, -1, 687, 701, 702, -1, 687, 702, 688, -1, 453, 452, 469, -1, 469, 452, 414, -1, 469, 414, 525, -1, 525, 414, 451, -1, 485, 484, 506, -1, 506, 484, 524, -1, 506, 524, 507, -1, 507, 524, 525, -1, 507, 525, 468, -1, 468, 525, 451, -1, 468, 451, 467, -1, 467, 451, 450, -1, 438, 439, 411, -1, 411, 439, 412, -1, 411, 412, 366, -1, 366, 412, 383, -1, 366, 383, 367, -1, 367, 383, 384, -1, 367, 384, 414, -1, 414, 384, 413, -1, 414, 413, 451, -1, 465, 466, 408, -1, 408, 466, 409, -1, 408, 409, 364, -1, 364, 409, 380, -1, 364, 380, 365, -1, 365, 380, 381, -1, 365, 381, 366, -1, 366, 381, 382, -1, 366, 382, 411, -1, 411, 382, 410, -1, 411, 410, 438, -1, 438, 410, 437, -1, 435, 436, 405, -1, 405, 436, 406, -1, 405, 406, 363, -1, 363, 406, 378, -1, 363, 378, 364, -1, 364, 378, 379, -1, 364, 379, 408, -1, 408, 379, 407, -1, 408, 407, 465, -1, 465, 407, 449, -1, 465, 449, 464, -1, 464, 449, 448, -1, 434, 435, 404, -1, 404, 435, 405, -1, 404, 405, 377, -1, 377, 405, 363, -1, 377, 363, 376, -1, 376, 363, 362, -1, 376, 362, 403, -1, 403, 362, 402, -1, 403, 402, 446, -1, 446, 402, 462, -1, 446, 462, 447, -1, 447, 462, 463, -1, 482, 481, 502, -1, 502, 481, 521, -1, 502, 521, 503, -1, 503, 521, 522, -1, 503, 522, 523, -1, 484, 483, 524, -1, 524, 483, 505, -1, 524, 505, 523, -1, 523, 505, 504, -1, 523, 504, 503, -1, 563, 596, 522, -1, 563, 562, 596, -1, 596, 562, 581, -1, 596, 581, 595, -1, 595, 581, 580, -1, 595, 580, 521, -1, 521, 580, 536, -1, 521, 536, 522, -1, 522, 536, 537, -1, 522, 537, 563, -1, 635, 620, 596, -1, 596, 620, 597, -1, 596, 597, 582, -1, 582, 565, 596, -1, 596, 565, 564, -1, 596, 564, 522, -1, 522, 564, 538, -1, 522, 538, 523, -1, 523, 538, 539, -1, 523, 539, 597, -1, 597, 539, 583, -1, 597, 583, 582, -1, 584, 597, 585, -1, 585, 597, 598, -1, 585, 598, 541, -1, 541, 598, 524, -1, 541, 524, 540, -1, 540, 524, 523, -1, 540, 523, 584, -1, 584, 523, 597, -1, 345, 365, 346, -1, 346, 365, 366, -1, 346, 366, 309, -1, 309, 366, 292, -1, 309, 292, 308, -1, 308, 292, 291, -1, 308, 291, 345, -1, 345, 291, 365, -1, 258, 274, 293, -1, 293, 274, 292, -1, 293, 292, 311, -1, 311, 325, 293, -1, 293, 325, 326, -1, 293, 326, 367, -1, 367, 326, 348, -1, 367, 348, 366, -1, 366, 348, 347, -1, 366, 347, 292, -1, 292, 347, 310, -1, 292, 310, 311, -1, 257, 256, 288, -1, 288, 256, 204, -1, 288, 204, 255, -1, 255, 254, 288, -1, 288, 254, 271, -1, 288, 271, 287, -1, 287, 271, 270, -1, 287, 270, 203, -1, 203, 270, 220, -1, 203, 220, 204, -1, 204, 220, 221, -1, 204, 221, 255, -1, 283, 276, 305, -1, 305, 276, 294, -1, 305, 294, 339, -1, 339, 294, 337, -1, 680, 671, 679, -1, 679, 671, 670, -1, 679, 670, 678, -1, 678, 670, 669, -1, 678, 669, 677, -1, 677, 669, 668, -1, 42, 49, 114, -1, 114, 49, 122, -1, 114, 122, 202, -1, 202, 122, 210, -1, 202, 210, 284, -1, 284, 210, 295, -1, 284, 295, 362, -1, 362, 295, 369, -1, 362, 369, 402, -1, 402, 369, 418, -1, 402, 418, 493, -1, 493, 418, 497, -1, 48, 55, 47, -1, 47, 55, 54, -1, 47, 54, 46, -1, 46, 54, 53, -1, 46, 53, 45, -1, 45, 53, 52, -1, 45, 52, 44, -1, 44, 52, 51, -1, 44, 51, 43, -1, 43, 51, 50, -1, 43, 50, 42, -1, 42, 50, 49, -1, 35, 55, 33, -1, 33, 55, 48, -1, 34, 35, 32, -1, 32, 35, 33, -1, 41, 34, 38, -1, 38, 34, 32, -1, 36, 39, 37, -1, 37, 39, 40, -1, 37, 40, 38, -1, 38, 40, 41, -1, 12, 15, 18, -1, 18, 15, 23, -1, 18, 23, 36, -1, 36, 23, 39, -1, 14, 17, 13, -1, 13, 17, 16, -1, 13, 16, 12, -1, 12, 16, 15, -1, 28, 30, 20, -1, 20, 30, 25, -1, 20, 25, 14, -1, 14, 25, 17, -1, 31, 30, 29, -1, 29, 30, 28, -1, 5, 9, 21, -1, 21, 9, 26, -1, 21, 26, 29, -1, 29, 26, 31, -1, 8, 9, 4, -1, 4, 9, 5, -1, 2, 8, 0, -1, 0, 8, 4, -1, 3, 2, 1, -1, 1, 2, 0, -1, 11, 3, 7, -1, 7, 3, 1, -1, 10, 11, 6, -1, 6, 11, 7, -1, 228, 239, 209, -1, 209, 239, 217, -1, 209, 217, 121, -1, 121, 217, 129, -1, 121, 129, 22, -1, 22, 129, 27, -1, 22, 27, 6, -1, 6, 27, 10, -1, 676, 685, 604, -1, 604, 685, 615, -1, 604, 615, 526, -1, 526, 615, 533, -1, 526, 533, 417, -1, 417, 533, 433, -1, 417, 433, 399, -1, 399, 433, 401, -1, 672, 681, 673, -1, 673, 681, 682, -1, 673, 682, 674, -1, 674, 682, 683, -1, 674, 683, 675, -1, 675, 683, 684, -1, 675, 684, 676, -1, 676, 684, 685, -1, 694, 677, 692, -1, 692, 677, 668, -1, 695, 694, 693, -1, 693, 694, 692, -1, 689, 695, 686, -1, 686, 695, 693, -1, 688, 691, 687, -1, 687, 691, 690, -1, 687, 690, 686, -1, 686, 690, 689, -1, 705, 691, 702, -1, 702, 691, 688, -1, 700, 703, 701, -1, 701, 703, 704, -1, 701, 704, 702, -1, 702, 704, 705, -1, 699, 703, 697, -1, 697, 703, 700, -1, 698, 699, 696, -1, 696, 699, 697, -1, 712, 698, 708, -1, 708, 698, 696, -1, 713, 712, 709, -1, 709, 712, 708, -1, 717, 713, 715, -1, 715, 713, 709, -1, 716, 717, 714, -1, 714, 717, 715, -1, 710, 716, 706, -1, 706, 716, 714, -1, 711, 710, 707, -1, 707, 710, 706, -1, 578, 586, 594, -1, 594, 586, 605, -1, 594, 605, 707, -1, 707, 605, 711, -1, 560, 561, 558, -1, 558, 561, 559, -1, 492, 496, 520, -1, 520, 496, 527, -1, 520, 527, 558, -1, 558, 527, 560, -1, 497, 496, 493, -1, 493, 496, 492, -1, 77, 113, 66, -1, 66, 113, 102, -1, 113, 112, 102, -1, 102, 112, 101, -1, 112, 76, 101, -1, 101, 76, 65, -1, 76, 77, 65, -1, 65, 77, 66, -1, 153, 201, 141, -1, 141, 201, 189, -1, 201, 200, 189, -1, 189, 200, 188, -1, 177, 152, 171, -1, 171, 152, 140, -1, 152, 153, 140, -1, 140, 153, 141, -1, 283, 282, 276, -1, 276, 282, 275, -1, 282, 269, 275, -1, 275, 269, 261, -1, 269, 268, 261, -1, 261, 268, 260, -1, 268, 253, 260, -1, 260, 253, 246, -1, 238, 239, 227, -1, 227, 239, 228, -1, 321, 338, 313, -1, 313, 338, 336, -1, 361, 360, 350, -1, 350, 360, 349, -1, 360, 334, 349, -1, 349, 334, 327, -1, 334, 335, 327, -1, 327, 335, 328, -1, 335, 320, 328, -1, 328, 320, 312, -1, 320, 321, 312, -1, 312, 321, 313, -1, 452, 460, 415, -1, 415, 460, 431, -1, 415, 431, 385, -1, 385, 431, 396, -1, 396, 397, 385, -1, 385, 397, 386, -1, 398, 400, 416, -1, 416, 400, 432, -1, 416, 432, 453, -1, 453, 432, 461, -1, 461, 460, 453, -1, 453, 460, 452, -1, 479, 519, 470, -1, 470, 519, 509, -1, 519, 518, 509, -1, 509, 518, 508, -1, 518, 478, 508, -1, 508, 478, 469, -1, 478, 479, 469, -1, 469, 479, 470, -1, 545, 557, 603, -1, 603, 557, 614, -1, 603, 614, 657, -1, 657, 614, 667, -1, 639, 647, 602, -1, 602, 647, 613, -1, 602, 613, 569, -1, 569, 613, 577, -1, 577, 576, 569, -1, 569, 576, 568, -1, 576, 556, 568, -1, 568, 556, 544, -1, 556, 557, 544, -1, 544, 557, 545, -1, 667, 666, 657, -1, 657, 666, 656, -1, 666, 646, 656, -1, 656, 646, 638, -1, 646, 647, 638, -1, 638, 647, 639, -1, 74, 75, 63, -1, 63, 75, 64, -1, 75, 111, 64, -1, 64, 111, 100, -1, 111, 110, 100, -1, 100, 110, 99, -1, 110, 74, 99, -1, 99, 74, 63, -1, 151, 175, 139, -1, 139, 175, 169, -1, 199, 198, 187, -1, 187, 198, 186, -1, 198, 150, 186, -1, 186, 150, 138, -1, 150, 151, 138, -1, 138, 151, 139, -1, 224, 235, 225, -1, 225, 235, 236, -1, 225, 236, 226, -1, 226, 236, 237, -1, 251, 267, 244, -1, 244, 267, 259, -1, 267, 266, 259, -1, 259, 266, 258, -1, 266, 281, 258, -1, 258, 281, 274, -1, 274, 281, 273, -1, 273, 281, 280, -1, 273, 280, 272, -1, 272, 280, 279, -1, 318, 319, 310, -1, 310, 319, 311, -1, 319, 332, 311, -1, 311, 332, 325, -1, 332, 333, 325, -1, 325, 333, 326, -1, 333, 359, 326, -1, 326, 359, 348, -1, 359, 358, 348, -1, 348, 358, 347, -1, 358, 318, 347, -1, 347, 318, 310, -1, 384, 395, 413, -1, 413, 395, 429, -1, 413, 429, 451, -1, 451, 429, 459, -1, 459, 458, 451, -1, 451, 458, 450, -1, 439, 445, 412, -1, 412, 445, 428, -1, 412, 428, 383, -1, 383, 428, 394, -1, 394, 395, 383, -1, 383, 395, 384, -1, 477, 517, 468, -1, 468, 517, 507, -1, 517, 516, 507, -1, 507, 516, 506, -1, 516, 491, 506, -1, 506, 491, 485, -1, 476, 477, 467, -1, 467, 477, 468, -1, 555, 575, 543, -1, 543, 575, 567, -1, 575, 574, 567, -1, 567, 574, 566, -1, 566, 574, 600, -1, 600, 574, 611, -1, 600, 611, 636, -1, 636, 611, 644, -1, 654, 664, 599, -1, 599, 664, 610, -1, 599, 610, 542, -1, 542, 610, 554, -1, 554, 555, 542, -1, 542, 555, 543, -1, 644, 645, 636, -1, 636, 645, 637, -1, 645, 665, 637, -1, 637, 665, 655, -1, 665, 664, 655, -1, 655, 664, 654, -1, 72, 73, 61, -1, 61, 73, 62, -1, 73, 109, 62, -1, 62, 109, 98, -1, 109, 108, 98, -1, 98, 108, 97, -1, 108, 91, 97, -1, 97, 91, 84, -1, 91, 90, 84, -1, 84, 90, 83, -1, 90, 72, 83, -1, 83, 72, 61, -1, 149, 197, 137, -1, 137, 197, 185, -1, 197, 196, 185, -1, 185, 196, 184, -1, 196, 174, 184, -1, 184, 174, 168, -1, 168, 174, 167, -1, 167, 174, 173, -1, 167, 173, 166, -1, 166, 173, 172, -1, 157, 163, 158, -1, 158, 163, 164, -1, 158, 164, 159, -1, 159, 164, 165, -1, 165, 148, 159, -1, 159, 148, 136, -1, 148, 149, 136, -1, 136, 149, 137, -1, 279, 249, 272, -1, 272, 249, 242, -1, 249, 250, 242, -1, 242, 250, 243, -1, 250, 235, 243, -1, 243, 235, 224, -1, 317, 357, 309, -1, 309, 357, 346, -1, 357, 356, 346, -1, 346, 356, 345, -1, 356, 316, 345, -1, 345, 316, 308, -1, 316, 317, 308, -1, 308, 317, 309, -1, 382, 393, 410, -1, 410, 393, 426, -1, 410, 426, 437, -1, 437, 426, 443, -1, 380, 391, 381, -1, 381, 391, 392, -1, 381, 392, 382, -1, 382, 392, 393, -1, 505, 515, 504, -1, 504, 515, 514, -1, 504, 514, 503, -1, 503, 514, 513, -1, 503, 513, 502, -1, 502, 513, 512, -1, 489, 515, 483, -1, 483, 515, 505, -1, 553, 593, 541, -1, 541, 593, 585, -1, 593, 592, 585, -1, 585, 592, 584, -1, 592, 552, 584, -1, 584, 552, 540, -1, 552, 553, 540, -1, 540, 553, 541, -1, 631, 663, 623, -1, 623, 663, 653, -1, 663, 662, 653, -1, 653, 662, 652, -1, 662, 630, 652, -1, 652, 630, 622, -1, 630, 631, 622, -1, 622, 631, 623, -1, 58, 69, 59, -1, 59, 69, 70, -1, 59, 70, 60, -1, 60, 70, 71, -1, 71, 89, 60, -1, 60, 89, 82, -1, 89, 88, 82, -1, 82, 88, 81, -1, 88, 107, 81, -1, 81, 107, 96, -1, 96, 107, 95, -1, 95, 107, 106, -1, 95, 106, 94, -1, 94, 106, 105, -1, 146, 147, 134, -1, 134, 147, 135, -1, 147, 163, 135, -1, 135, 163, 157, -1, 172, 195, 166, -1, 166, 195, 183, -1, 195, 194, 183, -1, 183, 194, 182, -1, 194, 146, 182, -1, 182, 146, 134, -1, 233, 234, 222, -1, 222, 234, 223, -1, 234, 247, 223, -1, 223, 247, 240, -1, 247, 248, 240, -1, 240, 248, 241, -1, 241, 248, 290, -1, 290, 248, 301, -1, 290, 301, 344, -1, 344, 301, 355, -1, 324, 331, 289, -1, 289, 331, 300, -1, 289, 300, 257, -1, 257, 300, 265, -1, 265, 264, 257, -1, 257, 264, 256, -1, 264, 233, 256, -1, 256, 233, 222, -1, 344, 355, 343, -1, 343, 355, 354, -1, 343, 354, 342, -1, 342, 354, 353, -1, 322, 329, 323, -1, 323, 329, 330, -1, 323, 330, 324, -1, 324, 330, 331, -1, 391, 380, 425, -1, 425, 380, 409, -1, 425, 409, 475, -1, 475, 409, 466, -1, 551, 591, 539, -1, 539, 591, 583, -1, 591, 590, 583, -1, 583, 590, 582, -1, 590, 573, 582, -1, 582, 573, 565, -1, 573, 572, 565, -1, 565, 572, 564, -1, 572, 550, 564, -1, 564, 550, 538, -1, 550, 551, 538, -1, 538, 551, 539, -1, 629, 681, 621, -1, 621, 681, 672, -1, 680, 642, 671, -1, 671, 642, 634, -1, 642, 643, 634, -1, 634, 643, 635, -1, 643, 628, 635, -1, 635, 628, 620, -1, 628, 629, 620, -1, 620, 629, 621, -1, 87, 69, 80, -1, 80, 69, 58, -1, 145, 193, 133, -1, 133, 193, 181, -1, 193, 192, 181, -1, 181, 192, 180, -1, 192, 162, 180, -1, 180, 162, 156, -1, 144, 145, 132, -1, 132, 145, 133, -1, 231, 232, 220, -1, 220, 232, 221, -1, 232, 263, 221, -1, 221, 263, 255, -1, 263, 262, 255, -1, 255, 262, 254, -1, 262, 278, 254, -1, 254, 278, 271, -1, 278, 277, 271, -1, 271, 277, 270, -1, 277, 231, 270, -1, 270, 231, 220, -1, 314, 315, 306, -1, 306, 315, 307, -1, 315, 329, 307, -1, 307, 329, 322, -1, 353, 314, 342, -1, 342, 314, 306, -1, 379, 390, 407, -1, 407, 390, 423, -1, 407, 423, 449, -1, 449, 423, 457, -1, 457, 456, 449, -1, 449, 456, 448, -1, 436, 442, 406, -1, 406, 442, 422, -1, 406, 422, 378, -1, 378, 422, 389, -1, 389, 390, 378, -1, 378, 390, 379, -1, 512, 488, 502, -1, 502, 488, 482, -1, 464, 473, 465, -1, 465, 473, 474, -1, 465, 474, 466, -1, 466, 474, 475, -1, 549, 571, 537, -1, 537, 571, 563, -1, 571, 570, 563, -1, 563, 570, 562, -1, 570, 589, 562, -1, 562, 589, 581, -1, 589, 588, 581, -1, 581, 588, 580, -1, 588, 548, 580, -1, 580, 548, 536, -1, 548, 549, 536, -1, 536, 549, 537, -1, 626, 627, 618, -1, 618, 627, 619, -1, 627, 640, 619, -1, 619, 640, 632, -1, 640, 641, 632, -1, 632, 641, 633, -1, 641, 661, 633, -1, 633, 661, 651, -1, 661, 660, 651, -1, 651, 660, 650, -1, 660, 626, 650, -1, 650, 626, 618, -1, 67, 68, 56, -1, 56, 68, 57, -1, 68, 85, 57, -1, 57, 85, 78, -1, 104, 103, 93, -1, 93, 103, 92, -1, 103, 67, 92, -1, 92, 67, 56, -1, 142, 143, 130, -1, 130, 143, 131, -1, 160, 191, 154, -1, 154, 191, 179, -1, 191, 190, 179, -1, 179, 190, 178, -1, 190, 142, 178, -1, 178, 142, 130, -1, 229, 230, 218, -1, 218, 230, 219, -1, 219, 230, 286, -1, 286, 230, 297, -1, 286, 297, 341, -1, 341, 297, 352, -1, 340, 351, 285, -1, 285, 351, 296, -1, 285, 296, 218, -1, 218, 296, 229, -1, 352, 351, 341, -1, 341, 351, 340, -1, 377, 388, 404, -1, 404, 388, 420, -1, 404, 420, 434, -1, 434, 420, 440, -1, 455, 454, 447, -1, 447, 454, 446, -1, 446, 454, 403, -1, 403, 454, 419, -1, 403, 419, 376, -1, 376, 419, 387, -1, 387, 388, 376, -1, 376, 388, 377, -1, 471, 472, 462, -1, 462, 472, 463, -1, 486, 511, 480, -1, 480, 511, 501, -1, 511, 510, 501, -1, 501, 510, 500, -1, 510, 499, 500, -1, 500, 499, 495, -1, 499, 498, 495, -1, 495, 498, 494, -1, 498, 471, 494, -1, 494, 471, 462, -1, 547, 587, 535, -1, 535, 587, 579, -1, 587, 586, 579, -1, 579, 586, 578, -1, 561, 546, 559, -1, 559, 546, 534, -1, 546, 547, 534, -1, 534, 547, 535, -1, 625, 659, 617, -1, 617, 659, 649, -1, 659, 658, 649, -1, 649, 658, 648, -1, 658, 624, 648, -1, 648, 624, 616, -1, 624, 625, 616, -1, 616, 625, 617, -1, 482, 488, 481, -1, 481, 488, 487, -1, 481, 487, 480, -1, 480, 487, 486, -1, 472, 455, 463, -1, 463, 455, 447, -1, 434, 440, 435, -1, 435, 440, 441, -1, 435, 441, 436, -1, 436, 441, 442, -1, 156, 162, 155, -1, 155, 162, 161, -1, 155, 161, 154, -1, 154, 161, 160, -1, 131, 143, 115, -1, 115, 143, 123, -1, 115, 123, 93, -1, 93, 123, 104, -1, 78, 85, 79, -1, 79, 85, 86, -1, 79, 86, 80, -1, 80, 86, 87, -1, 456, 473, 448, -1, 448, 473, 464, -1, 94, 105, 116, -1, 116, 105, 124, -1, 116, 124, 132, -1, 132, 124, 144, -1, 485, 491, 484, -1, 484, 491, 490, -1, 484, 490, 483, -1, 483, 490, 489, -1, 437, 443, 438, -1, 438, 443, 444, -1, 438, 444, 439, -1, 439, 444, 445, -1, 458, 476, 450, -1, 450, 476, 467, -1, 246, 253, 245, -1, 245, 253, 252, -1, 245, 252, 244, -1, 244, 252, 251, -1, 226, 237, 207, -1, 207, 237, 215, -1, 207, 215, 187, -1, 187, 215, 199, -1, 169, 175, 170, -1, 170, 175, 176, -1, 170, 176, 171, -1, 171, 176, 177, -1, 401, 400, 399, -1, 399, 400, 398, -1, 386, 397, 368, -1, 368, 397, 375, -1, 368, 375, 350, -1, 350, 375, 361, -1, 338, 339, 336, -1, 336, 339, 337, -1, 188, 200, 208, -1, 208, 200, 216, -1, 208, 216, 227, -1, 227, 216, 238, -1
+                ]
+                normalIndex [
+                  4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 3, 3, 3, -1, 3, 3, 3, -1, 3, 3, 3, -1, 3, 3, 3, -1, 5, 5, 5, -1, 5, 5, 5, -1, 5, 5, 5, -1, 5, 5, 5, -1, 5, 5, 5, -1, 5, 5, 5, -1, 2, 2, 2, -1, 2, 2, 2, -1, 2, 2, 2, -1, 2, 2, 2, -1, 2, 2, 2, -1, 2, 2, 2, -1, 2, 2, 2, -1, 2, 2, 2, -1, 2, 2, 2, -1, 2, 2, 2, -1, 2, 2, 2, -1, 2, 2, 2, -1, 0, 0, 0, -1, 0, 0, 0, -1, 0, 0, 0, -1, 0, 0, 0, -1, 0, 0, 0, -1, 0, 0, 0, -1, 0, 0, 0, -1, 0, 0, 0, -1, 0, 0, 0, -1, 0, 0, 0, -1, 0, 0, 0, -1, 0, 0, 0, -1, 2, 2, 2, -1, 2, 2, 2, -1, 5, 5, 5, -1, 5, 5, 5, -1, 3, 3, 3, -1, 3, 3, 3, -1, 5, 5, 5, -1, 5, 5, 5, -1, 5, 5, 5, -1, 5, 5, 5, -1, 2, 2, 2, -1, 2, 2, 2, -1, 2, 2, 2, -1, 2, 2, 2, -1, 0, 0, 0, -1, 0, 0, 0, -1, 0, 0, 0, -1, 0, 0, 0, -1, 3, 3, 3, -1, 3, 3, 3, -1, 3, 3, 3, -1, 3, 3, 3, -1, 0, 0, 0, -1, 0, 0, 0, -1, 2, 2, 2, -1, 2, 2, 2, -1, 2, 2, 2, -1, 2, 2, 2, -1, 5, 5, 5, -1, 5, 5, 5, -1, 2, 2, 2, -1, 2, 2, 2, -1, 0, 0, 0, -1, 0, 0, 0, -1, 3, 3, 3, -1, 3, 3, 3, -1, 5, 5, 5, -1, 5, 5, 5, -1, 3, 3, 3, -1, 3, 3, 3, -1, 3, 3, 3, -1, 3, 3, 3, -1, 3, 3, 3, -1, 3, 3, 3, -1, 3, 3, 3, -1, 3, 3, 3, -1, 3, 3, 3, -1, 3, 3, 3, -1, 3, 3, 3, -1, 3, 3, 3, -1, 3, 3, 3, -1, 3, 3, 3, -1, 3, 3, 3, -1, 3, 3, 3, -1, 5, 5, 5, -1, 5, 5, 5, -1, 5, 5, 5, -1, 5, 5, 5, -1, 5, 5, 5, -1, 5, 5, 5, -1, 5, 5, 5, -1, 5, 5, 5, -1, 3, 3, 3, -1, 3, 3, 3, -1, 0, 0, 0, -1, 0, 0, 0, -1, 2, 2, 2, -1, 2, 2, 2, -1, 0, 0, 0, -1, 0, 0, 0, -1, 0, 0, 0, -1, 0, 0, 0, -1, 3, 3, 3, -1, 3, 3, 3, -1, 5, 5, 5, -1, 5, 5, 5, -1, 5, 5, 5, -1, 5, 5, 5, -1, 2, 2, 2, -1, 2, 2, 2, -1, 5, 5, 5, -1, 5, 5, 5, -1, 3, 3, 3, -1, 3, 3, 3, -1, 0, 0, 0, -1, 0, 0, 0, -1, 3, 3, 3, -1, 3, 3, 3, -1, 5, 5, 5, -1, 5, 5, 5, -1, 2, 2, 2, -1, 2, 2, 2, -1, 0, 0, 0, -1, 0, 0, 0, -1, 2, 2, 2, -1, 2, 2, 2, -1, 2, 2, 2, -1, 2, 2, 2, -1, 5, 5, 5, -1, 5, 5, 5, -1, 2, 2, 2, -1, 2, 2, 2, -1, 2, 2, 2, -1, 2, 2, 2, -1, 0, 0, 0, -1, 0, 0, 0, -1, 2, 2, 2, -1, 2, 2, 2, -1, 0, 0, 0, -1, 0, 0, 0, -1, 3, 3, 3, -1, 3, 3, 3, -1, 5, 5, 5, -1, 5, 5, 5, -1, 2, 2, 2, -1, 2, 2, 2, -1, 0, 0, 0, -1, 0, 0, 0, -1, 3, 3, 3, -1, 3, 3, 3, -1, 5, 5, 5, -1, 5, 5, 5, -1, 0, 0, 0, -1, 0, 0, 0, -1, 3, 3, 3, -1, 3, 3, 3, -1, 0, 0, 0, -1, 0, 0, 0, -1, 3, 3, 3, -1, 3, 3, 3, -1, 5, 5, 5, -1, 5, 5, 5, -1, 2, 2, 2, -1, 2, 2, 2, -1, 0, 0, 0, -1, 0, 0, 0, -1, 3, 3, 3, -1, 3, 3, 3, -1, 5, 5, 5, -1, 5, 5, 5, -1, 3, 3, 3, -1, 3, 3, 3, -1, 5, 5, 5, -1, 5, 5, 5, -1, 3, 3, 3, -1, 3, 3, 3, -1, 3, 3, 3, -1, 3, 3, 3, -1, 5, 5, 5, -1, 5, 5, 5, -1, 2, 2, 2, -1, 2, 2, 2, -1, 2, 2, 2, -1, 2, 2, 2, -1, 0, 0, 0, -1, 0, 0, 0, -1, 2, 2, 2, -1, 2, 2, 2, -1, 0, 0, 0, -1, 0, 0, 0, -1, 3, 3, 3, -1, 3, 3, 3, -1, 5, 5, 5, -1, 5, 5, 5, -1, 2, 2, 2, -1, 2, 2, 2, -1, 2, 2, 2, -1, 2, 2, 2, -1, 3, 3, 3, -1, 3, 3, 3, -1, 3, 3, 3, -1, 3, 3, 3, -1, 0, 0, 0, -1, 0, 0, 0, -1, 3, 3, 3, -1, 3, 3, 3, -1, 5, 5, 5, -1, 5, 5, 5, -1, 0, 0, 0, -1, 0, 0, 0, -1, 3, 3, 3, -1, 3, 3, 3, -1, 5, 5, 5, -1, 5, 5, 5, -1, 5, 5, 5, -1, 5, 5, 5, -1, 2, 2, 2, -1, 2, 2, 2, -1, 0, 0, 0, -1, 0, 0, 0, -1, 3, 3, 3, -1, 3, 3, 3, -1, 2, 2, 2, -1, 2, 2, 2, -1, 0, 0, 0, -1, 0, 0, 0, -1, 3, 3, 3, -1, 3, 3, 3, -1, 5, 5, 5, -1, 5, 5, 5, -1, 5, 5, 5, -1, 5, 5, 5, -1, 5, 5, 5, -1, 5, 5, 5, -1, 2, 2, 2, -1, 2, 2, 2, -1, 0, 0, 0, -1, 0, 0, 0, -1, 2, 2, 2, -1, 2, 2, 2, -1, 0, 0, 0, -1, 0, 0, 0, -1, 0, 0, 0, -1, 0, 0, 0, -1, 5, 5, 5, -1, 5, 5, 5, -1, 2, 2, 2, -1, 2, 2, 2, -1, 5, 5, 5, -1, 5, 5, 5, -1, 2, 2, 2, -1, 2, 2, 2, -1, 0, 0, 0, -1, 0, 0, 0, -1, 3, 3, 3, -1, 3, 3, 3, -1, 2, 2, 2, -1, 2, 2, 2, -1, 2, 2, 2, -1, 2, 2, 2, -1, 0, 0, 0, -1, 0, 0, 0, -1, 3, 3, 3, -1, 3, 3, 3, -1, 3, 3, 3, -1, 3, 3, 3, -1, 5, 5, 5, -1, 5, 5, 5, -1, 2, 2, 2, -1, 2, 2, 2, -1, 0, 0, 0, -1, 0, 0, 0, -1, 3, 3, 3, -1, 3, 3, 3, -1, 5, 5, 5, -1, 5, 5, 5, -1, 2, 2, 2, -1, 2, 2, 2, -1, 0, 0, 0, -1, 0, 0, 0, -1, 2, 2, 2, -1, 2, 2, 2, -1, 2, 2, 2, -1, 2, 2, 2, -1, 3, 3, 3, -1, 3, 3, 3, -1, 3, 3, 3, -1, 3, 3, 3, -1, 5, 5, 5, -1, 5, 5, 5, -1, 5, 5, 5, -1, 5, 5, 5, -1, 2, 2, 2, -1, 2, 2, 2, -1, 0, 0, 0, -1, 0, 0, 0, -1, 5, 5, 5, -1, 5, 5, 5, -1, 2, 2, 2, -1, 2, 2, 2, -1, 0, 0, 0, -1, 0, 0, 0, -1, 3, 3, 3, -1, 3, 3, 3, -1, 0, 0, 0, -1, 0, 0, 0, -1, 3, 3, 3, -1, 3, 3, 3, -1, 2, 2, 2, -1, 2, 2, 2, -1, 0, 0, 0, -1, 0, 0, 0, -1, 3, 3, 3, -1, 3, 3, 3, -1, 0, 0, 0, -1, 0, 0, 0, -1, 0, 0, 0, -1, 0, 0, 0, -1, 5, 5, 5, -1, 5, 5, 5, -1, 5, 5, 5, -1, 5, 5, 5, -1, 3, 3, 3, -1, 3, 3, 3, -1, 5, 5, 5, -1, 5, 5, 5, -1, 3, 3, 3, -1, 3, 3, 3, -1, 5, 5, 5, -1, 5, 5, 5, -1, 3, 3, 3, -1, 3, 3, 3, -1, 2, 2, 2, -1, 2, 2, 2, -1, 0, 0, 0, -1, 0, 0, 0, -1, 3, 3, 3, -1, 3, 3, 3, -1, 5, 5, 5, -1, 5, 5, 5, -1, 2, 2, 2, -1, 2, 2, 2, -1, 2, 2, 2, -1, 2, 2, 2, -1, 5, 5, 5, -1, 5, 5, 5, -1, 5, 5, 5, -1, 5, 5, 5, -1, 0, 0, 0, -1, 0, 0, 0, -1, 0, 0, 0, -1, 0, 0, 0, -1, 0, 0, 0, -1, 0, 0, 0, -1, 2, 2, 2, -1, 2, 2, 2, -1, 2, 2, 2, -1, 2, 2, 2, -1, 0, 0, 0, -1, 0, 0, 0, -1, 3, 3, 3, -1, 3, 3, 3, -1, 5, 5, 5, -1, 5, 5, 5, -1, 2, 2, 2, -1, 2, 2, 2, -1, 0, 0, 0, -1, 0, 0, 0, -1, 3, 3, 3, -1, 3, 3, 3, -1, 5, 5, 5, -1, 5, 5, 5, -1, 5, 5, 5, -1, 5, 5, 5, -1, 5, 5, 5, -1, 5, 5, 5, -1, 2, 2, 2, -1, 2, 2, 2, -1, 0, 0, 0, -1, 0, 0, 0, -1, 2, 2, 2, -1, 2, 2, 2, -1, 0, 0, 0, -1, 0, 0, 0, -1, 0, 0, 0, -1, 0, 0, 0, -1, 5, 5, 5, -1, 5, 5, 5, -1, 2, 2, 2, -1, 2, 2, 2, -1, 2, 2, 2, -1, 2, 2, 2, -1, 0, 0, 0, -1, 0, 0, 0, -1, 3, 3, 3, -1, 3, 3, 3, -1, 5, 5, 5, -1, 5, 5, 5, -1, 2, 2, 2, -1, 2, 2, 2, -1, 5, 5, 5, -1, 5, 5, 5, -1, 2, 2, 2, -1, 2, 2, 2, -1, 2, 2, 2, -1, 2, 2, 2, -1, 3, 3, 3, -1, 3, 3, 3, -1, 3, 3, 3, -1, 3, 3, 3, -1, 0, 0, 0, -1, 0, 0, 0, -1, 3, 3, 3, -1, 3, 3, 3, -1, 0, 0, 0, -1, 0, 0, 0, -1, 0, 0, 0, -1, 0, 0, 0, -1, 5, 5, 5, -1, 5, 5, 5, -1, 5, 5, 5, -1, 5, 5, 5, -1, 3, 3, 3, -1, 3, 3, 3, -1, 3, 3, 3, -1, 3, 3, 3, -1, 2, 2, 2, -1, 2, 2, 2, -1, 0, 0, 0, -1, 0, 0, 0, -1, 3, 3, 3, -1, 3, 3, 3, -1, 0, 0, 0, -1, 0, 0, 0, -1, 3, 3, 3, -1, 3, 3, 3, -1, 5, 5, 5, -1, 5, 5, 5, -1, 2, 2, 2, -1, 2, 2, 2, -1, 3, 3, 3, -1, 3, 3, 3, -1, 5, 5, 5, -1, 5, 5, 5, -1, 3, 3, 3, -1, 3, 3, 3, -1, 5, 5, 5, -1, 5, 5, 5, -1, 3, 3, 3, -1, 3, 3, 3, -1, 2, 2, 2, -1, 2, 2, 2, -1, 0, 0, 0, -1, 0, 0, 0, -1, 3, 3, 3, -1, 3, 3, 3, -1, 5, 5, 5, -1, 5, 5, 5, -1, 5, 5, 5, -1, 5, 5, 5, -1, 2, 2, 2, -1, 2, 2, 2, -1, 0, 0, 0, -1, 0, 0, 0, -1, 2, 2, 2, -1, 2, 2, 2, -1, 0, 0, 0, -1, 0, 0, 0, -1, 3, 3, 3, -1, 3, 3, 3, -1, 5, 5, 5, -1, 5, 5, 5, -1, 2, 2, 2, -1, 2, 2, 2, -1, 3, 3, 3, -1, 3, 3, 3, -1, 2, 2, 2, -1, 2, 2, 2, -1, 2, 2, 2, -1, 2, 2, 2, -1, 0, 0, 0, -1, 0, 0, 0, -1, 3, 3, 3, -1, 3, 3, 3, -1, 3, 3, 3, -1, 3, 3, 3, -1, 5, 5, 5, -1, 5, 5, 5, -1, 3, 3, 3, -1, 3, 3, 3, -1, 5, 5, 5, -1, 5, 5, 5, -1, 5, 5, 5, -1, 5, 5, 5, -1, 2, 2, 2, -1, 2, 2, 2, -1, 0, 0, 0, -1, 0, 0, 0, -1, 2, 2, 2, -1, 2, 2, 2, -1, 0, 0, 0, -1, 0, 0, 0, -1, 3, 3, 3, -1, 3, 3, 3, -1, 5, 5, 5, -1, 5, 5, 5, -1, 5, 5, 5, -1, 5, 5, 5, -1, 2, 2, 2, -1, 2, 2, 2, -1, 5, 5, 5, -1, 5, 5, 5, -1, 2, 2, 2, -1, 2, 2, 2, -1, 0, 0, 0, -1, 0, 0, 0, -1, 3, 3, 3, -1, 3, 3, 3, -1, 5, 5, 5, -1, 5, 5, 5, -1, 2, 2, 2, -1, 2, 2, 2, -1, 0, 0, 0, -1, 0, 0, 0, -1, 3, 3, 3, -1, 3, 3, 3, -1, 5, 5, 5, -1, 5, 5, 5, -1, 2, 2, 2, -1, 2, 2, 2, -1, 0, 0, 0, -1, 0, 0, 0, -1, 3, 3, 3, -1, 3, 3, 3, -1, 5, 5, 5, -1, 5, 5, 5, -1, 2, 2, 2, -1, 2, 2, 2, -1, 2, 2, 2, -1, 2, 2, 2, -1, 3, 3, 3, -1, 3, 3, 3, -1, 3, 3, 3, -1, 3, 3, 3, -1, 0, 0, 0, -1, 0, 0, 0, -1, 2, 2, 2, -1, 2, 2, 2, -1, 2, 2, 2, -1, 2, 2, 2, -1, 0, 0, 0, -1, 0, 0, 0, -1, 3, 3, 3, -1, 3, 3, 3, -1, 3, 3, 3, -1, 3, 3, 3, -1, 5, 5, 5, -1, 5, 5, 5, -1, 5, 5, 5, -1, 5, 5, 5, -1, 2, 2, 2, -1, 2, 2, 2, -1, 0, 0, 0, -1, 0, 0, 0, -1, 3, 3, 3, -1, 3, 3, 3, -1, 0, 0, 0, -1, 0, 0, 0, -1, 3, 3, 3, -1, 3, 3, 3, -1, 2, 2, 2, -1, 2, 2, 2, -1, 0, 0, 0, -1, 0, 0, 0, -1, 3, 3, 3, -1, 3, 3, 3, -1, 5, 5, 5, -1, 5, 5, 5, -1, 2, 2, 2, -1, 2, 2, 2, -1, 0, 0, 0, -1, 0, 0, 0, -1, 3, 3, 3, -1, 3, 3, 3, -1, 5, 5, 5, -1, 5, 5, 5, -1, 0, 0, 0, -1, 0, 0, 0, -1, 0, 0, 0, -1, 0, 0, 0, -1, 3, 3, 3, -1, 3, 3, 3, -1, 5, 5, 5, -1, 5, 5, 5, -1, 5, 5, 5, -1, 5, 5, 5, -1, 0, 0, 0, -1, 0, 0, 0, -1, 0, 0, 0, -1, 0, 0, 0, -1, 3, 3, 3, -1, 3, 3, 3, -1, 3, 3, 3, -1, 3, 3, 3, -1, 5, 5, 5, -1, 5, 5, 5, -1, 5, 5, 5, -1, 5, 5, 5, -1, 2, 2, 2, -1, 2, 2, 2, -1, 2, 2, 2, -1, 2, 2, 2, -1, 2, 2, 2, -1, 2, 2, 2, -1, 0, 0, 0, -1, 0, 0, 0, -1, 0, 0, 0, -1, 0, 0, 0, -1, 5, 5, 5, -1, 5, 5, 5, -1, 5, 5, 5, -1, 5, 5, 5, -1, 2, 2, 2, -1, 2, 2, 2, -1, 0, 0, 0, -1, 0, 0, 0, -1, 0, 0, 0, -1, 0, 0, 0, -1, 3, 3, 3, -1, 3, 3, 3, -1, 3, 3, 3, -1, 3, 3, 3, -1, 5, 5, 5, -1, 5, 5, 5, -1, 5, 5, 5, -1, 5, 5, 5, -1, 0, 0, 0, -1, 0, 0, 0, -1, 3, 3, 3, -1, 3, 3, 3, -1, 3, 3, 3, -1, 3, 3, 3, -1, 5, 5, 5, -1, 5, 5, 5, -1, 2, 2, 2, -1, 2, 2, 2, -1, 2, 2, 2, -1, 2, 2, 2, -1
+                ]
+              }
+            }
+          ]
+        }
+        Transform {
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  ambientIntensity 1
+                  diffuseColor 1 1 1
+                  shininess 0.4
+                  specularColor 0.5 0.5 0.5
+                }
+              }
+              geometry IndexedFaceSet {
+                coord Coordinate {
+                  point [
+                    4.645 0 -2.115
+                    4.645 0 -1.915
+                    4.645 0.001 -2.115
+                    4.645 0.001 -1.915
+                    4.73 0 -1.915
+                    4.73 0 -1.485
+                    4.73 0.001 -1.915
+                    4.73 0.001 -1.485
+                    4.76 0 -1.915
+                    4.76 0 -1.485
+                    4.76 0.001 -1.915
+                    4.76 0.001 -1.485
+                    4.845 0 -2.115
+                    4.845 0 -1.915
+                    4.845 0.001 -2.115
+                    4.845 0.001 -1.915
+                  ]
+                }
+                normal Normal {
+                  vector [
+                    -1 0 0
+                    0 -1 0
+                    0 0 -1
+                    0 0 1
+                    0 1 0
+                    1 0 0
+                  ]
+                }
+                coordIndex [
+                  6, 3, 4, -1, 4, 3, 1, -1, 15, 10, 13, -1, 13, 10, 8, -1, 2, 14, 0, -1, 0, 14, 12, -1, 1, 3, 0, -1, 0, 3, 2, -1, 7, 6, 5, -1, 5, 6, 4, -1, 10, 11, 8, -1, 8, 11, 9, -1, 12, 14, 13, -1, 13, 14, 15, -1, 12, 13, 0, -1, 0, 13, 8, -1, 1, 0, 4, -1, 4, 0, 8, -1, 4, 8, 5, -1, 5, 8, 9, -1, 2, 3, 14, -1, 14, 3, 6, -1, 15, 14, 10, -1, 10, 14, 6, -1, 10, 6, 11, -1, 11, 6, 7, -1, 11, 7, 9, -1, 9, 7, 5, -1
+                ]
+                normalIndex [
+                  3, 3, 3, -1, 3, 3, 3, -1, 3, 3, 3, -1, 3, 3, 3, -1, 2, 2, 2, -1, 2, 2, 2, -1, 0, 0, 0, -1, 0, 0, 0, -1, 0, 0, 0, -1, 0, 0, 0, -1, 5, 5, 5, -1, 5, 5, 5, -1, 5, 5, 5, -1, 5, 5, 5, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 4, 4, 4, -1, 3, 3, 3, -1, 3, 3, 3, -1
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
