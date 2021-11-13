@@ -29,16 +29,17 @@ extern "C"
         int get_opposite_dir(int direction);
         int find_shortest_path(int col1, int row1, int col2, int row2);
 
-    private:
         vector<int> shortest_path;
-        Maze* maze;
         vector<int> robot_stack;
+        bool backtracking_white = false;
+        bool backtracking_invert = false;
+
+    private:
+        Maze* maze;
         int current_col = 0;
         int current_row = 0;
         int invert_row = 0;
         int invert_col = 0;
-        bool backtracking_white = false;
-        bool backtracking_invert = false;
         vector<int> priority{LEFT, DOWN, UP, RIGHT};
       
     };

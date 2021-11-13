@@ -48,10 +48,10 @@ void Master::initMaster()
 
 void Master::main_control()
 {
-    if (!(pathfinder_left->junc_available) && !(pathfinder_right->junc_available))
+    if (!(pathfinder_left->pick_junc_available) && !(pathfinder_right->pick_junc_available))
     {
-        find_back_path(0);
-        find_back_path(1);
+        find_back_path(0, pick_strategy.left_stack);
+        find_back_path(1, pick_strategy.right_stack);
 
         if (lcount <= rcount)
         {
@@ -60,6 +60,38 @@ void Master::main_control()
         else
         {
             pick_strategy.add_to_stack(LEFT, leftbackpath);
+        }
+    }
+
+    else if(!(pathfinder_left->junc_available) && !(pathfinder_right->junc_available))
+    {
+        if  (pathfinder_left->strategy->backtracking_white||pathfinder_left->strategy->backtracking_invert)  find_back_path(0, pathfinder_left->strategy->shortest_path);
+        else find_back_path(0, pathfinder_left->strategy->robot_stack);
+
+        if  (pathfinder_right->strategy->backtracking_white||pathfinder_right->strategy->backtracking_invert) find_back_path(1, pathfinder_right->strategy->shortest_path);
+        else find_back_path(1, pathfinder_right->strategy->robot_stack);
+
+        if (lcount <= rcount)
+        {
+            if  (pathfinder_left->strategy->backtracking_white||pathfinder_left->strategy->backtracking_invert)
+            {
+                
+            }
+            else 
+            {
+
+            }
+        }
+        else
+        {
+            if (pathfinder_right->strategy->backtracking_white||pathfinder_right->strategy->backtracking_invert) 
+            {
+
+            }
+            else
+            {
+
+            }
         }
     }
     else if (receiver[rx]->getQueueLength() > 0)
@@ -100,9 +132,8 @@ void Master::main_control()
         rx = 0;
 }
 
-void Master::find_back_path(int robot)
+void Master::find_back_path(int robot, vector<int> forward_path)
 {
-    vector<int> forward_path{};
     vector<int> backpath{};
     int leftcol = pathfinder_left->robot_col;
     int leftrow = pathfinder_left->robot_row;
@@ -112,7 +143,6 @@ void Master::find_back_path(int robot)
 
     if (robot == 0)
     {
-        forward_path = pick_strategy.left_stack;
         forwardcol = leftcol;
         forwardrow = leftrow;
         backcol = rightcol;
@@ -120,7 +150,6 @@ void Master::find_back_path(int robot)
     }
     else
     {
-        forward_path = pick_strategy.right_stack;
         forwardcol = rightcol;
         forwardrow = rightrow;
         backcol = leftcol;

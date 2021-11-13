@@ -47,7 +47,7 @@ extern "C"
         void main_control();
         void receive(int rx);
         void emmit(int tx);
-        void find_back_path(int robot);
+        void find_back_path(int robot, vector<int> forward_path);
         vector<int> update_robot_position(int direction, int robot_col, int robot_row);
 
         Master();

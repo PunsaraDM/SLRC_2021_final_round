@@ -85,11 +85,13 @@ extern "C"
         bool scan_just_over = false;
         bool hold = false;
         bool scan_over = false;
-        bool junc_available = false;
+        bool junc_available = true;
+        bool pick_junc_available = true;
+        
+        Strategy *strategy;
 
     private:
         Maze* maze;
-        Strategy *strategy;
         PickStrategy pick_strategy;
         vector<vector<int>> pick_order;
         int current_pick = 0;

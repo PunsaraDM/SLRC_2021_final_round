@@ -141,7 +141,9 @@ vector<vector<int>> PathFinder::travel_with_color()
     {
         vector<vector<int>> packet;
         direction_to_travel = pick_strategy.find_next_direction_pick(robot, maze);
-        update_robot_position(direction_to_travel);
+        maze->junctions[robot_col][robot_row].travel_state = UNRESERVED;
+        pick_junc_available = check_and_set_available_direction();
+        maze->junctions[robot_col][robot_row].travel_state = RESERVED;
         packet = create_next_data_packet();
         last_direction = direction_to_travel;
         return packet;
@@ -214,7 +216,7 @@ vector<vector<int>> PathFinder::create_next_data_packet()
     vector<int> box_grab{NEGLECT, NOCOLOR};
     vector<int> over{scan_over};
 
-    if (!junc_available)
+    if (!junc_available || !pick_junc_available)
     {
         navigate_state.push_back(STALL);
     }
