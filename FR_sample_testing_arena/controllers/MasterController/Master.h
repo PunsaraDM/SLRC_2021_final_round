@@ -47,6 +47,7 @@ extern "C"
         void main_control();
         void receive(int rx);
         void emmit(int tx);
+        int find_back_path(int robot);
         Master();
 
     private:
@@ -70,6 +71,17 @@ extern "C"
         int juncTypeRx = 0;
         vector<int> pathStateRx{0, 0, 0, 0}; // down path is always keep as notaccesible since robot coming from that side
         vector<int> boxTypeRx{0, 0};
+
+        vector<int> rightbackpath;
+        vector<int> leftbackpath;
+
+        int forwardcol;
+        int forwardrow;
+        int backcol;
+        int backrow;
+
+        int lcount;
+        int rcount;
     };
 #ifdef __cplusplus
 }
