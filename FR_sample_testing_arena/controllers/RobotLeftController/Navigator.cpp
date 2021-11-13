@@ -7,6 +7,8 @@
 #include <cmath>
 #include <bits/stdc++.h>
 #include <vector>
+#include <string>
+#include <cstring>
 
 #define TIME_STEP 32
 using namespace webots;
@@ -1024,6 +1026,8 @@ void Navigator::task()
 
   while (step(TIME_STEP) != -1)
   {
+    // string TxMessage = make_TxMessage();
+    // sensorGroup ->emmit(TxMessage);
     one_cell();
     if (taskCompleted)
       break;

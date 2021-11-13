@@ -1031,6 +1031,8 @@ void Navigator::task()
 
   while (step(TIME_STEP) != -1)
   {
+
+
     one_cell();
     if (taskCompleted)
       break;

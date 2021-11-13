@@ -10,8 +10,6 @@ int main(int argc, char **argv)
     while (master.step(TIME_STEP) != -1)
     {
         master.main_control();
-        break;
-
     };
 
     return 0;

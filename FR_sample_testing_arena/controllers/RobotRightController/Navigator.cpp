@@ -7,6 +7,7 @@
 #include <cmath>
 #include <bits/stdc++.h>
 #include <vector>
+#include <cstring>
 
 #define TIME_STEP 32
 using namespace webots;

@@ -3,6 +3,7 @@
 #include "SensorGroup.h"
 #include "MotorGroup.h"
 #include <vector>
+#include <cstring>
 
 using namespace webots;
 using namespace std;

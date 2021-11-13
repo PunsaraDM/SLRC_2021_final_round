@@ -10,6 +10,7 @@
 #include <webots/LED.hpp>
 #include <string>
 #include <vector>
+#include <cstring>
 
 #define TIME_STEP 64
 
@@ -154,24 +155,33 @@ void Master::receive(int rx)
 
     //cout << "rxmsg: " << var[0][0] << var[1][0] << var[2][0] << var[2][1] << var[3][0] << var[4][0] << var[4][1] << endl;
 
-    string tempStr;
-    for (int i = 0; i < 7; i++)
+    string tempStr = "";
+    size_t i=0;
+    int j=0;
+    while (i < RxMessage.size())
     {
         tempStr = RxMessage[i];
-        if (i == 0)
+        if (tempStr == "-") {
+            i = i + 1;
+            tempStr = tempStr + RxMessage[i];
+        }
+        //cout<<"temp"<<tempStr<<endl;
+        if (j == 0)
             juncTypeRx = stoi(tempStr);
-        else if (i == 1)
+        else if (j == 1)
             pathStateRx[0] = stoi(tempStr);
-        else if (i == 2)
+        else if (j == 2)
             pathStateRx[1] = stoi(tempStr);
-        else if (i == 3)
+        else if (j == 3)
             pathStateRx[2] = stoi(tempStr);
-        else if (i == 4)
+        else if (j == 4)
             pathStateRx[3] = stoi(tempStr);
-        else if (i == 5)
+        else if (j == 5)
             boxTypeRx[0] = stoi(tempStr);
-        else if (i == 6)
+        else if (j == 6)
             boxTypeRx[1] = stoi(tempStr);
+        i = i + 1;
+        j = j + 1;
     }
 
     cout << "juncType: " << juncTypeRx << endl;
