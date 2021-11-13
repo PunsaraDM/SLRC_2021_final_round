@@ -7,8 +7,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.5547946847283497 0.6085299896499279 0.5673571269437178 2.068040255157009
-  position -1.078498139014527 0.32328607453296904 -0.12040554004160146
+  orientation 1 0 0 4.71238898038469
+  position 2.2055340494434414 9.913713382893718 -1.9236778835741106
 }
 DirectionalLight {
   direction 0 -1 0
@@ -3446,10 +3446,10 @@ DEF ROBOT_LEFT Robot {
                     ]
                     name "solid(1)"
                     boundingObject Transform {
-                      translation 0.035 0.017 0.1145
+                      translation 0.035 0.0112 0.1145
                       children [
                         Box {
-                          size 0.068 0.018 0.003
+                          size 0.068 0.03 0.003
                         }
                       ]
                     }
@@ -3567,10 +3567,10 @@ DEF ROBOT_LEFT Robot {
                       }
                     ]
                     boundingObject Transform {
-                      translation 0.035 0.017 -0.1145
+                      translation 0.035 0.0112 -0.1145
                       children [
                         Box {
-                          size 0.068 0.018 0.003
+                          size 0.068 0.03 0.003
                         }
                       ]
                     }
