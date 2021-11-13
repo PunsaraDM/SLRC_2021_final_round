@@ -71,7 +71,7 @@ void PickStrategy::find_combinations(Maze m)
                 vector<int> pos_opposite{!red, !green, !blue};
                 bool pos_valid = check_for_top_boxes(pos[0], pos[1], pos[2], locations);
                 bool pos_opposite_valid = check_for_top_boxes(pos_opposite[0], pos_opposite[1], pos_opposite[2], locations);
-
+                cout<<pos[0]<<" | "<<pos[1]<<" | "<<pos[2]<<endl;
                 //at least one box is in top
                 if (pos_valid && pos_opposite_valid)
                 {
@@ -102,10 +102,12 @@ void PickStrategy::find_combinations(Maze m)
             }
         }
     }
+    cout<<"over"<<endl;
 
     //order_left each element a vector with first element the color, second element the selected index of the color(either 0,1)
     order_left = find_order(selected_left, locations);
     order_right = find_order(selected_right, locations);
+    cout<<"after order"<<endl;
 }
 
 void PickStrategy::discover_shortest_paths(vector<vector<vector<int>>> locations, Maze maze)
@@ -124,17 +126,17 @@ void PickStrategy::discover_shortest_paths(vector<vector<vector<int>>> locations
                 red_distances.push_back(find_shortest_path(0, 0, locations[i][j][0], locations[i][j][1], RED, 0, maze));
                 cout << "here"
                      << "\n";
-                red_distances.push_back(find_shortest_path(8, 6, locations[i][j][0], locations[i][j][1], RED, 0, maze));
+                //red_distances.push_back(find_shortest_path(8, 6, locations[i][j][0], locations[i][j][1], RED, 0, maze));
             }
             else if (i == GREEN - 1)
             {
                 green_distances.push_back(find_shortest_path(0, 0, locations[i][j][0], locations[i][j][1], GREEN, 0, maze));
-                green_distances.push_back(find_shortest_path(8, 6, locations[i][j][0], locations[i][j][1], GREEN, 0, maze));
+                //green_distances.push_back(find_shortest_path(8, 6, locations[i][j][0], locations[i][j][1], GREEN, 0, maze));
             }
             else
             {
                 blue_distances.push_back(find_shortest_path(0, 0, locations[i][j][0], locations[i][j][1], BLUE, 0, maze));
-                blue_distances.push_back(find_shortest_path(8, 6, locations[i][j][0], locations[i][j][1], BLUE, 0, maze));
+                //blue_distances.push_back(find_shortest_path(8, 6, locations[i][j][0], locations[i][j][1], BLUE, 0, maze));
             }
         }
     }
@@ -398,8 +400,8 @@ void PickStrategy::initialize(Maze m)
 
     for (size_t i = 0; i < 3; i++)
     {
-        vector<int> path = shortest_path_seq[order_left[i][0]][2*order_left[i][1]];
-        cout << "this _path:" << order_left[i][0] << "," << 2*order_left[i][1] << "\n";
+        vector<int> path = shortest_path_seq[order_left[i][0]][order_left[i][1]];
+        cout << "this _path:" << order_left[i][0] << "," << order_left[i][1] << "\n";
         for (size_t i = 0; i < path.size(); i++)
         {
             cout << path[i] << "| ";
