@@ -81,9 +81,84 @@ void Master::initMaster(Master *master)
 void Master::main_control()
 {
     int rx = 0;
+    
     while(master->step(TIME_STEP) != -1)
-    {
-        if (receiver[rx]->getQueueLength() > 0)
+    {   
+        int back_count = 0;
+        
+        if (going_forward[0]==1)
+        {
+            while(master->step(TIME_STEP) != -1)
+            {
+                bool leftDone = false;
+                bool rightDone = false;
+                while(master->step(TIME_STEP) != -1)
+                {
+                    //give chanse first for right
+                    if ((receiver[1]->getQueueLength() > 0) && (!rightDone)){
+                        emmit(1);
+                        rightDone = true;
+                    }
+
+                    if ((receiver[0]->getQueueLength() > 0) && (!leftDone) && (rightDone)){
+                        emmit(0);
+                        leftDone = true;
+                    }
+
+                    if(leftDone && rightDone) break;
+                }
+                back_count += 1;
+                if (back_count == lcount) break;
+            }
+        }
+        else if (going_forward[1]==1)
+        {
+            while(master->step(TIME_STEP) != -1)
+            {
+                bool leftDone = false;
+                bool rightDone = false;
+                while(master->step(TIME_STEP) != -1)
+                {
+                    //give chanse for left first
+                    if ((receiver[0]->getQueueLength() > 0) && (!leftDone)){
+                        emmit(0);
+                        leftDone = true;
+                    }
+                    if ((receiver[1]->getQueueLength() > 0) && (!rightDone) && leftDone){
+                        emmit(1);
+                        rightDone = true;
+                    }
+
+                    if(leftDone && rightDone) break;
+                }
+                back_count += 1;
+                if (back_count == lcount) break;
+            }
+        }
+        else if (hold[0]==1 && hold[1]==1)
+        {
+            left_forward_path;
+            left_backward_path;
+            right_forward_path;
+            right_backward_path;
+
+            for(int i=0, i< left_forward_path.size(), i++)
+            {
+                if (left_forward_path[i+1] == right_backward_path[i]) lcount = lcount + 1;
+                else break;
+            }
+            
+            for(int i=0, i< right_forward_path.size(), i++)
+            {
+                if (right_forward_path[i+1] == left_backward_path[i]) rcount = rcount + 1;
+                else break;
+            }
+            
+            if (lcount <= rcount) going_forward[0] = 1;
+            else going_forward[1] = 1;
+
+        }
+        else if (receiver[rx]->getQueueLength() > 0)
         {
             receive(rx);
             if (rx==0) 
@@ -91,20 +166,21 @@ void Master::main_control()
                 var = pathfinder_left->travel_maze(juncTypeRx, pathStateRx, boxTypeRx); 
                 if (maze.junctions[pathfinder_left ->robot_col][pathfinder_left ->robot_row].get_state() == RESERVED)
                 {
-                    
+                    hold[rx] = 1;
                 }
                 else
                 {
                     maze.junctions[pathfinder_left ->robot_col][pathfinder_left ->robot_row].set_state() = RESERVED;
                     emmit(rx);
                 }
+
             }
             else 
             {
                 var = pathfinder_right->travel_maze(juncTypeRx, pathStateRx, boxTypeRx);
                 if (maze.junctions[pathfinder_right ->robot_col][pathfinder_right ->robot_row].get_state() == RESERVED)
                 {
-
+                    hold[rx] = 1;
                 }
                 else
                 {
@@ -115,6 +191,8 @@ void Master::main_control()
         }
         rx = rx + 1;
         if (rx > 1) rx=0;
+    
+        
 
     }
 

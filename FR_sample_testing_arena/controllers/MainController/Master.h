@@ -44,6 +44,16 @@ extern "C"
         Maze right_maze = pathfinder_right -> maze;
         Maze left_maze = pathfinder_left -> maze;
 
+        int hold[2] = {0,0};
+        int going_forward[2] = {0,0};
+        int lcount = 0;
+        int rcount = 0;
+
+        vector<int> left_forward_path;
+        vector<int> left_backward_path;
+        vector<int> right_forward_path;
+        vector<int> right_backward_path;
+
         static const int rx_count = 2;
         Receiver *receiver[rx_count];
         char rx_name[rx_count][10] = {"receiver1","receiver2"};
