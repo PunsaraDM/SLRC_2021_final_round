@@ -294,61 +294,61 @@ int Navigator::search_box_color(int level)
         if (colorBox == 1)
         { // Red box
           cout << "RED BOX" << endl;
-          if (level == 1)
-          {
-            currentDist += 0.005;
-            arm_base_move(currentDist);
-            delay(500);
-            arm_grab_box(grabDistRed, grabDistRed);
-            delay(500);
-            centre_box(distArmBase_centre_red);
-            arm_grab_box(grabDist_min, grabDist_min);
-          }
+          // if (level == 1)
+          // {
+          currentDist += 0.005;
+          arm_base_move(currentDist);
+          delay(500);
+          arm_grab_box(grabDistRed, grabDistRed);
+          delay(500);
+          centre_box(distArmBase_centre_red);
+          arm_grab_box(grabDist_min, grabDist_min);
+          // }
           return RED;
         }
         else if (colorBox == 2)
         { // Green box
           cout << "GREEN BOX" << endl;
-          if (level == 1)
-          {
-            currentDist += 0.005;
-            arm_base_move(currentDist);
-            delay(500);
-            arm_grab_box(grabDistGreen, grabDistGreen);
-            delay(500);
-            centre_box(distArmBase_centre_green);
-            arm_grab_box(grabDist_min, grabDist_min);
-          }
+          // if (level == 1)
+          // {
+          currentDist += 0.005;
+          arm_base_move(currentDist);
+          delay(500);
+          arm_grab_box(grabDistGreen, grabDistGreen);
+          delay(500);
+          centre_box(distArmBase_centre_green);
+          arm_grab_box(grabDist_min, grabDist_min);
+          //}
           return GREEN;
         }
         else if (colorBox == 3)
         { // Blue box
           cout << "BLUE BOX" << endl;
-          if (level == 1)
-          {
-            currentDist += 0.005;
-            arm_base_move(currentDist);
-            delay(500);
-            arm_grab_box(grabDistBlue, grabDistBlue);
-            delay(500);
-            centre_box(distArmBase_centre_blue);
-            arm_grab_box(grabDist_min, grabDist_min);
-          }
+          // if (level == 1)
+          // {
+          currentDist += 0.005;
+          arm_base_move(currentDist);
+          delay(500);
+          arm_grab_box(grabDistBlue, grabDistBlue);
+          delay(500);
+          centre_box(distArmBase_centre_blue);
+          arm_grab_box(grabDist_min, grabDist_min);
+          //}
           return BLUE;
         }
         else if (colorBox == 4)
         { // Blue box
           cout << "WHITE BOX" << endl;
-          if (level == 1)
-          {
-            currentDist += 0.005;
-            arm_base_move(currentDist);
-            delay(500);
-            arm_grab_box(grabDistBlue, grabDistBlue);
-            delay(500);
-            centre_box(distArmBase_centre_white);
-            arm_grab_box(grabDist_min, grabDist_min);
-          }
+          // if (level == 1)
+          // {
+          currentDist += 0.005;
+          arm_base_move(currentDist);
+          delay(500); 
+          arm_grab_box(grabDistBlue, grabDistBlue);
+          delay(500);
+          centre_box(distArmBase_centre_white);
+          arm_grab_box(grabDist_min, grabDist_min);
+          // }
           return WHITE_CLR;
         }
         else
@@ -425,7 +425,7 @@ void Navigator::box_search_algo(bool haveBox)
       cout << "found upper box" << endl;
     }
   }
-  
+            
   // if white box need to be picked call function
   // currently robot doesnt have a box and next box is a white one
   if ((var[INV_PATCH][BOX_CARRY] == FALSE) and (boxType[LOWER - 1] == WHITE_CLR))
