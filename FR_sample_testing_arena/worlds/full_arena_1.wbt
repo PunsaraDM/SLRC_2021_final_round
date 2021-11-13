@@ -7,8 +7,13 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
+<<<<<<< Updated upstream
   orientation 1 0 0 4.71238898038469
   position 2.7628243611459147 12.320895862291305 -4.599546228916492
+=======
+  orientation 1 1.836594842116147e-15 1.592171411063753e-15 4.7223889803846895
+  position 1.8718598334464833 8.349473265872085 -4.4982467816723375
+>>>>>>> Stashed changes
 }
 DirectionalLight {
   direction 0 -1 0
@@ -208,7 +213,11 @@ DEF Boxes Group {
 DEF Boxes_new Group {
   children [
     DEF Blue_Box Solid {
+<<<<<<< Updated upstream
       translation 4.63 0.0199853 -5.28046
+=======
+      translation 4.62 0.0199853 -5.29
+>>>>>>> Stashed changes
       rotation 0.9999999999998184 6.028200997064541e-07 3.747100998429516e-10 1.0746312442228115e-06
       children [
         DEF Blue_Box Shape {
@@ -227,7 +236,11 @@ DEF Boxes_new Group {
       physics USE Box_Ph
     }
     DEF Green_Box Solid {
+<<<<<<< Updated upstream
       translation 3.9968 0.0198532 -6.53422
+=======
+      translation 0.829926 0.0599938 -4.65141
+>>>>>>> Stashed changes
       rotation -0.0006394602827402947 0.9999955758589103 -0.002905056480187 0.0074902703390441585
       children [
         DEF Green_Box Shape {
@@ -246,7 +259,11 @@ DEF Boxes_new Group {
       physics USE Box_Ph
     }
     DEF Red_Box Solid {
+<<<<<<< Updated upstream
       translation 4.6187 0.0199518 -3.39011
+=======
+      translation 0.8387 0.0199518 -4.65011
+>>>>>>> Stashed changes
       rotation -0.6769411330989211 -0.03985496793615769 0.7349573347137618 -5.171690830117331e-15
       children [
         DEF Red_Box Shape {
@@ -324,7 +341,11 @@ DEF Boxes_new Group {
       }
     }
     DEF White_Box Solid {
+<<<<<<< Updated upstream
       translation 2.1 0.0199853 -5.29
+=======
+      translation 2.13 0.0199082 -3.4
+>>>>>>> Stashed changes
       children [
         DEF White_Box Shape {
           appearance PBRAppearance {
@@ -343,7 +364,7 @@ DEF Boxes_new Group {
       }
     }
     DEF White_Box Solid {
-      translation 0.87 0.0199853 -4.63
+      translation 1.49 0.0199853 -4.64
       rotation -0.24925241521983413 -0.9681949291483035 -0.021721249471222153 1.6675535709536447e-15
       children [
         DEF White_Box Shape {
@@ -402,7 +423,11 @@ DEF Boxes_new Group {
       physics USE Box_Ph
     }
     DEF Green_Box Solid {
+<<<<<<< Updated upstream
       translation 3.37 0.0599082 -4.66
+=======
+      translation 2.1 0.0199853 -5.28046
+>>>>>>> Stashed changes
       children [
         DEF Green_Box Shape {
           appearance PBRAppearance {
@@ -420,7 +445,11 @@ DEF Boxes_new Group {
       physics USE Box_Ph
     }
     DEF Blue_Box Solid {
+<<<<<<< Updated upstream
       translation 3.99598 0.0598808 -6.53699
+=======
+      translation 3.36069 0.0599095 -4.64598
+>>>>>>> Stashed changes
       rotation 0.0001627585986399832 -0.9999997583826529 0.0006758285836511043 -0.03409976837927114
       children [
         DEF Blue_Box Shape {
@@ -14371,7 +14400,8 @@ DEF NewMAze Solid {
   ]
 }
 Robot {
-  translation -1.29 0.01 -2.76
+  translation -1.28 0.01 -2.76
+  rotation 0 1 0 -5.307179586466759e-06
   children [
     DEF RIGHT HingeJoint {
       jointParameters HingeJointParameters {
@@ -15390,7 +15420,7 @@ Robot {
         }
       ]
       endPoint DEF QTR_PANEL Solid {
-        translation 5.259681579161679e-15 -0.12799961411752694 0.11998805549600902
+        translation 5.537237335317968e-15 -0.12799961411752667 0.11998805549600902
         rotation -0.9999999999999999 0 0 1.5707
         children [
           DEF QTR_SENSORS Transform {
@@ -15930,10 +15960,10 @@ Robot {
                     ]
                     name "solid(1)"
                     boundingObject Transform {
-                      translation 0.035 0.017 0.1145
+                      translation 0.035 0.0112 0.1145
                       children [
                         Box {
-                          size 0.068 0.018 0.003
+                          size 0.068 0.03 0.003
                         }
                       ]
                     }
@@ -16051,10 +16081,10 @@ Robot {
                       }
                     ]
                     boundingObject Transform {
-                      translation 0.035 0.017 -0.1145
+                      translation 0.035 0.0112 -0.1145
                       children [
                         Box {
-                          size 0.068 0.018 0.003
+                          size 0.068 0.03 0.003
                         }
                       ]
                     }
