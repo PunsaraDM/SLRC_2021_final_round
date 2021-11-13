@@ -8,7 +8,7 @@ WorldInfo {
 }
 Viewpoint {
   orientation 1 0 0 4.71238898038469
-  position 2.249759689901531 9.378619869897484 -4.572333951065755
+  position 2.7628243611459147 12.320895862291305 -4.599546228916492
 }
 DirectionalLight {
   direction 0 -1 0
@@ -208,7 +208,7 @@ DEF Boxes Group {
 DEF Boxes_new Group {
   children [
     DEF Blue_Box Solid {
-      translation 2.1000000000002284 0.019985278894650637 -5.280461052894884
+      translation 4.63 0.0199853 -5.28046
       rotation 0.9999999999998184 6.028200997064541e-07 3.747100998429516e-10 1.0746312442228115e-06
       children [
         DEF Blue_Box Shape {
@@ -227,7 +227,7 @@ DEF Boxes_new Group {
       physics USE Box_Ph
     }
     DEF Green_Box Solid {
-      translation 2.11 0.0199082 -3.41
+      translation 3.9968 0.0198532 -6.53422
       rotation -0.0006394602827402947 0.9999955758589103 -0.002905056480187 0.0074902703390441585
       children [
         DEF Green_Box Shape {
@@ -246,7 +246,7 @@ DEF Boxes_new Group {
       physics USE Box_Ph
     }
     DEF Red_Box Solid {
-      translation 1.4786984988072553 0.01995176050958297 -4.650106200967451
+      translation 4.6187 0.0199518 -3.39011
       rotation -0.6769411330989211 -0.03985496793615769 0.7349573347137618 -5.171690830117331e-15
       children [
         DEF Red_Box Shape {
@@ -265,7 +265,7 @@ DEF Boxes_new Group {
       physics USE Box_Ph
     }
     DEF White_Box Solid {
-      translation 4.64 0.0199853 -3.38
+      translation 2.1 0.0199853 -3.38
       rotation -0.03550972115955072 -0.9836449809103156 0.17658315670843536 1.6840752361607301e-15
       children [
         DEF White_Box Shape {
@@ -305,7 +305,7 @@ DEF Boxes_new Group {
       }
     }
     DEF White_Box Solid {
-      translation 3.96 0.0199853 -6.54
+      translation 1.48 0.0199853 -4.65
       children [
         DEF White_Box Shape {
           appearance PBRAppearance {
@@ -324,7 +324,7 @@ DEF Boxes_new Group {
       }
     }
     DEF White_Box Solid {
-      translation 4.62 0.0199853 -5.29
+      translation 2.1 0.0199853 -5.29
       children [
         DEF White_Box Shape {
           appearance PBRAppearance {
@@ -402,7 +402,7 @@ DEF Boxes_new Group {
       physics USE Box_Ph
     }
     DEF Green_Box Solid {
-      translation 2.11 0.0599082 -3.41
+      translation 3.37 0.0599082 -4.66
       children [
         DEF Green_Box Shape {
           appearance PBRAppearance {
@@ -420,7 +420,7 @@ DEF Boxes_new Group {
       physics USE Box_Ph
     }
     DEF Blue_Box Solid {
-      translation 1.4787 0.0599518 -4.65011
+      translation 3.99598 0.0598808 -6.53699
       rotation 0.0001627585986399832 -0.9999997583826529 0.0006758285836511043 -0.03409976837927114
       children [
         DEF Blue_Box Shape {
