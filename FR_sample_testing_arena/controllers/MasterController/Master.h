@@ -47,11 +47,13 @@ extern "C"
         void main_control();
         void receive(int rx);
         void emmit(int tx);
-        int find_back_path(int robot);
+        void find_back_path(int robot);
+        vector<int> update_robot_position(int direction, int robot_col, int robot_row);
+
         Master();
 
     private:
-        Maze* maze;
+        Maze *maze;
         int rx = 0;
         PickStrategy pick_strategy;
         PathFinder *pathfinder_left;

@@ -49,7 +49,7 @@
 #define TOP 3
 using namespace std;
 
-void PickStrategy::find_combinations(Maze* m)
+void PickStrategy::find_combinations(Maze *m)
 {
     //asumming that the location vector is 3d {{{red_col1,red_row1},{red_col2,red_row2}} }
     vector<vector<vector<int>>> locations = m->colored_junctions;
@@ -128,7 +128,7 @@ void PickStrategy::find_combinations(Maze* m)
     order_right = find_order(selected_right, locations);
 }
 
-void PickStrategy::discover_shortest_paths(vector<vector<vector<int>>> locations, Maze* maze)
+void PickStrategy::discover_shortest_paths(vector<vector<vector<int>>> locations, Maze *maze)
 {
     cout << "size: " << locations.size() << "\n";
     for (size_t i = 0; i < locations.size(); i++)
@@ -263,7 +263,7 @@ bool PickStrategy::check_for_top_boxes(int red, int green, int blue, vector<vect
 //give the destination as the start
 //col1 -> 0,0 || 8,6
 //col2-> colored box
-int PickStrategy::find_shortest_path(int col1, int row1, int col2, int row2, int color, int dir, Maze* c_maze)
+int PickStrategy::find_shortest_path(int col1, int row1, int col2, int row2, int color, int dir, Maze *c_maze)
 {
     cout << "start: " << col1 << "," << row1 << "\n";
     cout << "end: " << col2 << "," << row2 << "\n";
@@ -378,7 +378,7 @@ int PickStrategy::get_opposite_dir(int direction)
     return opposite_dir;
 }
 
-int PickStrategy::find_next_direction_pick(int robot, Maze* maze)
+int PickStrategy::find_next_direction_pick(int robot, Maze *maze)
 {
     int direction = INVALID;
     if (robot == LEFT)
@@ -395,7 +395,27 @@ int PickStrategy::find_next_direction_pick(int robot, Maze* maze)
     return direction;
 }
 
-void PickStrategy::initialize(Maze* m, int left_col, int left_row, int right_col, int right_row)
+void PickStrategy::add_to_stack(int robot, vector<int> seq)
+{
+    vector<int> reverse_seq = get_reverse_path(seq);
+    if (robot == LEFT)
+    {
+        left_stack.reserve(left_stack.size() + distance(seq.begin(), seq.end()));
+        left_stack.insert(left_stack.begin(), seq.begin(), seq.end());
+        left_stack.reserve(left_stack.size() + distance(seq.begin(), seq.end()));
+        left_stack.insert(left_stack.begin(), reverse_seq.begin(), reverse_seq.end());
+    }
+    else
+    {
+        right_stack.reserve(right_stack.size() + distance(seq.begin(), seq.end()));
+        right_stack.insert(right_stack.begin(), seq.begin(), seq.end());
+        right_stack.reserve(right_stack.size() + distance(seq.begin(), seq.end()));
+        right_stack.insert(right_stack.begin(), reverse_seq.begin(), reverse_seq.end());
+    }
+
+}
+
+void PickStrategy::initialize(Maze *m, int left_col, int left_row, int right_col, int right_row)
 {
     left_start_col = left_col;
     left_start_row = left_row;
@@ -415,7 +435,7 @@ void PickStrategy::initialize(Maze* m, int left_col, int left_row, int right_col
 
     for (size_t i = 0; i < 3; i++)
     {
-        vector<int> path = shortest_path_seq[order_left[i][0]][order_left[i][1]*2];
+        vector<int> path = shortest_path_seq[order_left[i][0]][order_left[i][1] * 2];
         if (i == 0)
         {
             left_stack.reserve(left_stack.size() + distance(path.begin(), path.end()));
@@ -441,7 +461,7 @@ void PickStrategy::initialize(Maze* m, int left_col, int left_row, int right_col
     // cout << "\n";
     for (size_t i = 0; i < 3; i++)
     {
-        vector<int> path = shortest_path_seq[order_right[i][0]][order_right[i][1]*2+1];
+        vector<int> path = shortest_path_seq[order_right[i][0]][order_right[i][1] * 2 + 1];
         if (i == 0)
         {
             right_stack.reserve(right_stack.size() + distance(path.begin(), path.end()));
@@ -478,12 +498,12 @@ vector<int> PickStrategy::get_reverse_path(vector<int> path)
     return reverse;
 }
 
-int PickStrategy::check_combination(vector<int> pos, vector<int> pos_opposite, Maze* m)
+int PickStrategy::check_combination(vector<int> pos, vector<int> pos_opposite, Maze *m)
 {
-    bool left_pos = check_one_combination(pos, m->left_colors,  m);
-    bool right_pos_opposite = check_one_combination(pos_opposite, m->right_colors,  m);
-    bool left_pos_opposite = check_one_combination(pos_opposite, m->left_colors,  m);
-    bool right_pos = check_one_combination(pos, m->right_colors,  m);
+    bool left_pos = check_one_combination(pos, m->left_colors, m);
+    bool right_pos_opposite = check_one_combination(pos_opposite, m->right_colors, m);
+    bool left_pos_opposite = check_one_combination(pos_opposite, m->left_colors, m);
+    bool right_pos = check_one_combination(pos, m->right_colors, m);
 
     if (right_pos && left_pos_opposite && left_pos && right_pos_opposite)
     {
@@ -502,7 +522,7 @@ int PickStrategy::check_combination(vector<int> pos, vector<int> pos_opposite, M
         return INVALID;
     }
 }
-bool PickStrategy::check_one_combination(vector<int> pos, vector<vector<vector<int>>> robot_found_colors, Maze* m)
+bool PickStrategy::check_one_combination(vector<int> pos, vector<vector<vector<int>>> robot_found_colors, Maze *m)
 {
     vector<bool> founded{false, false, false};
 

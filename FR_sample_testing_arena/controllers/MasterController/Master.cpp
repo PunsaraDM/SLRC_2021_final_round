@@ -48,20 +48,24 @@ void Master::initMaster()
 
 void Master::main_control()
 {
-    int back_count = 0;
     if (!(pathfinder_left->junc_available) && !(pathfinder_right->junc_available))
     {
         find_back_path(0);
         find_back_path(1);
-            
-        if (lcount <= rcount) going_forward[0] = 1;
-        else going_forward[1] = 1;
-    
+
+        if (lcount <= rcount)
+        {
+            pick_strategy.add_to_stack(RIGHT, rightbackpath);
+        }
+        else
+        {
+            pick_strategy.add_to_stack(LEFT, leftbackpath);
+        }
     }
     else if (receiver[rx]->getQueueLength() > 0)
     {
-        cout << "paths joined" << maze->paths_joined << "\n"; 
-        cout << "color match" << maze->color_match() << "\n";  
+        cout << "paths joined" << maze->paths_joined << "\n";
+        cout << "color match" << maze->color_match() << "\n";
         // if (maze->discovered == 6 && scan_just_over && (maze->paths_joined || maze->color_match()))
         if (maze->discovered == 6 && scan_just_over)
         {
@@ -96,19 +100,19 @@ void Master::main_control()
         rx = 0;
 }
 
-int Master::find_back_path(int robot)
+void Master::find_back_path(int robot)
 {
-    vector<int> forward_path;
-    vector<int> back_path;
+    vector<int> forward_path{};
+    vector<int> backpath{};
     int leftcol = pathfinder_left->robot_col;
-    int leftrow = pathfinder_left ->robot_row;
+    int leftrow = pathfinder_left->robot_row;
 
     int rightcol = pathfinder_right->robot_col;
-    int rightrow = pathfinder_right ->robot_row;
+    int rightrow = pathfinder_right->robot_row;
 
-    if (robot==0)   
+    if (robot == 0)
     {
-        forward_path = pick_strategy -> left_stack;
+        forward_path = pick_strategy.left_stack;
         forwardcol = leftcol;
         forwardrow = leftrow;
         backcol = rightcol;
@@ -116,7 +120,7 @@ int Master::find_back_path(int robot)
     }
     else
     {
-        forward_path = pick_strategy -> right_stack;
+        forward_path = pick_strategy.right_stack;
         forwardcol = rightcol;
         forwardrow = rightrow;
         backcol = leftcol;
@@ -124,51 +128,67 @@ int Master::find_back_path(int robot)
     }
 
     bool found_way_out = false;
-    int count= 0;
+    int count = 0;
 
-    if()
-
-    for(int i=0, i< forward_path.size(), i++)
+    if (forward_path.size() == 1)
     {
-        
-        vector<vector<int>> achievables{{backcol, backrow + 1},
-                                        {backcol + 1, backrow},
-                                        {backcol, backrow - 1},
-                                        {backcol - 1, backrow}};
-
-
-        vector<int> target= update_robot_position(forward_path[i+1],backcol, backrow);
-    
-        for(i=0,i<4,i++)
+        count = 100000;
+    }
+    else
+    {
+        for (size_t i = 0; i < forward_path.size(); i++)
         {
-            if( (maze->junctions[achievables[0]][achievables[1]].get_state() == DISCOVERED ) && !(target[0] == achievables[0] && target[1]==achievables[1]) && !(forwardcol==achievables[0] && forwardrow==achievables[1]))
+            vector<vector<int>> achievables{{backcol, backrow + 1},
+                                            {backcol + 1, backrow},
+                                            {backcol, backrow - 1},
+                                            {backcol - 1, backrow}};
+
+            vector<int> target{0,0};
+            if (i != forward_path.size() - 1)
             {
-                backpath.push_back(i);
-                found_way_out = true;
+                target = update_robot_position(forward_path[i+1], backcol, backrow);
+            }
+
+            for (int j = 0; j < 4; j++)
+            {
+                if ((maze->junctions[achievables[j][0]][achievables[j][1]].get_state() == DISCOVERED) && !(forwardcol == achievables[j][0] && forwardrow == achievables[j][1]))
+                {
+                    if (forward_path.size() - 1 == i)
+                    {
+                        backpath.push_back(j);
+                        found_way_out = true;
+                        break;
+                    }
+                    else if (!(target[0] == achievables[j][0] && target[1] == achievables[j][1]))
+                    {
+                        backpath.push_back(j);
+                        found_way_out = true;
+                        break;
+                    }
+                }
+            }
+
+            if (found_way_out)
+            {
                 break;
             }
+            else
+            {
+                backpath.push_back(forward_path[i + 1]);
+                count = count + 1;
+            }
+
+            vector<int> leftnext = update_robot_position(forward_path[i], forwardcol, forwardrow);
+            vector<int> rightnext = update_robot_position(backpath[i], backcol, backrow);
+
+            forwardcol = leftnext[0];
+            forwardrow = leftnext[1];
+            backcol = rightnext[0];
+            backrow = rightnext[1];
         }
-
-        if (found_way_out) 
-        {
-            break;
-        }
-        else{
-            backpath.push_back(forward_path[i+1]);
-            count = count + 1;
-        }
-
-        vector<int> leftnext = update_robot_position(forward_path[i],forwardcol, forwardrow);
-        vector<int> rightnext = update_robot_position(backpath[i],backcol, backrow);
-
-        forwardcol = leftnext[0];
-        forwardrow = leftnext[1];
-        backcol = rightnext[0];
-        backrow = rightnext[1];
-
     }
 
-    if(robot==0)
+    if (robot == 0)
     {
         lcount = count;
         rightbackpath = backpath;
@@ -178,8 +198,7 @@ int Master::find_back_path(int robot)
         rcount = count;
         leftbackpath = backpath;
     }
-
-
+}
 
 
 // void Master::main_control()
