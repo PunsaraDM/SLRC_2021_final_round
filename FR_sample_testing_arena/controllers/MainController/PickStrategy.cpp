@@ -398,8 +398,8 @@ void PickStrategy::initialize(Maze m)
 
     for (size_t i = 0; i < 3; i++)
     {
-        vector<int> path = shortest_path_seq[order_left[i][0]][order_left[i][1]];
-        cout << "this _path:" << order_left[i][0] << "," << order_left[i][1] << "\n";
+        vector<int> path = shortest_path_seq[order_left[i][0]][2*order_left[i][1]];
+        cout << "this _path:" << order_left[i][0] << "," << 2*order_left[i][1] << "\n";
         for (size_t i = 0; i < path.size(); i++)
         {
             cout << path[i] << "| ";
