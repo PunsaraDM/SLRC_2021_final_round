@@ -22,6 +22,10 @@ using namespace std;
 #define INVERTED 3
 #define NORMAL 4
 
+
+#define RESERVED 0
+#define UNRESERVED 1
+
 #ifdef __cplusplus
 extern "C"
 {
@@ -33,6 +37,8 @@ extern "C"
         int found_paths = 0;
         int found_junctions = 0;
         bool found_junctions_set = false;
+        int travel_state = UNRESERVED;
+
 
         void set_paths(vector<int> paths);
         void set_path(int direction, int state);

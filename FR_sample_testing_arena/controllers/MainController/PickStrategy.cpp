@@ -122,12 +122,10 @@ void PickStrategy::find_combinations(Maze m)
             }
         }
     }
-}
-}
 
-//order_left each element a vector with first element the color, second element the selected index of the color(either 0,1)
-order_left = find_order(selected_left, locations);
-order_right = find_order(selected_right, locations);
+    //order_left each element a vector with first element the color, second element the selected index of the color(either 0,1)
+    order_left = find_order(selected_left, locations);
+    order_right = find_order(selected_right, locations);
 }
 
 void PickStrategy::discover_shortest_paths(vector<vector<vector<int>>> locations, Maze maze)

@@ -21,6 +21,8 @@ extern "C"
         vector<vector<int>> order_left;
         vector<vector<int>> order_right;
         vector<vector<int>> white_locations;
+        vector<int> left_stack;
+        vector<int> right_stack;
         void find_combinations(Maze m);
         int find_shortest_path(int col1, int row1, int col2, int row2, int color, int dir, Maze c_maze);
         void discover_shortest_paths(vector<vector<vector<int>>> locations, Maze m);
@@ -47,8 +49,6 @@ extern "C"
         vector<int> selected_right;
         bool left_initialized = false;
         bool right_initialized = false;
-        vector<int> left_stack;
-        vector<int> right_stack;
     };
 #ifdef __cplusplus
 }

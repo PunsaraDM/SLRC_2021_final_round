@@ -77,6 +77,10 @@ extern "C"
         vector<vector<int>> initiate_pick();
         int robot_col = 0;
         int robot_row = 0;
+        int last_robot_col = 0;
+        int last_robot_row = 0;
+        int get_opposite_dir(int direction);
+        bool hold =false;
 
     private:
         Maze maze;
