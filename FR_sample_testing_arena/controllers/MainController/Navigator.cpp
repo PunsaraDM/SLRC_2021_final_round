@@ -675,7 +675,9 @@ void Navigator::visit_white_patch(bool initial)
         // motorGroup->qtr_servo(QTR_UP, 2.0);
         go_forward_specific_distance(0.13);
         turnAng(45.0);
+        go_forward_specific_distance(0.05);
         place_white_box_in_red_square();    //doesn't update the var[INV_PATCH][BOX_CARRY] to not carrying a white box
+        go_backward_specific_distance(0.05);
         turnAng(-45.0);
         go_backward_specific_distance(0.13);
       }
@@ -783,10 +785,10 @@ void Navigator::follow_line_until_junc_detect()
 
 void Navigator::goto_placement_cell(bool final)
 {
-  if (boxCountPlacement != 2){
-    visit_normal_junc(); // go forward
-  }
-
+  // if (boxCountPlacement != 2){
+  //   visit_normal_junc(); // go forward
+  // }
+  visit_normal_junc(); // go forward
   follow_line_until_junc_detect();
   motorGroup->qtr_servo(QTR_UP, 2.0);
   delay(500);
@@ -833,7 +835,7 @@ void Navigator::one_cell()
 {
   //[NAVIGATE_STATE , DIRECTION , INV_PATCH[BOX_CARRY,INV_DIRECTION],JUNC_TYPE, BOX_GRAB[POSITION,COLOR]]
   var = pathFinder->travel_maze(juncType, pathState, boxType); // need to know we are carrying box
-  if (var[NAVIGATE_STATE][0] != STALL)
+  if (var[NAVIGATE_STATE][0] == SEARCH and var[NAVIGATE_STATE][0] == VISIT)
   {
     turn(var[DIRECTION][0]);
     follow_line_until_junc_detect();
