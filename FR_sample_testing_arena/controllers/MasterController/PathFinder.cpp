@@ -197,30 +197,23 @@ vector<vector<int>> PathFinder::search_maze(int juncType, vector<int> path_state
         maze->update_path(robot_col, robot_row, paths, robot);
     }
 
-    if (maze->discovered == 6 && (maze->paths_joined || maze->color_match()))
-    {
-        return create_next_data_packet();
-    }
-    else
-    {
-        direction_to_travel = strategy->find_next_direction(robot_col, robot_row, last_direction, has_white);
+    direction_to_travel = strategy->find_next_direction(robot_col, robot_row, last_direction, has_white);
 
-        if (junction_content_state == INVERTED && has_white)
-        {
-            white_box = false;
-        }
-
-        has_white = white_box;
-        maze->junctions[robot_col][robot_row].travel_state = UNRESERVED;
-        junc_available = check_and_set_available_direction();
-        maze->junctions[robot_col][robot_row].travel_state = RESERVED;
-        packet = create_next_data_packet();
-        if (junc_available)
-        {
-            last_direction = direction_to_travel;
-        }
-        return packet;
+    if (junction_content_state == INVERTED && has_white)
+    {
+        white_box = false;
     }
+
+    has_white = white_box;
+    maze->junctions[robot_col][robot_row].travel_state = UNRESERVED;
+    junc_available = check_and_set_available_direction();
+    maze->junctions[robot_col][robot_row].travel_state = RESERVED;
+    packet = create_next_data_packet();
+    if (junc_available)
+    {
+        last_direction = direction_to_travel;
+    }
+    return packet;
 }
 
 vector<vector<int>> PathFinder::create_next_data_packet()
@@ -460,7 +453,7 @@ vector<vector<int>> PathFinder::initiate_pick()
     {
         in_last = true;
         packet = create_next_data_packet();
-        return  packet;
+        return packet;
     }
     else
     {
@@ -525,4 +518,3 @@ bool PathFinder::check_and_set_available_direction()
         return true;
     }
 }
-

@@ -92,32 +92,36 @@ void Master::main_control()
         if (maze->discovered == 6 && scan_just_over && (maze->paths_joined || maze->color_match()))
         {
             msgCount += 1;
+            cout << "mesg" << msgCount << "," << rx << "\n";
             if (msgCount == 1)
             {
                 if (rx == 0)
                 {
-                    var = pathfinder_left->travel_maze(juncTypeRx, pathStateRx, boxTypeRx);
+                    cout << "left:" << pathfinder_left->robot_col << "," << pathfinder_left->robot_row;
+                    maze->junctions[pathfinder_left->robot_col][pathfinder_left->robot_row].set_state(DISCOVERED);
                 }
                 else
                 {
-                    var = pathfinder_right->travel_maze(juncTypeRx, pathStateRx, boxTypeRx);
+                    cout << "right:" << pathfinder_right->robot_col << "," << pathfinder_right->robot_row;
+                    maze->junctions[pathfinder_right->robot_col][pathfinder_right->robot_row].set_state(DISCOVERED);
                 }
 
                 rx = rx + 1;
                 if (rx > 1)
                     rx = 0;
                 searchFinish = true;
-
             }
             else if (msgCount == 2)
             {
                 if (rx == 0)
                 {
-                    var = pathfinder_left->travel_maze(juncTypeRx, pathStateRx, boxTypeRx);
+                    cout << "left:" << pathfinder_left->robot_col << "," << pathfinder_left->robot_row;
+                    maze->junctions[pathfinder_left->robot_col][pathfinder_left->robot_row].set_state(DISCOVERED);
                 }
                 else
                 {
-                    var = pathfinder_right->travel_maze(juncTypeRx, pathStateRx, boxTypeRx);
+                    cout << "right:" << pathfinder_right->robot_col << "," << pathfinder_right->robot_row;
+                    maze->junctions[pathfinder_right->robot_col][pathfinder_right->robot_row].set_state(DISCOVERED);
                 }
                 cout << "all six found"
                      << "\n";
@@ -142,7 +146,7 @@ void Master::main_control()
             if (rx == 0)
             {
                 cout << "Called 3"
-                    << "\n";
+                     << "\n";
 
                 var = pathfinder_left->travel_maze(juncTypeRx, pathStateRx, boxTypeRx);
                 emmit(rx);
@@ -150,26 +154,21 @@ void Master::main_control()
             else
             {
                 cout << "Called 4"
-                    << "\n";
+                     << "\n";
 
                 var = pathfinder_right->travel_maze(juncTypeRx, pathStateRx, boxTypeRx);
 
                 emmit(rx);
             }
         }
-        
-            
     }
 
-    if(!searchFinish)
+    if (!searchFinish)
     {
         rx = rx + 1;
         if (rx > 1)
             rx = 0;
     }
-
-
-   
 }
 
 void Master::find_back_path(int robot, vector<int> forward_path)
@@ -314,6 +313,20 @@ void Master::find_back_path(int robot, vector<int> forward_path)
 
 //     }
 
+// }
+
+// void Master::update_maze(int col, int row, int juncType, vector<int> path_state, vector<int> box_type)
+// {
+//     // paths = adjust_path_state_to_global(path_state);
+//     // junction_content_state = juncType;
+//     // junction_content = box_type;
+//     maze->junctions[col][row].set_state(DISCOVERED);
+//     // pathfinder_left->adjust_path_state_to_global(path_state);
+//     // maze->update_junction(pathfinder_left->robot_col, pathfinder_left->robot_row, juncTypeRx, boxTypeRx, pathfinder_left->has_white, LEFT);
+//     // if (junction_content_state != INVERTED || has_white)
+//     // {
+//     //     maze->update_path(pathfinder_left->robot_col, pathfinder_left->robot_row, boxTypeRx, LEFT);
+//     // }
 // }
 
 void Master::receive(int rx)
