@@ -60,6 +60,8 @@ extern "C"
         PathFinder *pathfinder_right;
         bool scan_just_over = true;
         bool one_processing = true;
+        bool searchFinish = false;
+        int msgCount =0;
 
         static const int rx_count = 2;
         Receiver *receiver[rx_count];

@@ -49,7 +49,6 @@ void Master::initMaster()
 
 void Master::main_control()
 {
-    bool keepSameRx = false;
     if (!(pathfinder_left->pick_junc_available) && !(pathfinder_right->pick_junc_available))
     {
         find_back_path(0, pick_strategy->left_stack);
@@ -63,7 +62,6 @@ void Master::main_control()
         {
             pick_strategy->add_to_stack(LEFT, leftbackpath);
         }
-        keepSameRx = true;
     }
 
     else if (!(pathfinder_left->junc_available) && !(pathfinder_right->junc_available))
@@ -86,48 +84,62 @@ void Master::main_control()
         {
             pathfinder_left->strategy->add_to_stack(leftbackpath);
         }
-        keepSameRx = true;
     }
     else if (receiver[rx]->getQueueLength() > 0)
     {
+        searchFinish = false;
         receive(rx);
         if (maze->discovered == 6 && scan_just_over && (maze->paths_joined || maze->color_match()))
         {
-            cout << "all six found"
-                 << "\n";
-            scan_just_over = false;
-            one_processing = false;
+            msgCount +=1;
+            if(msgCount==1){
 
-            pick_strategy->initialize(maze, pathfinder_left->robot_col, pathfinder_left->robot_row, pathfinder_right->robot_col, pathfinder_right->robot_row, maze->color_match());
-
-            pathfinder_left->scan_just_over = true;
-            pathfinder_left->scan_over = true;
-            pathfinder_right->scan_just_over = true;
-            pathfinder_right->scan_over = true;
-            pathfinder_left->initiate_pick();
-            pathfinder_right->initiate_pick();
-
-            if (rx == 0)
+            }
+            else if(msgCount==2)
             {
-                cout << "Called 1"
-                     << "\n";
-                var = pathfinder_left->travel_maze(juncTypeRx, pathStateRx, boxTypeRx);
-                emmit(rx);
+                cout << "all six found"
+                    << "\n";
+                scan_just_over = false;
+                one_processing = false;
+
+                pick_strategy->initialize(maze, pathfinder_left->robot_col, pathfinder_left->robot_row, pathfinder_right->robot_col, pathfinder_right->robot_row, maze->color_match());
+
+                pathfinder_left->scan_just_over = true;
+                pathfinder_left->scan_over = true;
+                pathfinder_right->scan_just_over = true;
+                pathfinder_right->scan_over = true;
+                pathfinder_left->initiate_pick();
+                pathfinder_right->initiate_pick();
+
+                if (rx == 0)
+                {
+                    cout << "Called 1"
+                        << "\n";
+                    var = pathfinder_left->travel_maze(juncTypeRx, pathStateRx, boxTypeRx);
+                    emmit(rx);
+                }
+                else
+                {
+                    cout << "Called 2"
+                        << "\n";
+
+                    var = pathfinder_right->travel_maze(juncTypeRx, pathStateRx, boxTypeRx);
+
+                    emmit(rx);
+                    
+                }
             }
             else
             {
-                cout << "Called 2"
-                     << "\n";
-
-                var = pathfinder_right->travel_maze(juncTypeRx, pathStateRx, boxTypeRx);
-
-                emmit(rx);
+                rx = rx + 1;
+                if (rx > 1)
+                    rx = 0;
             }
-            one_processing = true;
-        }else
+            
+            searchFinish = true;
+        }
+        else
         {
-        // else if (one_processing)
-        // {
             if (rx == 0)
             {
                 cout << "Called 3"
@@ -146,10 +158,10 @@ void Master::main_control()
                 emmit(rx);
             }
         }
-        // }
+
     }
 
-    if (!keepSameRx)
+    if (!searchFinish)
     {
         rx = rx + 1;
         if (rx > 1)
