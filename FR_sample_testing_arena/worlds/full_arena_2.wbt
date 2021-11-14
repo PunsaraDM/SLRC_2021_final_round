@@ -2957,7 +2957,7 @@ DEF ROBOT_LEFT Robot {
         }
       ]
       endPoint DEF QTR_PANEL Solid {
-        translation 6.38378239159465e-16 -0.12799999999999936 0.119988
+        translation 6.661338147750939e-16 -0.12799999999999934 0.119988
         rotation -0.9999999999999999 0 0 1.5707
         children [
           DEF QTR_SENSORS Transform {
@@ -3777,7 +3777,7 @@ DEF ROBOT_LEFT Robot {
     density -1
     mass 2
   }
-  controller "MainController"
+  controller "RobotLeftController"
 }
 DEF ROBOT_RIGHT Robot {
   translation 6.87 0.01 -3.90001
@@ -4840,7 +4840,7 @@ DEF ROBOT_RIGHT Robot {
         }
       ]
       endPoint DEF QTR_PANEL Solid {
-        translation 6.38378239159465e-16 -0.12799999999999936 0.119988
+        translation 6.661338147750939e-16 -0.12799999999999934 0.119988
         rotation -0.9999999999999999 0 0 1.5707
         children [
           DEF QTR_SENSORS Transform {
@@ -5660,7 +5660,7 @@ DEF ROBOT_RIGHT Robot {
     density -1
     mass 2
   }
-  controller "MainController"
+  controller "RobotRightController"
 }
 DEF Master Robot {
   children [

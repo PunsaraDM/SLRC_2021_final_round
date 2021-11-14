@@ -124,9 +124,10 @@ void Master::main_control()
             rx = rx + 1;
             if (rx > 1)
                 rx = 0;
-        }
-        else if (one_processing)
+        }else
         {
+        // else if (one_processing)
+        // {
             if (rx == 0)
             {
                 cout << "Called 3"
@@ -149,6 +150,7 @@ void Master::main_control()
             if (rx > 1)
                 rx = 0;
         }
+        // }
     }
 }
 

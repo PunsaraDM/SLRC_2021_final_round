@@ -8,11 +8,11 @@ orthographicViewHeight: 1
 textFiles: 2 "controllers/RobotRightController/RobotRightController.cpp" "controllers/RobotLeftController/RobotLeftController.cpp" "controllers/MasterController/MasterController.cpp"
 globalOptionalRendering: DistanceSensorRays
 consoles: Console:All:All
-renderingDevicePerspectives: robot_left:cs_arm;1;1;0;0
-renderingDevicePerspectives: robot_left:cs_front;1;1;0;0
-renderingDevicePerspectives: robot_left:cs_left;1;1;0;0
-renderingDevicePerspectives: robot_left:cs_right;1;1;0;0
-renderingDevicePerspectives: robot_right:cs_arm;1;1;0;0
-renderingDevicePerspectives: robot_right:cs_front;1;1;0;0
-renderingDevicePerspectives: robot_right:cs_left;1;1;0;0
-renderingDevicePerspectives: robot_right:cs_right;1;1;0;0
+renderingDevicePerspectives: robot_left:cs_arm;0;1;0;0
+renderingDevicePerspectives: robot_left:cs_front;0;1;0;0
+renderingDevicePerspectives: robot_left:cs_left;0;1;0;0
+renderingDevicePerspectives: robot_left:cs_right;0;1;0;0
+renderingDevicePerspectives: robot_right:cs_arm;0;1;0.00978916;0.0942184
+renderingDevicePerspectives: robot_right:cs_front;0;1;0;0
+renderingDevicePerspectives: robot_right:cs_left;0;1;0;0
+renderingDevicePerspectives: robot_right:cs_right;0;1;0;0
