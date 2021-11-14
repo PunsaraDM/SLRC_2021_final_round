@@ -567,7 +567,7 @@ void Navigator::visit_junction(int junctype)
   else if (junctype == INVERTED or junctype == INVERTWHITE)
     visit_inv_junc();
   else if ((junctype == WHITE_PATCH) or (junctype == COLORED) or (junctype == PATCHNOBOX))
-    visit_white_patch(); // need lower or upper box and box color
+    visit_white_patch(false); // need lower or upper box and box color
 }
 
 void Navigator::discover_junction()
