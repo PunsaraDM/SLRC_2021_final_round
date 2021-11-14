@@ -115,12 +115,12 @@ void Master::main_control()
             {
                 if (rx == 0)
                 {
-                    cout << "left:" << pathfinder_left->robot_col << "," << pathfinder_left->robot_row;
+                    cout << "left:" << pathfinder_left->robot_col << "," << pathfinder_left->robot_row << "\n";
                     maze->junctions[pathfinder_left->robot_col][pathfinder_left->robot_row].set_state(DISCOVERED);
                 }
                 else
                 {
-                    cout << "right:" << pathfinder_right->robot_col << "," << pathfinder_right->robot_row;
+                    cout << "right:" << pathfinder_right->robot_col << "," << pathfinder_right->robot_row << "\n";
                     maze->junctions[pathfinder_right->robot_col][pathfinder_right->robot_row].set_state(DISCOVERED);
                 }
                 cout << "all six found"

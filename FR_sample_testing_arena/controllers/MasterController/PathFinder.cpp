@@ -99,16 +99,8 @@ vector<vector<int>> PathFinder::travel_maze(int juncType, vector<int> path_state
     }
     else
     {
-
-        if (scan_just_over)
-        {
-            scan_just_over = false;
-            return initial_pick_packet;
-        }
-        else
-        {
-            return travel_with_color();
-        }
+        return travel_with_color();
+        
     }
 }
 
@@ -373,7 +365,7 @@ vector<int> PathFinder::update_robot_position(int direction)
 
 void PathFinder::get_next_junc_color()
 {
-    vector<int> loc{robot_col, robot_row};
+    vector<int> loc = update_robot_position(direction_to_travel);
     int state = 0;
     current_color = NOCOLOR;
     waiting_for_top = false;

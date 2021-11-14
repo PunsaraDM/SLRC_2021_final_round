@@ -401,11 +401,23 @@ int PickStrategy::find_next_direction_pick(int robot, Maze *maze)
     int direction = INVALID;
     if (robot == LEFT)
     {
+        cout << "left:";
+        for (size_t i = 0; i < left_stack.size(); i++)
+        {
+            cout << left_stack[i] << "| ";
+        }
+        cout << "\n";
         direction = left_stack[0];
         left_stack.erase(left_stack.begin());
     }
     if (robot == RIGHT)
     {
+        cout << "right:";
+        for (size_t i = 0; i < right_stack.size(); i++)
+        {
+            cout << right_stack[i] << "| ";
+        }
+        cout << "\n";
         direction = right_stack[0];
         right_stack.erase(right_stack.begin());
     }
