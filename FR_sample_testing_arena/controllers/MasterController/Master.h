@@ -72,6 +72,7 @@ extern "C"
         char tx_name[tx_count][10] = {"emitter1", "emitter2"};
 
         vector<vector<int>> var{{0}, {0}, {0, 0}, {0}, {0, 0}};
+        void update_maze(int col, int row, int juncType, vector<int> path_state, vector<int> box_type, int robot);
 
         int juncTypeRx = 0;
         vector<int> pathStateRx{0, 0, 0, 0}; // down path is always keep as notaccesible since robot coming from that side

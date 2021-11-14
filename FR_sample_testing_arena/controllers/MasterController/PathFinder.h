@@ -93,6 +93,7 @@ extern "C"
         bool placement_back =false;
         bool zero_achieved =false;
         bool came_back =false;
+        bool has_white = true;
         
         Strategy *strategy;
 
@@ -107,7 +108,6 @@ extern "C"
         int robot = LEFT;
         bool isTravelUp = true;
         int last_direction = RIGHT;
-        bool has_white = true;
         bool in_last = false;
         int current_color = NOCOLOR;
         int current_pos = LOWER;

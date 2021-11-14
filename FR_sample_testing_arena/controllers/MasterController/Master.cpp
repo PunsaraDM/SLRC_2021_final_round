@@ -98,12 +98,12 @@ void Master::main_control()
                 if (rx == 0)
                 {
                     cout << "left:" << pathfinder_left->robot_col << "," << pathfinder_left->robot_row;
-                    maze->junctions[pathfinder_left->robot_col][pathfinder_left->robot_row].set_state(DISCOVERED);
+                    update_maze(pathfinder_left->robot_col, pathfinder_left->robot_row, juncTypeRx, pathStateRx, boxTypeRx, LEFT);
                 }
                 else
                 {
                     cout << "right:" << pathfinder_right->robot_col << "," << pathfinder_right->robot_row;
-                    maze->junctions[pathfinder_right->robot_col][pathfinder_right->robot_row].set_state(DISCOVERED);
+                    update_maze(pathfinder_right->robot_col, pathfinder_right->robot_row, juncTypeRx, pathStateRx, boxTypeRx, RIGHT);
                 }
 
                 rx = rx + 1;
@@ -116,12 +116,12 @@ void Master::main_control()
                 if (rx == 0)
                 {
                     cout << "left:" << pathfinder_left->robot_col << "," << pathfinder_left->robot_row << "\n";
-                    maze->junctions[pathfinder_left->robot_col][pathfinder_left->robot_row].set_state(DISCOVERED);
+                    update_maze(pathfinder_left->robot_col, pathfinder_left->robot_row, juncTypeRx, pathStateRx, boxTypeRx, LEFT);
                 }
                 else
                 {
                     cout << "right:" << pathfinder_right->robot_col << "," << pathfinder_right->robot_row << "\n";
-                    maze->junctions[pathfinder_right->robot_col][pathfinder_right->robot_row].set_state(DISCOVERED);
+                    update_maze(pathfinder_right->robot_col, pathfinder_right->robot_row, juncTypeRx, pathStateRx, boxTypeRx, RIGHT);
                 }
                 cout << "all six found"
                      << "\n";
@@ -315,19 +315,43 @@ void Master::find_back_path(int robot, vector<int> forward_path)
 
 // }
 
-// void Master::update_maze(int col, int row, int juncType, vector<int> path_state, vector<int> box_type)
-// {
-//     // paths = adjust_path_state_to_global(path_state);
-//     // junction_content_state = juncType;
-//     // junction_content = box_type;
-//     maze->junctions[col][row].set_state(DISCOVERED);
-//     // pathfinder_left->adjust_path_state_to_global(path_state);
-//     // maze->update_junction(pathfinder_left->robot_col, pathfinder_left->robot_row, juncTypeRx, boxTypeRx, pathfinder_left->has_white, LEFT);
-//     // if (junction_content_state != INVERTED || has_white)
-//     // {
-//     //     maze->update_path(pathfinder_left->robot_col, pathfinder_left->robot_row, boxTypeRx, LEFT);
-//     // }
-// }
+void Master::update_maze(int col, int row, int juncType, vector<int> path_state, vector<int> box_type, int robot)
+{
+    PathFinder *path_finder;
+    if (robot == LEFT)
+    {
+        path_finder = pathfinder_left;
+    }
+    else
+    {
+        path_finder = pathfinder_right;
+    }
+
+    if (maze->junctions[col][row].get_state() != DISCOVERED)
+    {
+        if (juncType != INVERTED)
+        {
+            maze->junctions[col][row].set_state(DISCOVERED);
+        }
+        if (juncType == WHITE_PATCH)
+        {
+            path_finder->has_white = true;
+        }
+        maze->update_junction(col, row, box_type, juncType, path_finder->has_white, robot);
+        vector<int> path = pathfinder_left->adjust_path_state_to_global(path_state);
+        if (juncType != INVERTED || path_finder->has_white)
+        {
+            maze->update_path(col, row, path, robot);
+        }
+    }
+
+    // pathfinder_left->adjust_path_state_to_global(path_state);
+    // maze->update_junction(pathfinder_left->robot_col, pathfinder_left->robot_row, juncTypeRx, boxTypeRx, pathfinder_left->has_white, LEFT);
+    // if (junction_content_state != INVERTED || has_white)
+    // {
+    //     maze->update_path(pathfinder_left->robot_col, pathfinder_left->robot_row, boxTypeRx, LEFT);
+    // }
+}
 
 void Master::receive(int rx)
 {
