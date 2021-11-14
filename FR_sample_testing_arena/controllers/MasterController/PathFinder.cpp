@@ -391,36 +391,49 @@ void PathFinder::get_next_junc_color()
     pick_color_box = false;
     vector<int> loc = update_robot_position(direction_to_travel);
     cout << "Called with:" << loc[0] << "," << loc[1] << "\n";
-    cout << "Called PICK NOW:" << maze->colored_junctions[pick_order[current_pick][0]][pick_order[current_pick][1]][0] << "," << maze->colored_junctions[pick_order[current_pick][0]][pick_order[current_pick][1]][1] << "\n";
-
-    if (maze->colored_junctions[pick_order[current_pick][0]][pick_order[current_pick][1]][0] == loc[0] && maze->colored_junctions[pick_order[current_pick][0]][pick_order[current_pick][1]][1] == loc[1])
+    if (current_pick < 3)
     {
-        pick_color_box = true;
-        cout << "inside color"
-             << "\n";
-
-        state = maze->colored_junctions[pick_order[current_pick][0]][pick_order[current_pick][1]][2];
-        cout << "state:" << state << "\n";
-        current_color = pick_order[current_pick][0] + 1;
-
-        if (state == LOWER)
+        if (maze->colored_junctions[pick_order[current_pick][0]][pick_order[current_pick][1]][0] == loc[0] && maze->colored_junctions[pick_order[current_pick][0]][pick_order[current_pick][1]][1] == loc[1])
         {
-            cout << "inside lower"
+            pick_color_box = true;
+            cout << "inside color"
                  << "\n";
-            for (size_t i = 0; i < maze->colored_sequential.size(); i++)
-            {
-                if (maze->colored_sequential[i][0] == loc[0] && maze->colored_sequential[i][1] == loc[1] && maze->colored_sequential[i][3] == MIDDLE && maze->colored_sequential[i][4] == false)
-                {
-                    waiting_for_top = true;
-                    break;
-                }
-            }
-            if (!waiting_for_top)
-            {
 
+            state = maze->colored_junctions[pick_order[current_pick][0]][pick_order[current_pick][1]][2];
+            cout << "state:" << state << "\n";
+            current_color = pick_order[current_pick][0] + 1;
+
+            if (state == LOWER)
+            {
+                cout << "inside lower"
+                     << "\n";
                 for (size_t i = 0; i < maze->colored_sequential.size(); i++)
                 {
-                    if (maze->colored_sequential[i][0] == loc[0] && maze->colored_sequential[i][1] == loc[1] && maze->colored_sequential[i][3] == state)
+                    if (maze->colored_sequential[i][0] == loc[0] && maze->colored_sequential[i][1] == loc[1] && maze->colored_sequential[i][3] == MIDDLE && maze->colored_sequential[i][4] == false)
+                    {
+                        waiting_for_top = true;
+                        break;
+                    }
+                }
+                if (!waiting_for_top)
+                {
+
+                    for (size_t i = 0; i < maze->colored_sequential.size(); i++)
+                    {
+                        if (maze->colored_sequential[i][0] == loc[0] && maze->colored_sequential[i][1] == loc[1] && maze->colored_sequential[i][3] == state)
+                        {
+                            maze->colored_sequential[i][4] = true;
+                            break;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                waiting_for_top = false;
+                for (size_t i = 0; i < maze->colored_sequential.size(); i++)
+                {
+                    if (maze->colored_sequential[i][0] == loc[0] && maze->colored_sequential[i][1] == loc[1])
                     {
                         maze->colored_sequential[i][4] = true;
                         break;
@@ -428,31 +441,19 @@ void PathFinder::get_next_junc_color()
                 }
             }
         }
-        else
-        {
-            waiting_for_top = false;
-            for (size_t i = 0; i < maze->colored_sequential.size(); i++)
-            {
-                if (maze->colored_sequential[i][0] == loc[0] && maze->colored_sequential[i][1] == loc[1])
-                {
-                    maze->colored_sequential[i][4] = true;
-                    break;
-                }
-            }
-        }
-    }
 
-    if (state == 3)
-    {
-        cout << "in 3"
-             << "\n";
-        state = LOWER;
+        if (state == 3)
+        {
+            cout << "in 3"
+                 << "\n";
+            state = LOWER;
+        }
+        if (pick_color_box)
+        {
+            current_pick += 1;
+        }
+        current_pos = state;
     }
-    if (pick_color_box)
-    {
-        current_pick += 1;
-    }
-    current_pos = state;
 }
 
 void PathFinder::initiate_pick()
