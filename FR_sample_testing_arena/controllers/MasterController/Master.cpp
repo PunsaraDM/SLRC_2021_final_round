@@ -102,6 +102,12 @@ void Master::main_control()
                 {
                     var = pathfinder_right->travel_maze(juncTypeRx, pathStateRx, boxTypeRx);
                 }
+
+                rx = rx + 1;
+                if (rx > 1)
+                    rx = 0;
+                searchFinish = true;
+
             }
             else if (msgCount == 2)
             {
@@ -131,36 +137,37 @@ void Master::main_control()
                 emmit(1);
             }
         }
+        else
+        {
+            if (rx == 0)
+            {
+                cout << "Called 3"
+                    << "\n";
+
+                var = pathfinder_left->travel_maze(juncTypeRx, pathStateRx, boxTypeRx);
+                emmit(rx);
+            }
+            else
+            {
+                cout << "Called 4"
+                    << "\n";
+
+                var = pathfinder_right->travel_maze(juncTypeRx, pathStateRx, boxTypeRx);
+
+                emmit(rx);
+            }
+        }
         
-        else
-        {
-            rx = rx + 1;
-            if (rx > 1)
-                rx = 0;
-        }
-
-        searchFinish = true;
+            
     }
-    else
+
+    if(!searchFinish)
     {
-        if (rx == 0)
-        {
-            cout << "Called 3"
-                 << "\n";
-
-            var = pathfinder_left->travel_maze(juncTypeRx, pathStateRx, boxTypeRx);
-            emmit(rx);
-        }
-        else
-        {
-            cout << "Called 4"
-                 << "\n";
-
-            var = pathfinder_right->travel_maze(juncTypeRx, pathStateRx, boxTypeRx);
-
-            emmit(rx);
-        }
+        rx = rx + 1;
+        if (rx > 1)
+            rx = 0;
     }
+
 
    
 }

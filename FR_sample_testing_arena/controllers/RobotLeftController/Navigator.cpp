@@ -896,25 +896,35 @@ void Navigator::one_cell()
 
 void Navigator::update_var(string RxMessage)
 {
-  string tempStr;
-
-  for (int i = 0; i < 7; i++)
+  string tempStr = "";
+  size_t i = 0;
+  int j = 0;
+  while (i < RxMessage.size())
   {
     tempStr = RxMessage[i];
-    if (i == 0)
+    if (tempStr == "-")
+      {
+        i = i + 1;
+        tempStr = tempStr + RxMessage[i];
+      }
+
+    if (j == 0)
       var[0][0] = stoi(tempStr);
-    else if (i == 1)
+    else if (j == 1)
       var[1][0] = stoi(tempStr);
-    else if (i == 2)
+    else if (j == 2)
       var[2][0] = stoi(tempStr);
-    else if (i == 3)
+    else if (j == 3)
       var[2][1] = stoi(tempStr);
-    else if (i == 4)
+    else if (j == 4)
       var[3][0] = stoi(tempStr);
-    else if (i == 5)
+    else if (j == 5)
       var[4][0] = stoi(tempStr);
-    else if (i == 6)
+    else if (j == 6)
       var[4][1] = stoi(tempStr);
+    
+    i = i + 1;
+    j = j + 1;
   }
 
   //cout << "rxmsg: " << var[0][0] << var[1][0] << var[2][0] << var[2][1] << var[3][0] << var[4][0] << var[4][1] << endl;

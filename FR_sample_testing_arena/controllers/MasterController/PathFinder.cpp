@@ -380,6 +380,7 @@ vector<int> PathFinder::update_robot_position(int direction)
 
 void PathFinder::get_next_junc_color()
 {
+    vector<int> loc{robot_col, robot_row};
     int state = 0;
     current_color = NOCOLOR;
     waiting_for_top = false;
