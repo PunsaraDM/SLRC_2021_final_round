@@ -61,7 +61,7 @@ extern "C"
     class PathFinder
     {
     public:
-        PathFinder(int startCol, int startRow, Maze* c_maze, int dir, PickStrategy pickStrategy);
+        PathFinder(int startCol, int startRow, Maze* c_maze, int dir, PickStrategy* pickStrategy);
         vector<vector<int>> travel_maze(int juncType, vector<int> path_state, vector<int> box_type);
         vector<vector<int>> travel_with_color();
         vector<vector<int>> search_maze(int juncType, vector<int> path_state, vector<int> box_type);
@@ -73,7 +73,7 @@ extern "C"
         int get_invert_box_dir();
         vector<int> adjust_path_state_to_global(vector<int> paths);
         bool check_and_set_available_direction();
-        bool get_next_junc_color();
+        void get_next_junc_color();
         bool paths_remaining();
         void initiate_pick();
         int robot_col = 0;
@@ -87,12 +87,16 @@ extern "C"
         bool scan_over = false;
         bool junc_available = true;
         bool pick_junc_available = true;
+        bool waiting_for_top = false;
+        bool pick_color_box = false;
+        bool placement = false;
+        bool placement_full =true;
         
         Strategy *strategy;
 
     private:
         Maze* maze;
-        PickStrategy pick_strategy;
+        PickStrategy* pick_strategy;
         vector<vector<int>> pick_order;
         int current_pick = 0;
         int travel_dir = LEFT;

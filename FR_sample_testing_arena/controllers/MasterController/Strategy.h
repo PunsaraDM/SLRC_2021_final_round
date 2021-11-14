@@ -34,6 +34,7 @@ extern "C"
         vector<int> robot_stack;
         bool backtracking_white = false;
         bool backtracking_invert = false;
+        bool backtracking = false;
 
     private:
         Maze *maze;

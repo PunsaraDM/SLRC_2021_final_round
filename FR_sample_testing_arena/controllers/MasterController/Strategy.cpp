@@ -54,6 +54,8 @@ int Strategy::get_from_priority(vector<int> juncs, bool is_visited)
 
     if (is_visited)
     {
+        backtracking = true;
+        cout << "backtracking" << "\n";
         dir = robot_stack[robot_stack.size() - 1];
         robot_stack.pop_back();
     }
@@ -80,6 +82,7 @@ int Strategy::find_next_direction(int robot_col, int robot_row, int last_directi
     current_col = robot_col;
     current_row = robot_row;
     vector<int> current_loc{robot_col, robot_row};
+    backtracking = false;
     int content_state = maze->junctions[robot_col][robot_row].content_state;
 
     if (backtracking_white)

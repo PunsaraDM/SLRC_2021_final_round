@@ -32,6 +32,7 @@ Master::Master()
 void Master::initMaster()
 {
     maze = new Maze();
+    pick_strategy = new PickStrategy();
     pathfinder_left = new PathFinder(0, 0, maze, LEFT, pick_strategy);
     pathfinder_right = new PathFinder(8, 6, maze, RIGHT, pick_strategy);
     for (int i = 0; i < rx_count; i++)
@@ -50,16 +51,16 @@ void Master::main_control()
 {
     if (!(pathfinder_left->pick_junc_available) && !(pathfinder_right->pick_junc_available))
     {
-        find_back_path(0, pick_strategy.left_stack);
-        find_back_path(1, pick_strategy.right_stack);
+        find_back_path(0, pick_strategy->left_stack);
+        find_back_path(1, pick_strategy->right_stack);
 
         if (lcount <= rcount)
         {
-            pick_strategy.add_to_stack(RIGHT, rightbackpath);
+            pick_strategy->add_to_stack(RIGHT, rightbackpath);
         }
         else
         {
-            pick_strategy.add_to_stack(LEFT, leftbackpath);
+            pick_strategy->add_to_stack(LEFT, leftbackpath);
         }
     }
 
@@ -82,45 +83,73 @@ void Master::main_control()
         else
         {
             pathfinder_left->strategy->add_to_stack(leftbackpath);
-            
         }
     }
     else if (receiver[rx]->getQueueLength() > 0)
     {
-        cout << "paths joined" << maze->paths_joined << "\n";
-        cout << "color match" << maze->color_match() << "\n";
-        // if (maze->discovered == 6 && scan_just_over && (maze->paths_joined || maze->color_match()))
-        if (maze->discovered == 6 && scan_just_over)
+        receive(rx);
+        if (maze->discovered == 6 && scan_just_over && (maze->paths_joined || maze->color_match()))
         {
             cout << "all six found"
                  << "\n";
-            pick_strategy.initialize(maze, pathfinder_left->robot_col, pathfinder_left->robot_row, pathfinder_right->robot_col, pathfinder_right->robot_row);
-            pathfinder_left->initiate_pick();
-            pathfinder_right->initiate_pick();
+            scan_just_over = false;
+            one_processing = false;
+
+            pick_strategy->initialize(maze, pathfinder_left->robot_col, pathfinder_left->robot_row, pathfinder_right->robot_col, pathfinder_right->robot_row, maze->color_match());
+
             pathfinder_left->scan_just_over = true;
             pathfinder_left->scan_over = true;
             pathfinder_right->scan_just_over = true;
             pathfinder_right->scan_over = true;
-            scan_just_over = false;
-        }
-        cout << "discovered master" << maze->discovered << "\n";
-        receive(rx);
+            pathfinder_left->initiate_pick();
+            pathfinder_right->initiate_pick();
 
-        if (rx == 0)
-        {
-            var = pathfinder_left->travel_maze(juncTypeRx, pathStateRx, boxTypeRx);
-            emmit(rx);
-        }
-        else
-        {
-            var = pathfinder_right->travel_maze(juncTypeRx, pathStateRx, boxTypeRx);
+            if (rx == 0)
+            {
+                cout << "Called 1"
+                     << "\n";
+                var = pathfinder_left->travel_maze(juncTypeRx, pathStateRx, boxTypeRx);
+                emmit(rx);
+            }
+            else
+            {
+                cout << "Called 2"
+                     << "\n";
 
-            emmit(rx);
+                var = pathfinder_right->travel_maze(juncTypeRx, pathStateRx, boxTypeRx);
+
+                emmit(rx);
+            }
+            one_processing = true;
+            rx = rx + 1;
+            if (rx > 1)
+                rx = 0;
+        }
+        else if (one_processing)
+        {
+            if (rx == 0)
+            {
+                cout << "Called 3"
+                     << "\n";
+
+                var = pathfinder_left->travel_maze(juncTypeRx, pathStateRx, boxTypeRx);
+                emmit(rx);
+            }
+            else
+            {
+                cout << "Called 4"
+                     << "\n";
+
+                var = pathfinder_right->travel_maze(juncTypeRx, pathStateRx, boxTypeRx);
+
+                emmit(rx);
+            }
+
+            rx = rx + 1;
+            if (rx > 1)
+                rx = 0;
         }
     }
-    rx = rx + 1;
-    if (rx > 1)
-        rx = 0;
 }
 
 void Master::find_back_path(int robot, vector<int> forward_path)
@@ -272,7 +301,6 @@ void Master::receive(int rx)
 
     string RxMessage((const char *)receiver[rx]->getData());
 
-    cout << "received msg " << RxMessage << endl;
     receiver[rx]->nextPacket();
 
     // for (int i = 0; i < 7; i++)
@@ -326,9 +354,9 @@ void Master::receive(int rx)
         j = j + 1;
     }
 
-    cout << "juncType: " << juncTypeRx << endl;
-    cout << "pathState: " << pathStateRx[0] << pathStateRx[1] << pathStateRx[2] << pathStateRx[3] << endl;
-    cout << "boxType: " << boxTypeRx[0] << boxTypeRx[1] << endl;
+    // cout << "juncType: " << juncTypeRx << endl;
+    // cout << "pathState: " << pathStateRx[0] << pathStateRx[1] << pathStateRx[2] << pathStateRx[3] << endl;
+    // cout << "boxType: " << boxTypeRx[0] << boxTypeRx[1] << endl;
 }
 
 void Master::emmit(int tx)

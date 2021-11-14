@@ -18,6 +18,7 @@ extern "C"
         int left_start_row;
         int right_start_col;
         int right_start_row;
+        bool colors_matched = false;
         vector<vector<int>> order_left;
         vector<vector<int>> order_right;
         vector<vector<int>> white_locations;
@@ -31,7 +32,7 @@ extern "C"
         bool check_for_top_boxes(int red, int green, int blue, vector<vector<vector<int>>> locations);
         int get_opposite_dir(int direction);
         int find_next_direction_pick(int robot, Maze *maze);
-        void initialize(Maze *m, int left_col, int left_row, int right_col, int right_row);
+        void initialize(Maze *m, int left_col, int left_row, int right_col, int right_row, bool matched);
         vector<vector<int>> order_lower(vector<vector<vector<int>>> locations, vector<vector<int>> top, vector<vector<int>> lower);
         vector<vector<int>> get_pick_order(int dir);
         bool check_one_combination(vector<int> pos, vector<vector<vector<int>>> robot_found_colors, Maze *m);

@@ -72,7 +72,16 @@ void PickStrategy::find_combinations(Maze *m)
                 vector<int> pos_opposite{!red, !green, !blue};
                 bool pos_valid = check_for_top_boxes(pos[0], pos[1], pos[2], locations);
                 bool pos_opposite_valid = check_for_top_boxes(pos_opposite[0], pos_opposite[1], pos_opposite[2], locations);
-                int valid = check_combination(pos, pos_opposite, m);
+
+                int valid = INVALID;
+                if (colors_matched)
+                {
+                    valid = check_combination(pos, pos_opposite, m);
+                }
+                else
+                {
+                    valid = ANY;
+                }
                 //at least one box is in top
                 if (pos_valid && pos_opposite_valid && valid != INVALID)
                 {
@@ -123,27 +132,36 @@ void PickStrategy::find_combinations(Maze *m)
         }
     }
 
-    //order_left each element a vector with first element the color, second element the selected index of the color(either 0,1)
     order_left = find_order(selected_left, locations);
+
     order_right = find_order(selected_right, locations);
+
+    cout << "order right"
+         << "\n";
+    for (size_t i = 0; i < order_right.size(); i++)
+    {
+        cout << order_right[i][0] << "," << order_right[i][1] << "| ";
+    }
+    cout << "\n";
+    cout << "order left"
+         << "\n";
+    for (size_t i = 0; i < order_left.size(); i++)
+    {
+        cout << order_left[i][0] << "," << order_left[i][1] << "| ";
+    }
+    cout << "\n";
 }
 
 void PickStrategy::discover_shortest_paths(vector<vector<vector<int>>> locations, Maze *maze)
 {
-    cout << "size: " << locations.size() << "\n";
     for (size_t i = 0; i < locations.size(); i++)
     {
-
-        cout << "size: " << locations[i].size() << "\n";
-
         for (size_t j = 0; j < locations[i].size(); j++)
         {
             //left even right odd
             if (i == RED - 1)
             {
                 red_distances.push_back(find_shortest_path(0, 0, locations[i][j][0], locations[i][j][1], RED, 0, maze));
-                cout << "here"
-                     << "\n";
                 red_distances.push_back(find_shortest_path(8, 6, locations[i][j][0], locations[i][j][1], RED, 0, maze));
             }
             else if (i == GREEN - 1)
@@ -388,8 +406,8 @@ int PickStrategy::find_next_direction_pick(int robot, Maze *maze)
     }
     if (robot == RIGHT)
     {
-        direction = left_stack[0];
-        left_stack.erase(left_stack.begin());
+        direction = right_stack[0];
+        right_stack.erase(right_stack.begin());
     }
 
     return direction;
@@ -412,11 +430,11 @@ void PickStrategy::add_to_stack(int robot, vector<int> seq)
         right_stack.reserve(right_stack.size() + distance(seq.begin(), seq.end()));
         right_stack.insert(right_stack.begin(), reverse_seq.begin(), reverse_seq.end());
     }
-
 }
 
-void PickStrategy::initialize(Maze *m, int left_col, int left_row, int right_col, int right_row)
+void PickStrategy::initialize(Maze *m, int left_col, int left_row, int right_col, int right_row, bool matched)
 {
+    colors_matched = matched;
     left_start_col = left_col;
     left_start_row = left_row;
     right_start_col = right_col;
@@ -452,13 +470,13 @@ void PickStrategy::initialize(Maze *m, int left_col, int left_row, int right_col
         }
     }
 
-    // cout << "left_Stack:"
-    //      << "\n";
-    // for (size_t i = 0; i < left_stack.size(); i++)
-    // {
-    //     cout << left_stack[i] << "|";
-    // }
-    // cout << "\n";
+    cout << "left_Stack:"
+         << "\n";
+    for (size_t i = 0; i < left_stack.size(); i++)
+    {
+        cout << left_stack[i] << "|";
+    }
+    cout << "\n";
     for (size_t i = 0; i < 3; i++)
     {
         vector<int> path = shortest_path_seq[order_right[i][0]][order_right[i][1] * 2 + 1];
@@ -477,6 +495,14 @@ void PickStrategy::initialize(Maze *m, int left_col, int left_row, int right_col
             right_stack.insert(right_stack.end(), path.begin(), path.end());
         }
     }
+
+    cout << "right_Stack:"
+         << "\n";
+    for (size_t i = 0; i < right_stack.size(); i++)
+    {
+        cout << right_stack[i] << "|";
+    }
+    cout << "\n";
 }
 
 vector<vector<int>> PickStrategy::get_pick_order(int dir)

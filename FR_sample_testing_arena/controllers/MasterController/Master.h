@@ -55,10 +55,11 @@ extern "C"
     private:
         Maze *maze;
         int rx = 0;
-        PickStrategy pick_strategy;
+        PickStrategy* pick_strategy;
         PathFinder *pathfinder_left;
         PathFinder *pathfinder_right;
         bool scan_just_over = true;
+        bool one_processing = true;
 
         static const int rx_count = 2;
         Receiver *receiver[rx_count];
