@@ -32,7 +32,7 @@ using namespace std;
 #define INVERTED 3
 #define NORMAL 4
 #define INVERTWHITE 5
-#define PATCHNOBOX 6        //in discovery state where white patches with no boxes
+#define PATCHNOBOX 6 //in discovery state where white patches with no boxes
 
 //path state
 #define NOTACCESIBLE -2
@@ -147,8 +147,8 @@ extern "C"
 
         int BACK = 2;
         int FRONT = 4;
-        int ARM = 2;    //index of arm servo
-        int BOX = 3;    //index of box servo
+        int ARM = 2; //index of arm servo
+        int BOX = 3; //index of box servo
 
         int GRIP_EN_LEFT = 4;
         int GRIP_EN_RIGHT = 5;
@@ -173,10 +173,10 @@ extern "C"
         int LINE_DETECT_LEFT = 8;
         int LINE_DETECT_RIGHT = 9;
 
-        vector<vector<int>> var {{0},{0},{0,0},{0},{0,0}};
+        vector<vector<int>> var{{0},{0},{0,0},{0},{0,0}};
 
         vector<int> boxType {0,0};
-        vector<int> pathState {UNDISCOVERED,UNDISCOVERED,NOTACCESIBLE,UNDISCOVERED};   //down path is always keep as notaccesible since robot coming from that side
+        vector<int> pathState {UNDISCOVERED,UNDISCOVERED,NOTACCESIBLE,UNDISCOVERED}; //down path is always keep as notaccesible since robot coming from that side
         int juncType = UNDISCOVERED;
 
         int detectedJunction = 0;
@@ -204,7 +204,7 @@ extern "C"
         int QTR_UP = 0;
         int QTR_DOWN = 1;
 
-        int boxCountPlacement = 0;  //to solve the error in goto_placement_cell
+        int boxCountPlacement = 0; //to solve the error in goto_placement_cell
         ////////////For robot arm/////////////// 
         double grabDist_min = 0.0;
         double grabDistRed = 0.0732;
@@ -215,23 +215,23 @@ extern "C"
         double turnSpeed = 5.0;
         double expoValTurnThresh = 0.5;
         int turnAccu = 10000;
-        const double DELTA_double = 0.0001;    //for grippers
-        const double DELTA_single = 0.001;     //other linear motors
+        const double DELTA_double = 0.0001; //for grippers
+        const double DELTA_single = 0.001;  //other linear motors
         double distArmBase_max = 0.19;
-        double distArmBase_mid = 0.16;  //distance to grab a box
+        double distArmBase_mid = 0.16; //distance to grab a box
         //double distArmBase_centre = 0.1;   //centre the box in white square
         double distArmBase_centre_red = 0.095;
         double distArmBase_centre_green = 0.105;
         double distArmBase_centre_blue = 0.115;
         double distArmBase_centre_white = 0.115;
         double distArmBase_min = 0.0;
-        double distArmBase_place = 0.00;     //place white box before searching and centering a box
+        double distArmBase_place = 0.00; //place white box before searching and centering a box
         double distArmBase_carry = 0.03; 
         double verticalGround = 0.0;
-        double verticalMiddle = 0.06;   //functions start and ends by placing the gripper
+        double verticalMiddle = 0.06; //functions start and ends by placing the gripper
         double verticalHighest = 0.12;
         //for inverted patches
-        double distArmBase_inverted_place = 0.2;    //greater than max lenghth - distance to red box
+        double distArmBase_inverted_place = 0.2; //greater than max lenghth - distance to red box
     };
 #ifdef __cplusplus
 }

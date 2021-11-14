@@ -834,7 +834,7 @@ void Navigator::one_cell()
 {
   //[NAVIGATE_STATE , DIRECTION , INV_PATCH[BOX_CARRY,INV_DIRECTION],JUNC_TYPE, BOX_GRAB[POSITION,COLOR]]
   var = pathFinder->travel_maze(juncType, pathState, boxType); // need to know we are carrying box
-  if (var[NAVIGATE_STATE][0] == SEARCH and var[NAVIGATE_STATE][0] == VISIT)
+  if (var[NAVIGATE_STATE][0] == SEARCH or var[NAVIGATE_STATE][0] == VISIT)
   {
     turn(var[DIRECTION][0]);
     follow_line_until_junc_detect();
@@ -945,15 +945,8 @@ void Navigator::task()
 
 void Navigator::test()
 {
-  // go_forward_specific_distance(0.045);
-  // motorGroup->robot_stop();
-  grab_box(WHITE, 1);
 
-  // motorGroup->qtr_servo(QTR_UP, 2.0);
-  // turnAng(45.0);
-  // delay(500);
-  // place_white_box_in_red_square();
-  // motorGroup->qtr_servo(QTR_DOWN, 2.0);
-  // delay(500);
-  // turnAng(-45.0);
+  go_forward_specific_distance(0.045);
+  motorGroup->robot_stop();
+
 }

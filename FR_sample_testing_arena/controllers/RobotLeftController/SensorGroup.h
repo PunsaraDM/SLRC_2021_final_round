@@ -25,7 +25,6 @@ public:
 
     const double *get_compass_value();
     float get_ir_value(int index);
-    //float get_ir_value_distance_sensors(int index);
     float get_distance_value(int index);
     double get_encoder_val(int index);
     int get_digital_value(int index);
@@ -45,9 +44,6 @@ public:
     bool is_line_segment_detected();
     bool is_deadend();
 
-    //bool is_pillar_detected(int side);
-    //bool is_gate_detected(int sensor);
-
     int qtr_read_line();
 
     int COLORS[3];
@@ -61,15 +57,15 @@ private:
 
     static const int qtr_count = 10;
     DistanceSensor *qtr[qtr_count];
-    char qtrNames[qtr_count][18] = {"qtr_0", "qtr_1", "qtr_2", "qtr_3", "qtr_4", "qtr_5", "qtr_6", "qtr_7", "ld_left", "ld_right"};
+    char qtrNames[qtr_count][18] = {"qtr_0","qtr_1", "qtr_2", "qtr_3", "qtr_4", "qtr_5","qtr_6","qtr_7","ld_left","ld_right"};
 
     static const int encoder_count = 6;
     PositionSensor *encoder[encoder_count];
-    char encoder_name[encoder_count][24] = {"encoder_left", "encoder_right", "base_motor_pos", "vertical_motor_pos", "gripper_left_motor_pos", "gripper_right_motor_pos"};
+    char encoder_name[encoder_count][24] = {"encoder_left", "encoder_right","base_motor_pos","vertical_motor_pos","gripper_left_motor_pos","gripper_right_motor_pos"};
 
     static const int cs_count = 4;
     Camera *camera[cs_count];
-    char camera_name[cs_count][10] = {"cs_arm", "cs_left", "cs_right", "cs_front"};
+    char camera_name[cs_count][10] = {"cs_arm","cs_left","cs_right","cs_front"};
 
     Compass *compass;
     char compass_name[8] = "compass";
@@ -83,8 +79,6 @@ private:
     int BLACK = 0;
     int WHITE = 1;
 
-    //int LEFT = 0;
-    //int RIGHT = 1;
     int BACK = 2;
     int FRONT = 4;
 
@@ -102,16 +96,6 @@ private:
     int previousQTR_7 = 0;
     int previousQTR_0 = 0;
 
-    // int DS_SENSOR_BOX = 3;
-    // int DS_SENSOR_FRONT = 2;
-    // int DS_SENSOR_RIGHT = 1;
-    // int DS_SENSOR_LEFT = 0;
-    // int TOF_RIGHT = 5;
-    // int TOF_LEFT = 4;
-
-    // int CAM_ARM = 0;
-    // int CAM_BACK = 1;
-    // int CAM_FRONT = 2;
     int CAM_PIXEL_THRESH = 20;
 
     int WIDTH, HEIGHT;
@@ -126,6 +110,7 @@ private:
     float IR_WHITE_VALUE = 5.14;
     float BLACK_WHITE_THRESHOLD = (IR_BLACK_VALUE + IR_WHITE_VALUE) / 2;
 
+
     float RED_LEVEL = 0.666667;
     float ROUGHNESS = 0.9;
     float OCCLUSION = 0;
@@ -134,6 +119,7 @@ private:
     int FAR_RANGE = 145;
     int NEAR_RANGE = 65;
     int GATE_RANGE = 300;
+    
 };
 
 #endif

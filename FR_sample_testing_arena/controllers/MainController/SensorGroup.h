@@ -12,19 +12,19 @@ class Navigator;
 class SensorGroup
 {
 public:
-    void initialize(Navigator* follower);
-    void init_distance_sensor(Navigator* follower);
+    void initialize(Navigator *follower);
+    void init_distance_sensor(Navigator *follower);
     void init_qtr_sensor(Navigator *follower);
-    void init_encoders(Navigator* follower);
+    void init_encoders(Navigator *follower);
     void init_camera(Navigator *follower);
-    void init_compass(Navigator* follower);
+    void init_compass(Navigator *follower);
 
-    const double* get_compass_value();
+    const double *get_compass_value();
     float get_ir_value(int index);
     float get_distance_value(int index);
     double get_encoder_val(int index);
     int get_digital_value(int index);
-    void stabilize_encoder(Navigator* follower);
+    void stabilize_encoder(Navigator *follower);
     //void stabilize_ir_and_distance_sensors(Navigator *follower);
     
     int get_colour(int cam);
@@ -102,7 +102,7 @@ private:
     float RED_LEVEL = 0.666667;
     float ROUGHNESS = 0.9;
     float OCCLUSION = 0;
-    float REFLECTION_FACTOR = 0.2 + 0.8*RED_LEVEL*(1 - 0.5*ROUGHNESS)*(1 - 0.5*OCCLUSION);
+    float REFLECTION_FACTOR = 0.2 + 0.8 * RED_LEVEL * (1 - 0.5 * ROUGHNESS) * (1 - 0.5 * OCCLUSION);
 
     int FAR_RANGE = 145;
     int NEAR_RANGE = 65;
