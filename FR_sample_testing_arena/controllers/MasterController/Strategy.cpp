@@ -51,17 +51,14 @@ int Strategy::get_from_priority(vector<int> juncs, bool is_visited)
 {
 
     int dir = INVALID;
-
     if (is_visited)
     {
         backtracking = true;
-        cout << "backtracking" << "\n";
         dir = robot_stack[robot_stack.size() - 1];
         robot_stack.pop_back();
     }
     else
     {
-
         for (int i = 0; i < 4; i++)
         {
             if (find(juncs.begin(), juncs.end(), priority[i]) != juncs.end())
@@ -70,7 +67,6 @@ int Strategy::get_from_priority(vector<int> juncs, bool is_visited)
                 break;
             }
         }
-
         robot_stack.push_back(get_opposite_dir(dir));
     }
 
@@ -96,6 +92,7 @@ int Strategy::find_next_direction(int robot_col, int robot_row, int last_directi
             vector<int> white_coord = white_locations[white_locations.size() - 1];
             white_locations.pop_back();
             find_shortest_path(invert_col, invert_row, white_coord[0], white_coord[1]);
+            // maze->junctions[white_coord[0]][white_coord[1]]
 
             for (size_t i = 0; i < shortest_path.size(); i++)
             {

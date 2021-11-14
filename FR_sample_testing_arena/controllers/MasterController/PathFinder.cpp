@@ -103,18 +103,6 @@ vector<vector<int>> PathFinder::travel_maze(int juncType, vector<int> path_state
         if (scan_just_over)
         {
             scan_just_over = false;
-            cout << "data packet: " << robot
-                 << "\n";
-            for (size_t i = 0; i < initial_pick_packet.size(); i++)
-            {
-                for (size_t j = 0; j < initial_pick_packet[i].size(); j++)
-                {
-                    cout << initial_pick_packet[i][j] << " | ";
-                }
-                cout << "\n";
-            }
-            cout << "------------------------"
-                 << "\n";
             return initial_pick_packet;
         }
         else
@@ -128,8 +116,7 @@ vector<vector<int>> PathFinder::travel_with_color()
 {
     if ((robot == LEFT && robot_col == 0 && robot_row == 0 && last_direction != RIGHT) || (robot == RIGHT && robot_col == 8 && robot_row == 6 && last_direction != LEFT))
     {
-        cout << "inside this here 1"
-             << "\n";
+
         vector<vector<int>> packet;
         direction_to_travel = robot;
         zero_achieved = true;
@@ -141,8 +128,6 @@ vector<vector<int>> PathFinder::travel_with_color()
     }
     else if ((robot == LEFT && robot_col == -1 && robot_row == 0) || (robot == RIGHT && robot_col == 9 && robot_row == 6))
     {
-        cout << "inside this here 2"
-             << "\n";
         int dir = RIGHT;
         if (robot == RIGHT)
         {
@@ -158,7 +143,6 @@ vector<vector<int>> PathFinder::travel_with_color()
     {
         vector<vector<int>> packet;
         direction_to_travel = pick_strategy->find_next_direction_pick(robot, maze);
-        cout << "direction_to_travel" << direction_to_travel << "\n";
         maze->junctions[robot_col][robot_row].travel_state = UNRESERVED;
         get_next_junc_color();
         if (!waiting_for_top)
@@ -213,23 +197,30 @@ vector<vector<int>> PathFinder::search_maze(int juncType, vector<int> path_state
         maze->update_path(robot_col, robot_row, paths, robot);
     }
 
-    direction_to_travel = strategy->find_next_direction(robot_col, robot_row, last_direction, has_white);
-
-    if (junction_content_state == INVERTED && has_white)
+    if (maze->discovered == 6 && (maze->paths_joined || maze->color_match()))
     {
-        white_box = false;
+        return create_next_data_packet();
     }
-
-    has_white = white_box;
-    maze->junctions[robot_col][robot_row].travel_state = UNRESERVED;
-    junc_available = check_and_set_available_direction();
-    maze->junctions[robot_col][robot_row].travel_state = RESERVED;
-    packet = create_next_data_packet();
-    if (junc_available)
+    else
     {
-        last_direction = direction_to_travel;
+        direction_to_travel = strategy->find_next_direction(robot_col, robot_row, last_direction, has_white);
+
+        if (junction_content_state == INVERTED && has_white)
+        {
+            white_box = false;
+        }
+
+        has_white = white_box;
+        maze->junctions[robot_col][robot_row].travel_state = UNRESERVED;
+        junc_available = check_and_set_available_direction();
+        maze->junctions[robot_col][robot_row].travel_state = RESERVED;
+        packet = create_next_data_packet();
+        if (junc_available)
+        {
+            last_direction = direction_to_travel;
+        }
+        return packet;
     }
-    return packet;
 }
 
 vector<vector<int>> PathFinder::create_next_data_packet()
@@ -250,7 +241,6 @@ vector<vector<int>> PathFinder::create_next_data_packet()
     {
         navigate_state.push_back(NAVIGATE_STATE_VISITED);
         zero_achieved = false;
-        
     }
     else if ((robot == LEFT && robot_col == -1 && robot_row == 0 && placement && !zero_achieved) || (robot == RIGHT && robot_col == 9 && robot_row == 6 && placement && !zero_achieved))
     {
@@ -283,6 +273,7 @@ vector<vector<int>> PathFinder::create_next_data_packet()
             box_grab[1] = WHITE_COL;
             box_grab[0] = LOWER;
             has_white = true;
+            maze->junctions[robot_col][robot_row].content_state = PATCHNOBOX;
             navigate_state.push_back(NAVIGATE_STATE_VISITED);
         }
         else if (in_last)
@@ -461,7 +452,7 @@ void PathFinder::get_next_junc_color()
     }
 }
 
-void PathFinder::initiate_pick()
+vector<vector<int>> PathFinder::initiate_pick()
 {
     pick_order = pick_strategy->get_pick_order(robot);
     vector<vector<int>> packet;
@@ -470,24 +461,24 @@ void PathFinder::initiate_pick()
     {
         in_last = true;
         packet = create_next_data_packet();
-        initial_pick_packet = packet;
+        return  packet;
     }
     else
     {
-        initial_pick_packet = travel_with_color();
+        return travel_with_color();
     }
 }
 
 bool PathFinder::check_and_set_available_direction()
 {
     vector<int> loc = update_robot_position(direction_to_travel);
-    if ((robot_col == -1 && robot_row == 0 && !placement) || (robot_col == 9 && robot_row == 6 && !placement) )
+    if ((robot_col == -1 && robot_row == 0 && !placement) || (robot_col == 9 && robot_row == 6 && !placement))
     {
         robot_col = loc[0];
         robot_row = loc[1];
         return true;
     }
-    else if ((robot_col == -1 && robot_row == 0 && placement) || (robot_col == 9 && robot_row == 6 && placement) )
+    else if ((robot_col == -1 && robot_row == 0 && placement) || (robot_col == 9 && robot_row == 6 && placement))
     {
         return true;
     }
@@ -535,3 +526,4 @@ bool PathFinder::check_and_set_available_direction()
         return true;
     }
 }
+

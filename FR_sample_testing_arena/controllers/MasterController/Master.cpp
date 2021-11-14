@@ -91,14 +91,30 @@ void Master::main_control()
         receive(rx);
         if (maze->discovered == 6 && scan_just_over && (maze->paths_joined || maze->color_match()))
         {
-            msgCount +=1;
-            if(msgCount==1){
-
-            }
-            else if(msgCount==2)
+            msgCount += 1;
+            if (msgCount == 1)
             {
+                if (rx == 0)
+                {
+                    var = pathfinder_left->travel_maze(juncTypeRx, pathStateRx, boxTypeRx);
+                }
+                else
+                {
+                    var = pathfinder_right->travel_maze(juncTypeRx, pathStateRx, boxTypeRx);
+                }
+            }
+            else if (msgCount == 2)
+            {
+                if (rx == 0)
+                {
+                    var = pathfinder_left->travel_maze(juncTypeRx, pathStateRx, boxTypeRx);
+                }
+                else
+                {
+                    var = pathfinder_right->travel_maze(juncTypeRx, pathStateRx, boxTypeRx);
+                }
                 cout << "all six found"
-                    << "\n";
+                     << "\n";
                 scan_just_over = false;
                 one_processing = false;
 
@@ -108,65 +124,45 @@ void Master::main_control()
                 pathfinder_left->scan_over = true;
                 pathfinder_right->scan_just_over = true;
                 pathfinder_right->scan_over = true;
-                pathfinder_left->initiate_pick();
-                pathfinder_right->initiate_pick();
 
-                if (rx == 0)
-                {
-                    cout << "Called 1"
-                        << "\n";
-                    var = pathfinder_left->travel_maze(juncTypeRx, pathStateRx, boxTypeRx);
-                    emmit(rx);
-                }
-                else
-                {
-                    cout << "Called 2"
-                        << "\n";
-
-                    var = pathfinder_right->travel_maze(juncTypeRx, pathStateRx, boxTypeRx);
-
-                    emmit(rx);
-                    
-                }
+                var = pathfinder_left->initiate_pick();
+                emmit(0);
+                var = pathfinder_right->initiate_pick();
+                emmit(1);
             }
-            else
-            {
-                rx = rx + 1;
-                if (rx > 1)
-                    rx = 0;
-            }
-            
-            searchFinish = true;
+        }
+        
+        else
+        {
+            rx = rx + 1;
+            if (rx > 1)
+                rx = 0;
+        }
+
+        searchFinish = true;
+    }
+    else
+    {
+        if (rx == 0)
+        {
+            cout << "Called 3"
+                 << "\n";
+
+            var = pathfinder_left->travel_maze(juncTypeRx, pathStateRx, boxTypeRx);
+            emmit(rx);
         }
         else
         {
-            if (rx == 0)
-            {
-                cout << "Called 3"
-                     << "\n";
+            cout << "Called 4"
+                 << "\n";
 
-                var = pathfinder_left->travel_maze(juncTypeRx, pathStateRx, boxTypeRx);
-                emmit(rx);
-            }
-            else
-            {
-                cout << "Called 4"
-                     << "\n";
+            var = pathfinder_right->travel_maze(juncTypeRx, pathStateRx, boxTypeRx);
 
-                var = pathfinder_right->travel_maze(juncTypeRx, pathStateRx, boxTypeRx);
-
-                emmit(rx);
-            }
+            emmit(rx);
         }
-
     }
 
-    if (!searchFinish)
-    {
-        rx = rx + 1;
-        if (rx > 1)
-            rx = 0;
-    }
+   
 }
 
 void Master::find_back_path(int robot, vector<int> forward_path)

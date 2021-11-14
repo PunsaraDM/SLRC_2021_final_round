@@ -75,7 +75,7 @@ extern "C"
         bool check_and_set_available_direction();
         void get_next_junc_color();
         bool paths_remaining();
-        void initiate_pick();
+        vector<vector<int>> initiate_pick();
         int robot_col = 0;
         int robot_row = 0;
         int last_robot_col = 0;
