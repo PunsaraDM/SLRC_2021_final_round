@@ -8,7 +8,7 @@ WorldInfo {
 }
 Viewpoint {
   orientation 1 0 0 4.71238898038469
-  position 4.248973011139957 10.774089805348458 -1.840319520748515
+  position 4.248973011139957 9.539907700467397 -1.840319520748515
 }
 DirectionalLight {
   direction 0 -1 0
@@ -3337,7 +3337,7 @@ DEF ROBOT_LEFT Robot {
         }
       ]
       endPoint DEF QTR_PANEL Solid {
-        translation 1.2212453270876722e-15 -0.12799999999999878 0.119988
+        translation 1.7763568394002505e-15 -0.12799999999999823 0.119988
         rotation -0.9999999999999999 0 0 1.5707
         children [
           DEF QTR_SENSORS Transform {
@@ -5222,7 +5222,7 @@ DEF ROBOT_RIGHT Robot {
         }
       ]
       endPoint DEF QTR_PANEL Solid {
-        translation 1.2490009027033011e-15 -0.12799999999999864 0.11998800000000001
+        translation 1.8041124150158794e-15 -0.1279999999999981 0.11998800000000001
         rotation -0.9999999999999999 0 0 1.5707
         children [
           DEF QTR_SENSORS Transform {

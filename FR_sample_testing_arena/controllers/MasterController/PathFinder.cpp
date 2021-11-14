@@ -201,7 +201,7 @@ vector<vector<int>> PathFinder::search_maze(int juncType, vector<int> path_state
     junc_available = check_and_set_available_direction();
     maze->junctions[robot_col][robot_row].travel_state = RESERVED;
     packet = create_next_data_packet();
-    if (junc_available)
+    if (junc_available && (direction_to_travel != INVALID))
     {
         last_direction = direction_to_travel;
     }
@@ -218,7 +218,7 @@ vector<vector<int>> PathFinder::create_next_data_packet()
     vector<int> box_grab{NEGLECT, NOCOLOR};
     vector<int> over{scan_over};
 
-    if (!junc_available || !pick_junc_available || waiting_for_top)
+    if (!junc_available || !pick_junc_available || waiting_for_top || (direction_to_travel == INVALID))
     {
         navigate_state.push_back(STALL);
     }
