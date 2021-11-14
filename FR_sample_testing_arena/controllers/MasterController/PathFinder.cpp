@@ -385,8 +385,6 @@ void PathFinder::get_next_junc_color()
     waiting_for_top = false;
     state = NEGLECT;
     pick_color_box = false;
-    vector<int> loc = update_robot_position(direction_to_travel);
-    cout << "Called with:" << loc[0] << "," << loc[1] << "\n";
     if (current_pick < 3)
     {
         if (maze->colored_junctions[pick_order[current_pick][0]][pick_order[current_pick][1]][0] == loc[0] && maze->colored_junctions[pick_order[current_pick][0]][pick_order[current_pick][1]][1] == loc[1])
