@@ -338,7 +338,7 @@ void Master::update_maze(int col, int row, int juncType, vector<int> path_state,
             path_finder->has_white = true;
         }
         maze->update_junction(col, row, box_type, juncType, path_finder->has_white, robot);
-        vector<int> path = pathfinder_left->adjust_path_state_to_global(path_state);
+        vector<int> path = path_finder->adjust_path_state_to_global(path_state);
         if (juncType != INVERTED || path_finder->has_white)
         {
             maze->update_path(col, row, path, robot);

@@ -373,9 +373,10 @@ void PathFinder::get_next_junc_color()
     pick_color_box = false;
     if (current_pick < 3)
     {
-        if (maze->colored_junctions[pick_order[current_pick][0]][pick_order[current_pick][1]][0] == loc[0] && maze->colored_junctions[pick_order[current_pick][0]][pick_order[current_pick][1]][1] == loc[1])
+        if (maze->colored_junctions[pick_order[current_pick][0]][pick_order[current_pick][1]][0] == loc[0] && maze->colored_junctions[pick_order[current_pick][0]][pick_order[current_pick][1]][1] == loc[1] && !box_carrying)
         {
             pick_color_box = true;
+            box_carrying = true;
             cout << "inside color"
                  << "\n";
 
@@ -458,6 +459,7 @@ bool PathFinder::check_and_set_available_direction()
     vector<int> loc = update_robot_position(direction_to_travel);
     if ((robot_col == -1 && robot_row == 0 && !placement) || (robot_col == 9 && robot_row == 6 && !placement))
     {
+        box_carrying = false;
         robot_col = loc[0];
         robot_row = loc[1];
         return true;

@@ -94,6 +94,7 @@ extern "C"
         bool zero_achieved =false;
         bool came_back =false;
         bool has_white = true;
+        bool box_carrying = false;
         
         Strategy *strategy;
 
