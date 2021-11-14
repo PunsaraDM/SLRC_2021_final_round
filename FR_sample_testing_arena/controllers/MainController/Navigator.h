@@ -195,20 +195,10 @@ extern "C"
         int greenBoxCount = 0;
         int blueBoxCount = 0;
 
-        // float WALL_MAX_VELOCITY = 7.0;
-        // float WALL_MIN_VELOCITY = 2.0;
-        // float WALL_FOLLOW_BASE_SPEED = 4.0;
-
         float lineFollowPreviousError = 0.0;
 
         float WHEEL_RADIUS = 0.02;
 
-        // int POS_ARM_UP = 0;
-        // int POS_ARM_DOWN = 1;
-        // int POS_ARM_DEFAULT = 2;
-        // int POS_BOX_UP = 3;
-        // int POS_BOX_DOWN = 4;
-        // int POS_BOX_DEFAULT = 5;
         float servoPosition[6] = {0.8,-0.59,0.0,1.6,-0.1,0.1};
 
         int QTR_UP = 0;
@@ -238,7 +228,6 @@ extern "C"
         double distArmBase_place = 0.00;     //place white box before searching and centering a box
         double distArmBase_carry = 0.03; 
         double verticalGround = 0.0;
-        //double verticalLowest = ;
         double verticalMiddle = 0.06;   //functions start and ends by placing the gripper
         double verticalHighest = 0.12;
         //for inverted patches
