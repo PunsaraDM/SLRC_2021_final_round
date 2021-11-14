@@ -867,7 +867,7 @@ void Navigator::one_cell()
   else if (var[NAVIGATE_STATE][0] == PLACEMENT)
   {
     cout << "in PLACEMENT state" << endl;
-    goto_placement_cell();
+    goto_placement_cell(false);
   }
   else if (var[NAVIGATE_STATE][0] == FINISH_PLACEMENT)
   {

@@ -49,6 +49,7 @@ void Master::initMaster()
 
 void Master::main_control()
 {
+    bool keepSameRx = false;
     if (!(pathfinder_left->pick_junc_available) && !(pathfinder_right->pick_junc_available))
     {
         find_back_path(0, pick_strategy->left_stack);
@@ -62,6 +63,7 @@ void Master::main_control()
         {
             pick_strategy->add_to_stack(LEFT, leftbackpath);
         }
+        keepSameRx = true;
     }
 
     else if (!(pathfinder_left->junc_available) && !(pathfinder_right->junc_available))
@@ -84,6 +86,7 @@ void Master::main_control()
         {
             pathfinder_left->strategy->add_to_stack(leftbackpath);
         }
+        keepSameRx = true;
     }
     else if (receiver[rx]->getQueueLength() > 0)
     {
@@ -121,9 +124,6 @@ void Master::main_control()
                 emmit(rx);
             }
             one_processing = true;
-            rx = rx + 1;
-            if (rx > 1)
-                rx = 0;
         }else
         {
         // else if (one_processing)
@@ -145,12 +145,15 @@ void Master::main_control()
 
                 emmit(rx);
             }
-
-            rx = rx + 1;
-            if (rx > 1)
-                rx = 0;
         }
         // }
+    }
+
+    if (!keepSameRx)
+    {
+        rx = rx + 1;
+        if (rx > 1)
+            rx = 0;
     }
 }
 

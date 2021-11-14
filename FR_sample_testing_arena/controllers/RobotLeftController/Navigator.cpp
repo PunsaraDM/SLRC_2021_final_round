@@ -788,14 +788,23 @@ void Navigator::goto_placement_cell(bool final)
   // if (boxCountPlacement != 2){
   //   visit_normal_junc(); // go forward
   // }
+  cout<<"before visit noraml junc"<<endl;
   visit_normal_junc(); // go forward
+  cout<<"after visit noraml junc"<<endl;
+  //delay(2000);
   follow_line_until_junc_detect();
+  cout<<"white patch reached"<<endl;
+  //delay(2000);
   motorGroup->qtr_servo(QTR_UP, 2.0);
-  delay(500);
+  //delay(500);
 
   go_forward_specific_distance(0.109);
+  cout<<"white patch middle"<<endl;
+  //delay(2000);
 
   place_box(carryingBox);
+  cout<<"placement done"<<endl;
+
 
   if(final)
   {
@@ -867,7 +876,7 @@ void Navigator::one_cell()
   else if (var[NAVIGATE_STATE][0] == PLACEMENT)
   {
     cout << "in PLACEMENT state" << endl;
-    goto_placement_cell();
+    goto_placement_cell(false);
   }
   else if (var[NAVIGATE_STATE][0] == FINISH_PLACEMENT)
   {
