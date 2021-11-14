@@ -131,9 +131,11 @@ public:
     void update_var(string RxMessage);
     string make_TxMessage();
 
+
 private:
     SensorGroup *sensorGroup;
     MotorGroup *motorGroup;
+
 
     int BLACK = 0;
     int WHITE = 1;
@@ -166,10 +168,10 @@ private:
     int LINE_DETECT_LEFT = 8;
     int LINE_DETECT_RIGHT = 9;
 
-    vector<vector<int>> var{{0}, {0}, {0, 0}, {0}, {0, 0}};
+    vector<vector<int>> var{{0},{0},{0,0},{0},{0,0}};
 
-    vector<int> boxType{0, 0};
-    vector<int> pathState{UNDISCOVERED, UNDISCOVERED, NOTACCESIBLE, UNDISCOVERED}; //down path is always keep as notaccesible since robot coming from that side
+    vector<int> boxType {0,0};
+    vector<int> pathState {UNDISCOVERED,UNDISCOVERED,NOTACCESIBLE,UNDISCOVERED}; //down path is always keep as notaccesible since robot coming from that side
     int juncType = UNDISCOVERED;
 
     int detectedJunction = 0;
@@ -188,21 +190,11 @@ private:
     int greenBoxCount = 0;
     int blueBoxCount = 0;
 
-    // float WALL_MAX_VELOCITY = 7.0;
-    // float WALL_MIN_VELOCITY = 2.0;
-    // float WALL_FOLLOW_BASE_SPEED = 4.0;
-
     float lineFollowPreviousError = 0.0;
 
     float WHEEL_RADIUS = 0.02;
 
-    // int POS_ARM_UP = 0;
-    // int POS_ARM_DOWN = 1;
-    // int POS_ARM_DEFAULT = 2;
-    // int POS_BOX_UP = 3;
-    // int POS_BOX_DOWN = 4;
-    // int POS_BOX_DEFAULT = 5;
-    float servoPosition[6] = {0.8, -0.59, 0.0, 1.6, -0.1, 0.1};
+    float servoPosition[6] = {0.8,-0.59,0.0,1.6,-0.1,0.1};
 
     int QTR_UP = 0;
     int QTR_DOWN = 1;
@@ -231,7 +223,6 @@ private:
     double distArmBase_place = 0.00; //place white box before searching and centering a box
     double distArmBase_carry = 0.03;
     double verticalGround = 0.0;
-    //double verticalLowest = ;
     double verticalMiddle = 0.06; //functions start and ends by placing the gripper
     double verticalHighest = 0.12;
     //for inverted patches

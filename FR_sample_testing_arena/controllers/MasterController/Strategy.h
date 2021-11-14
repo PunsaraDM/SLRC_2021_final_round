@@ -13,6 +13,9 @@ using namespace std;
 #define LEFT 3
 #define INVALID 5
 
+#define RESERVED 0
+#define UNRESERVED 1
+
 #ifdef __cplusplus
 extern "C"
 {

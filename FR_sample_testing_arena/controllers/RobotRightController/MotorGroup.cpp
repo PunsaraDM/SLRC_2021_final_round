@@ -38,6 +38,12 @@ void MotorGroup::enable_motor_velocity_control()
 
 void MotorGroup::set_velocity(float leftSpeed, float rightSpeed)
 {
+    if (leftSpeed > 7.498) leftSpeed = 7.498;
+    else if (leftSpeed < -7.498) leftSpeed = -7.498;
+
+    if (rightSpeed > 7.498) rightSpeed = 7.498;
+    else if (rightSpeed < -7.498) rightSpeed = -7.498;
+
     motors[0]->setVelocity(leftSpeed);
     motors[1]->setVelocity(rightSpeed);
 }
@@ -72,22 +78,3 @@ void MotorGroup::qtr_servo(int tartget, double vel)
     motors[6]->setVelocity(vel);
 
 }
-
-// void MotorGroup::set_velocity_servo(int servo, float speed)
-// {
-//     motors[servo]->setVelocity(speed);
-// }
-
-// void MotorGroup::set_position_servo(int servo, double position)
-// {
-//     motors[servo]->setPosition(position);
-// }
-
-// void MotorGroup::set_control_pid(float val1, float val2,float val3){
-//     for (int i = 0; i < 4; i++)
-//     {
-//         motors[i]->setControlPID(val1, val2, val3);
-//     }
-
-// }
-

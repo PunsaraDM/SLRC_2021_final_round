@@ -175,12 +175,12 @@ int Strategy::find_next_direction(int robot_col, int robot_row, int last_directi
                 if (0 <= achievables[i][0] && achievables[i][0] < COLS and 0 <= achievables[i][1] and achievables[i][1] < ROWS && paths[i] == DISCOVERED)
                 {
                     // if the location is undiscovered push to unvisited queue its index and distance
-                    if (maze->junctions[achievables[i][0]][achievables[i][1]].get_state() == UNDISCOVERED || (has_white && maze->junctions[achievables[i][0]][achievables[i][1]].get_state() == VISITEDWITHOUTWHITE))
+                    if (((maze->junctions[achievables[i][0]][achievables[i][1]].get_state() == UNDISCOVERED) || (has_white && maze->junctions[achievables[i][0]][achievables[i][1]].get_state() == VISITEDWITHOUTWHITE)) && (maze->junctions[achievables[i][0]][achievables[i][1]].travel_state != RESERVED))
                     {
                         unvisited.push_back(i);
                     }
                     // if the location is discovered push to visited queue its index and distance and not over yet
-                    else if (maze->junctions[achievables[i][0]][achievables[i][1]].get_state() == DISCOVERED)
+                    else if ((maze->junctions[achievables[i][0]][achievables[i][1]].get_state() == DISCOVERED) && (maze->junctions[achievables[i][0]][achievables[i][1]].travel_state != RESERVED))
                     {
                         visited.push_back(i);
                     }

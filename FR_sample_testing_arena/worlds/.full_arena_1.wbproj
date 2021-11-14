@@ -5,7 +5,7 @@ sceneTreePerspectives: 000000ff0000000100000002000000c00000000001000000020100000
 maximizedDockId: -1
 centralWidgetVisible: 1
 orthographicViewHeight: 1
-textFiles: 4 "controllers/RobotRightController/RobotRightController.cpp" "controllers/RobotLeftController/RobotLeftController.cpp" "controllers/MasterController/MasterController.cpp" "controllers/MasterController/PathFinder.cpp" "controllers/MasterController/Master.cpp"
+textFiles: 2 "controllers/RobotRightController/RobotRightController.cpp" "controllers/RobotLeftController/RobotLeftController.cpp" "controllers/MasterController/MasterController.cpp"
 globalOptionalRendering: DistanceSensorRays
 consoles: Console:All:All
 renderingDevicePerspectives: robot_left:cs_arm;1;1;0;0

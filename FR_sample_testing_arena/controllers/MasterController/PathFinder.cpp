@@ -64,7 +64,7 @@ PathFinder::PathFinder(int startCol, int startRow, Maze *c_maze, int dir, PickSt
     maze = c_maze;
     pick_strategy = pickStrategy;
     robot = dir;
-    vector<int> priority{RIGHT, DOWN, UP, LEFT};
+    vector<int> priority{RIGHT,UP, DOWN,  LEFT};
     last_direction = LEFT;
     if (robot == LEFT)
     {
