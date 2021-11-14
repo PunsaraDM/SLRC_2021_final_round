@@ -132,8 +132,9 @@ vector<vector<int>> PathFinder::travel_with_color()
              << "\n";
         vector<vector<int>> packet;
         direction_to_travel = robot;
+        zero_achieved = true;
+        came_back = false;
         check_and_set_available_direction();
-        placement = true;
         packet = create_next_data_packet();
         last_direction = robot;
         return packet;
@@ -149,7 +150,7 @@ vector<vector<int>> PathFinder::travel_with_color()
         }
         last_direction = dir;
         direction_to_travel = dir;
-        placement_back = true;
+        placement = !placement;
         check_and_set_available_direction();
         return create_next_data_packet();
     }
@@ -245,22 +246,26 @@ vector<vector<int>> PathFinder::create_next_data_packet()
     {
         navigate_state.push_back(STALL);
     }
-    else if (placement)
+    else if ((robot == LEFT && robot_col == -1 && robot_row == 0 && zero_achieved) || (robot == RIGHT && robot_col == 9 && robot_row == 6 && zero_achieved))
     {
-        placement = false;
+        navigate_state.push_back(NAVIGATE_STATE_VISITED);
+        zero_achieved = false;
+        
+    }
+    else if ((robot == LEFT && robot_col == -1 && robot_row == 0 && placement && !zero_achieved) || (robot == RIGHT && robot_col == 9 && robot_row == 6 && placement && !zero_achieved))
+    {
         if (current_pick < 3)
         {
-
             navigate_state.push_back(PLACEMENT);
         }
         else if (current_pick == 3)
         {
             navigate_state.push_back(PLACEMENT_FULL);
         }
+        came_back = true;
     }
-    else if (placement_back)
+    else if ((robot == LEFT && robot_col == 0 && robot_row == 0 && !zero_achived && came_back) || (robot == RIGHT && robot_col == 8 && robot_row == 6 && !zero_achived && came_back))
     {
-        placement_back = false;
         junc_type[0] = maze->junctions[0][0].content_state;
         navigate_state.push_back(NAVIGATE_STATE_VISITED);
         if (junc_type[0] == COLORED && pick_color_box)
@@ -476,10 +481,14 @@ void PathFinder::initiate_pick()
 bool PathFinder::check_and_set_available_direction()
 {
     vector<int> loc = update_robot_position(direction_to_travel);
-    if ((robot_col == -1 && robot_row == 0) || (robot_col == 9 && robot_row == 6))
+    if ((robot_col == -1 && robot_row == 0) && !placement || (robot_col == 9 && robot_row == 6 && !placement) )
     {
         robot_col = loc[0];
         robot_row = loc[1];
+        return true;
+    }
+    else if ((robot_col == -1 && robot_row == 0) && placement || (robot_col == 9 && robot_row == 6 && placement) )
+    {
         return true;
     }
     else if ((loc[0] == -1 && loc[1] == 0) || (loc[0] == 9 && loc[1] == 6))

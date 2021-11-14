@@ -90,7 +90,9 @@ extern "C"
         bool waiting_for_top = false;
         bool pick_color_box = false;
         bool placement = false;
-        bool placement_full =true;
+        bool placement_back =false;
+        bool zero_achieved =false;
+        bool came_bacl =false;
         
         Strategy *strategy;
 
