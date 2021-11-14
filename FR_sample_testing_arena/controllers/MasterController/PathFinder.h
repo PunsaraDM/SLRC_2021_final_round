@@ -92,7 +92,7 @@ extern "C"
         bool placement = false;
         bool placement_back =false;
         bool zero_achieved =false;
-        bool came_bacl =false;
+        bool came_back =false;
         
         Strategy *strategy;
 
@@ -111,7 +111,6 @@ extern "C"
         bool in_last = false;
         int current_color = NOCOLOR;
         int current_pos = LOWER;
-        bool placement_back = false;
     };
 #ifdef __cplusplus
 }

@@ -264,7 +264,7 @@ vector<vector<int>> PathFinder::create_next_data_packet()
         }
         came_back = true;
     }
-    else if ((robot == LEFT && robot_col == 0 && robot_row == 0 && !zero_achived && came_back) || (robot == RIGHT && robot_col == 8 && robot_row == 6 && !zero_achived && came_back))
+    else if ((robot == LEFT && robot_col == 0 && robot_row == 0 && !zero_achieved && came_back) || (robot == RIGHT && robot_col == 8 && robot_row == 6 && !zero_achieved && came_back))
     {
         junc_type[0] = maze->junctions[0][0].content_state;
         navigate_state.push_back(NAVIGATE_STATE_VISITED);
@@ -481,13 +481,13 @@ void PathFinder::initiate_pick()
 bool PathFinder::check_and_set_available_direction()
 {
     vector<int> loc = update_robot_position(direction_to_travel);
-    if ((robot_col == -1 && robot_row == 0) && !placement || (robot_col == 9 && robot_row == 6 && !placement) )
+    if ((robot_col == -1 && robot_row == 0 && !placement) || (robot_col == 9 && robot_row == 6 && !placement) )
     {
         robot_col = loc[0];
         robot_row = loc[1];
         return true;
     }
-    else if ((robot_col == -1 && robot_row == 0) && placement || (robot_col == 9 && robot_row == 6 && placement) )
+    else if ((robot_col == -1 && robot_row == 0 && placement) || (robot_col == 9 && robot_row == 6 && placement) )
     {
         return true;
     }
