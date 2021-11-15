@@ -5,7 +5,7 @@ sceneTreePerspectives: 000000ff0000000100000002000000c0000000fa01000000020100000
 maximizedDockId: -1
 centralWidgetVisible: 1
 orthographicViewHeight: 1
-textFiles: 2 "controllers/RobotLeftController/RobotLeftController.cpp" "controllers/RobotRightController/RobotRightController.cpp" "controllers/MasterController/MasterController.cpp"
+textFiles: 2 "controllers/MasterController/MasterController.cpp" "controllers/RobotLeftController/RobotLeftController.cpp" "controllers/RobotRightController/RobotRightController.cpp" "controllers/MasterController/PickStrategy.cpp"
 consoles: Console:All:All
 consoles: Console:All:All
 renderingDevicePerspectives: robot_left:cs_arm;0;1;0;0

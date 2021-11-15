@@ -92,7 +92,6 @@ void Maze::update_junction(int column, int row, vector<int> content, int junctio
         int count = 0;
         for (int i = 1; i > -1; i--)
         {
-            cout << "colors: " << content[i] << "\n";
             vector<int> colored_context{column, row, content[i],i+1,false};
             if (RED <= content[i] && content[i] <= BLUE)
             {
@@ -130,7 +129,6 @@ void Maze::update_junction(int column, int row, vector<int> content, int junctio
                 state = TOP;
             }
             vector<int> val{column, row, state, robot, true};
-            cout << "inserting: " << column << ", " << row << ", " << state << content[i] << "\n";
 
             if (RED <= content[i] && content[i] <= BLUE)
             {
@@ -159,8 +157,6 @@ void Maze::update_junction(int column, int row, vector<int> content, int junctio
 
     else if (junction_content_state == INVERTED && !has_white)
     {
-        cout << "set to visited without WHITE_PATCH"
-             << "\n";
         junc_state = VISITEDWITHOUTWHITE;
     }
 
@@ -253,11 +249,8 @@ string Maze::print_content(vector<int> content)
 
 void Maze::check_inverted(int col, int row)
 {
-    // cout << "checking: " << col << "," << row << ":" << junctions[col][row].found_paths << "\n";
     if (junctions[col][row].found_paths == 4 && junctions[col][row].get_state() == VISITEDWITHOUTWHITE)
     {
-        cout << "resetting state back to discovered"
-             << "\n";
         junctions[col][row].set_state(DISCOVERED);
     }
 }
@@ -279,7 +272,6 @@ bool Maze::color_match()
             count += 1;
         }
     }
-    cout <<"count: " <<count <<"\n";
     if (count == 6)
     {
         return true;

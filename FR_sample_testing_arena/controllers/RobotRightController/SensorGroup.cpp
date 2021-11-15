@@ -276,7 +276,7 @@ string SensorGroup::receive()
 {
   string RxMessage((const char *)receiver->getData());
 
-  cout << "received msg " << RxMessage << endl;
+//   cout << "received msg " << RxMessage << endl;
   receiver->nextPacket();
 
   return RxMessage;
@@ -284,7 +284,7 @@ string SensorGroup::receive()
 
 void SensorGroup::emmit(string TxMessage)
 {
-    cout << "txmsg: " << TxMessage << endl;
+    // cout << "txmsg: " << TxMessage << endl;
     emmiter->send(TxMessage.c_str(), (int)strlen(TxMessage.c_str()) + 1);
 }
 

@@ -51,25 +51,12 @@ void Master::main_control()
 {
     if (!(pathfinder_left->pick_junc_available) && !(pathfinder_right->pick_junc_available))
     {
-        cout << "both stall" << endl;
         find_back_path(0, pick_strategy->left_stack);
         find_back_path(1, pick_strategy->right_stack);
 
-        for (size_t i = 0; i < rightbackpath.size(); i++)
-        {
-            cout << rightbackpath[i];
-        }
-        cout << endl;
-
-        // for(size_t i=0; i<leftbackpath.size();i++)
-        // {
-        //     cout<<leftbackpath[i];
-        // }
-        // cout<<endl;
 
         if (lcount <= rcount)
         {
-            cout << "back path right" << endl;
             pick_strategy->add_to_stack(RIGHT, rightbackpath);
             pick_strategy->add_stall(LEFT);
             var = pathfinder_right->travel_maze(juncTypeRx, pathStateRx, boxTypeRx);
@@ -116,17 +103,14 @@ void Master::main_control()
         if (maze->discovered == 6 && scan_just_over && (maze->paths_joined || maze->color_match()))
         {
             msgCount += 1;
-            cout << "mesg" << msgCount << "," << rx << "\n";
             if (msgCount == 1)
             {
                 if (rx == 0)
                 {
-                    cout << "left:" << pathfinder_left->robot_col << "," << pathfinder_left->robot_row;
                     update_maze(pathfinder_left->robot_col, pathfinder_left->robot_row, juncTypeRx, pathStateRx, boxTypeRx, LEFT);
                 }
                 else
                 {
-                    cout << "right:" << pathfinder_right->robot_col << "," << pathfinder_right->robot_row;
                     update_maze(pathfinder_right->robot_col, pathfinder_right->robot_row, juncTypeRx, pathStateRx, boxTypeRx, RIGHT);
                 }
 
@@ -139,16 +123,13 @@ void Master::main_control()
             {
                 if (rx == 0)
                 {
-                    cout << "left:" << pathfinder_left->robot_col << "," << pathfinder_left->robot_row << "\n";
                     update_maze(pathfinder_left->robot_col, pathfinder_left->robot_row, juncTypeRx, pathStateRx, boxTypeRx, LEFT);
                 }
                 else
                 {
-                    cout << "right:" << pathfinder_right->robot_col << "," << pathfinder_right->robot_row << "\n";
                     update_maze(pathfinder_right->robot_col, pathfinder_right->robot_row, juncTypeRx, pathStateRx, boxTypeRx, RIGHT);
                 }
-                cout << "all six found"
-                     << "\n";
+                
                 scan_just_over = false;
                 one_processing = false;
 
@@ -169,16 +150,14 @@ void Master::main_control()
         {
             if (rx == 0)
             {
-                cout << "Called 3"
-                     << "\n";
+
 
                 var = pathfinder_left->travel_maze(juncTypeRx, pathStateRx, boxTypeRx);
                 emmit(rx);
             }
             else
             {
-                cout << "Called 4"
-                     << "\n";
+
 
                 var = pathfinder_right->travel_maze(juncTypeRx, pathStateRx, boxTypeRx);
 
@@ -452,7 +431,6 @@ void Master::emmit(int tx)
         }
     }
 
-    cout << "txmsg: " << TxMessage << endl;
     emitter[tx]->send(TxMessage.c_str(), (int)strlen(TxMessage.c_str()) + 1);
 }
 

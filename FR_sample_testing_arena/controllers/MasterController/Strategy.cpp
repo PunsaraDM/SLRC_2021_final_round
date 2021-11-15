@@ -196,7 +196,6 @@ int Strategy::find_next_direction(int robot_col, int robot_row, int last_directi
                 selected = find_next_direction_normal(visited, unvisited);
             }
 
-            cout << "Selected: " << selected << "\n";
 
             return selected;
         }
@@ -267,7 +266,6 @@ int Strategy::find_shortest_path(int col1, int row1, int col2, int row2)
                 {
                     distance.insert(std::pair<string, int>(neighbour_key, current_dist + 1));
                     vector<string> parent_vec{current_key, to_string(get_opposite_dir(i))};
-                    // cout << "parent:" << current_key << "| neighbour: " << neighbour_key << " dir : " << get_opposite_dir(i) << "\n";
                     parent[neighbour_key] = parent_vec;
                     queue.push_back(coord);
                 }

@@ -293,7 +293,7 @@ int Navigator::search_box_color(int level)
         int colorBox = sensorGroup->get_colour(0);
         if (colorBox == 1)
         { // Red box
-          cout << "RED BOX" << endl;
+          // cout << "RED BOX" << endl;
           currentDist += 0.005;
           arm_base_move(currentDist);
           delay(500);
@@ -305,7 +305,7 @@ int Navigator::search_box_color(int level)
         }
         else if (colorBox == 2)
         { // Green box
-          cout << "GREEN BOX" << endl;
+          // cout << "GREEN BOX" << endl;
           currentDist += 0.005;
           arm_base_move(currentDist);
           delay(500);
@@ -317,7 +317,7 @@ int Navigator::search_box_color(int level)
         }
         else if (colorBox == 3)
         { // Blue box
-          cout << "BLUE BOX" << endl;
+          // cout << "BLUE BOX" << endl;
           currentDist += 0.005;
           arm_base_move(currentDist);
           delay(500);
@@ -329,7 +329,7 @@ int Navigator::search_box_color(int level)
         }
         else if (colorBox == 4)
         { // Blue box
-          cout << "WHITE BOX" << endl;
+          // cout << "WHITE BOX" << endl;
           currentDist += 0.005;
           arm_base_move(currentDist);
           delay(500);
@@ -341,7 +341,7 @@ int Navigator::search_box_color(int level)
         }
         else
         { // Not detected any color
-          cout << "Not yet detect any color" << endl;
+          // cout << "Not yet detect any color" << endl;
           distToDetectLocal += 0.005;
           arm_grab_box(distToDetectLocal, distToDetectLocal);
         }
@@ -349,10 +349,10 @@ int Navigator::search_box_color(int level)
     }
     else if (distArmBase_mid <= currentDist)
     {
-      if (level == 1)
-        cout << "lower level : NO BOX" << endl;
-      else
-        cout << "middle level : NO BOX" << endl;
+      // if (level == 1)
+      //   cout << "lower level : NO BOX" << endl;
+      // else
+      //   cout << "middle level : NO BOX" << endl;
       return NO_COLOR;
     }
     else
@@ -391,7 +391,7 @@ void Navigator::box_search_algo(bool haveBox)
 
   if (clr < 5)
   {
-    cout << "found lower box" << endl;
+    // cout << "found lower box" << endl;
     boxType[LOWER - 1] = clr; // updates box count and color
 
     if (clr == 4) // updating junction types
@@ -410,7 +410,7 @@ void Navigator::box_search_algo(bool haveBox)
     if (clr < 5)
     {
       boxType[MIDDLE - 1] = clr; // updates box count and color
-      cout << "found upper box" << endl;
+      // cout << "found upper box" << endl;
     }
   }
 
@@ -418,7 +418,7 @@ void Navigator::box_search_algo(bool haveBox)
   // currently robot doesnt have a box and next box is a white one
   if ((var[INV_PATCH][BOX_CARRY] == FALSE) and (boxType[LOWER - 1] == WHITE_CLR))
   {
-    cout << "grabbed a white box while in discovery satate." << endl;
+    // cout << "grabbed a white box while in discovery satate." << endl;
     grab_box(WHITE_CLR, LOWER); // box_carry need to update??
   }
   else
@@ -577,14 +577,14 @@ void Navigator::discover_junction()
   if (((sensorGroup->get_digital_value(LINE_DETECT_LEFT) == WHITE) and (sensorGroup->get_digital_value(QTR_0) == WHITE) and (sensorGroup->get_digital_value(LINE_DETECT_RIGHT) == WHITE) and (sensorGroup->get_digital_value(QTR_7) == WHITE)) and ((sensorGroup->get_digital_value(QTR_3) == BLACK) or (sensorGroup->get_digital_value(QTR_4) == BLACK)))
   {
     // inverted patch detected
-    cout << "inverted" << endl;
+    // cout << "inverted" << endl;
     juncType = INVERTED;
     // if inverted and invalid
     // next direction back
     if (var[INV_PATCH][BOX_CARRY] == TRUE)
       discover_inv_junc(var[INV_PATCH][INV_DIRECTION]);
     // else junction will not be descovered. pathStates will be default values and juncType will be INVERTED
-    print_pathState();
+    // print_pathState();
   }
   else if ((sensorGroup->get_digital_value(LINE_DETECT_LEFT) == WHITE) or (sensorGroup->get_digital_value(LINE_DETECT_RIGHT) == WHITE))
   {
@@ -596,17 +596,17 @@ void Navigator::discover_junction()
     if ((sensorGroup->get_digital_value(LINE_DETECT_LEFT) == WHITE) and (sensorGroup->get_digital_value(QTR_0) == WHITE) and (sensorGroup->get_digital_value(QTR_1) == WHITE) and (sensorGroup->get_digital_value(QTR_2) == WHITE) and (sensorGroup->get_digital_value(QTR_3) == WHITE) and (sensorGroup->get_digital_value(LINE_DETECT_RIGHT) == WHITE) and (sensorGroup->get_digital_value(QTR_4) == WHITE) and (sensorGroup->get_digital_value(QTR_5) == WHITE) and (sensorGroup->get_digital_value(QTR_6) == WHITE) and (sensorGroup->get_digital_value(QTR_7) == WHITE))
     {
       // white patch detected
-      cout << "white patch" << endl;
+      // cout << "white patch" << endl;
       discover_white_patch();
-      print_pathState();
+      // print_pathState();
     }
     else
     {
       // a normal junction
-      cout << "normal junction" << endl;
+      // cout << "normal junction" << endl;
       juncType = NORMAL;
       discover_path(UP);
-      print_pathState();
+      // print_pathState();
       go_forward_specific_distance(0.102);
     }
   }
@@ -865,29 +865,29 @@ void Navigator::one_cell()
   if (var[NAVIGATE_STATE][0] == SEARCH)
   {
     resetVariables();
-    cout << "in discovery state" << endl;
+    // cout << "in discovery state" << endl;
     discover_junction();
   }
   else if (var[NAVIGATE_STATE][0] == VISIT)
   {
-    cout << "in visiting state" << endl;
+    // cout << "in visiting state" << endl;
     visit_junction(var[JUNC_TYPE][0]);
   }
   else if (var[NAVIGATE_STATE][0] == PLACEMENT)
   {
-    cout << "in PLACEMENT state" << endl;
+    // cout << "in PLACEMENT state" << endl;
     goto_placement_cell(false);
   }
   else if (var[NAVIGATE_STATE][0] == FINISH_PLACEMENT)
   {
-    cout << "in FINISH_PLACEMENT state" << endl;
+    // cout << "in FINISH_PLACEMENT state" << endl;
     goto_placement_cell(true);
     cout << "TASK COMPLETED" << endl;
     taskCompleted = true;
   }
   else if (var[NAVIGATE_STATE][0] == STALL)
   {
-    cout << "in STALL state" << endl;
+    // cout << "in STALL state" << endl;
     stall_cell();
   }
 

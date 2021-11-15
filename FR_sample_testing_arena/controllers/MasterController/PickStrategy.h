@@ -25,7 +25,7 @@ extern "C"
         vector<int> left_stack;
         vector<int> right_stack;
         void find_combinations(Maze *m);
-        int find_shortest_path(int col1, int row1, int col2, int row2, int color, int dir, Maze *c_maze);
+        int find_shortest_path(int col1, int row1, int col2, int row2, size_t color, int dir, Maze *c_maze);
         void discover_shortest_paths(vector<vector<vector<int>>> locations, Maze *m);
         vector<vector<int>> find_order(vector<int> selected, vector<vector<vector<int>>> locations);
         vector<int> get_reverse_path(vector<int> path);
