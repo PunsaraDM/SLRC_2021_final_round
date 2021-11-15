@@ -279,6 +279,7 @@ bool Maze::color_match()
             count += 1;
         }
     }
+    cout <<"count: " <<count <<"\n";
     if (count == 6)
     {
         return true;
