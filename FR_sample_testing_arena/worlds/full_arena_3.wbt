@@ -7,8 +7,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 1 0 0 4.9723889803846895
-  position 5.28558384769915 14.351903346792977 1.6617315747273902
+  orientation 1 0 0 4.71238898038469
+  position 4.1182 7.91956638790132 -2.01968
 }
 DirectionalLight {
   direction 0 -1 0
@@ -62,7 +62,7 @@ DEF Boxes_new Group {
       }
     }
     DEF White_Box Solid {
-      translation 2.23 0.0199853 -3.27
+      translation 5.37 0.0199853 -1.39
       rotation 0.056340508525698 -0.9972035097198888 -0.04910099083930655 2.0965255293853217e-15
       children [
         DEF White_Box Shape {
@@ -82,7 +82,7 @@ DEF Boxes_new Group {
       }
     }
     DEF White_Box Solid {
-      translation 4.12 0.0199853 -2.01
+      translation 4.75 0.0199853 -3.27
       rotation 0.056340508525698 -0.9972035097198888 -0.04910099083930655 2.0965255293853217e-15
       children [
         DEF White_Box Shape {
@@ -102,7 +102,7 @@ DEF Boxes_new Group {
       }
     }
     DEF White_Box Solid {
-      translation 4.75 0.0199853 -1.39
+      translation 2.24 0.0199853 -3.27
       rotation 0.056340508525698 -0.9972035097198888 -0.04910099083930655 2.0965255293853217e-15
       children [
         DEF White_Box Shape {
@@ -122,7 +122,7 @@ DEF Boxes_new Group {
       }
     }
     DEF White_Box Solid {
-      translation 2.23 0.0199853 -2.65
+      translation 1.15 0.0199853 -2.65
       rotation 0.056340508525698 -0.9972035097198888 -0.04910099083930655 2.0965255293853217e-15
       children [
         DEF White_Box Shape {
@@ -142,7 +142,7 @@ DEF Boxes_new Group {
       }
     }
     DEF Blue_Box Solid {
-      translation 5.38 0.0199853 -1.38046
+      translation 4.73 0.0199853 -1.37046
       rotation -0.00014142968455996098 0.9999999069616033 -0.00040752230519008436 6.499625360383806e-13
       children [
         DEF Blue_Box Shape {
@@ -163,7 +163,7 @@ DEF Boxes_new Group {
       }
     }
     DEF Green_Box Solid {
-      translation 4.7582 0.0198884 -2.02417
+      translation 4.1182 0.0199013 -2.01968
       rotation -0.0006410027649747535 0.999995243762159 -0.003016880593524043 0.007490272826512341
       children [
         DEF Green_Box Shape {
@@ -184,7 +184,7 @@ DEF Boxes_new Group {
       }
     }
     DEF Red_Box Solid {
-      translation 2.86 0.0199082 -0.77
+      translation 4.74 0.0199082 -2.01
       rotation -0.7032972631931477 -0.08180972375985127 0.7061728745026712 -5.344702680130768e-15
       children [
         DEF Red_Box Shape {
@@ -225,7 +225,7 @@ DEF Boxes_new Group {
       }
     }
     DEF White_Box Solid {
-      translation 4.13 0.0199853 -0.76
+      translation 2.85 0.0199853 -0.76
       rotation -0.031057027549404922 -0.9991994440875168 0.02521769170628074 1.2094202326419658e-15
       children [
         DEF White_Box Shape {
@@ -265,7 +265,7 @@ DEF Boxes_new Group {
       }
     }
     DEF White_Box Solid {
-      translation 4.08 0.0199853 -3.9
+      translation 1.17 0.0199853 -2.94
       rotation -0.22660584659932115 -0.9686829936441335 0.10150393150831233 1.8342057864181284e-15
       children [
         DEF White_Box Shape {
@@ -325,7 +325,7 @@ DEF Boxes_new Group {
       }
     }
     DEF Red_Box Solid {
-      translation 4.75 0.0199412 -3.27
+      translation 4.11 0.0199412 -0.74
       rotation -0.2909943894257105 -0.9563059766324882 -0.028304493984890763 -2.3047650526100404e-16
       children [
         DEF Red_Box Shape {
@@ -344,7 +344,7 @@ DEF Boxes_new Group {
       physics USE Box_Ph
     }
     DEF Green_Box Solid {
-      translation 2.87 0.0598751 -0.77
+      translation 2.23 0.0198751 -2.63
       rotation 0.23347210614249198 0.9491140419876016 -0.21136061826969155 1.5332273568895776e-14
       children [
         DEF Green_Box Shape {
@@ -363,8 +363,8 @@ DEF Boxes_new Group {
       physics USE Box_Ph
     }
     DEF Blue_Box Solid {
-      translation 4.75092 0.059875 -2.03039
-      rotation 0.0001320749696434021 -0.9999997701563663 0.0006650138471507658 -0.03409530717958642
+      translation 2.22955 0.0599308 -2.62467
+      rotation 0 -1 0 0
       children [
         DEF Blue_Box Shape {
           appearance PBRAppearance {
@@ -3626,7 +3626,7 @@ DEF ROBOT_LEFT Robot {
         }
       ]
       endPoint DEF QTR_PANEL Solid {
-        translation 1.0547118733938987e-15 -0.12799999999999895 0.119988
+        translation 1.27675647831893e-15 -0.12799999999999873 0.119988
         rotation -0.9999999999999999 0 0 1.5707
         children [
           DEF QTR_SENSORS Transform {
@@ -5509,7 +5509,7 @@ DEF ROBOT_RIGHT Robot {
         }
       ]
       endPoint DEF QTR_PANEL Solid {
-        translation 1.0547118733938987e-15 -0.12799999999999895 0.119988
+        translation 1.27675647831893e-15 -0.12799999999999873 0.119988
         rotation -0.9999999999999999 0 0 1.5707
         children [
           DEF QTR_SENSORS Transform {
