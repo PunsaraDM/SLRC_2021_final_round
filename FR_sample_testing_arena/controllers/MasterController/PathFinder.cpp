@@ -117,6 +117,13 @@ vector<vector<int>> PathFinder::travel_with_color()
         last_direction = robot;
         return packet;
     }
+    else if ((robot == LEFT && robot_col == 0 && robot_row == 0 && last_direction == RIGHT && waiting_for_top) || (robot == RIGHT && robot_col == 8 && robot_row == 6 && last_direction == LEFT && waiting_for_top))
+    {
+        get_next_box_availability();
+        vector<vector<int>> packet;
+        packet = create_next_data_packet();
+        return packet;
+    }
     else if ((robot == LEFT && robot_col == -1 && robot_row == 0) || (robot == RIGHT && robot_col == 9 && robot_row == 6))
     {
         int dir = RIGHT;
@@ -136,19 +143,10 @@ vector<vector<int>> PathFinder::travel_with_color()
         direction_to_travel = pick_strategy->find_next_direction_pick(robot, maze);
         maze->junctions[robot_col][robot_row].travel_state = UNRESERVED;
         get_next_junc_color(false);
-        if (waiting_for_top)
-        {
-            pick_junc_available = false;
-            pick_strategy->add_back_to_stack(robot, direction_to_travel);
-        }
-        else
-        {
-            pick_junc_available = check_and_set_available_direction();
-        }
+        pick_junc_available = check_and_set_available_direction();
         maze->junctions[robot_col][robot_row].travel_state = RESERVED;
-
         packet = create_next_data_packet();
-        if (!waiting_for_top && pick_junc_available)
+        if (pick_junc_available)
         {
             last_direction = direction_to_travel;
         }
@@ -375,10 +373,8 @@ void PathFinder::get_next_junc_color(bool current)
         loc[0] = robot_col;
         loc[1] = robot_row;
     }
-    // vector<int> loc {robot_col,robot_row};
     int state = 0;
     current_color = NOCOLOR;
-    waiting_for_top = false;
     state = NEGLECT;
     pick_color_box = false;
     if (current_pick < 3)
@@ -390,66 +386,56 @@ void PathFinder::get_next_junc_color(bool current)
             state = maze->colored_junctions[pick_order[current_pick][0]][pick_order[current_pick][1]][2];
             cout << "state:" << state << "\n";
             current_color = pick_order[current_pick][0] + 1;
+            pick_color_box = true;
+            box_carrying = true;
 
-            if (state == LOWER)
+            for (size_t i = 0; i < maze->colored_sequential.size(); i++)
             {
-                cout << "inside lower"
+                if (maze->colored_sequential[i][0] == loc[0] && maze->colored_sequential[i][1] == loc[1] && maze->colored_sequential[i][3] == state)
+                {
+                    maze->colored_sequential[i][4] = true;
+                    break;
+                }
+            }
+        }
+    }
+
+    if (state == 3)
+    {
+        cout << "in 3"
+             << "\n";
+        state = LOWER;
+    }
+    if (pick_color_box)
+    {
+        current_pick += 1;
+    }
+    current_pos = state;
+}
+
+void PathFinder::get_next_box_availability()
+{
+    int color = pick_order[current_pick][0];
+    int index = pick_order[current_pick][1];
+    int state = maze->colored_junctions[color][index][2];
+    vector<int> loc{maze->colored_junctions[color][index][0], maze->colored_junctions[color][index][1]};
+    cout << "state:" << state << "\n";
+    waiting_for_top = false;
+    if (state == LOWER)
+    {
+        cout << "inside lower"
+             << "\n";
+        for (size_t i = 0; i < maze->colored_sequential.size(); i++)
+        {
+            cout << "checking with:" << maze->colored_sequential[i][0] << "," << maze->colored_sequential[i][1] << "," << maze->colored_sequential[i][3] << ", " << maze->colored_sequential[i][4] << "| ";
+            if (maze->colored_sequential[i][0] == loc[0] && maze->colored_sequential[i][1] == loc[1] && maze->colored_sequential[i][3] == MIDDLE && maze->colored_sequential[i][4] == false)
+            {
+                cout << "true top exception"
                      << "\n";
-                for (size_t i = 0; i < maze->colored_sequential.size(); i++)
-                {
-                    cout << "checking with:" << maze->colored_sequential[i][0] << "," << maze->colored_sequential[i][1] << "," << maze->colored_sequential[i][3] << ", " << maze->colored_sequential[i][4] << "| ";
-                    if (maze->colored_sequential[i][0] == loc[0] && maze->colored_sequential[i][1] == loc[1] && maze->colored_sequential[i][3] == MIDDLE && maze->colored_sequential[i][4] == false)
-                    {
-                        cout << "true top exception"
-                             << "\n";
-                        waiting_for_top = true;
-                        break;
-                    }
-                }
-                cout << "/n";
-                if (!waiting_for_top)
-                {
-                    pick_color_box = true;
-                    box_carrying = true;
-
-                    for (size_t i = 0; i < maze->colored_sequential.size(); i++)
-                    {
-                        if (maze->colored_sequential[i][0] == loc[0] && maze->colored_sequential[i][1] == loc[1] && maze->colored_sequential[i][3] == state)
-                        {
-                            maze->colored_sequential[i][4] = true;
-                            break;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                waiting_for_top = false;
-                pick_color_box = true;
-                box_carrying = true;
-
-                for (size_t i = 0; i < maze->colored_sequential.size(); i++)
-                {
-                    if (maze->colored_sequential[i][0] == loc[0] && maze->colored_sequential[i][1] == loc[1])
-                    {
-                        maze->colored_sequential[i][4] = true;
-                        break;
-                    }
-                }
+                waiting_for_top = true;
+                break;
             }
         }
-
-        if (state == 3)
-        {
-            cout << "in 3"
-                 << "\n";
-            state = LOWER;
-        }
-        if (pick_color_box)
-        {
-            current_pick += 1;
-        }
-        current_pos = state;
     }
 }
 
