@@ -215,10 +215,10 @@ private:
     double distArmBase_max = 0.19;
     double distArmBase_mid = 0.16; //distance to grab a box
     //double distArmBase_centre = 0.1;   //centre the box in white square
-    double distArmBase_centre_red = 0.095;
-    double distArmBase_centre_green = 0.105;
-    double distArmBase_centre_blue = 0.115;
-    double distArmBase_centre_white = 0.115;
+    double distArmBase_centre_red = 0.1;
+    double distArmBase_centre_green = 0.11;
+    double distArmBase_centre_blue = 0.12;
+    double distArmBase_centre_white = 0.12;
     double distArmBase_min = 0.0;
     double distArmBase_place = 0.00; //place white box before searching and centering a box
     double distArmBase_carry = 0.03;
