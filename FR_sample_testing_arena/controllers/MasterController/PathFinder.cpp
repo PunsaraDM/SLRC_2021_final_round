@@ -479,6 +479,7 @@ bool PathFinder::check_and_set_available_direction()
     }
     else if ((robot_col == -1 && robot_row == 0 && placement) || (robot_col == 9 && robot_row == 6 && placement))
     {
+        has_white = false;
         return true;
     }
     else if ((loc[0] == -1 && loc[1] == 0) || (loc[0] == 9 && loc[1] == 6))

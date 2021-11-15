@@ -732,6 +732,14 @@ void Navigator::stall_cell()
 {
   motorGroup->qtr_servo(QTR_UP, 2.0);
   delay(500);
+  if (var[BOX_GRAB][POSITION] > NEGLECT and var[INV_PATCH][BOX_CARRY] == TRUE and var[BOX_GRAB][COLOR]>0 and var[BOX_GRAB][COLOR]<4)
+  {
+    turnAng(45.0);
+    go_forward_specific_distance(0.05);
+    place_white_box_in_red_square();    //doesn't update the var[INV_PATCH][BOX_CARRY] to not carrying a white box
+    go_backward_specific_distance(0.05);
+    turnAng(-45.0);
+  }
   go_backward_specific_distance(0.132);
   grab_box(var[BOX_GRAB][COLOR], var[BOX_GRAB][POSITION]);
   delay(2000);
