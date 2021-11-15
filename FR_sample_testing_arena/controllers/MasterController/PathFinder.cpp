@@ -100,7 +100,6 @@ vector<vector<int>> PathFinder::travel_maze(int juncType, vector<int> path_state
     else
     {
         return travel_with_color();
-        
     }
 }
 
@@ -136,18 +135,23 @@ vector<vector<int>> PathFinder::travel_with_color()
         vector<vector<int>> packet;
         direction_to_travel = pick_strategy->find_next_direction_pick(robot, maze);
         maze->junctions[robot_col][robot_row].travel_state = UNRESERVED;
-        get_next_junc_color();
-        if (!waiting_for_top)
+        get_next_junc_color(false);
+        if (waiting_for_top)
         {
-            pick_junc_available = check_and_set_available_direction();
+            pick_junc_available = false;
+            pick_strategy->add_back_to_stack(robot, direction_to_travel);
         }
         else
         {
-            pick_junc_available = false;
+            pick_junc_available = check_and_set_available_direction();
         }
         maze->junctions[robot_col][robot_row].travel_state = RESERVED;
+
         packet = create_next_data_packet();
-        last_direction = direction_to_travel;
+        if (!waiting_for_top && pick_junc_available)
+        {
+            last_direction = direction_to_travel;
+        }
         return packet;
     }
 }
@@ -363,9 +367,15 @@ vector<int> PathFinder::update_robot_position(int direction)
     return loc;
 }
 
-void PathFinder::get_next_junc_color()
+void PathFinder::get_next_junc_color(bool current)
 {
     vector<int> loc = update_robot_position(direction_to_travel);
+    if (current)
+    {
+        loc[0] = robot_col;
+        loc[1] = robot_row;
+    }
+    // vector<int> loc {robot_col,robot_row};
     int state = 0;
     current_color = NOCOLOR;
     waiting_for_top = false;
@@ -373,13 +383,10 @@ void PathFinder::get_next_junc_color()
     pick_color_box = false;
     if (current_pick < 3)
     {
+        cout << "pos color: " << loc[0] << "," << loc[1] << '\n';
+        cout << "checked against: " << maze->colored_junctions[pick_order[current_pick][0]][pick_order[current_pick][1]][0] << "," << maze->colored_junctions[pick_order[current_pick][0]][pick_order[current_pick][1]][1] << "\n";
         if (maze->colored_junctions[pick_order[current_pick][0]][pick_order[current_pick][1]][0] == loc[0] && maze->colored_junctions[pick_order[current_pick][0]][pick_order[current_pick][1]][1] == loc[1] && !box_carrying)
         {
-            pick_color_box = true;
-            box_carrying = true;
-            cout << "inside color"
-                 << "\n";
-
             state = maze->colored_junctions[pick_order[current_pick][0]][pick_order[current_pick][1]][2];
             cout << "state:" << state << "\n";
             current_color = pick_order[current_pick][0] + 1;
@@ -390,14 +397,20 @@ void PathFinder::get_next_junc_color()
                      << "\n";
                 for (size_t i = 0; i < maze->colored_sequential.size(); i++)
                 {
+                    cout << "checking with:" << maze->colored_sequential[i][0] << "," << maze->colored_sequential[i][1] << "," << maze->colored_sequential[i][3] << ", " << maze->colored_sequential[i][4] << "| ";
                     if (maze->colored_sequential[i][0] == loc[0] && maze->colored_sequential[i][1] == loc[1] && maze->colored_sequential[i][3] == MIDDLE && maze->colored_sequential[i][4] == false)
                     {
+                        cout << "true top exception"
+                             << "\n";
                         waiting_for_top = true;
                         break;
                     }
                 }
+                cout << "/n";
                 if (!waiting_for_top)
                 {
+                    pick_color_box = true;
+                    box_carrying = true;
 
                     for (size_t i = 0; i < maze->colored_sequential.size(); i++)
                     {
@@ -412,6 +425,9 @@ void PathFinder::get_next_junc_color()
             else
             {
                 waiting_for_top = false;
+                pick_color_box = true;
+                box_carrying = true;
+
                 for (size_t i = 0; i < maze->colored_sequential.size(); i++)
                 {
                     if (maze->colored_sequential[i][0] == loc[0] && maze->colored_sequential[i][1] == loc[1])
@@ -441,7 +457,7 @@ vector<vector<int>> PathFinder::initiate_pick()
 {
     pick_order = pick_strategy->get_pick_order(robot);
     vector<vector<int>> packet;
-    get_next_junc_color();
+    get_next_junc_color(true);
     if (pick_color_box)
     {
         in_last = true;

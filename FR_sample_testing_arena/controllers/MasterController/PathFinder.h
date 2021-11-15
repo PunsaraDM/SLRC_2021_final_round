@@ -73,7 +73,7 @@ extern "C"
         int get_invert_box_dir();
         vector<int> adjust_path_state_to_global(vector<int> paths);
         bool check_and_set_available_direction();
-        void get_next_junc_color();
+        void get_next_junc_color(bool current);
         bool paths_remaining();
         vector<vector<int>> initiate_pick();
         int robot_col = 0;

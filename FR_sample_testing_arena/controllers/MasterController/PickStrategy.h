@@ -40,23 +40,25 @@ extern "C"
         void add_to_stack(int robot, vector<int> seq);
         vector<vector<int>> find_disjoint_each_combinations(vector<vector<vector<int>>> locations, vector<vector<vector<int>>> colors);
         void find_disjoint_combinations(Maze *m);
-        void find_disjoint_shortest(Maze* m);
+        void find_disjoint_shortest(Maze *m);
+        void add_back_to_stack(int robot, int direction);
+        
 
-    private:
-        vector<int> shortest_path;
-        Maze *c_maze;
-        vector<vector<vector<int>>> shortest_path_seq;
-        vector<int> red_distances;
-        vector<int> blue_distances;
-        vector<int> green_distances;
-        int placement_back = false;
-        vector<int> selected_left;
-        vector<int> selected_right;
-        bool left_initialized = false;
-        bool right_initialized = false;
-    };
+        private:
+            vector<int> shortest_path;
+            Maze *c_maze;
+            vector<vector<vector<int>>> shortest_path_seq;
+            vector<int> red_distances;
+            vector<int> blue_distances;
+            vector<int> green_distances;
+            int placement_back = false;
+            vector<int> selected_left;
+            vector<int> selected_right;
+            bool left_initialized = false;
+            bool right_initialized = false;
+        };
 #ifdef __cplusplus
-}
+    }
 #endif
 
 #endif

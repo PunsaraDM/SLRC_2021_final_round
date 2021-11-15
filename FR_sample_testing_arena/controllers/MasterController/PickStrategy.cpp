@@ -386,26 +386,24 @@ int PickStrategy::find_shortest_path(int col1, int row1, int col2, int row2, int
 
 void PickStrategy::find_disjoint_combinations(Maze *m)
 {
-    cout << "inside disjoint"
-         << "\n";
+    
     vector<vector<vector<int>>> locations = m->colored_junctions;
     order_left = find_disjoint_each_combinations(locations, m->left_colors);
-    cout << "left order"
-         << ":";
+    order_right = find_disjoint_each_combinations(locations, m->right_colors);
+    find_disjoint_shortest(m);
+    vector<int> selected_left_disjoint;
+    vector<int> selected_right_disjoint;
+
     for (size_t i = 0; i < order_left.size(); i++)
     {
-        cout << order_left[i][0] << "," << order_left[i][1] << "| ";
+        selected_left_disjoint.push_back(order_left[i][1]);
     }
-    cout << "\n";
-    order_right = find_disjoint_each_combinations(locations, m->right_colors);
-    cout << "right order"
-         << ":";
     for (size_t i = 0; i < order_right.size(); i++)
     {
-        cout << order_right[i][0] << "," << order_right[i][1] << "| ";
+        selected_right_disjoint.push_back(order_right[i][1]);
     }
-    cout << "\n";
-    find_disjoint_shortest(m);
+    order_left = find_order(selected_left_disjoint, locations);
+    order_right = find_order(selected_right_disjoint, locations);
 }
 
 void PickStrategy::find_disjoint_shortest(Maze *m)
@@ -511,12 +509,12 @@ int PickStrategy::find_next_direction_pick(int robot, Maze *maze)
 
 void PickStrategy::add_to_stack(int robot, vector<int> seq)
 {
-    cout<<"stack before"<<endl;
-    for(size_t i=0; i<right_stack.size();i++)
+    cout << "stack before" << endl;
+    for (size_t i = 0; i < right_stack.size(); i++)
     {
-        cout<<right_stack[i];
+        cout << right_stack[i];
     }
-    cout<<endl;
+    cout << endl;
 
     vector<int> reverse_seq = get_reverse_path(seq);
     if (robot == LEFT)
@@ -525,7 +523,6 @@ void PickStrategy::add_to_stack(int robot, vector<int> seq)
         left_stack.insert(left_stack.begin(), reverse_seq.begin(), reverse_seq.end());
         left_stack.reserve(left_stack.size() + distance(seq.begin(), seq.end()));
         left_stack.insert(left_stack.begin(), seq.begin(), seq.end());
-        
     }
     else
     {
@@ -533,18 +530,26 @@ void PickStrategy::add_to_stack(int robot, vector<int> seq)
         right_stack.insert(right_stack.begin(), reverse_seq.begin(), reverse_seq.end());
         right_stack.reserve(right_stack.size() + distance(seq.begin(), seq.end()));
         right_stack.insert(right_stack.begin(), seq.begin(), seq.end());
-        
     }
 
-    cout<<"stack after"<<endl;
+    cout << "stack after" << endl;
 
-    for(size_t i=0; i<right_stack.size();i++)
+    for (size_t i = 0; i < right_stack.size(); i++)
     {
-        cout<<right_stack[i];
+        cout << right_stack[i];
     }
-    cout<<endl;
+    cout << endl;
 }
 
+
+void PickStrategy::add_back_to_stack(int robot, int direction){
+    if(robot == LEFT){
+        left_stack.insert(left_stack.begin(),direction);
+    }
+    else{
+        right_stack.insert(right_stack.begin(),direction);
+    }
+}
 void PickStrategy::initialize(Maze *m, int left_col, int left_row, int right_col, int right_row, bool matched)
 {
     colors_matched = matched;
