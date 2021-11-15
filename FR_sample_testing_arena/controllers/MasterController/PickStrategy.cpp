@@ -666,6 +666,15 @@ vector<vector<int>> PickStrategy::get_pick_order(int dir)
     return order_right;
 }
 
+void PickStrategy::add_stall(int robot){
+     if(robot == LEFT){
+        left_stack.insert(left_stack.begin(),INVALID);
+    }
+    else{
+        right_stack.insert(right_stack.begin(),INVALID);
+    }
+}
+
 vector<int> PickStrategy::get_reverse_path(vector<int> path)
 {
     vector<int> reverse;

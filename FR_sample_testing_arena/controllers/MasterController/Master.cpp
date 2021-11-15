@@ -51,15 +51,15 @@ void Master::main_control()
 {
     if (!(pathfinder_left->pick_junc_available) && !(pathfinder_right->pick_junc_available))
     {
-        cout<<"both stall"<<endl;
+        cout << "both stall" << endl;
         find_back_path(0, pick_strategy->left_stack);
         find_back_path(1, pick_strategy->right_stack);
 
-        for(size_t i=0; i<rightbackpath.size();i++)
+        for (size_t i = 0; i < rightbackpath.size(); i++)
         {
-            cout<<rightbackpath[i];
+            cout << rightbackpath[i];
         }
-        cout<<endl;
+        cout << endl;
 
         // for(size_t i=0; i<leftbackpath.size();i++)
         // {
@@ -69,19 +69,23 @@ void Master::main_control()
 
         if (lcount <= rcount)
         {
-            cout<<"back path right"<<endl;
+            cout << "back path right" << endl;
             pick_strategy->add_to_stack(RIGHT, rightbackpath);
+            pick_strategy->add_stall(LEFT);
+            var = pathfinder_right->travel_maze(juncTypeRx, pathStateRx, boxTypeRx);
+            emmit(1);
+            var = pathfinder_left->travel_maze(juncTypeRx, pathStateRx, boxTypeRx);
+            emmit(0);
         }
         else
         {
             pick_strategy->add_to_stack(LEFT, leftbackpath);
+            pick_strategy->add_stall(RIGHT);
+            var = pathfinder_left->travel_maze(juncTypeRx, pathStateRx, boxTypeRx);
+            emmit(0);
+            var = pathfinder_right->travel_maze(juncTypeRx, pathStateRx, boxTypeRx);
+            emmit(1);
         }
-
-        var = pathfinder_right->travel_maze(juncTypeRx, pathStateRx, boxTypeRx);
-        emmit(1);
-        var = pathfinder_left->travel_maze(juncTypeRx, pathStateRx, boxTypeRx);
-        emmit(0);
-        
     }
 
     else if (!(pathfinder_left->junc_available) && !(pathfinder_right->junc_available))

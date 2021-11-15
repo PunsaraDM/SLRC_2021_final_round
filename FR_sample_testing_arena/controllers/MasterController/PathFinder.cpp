@@ -64,6 +64,7 @@ PathFinder::PathFinder(int startCol, int startRow, Maze *c_maze, int dir, PickSt
     maze = c_maze;
     pick_strategy = pickStrategy;
     robot = dir;
+    // vector<int> priority{RIGHT, UP, DOWN, LEFT};
     vector<int> priority{RIGHT, DOWN, UP, LEFT};
     last_direction = LEFT;
     if (robot == LEFT)
@@ -141,15 +142,24 @@ vector<vector<int>> PathFinder::travel_with_color()
     {
         vector<vector<int>> packet;
         direction_to_travel = pick_strategy->find_next_direction_pick(robot, maze);
-        maze->junctions[robot_col][robot_row].travel_state = UNRESERVED;
-        get_next_junc_color(false);
-        pick_junc_available = check_and_set_available_direction();
-        maze->junctions[robot_col][robot_row].travel_state = RESERVED;
-        packet = create_next_data_packet();
-        if (pick_junc_available)
+        if (direction_to_travel != INVALID)
         {
-            last_direction = direction_to_travel;
+            maze->junctions[robot_col][robot_row].travel_state = UNRESERVED;
+            get_next_junc_color(false);
+            pick_junc_available = check_and_set_available_direction();
+            maze->junctions[robot_col][robot_row].travel_state = RESERVED;
+            packet = create_next_data_packet();
+            if (pick_junc_available)
+            {
+                last_direction = direction_to_travel;
+            }
         }
+        else
+        {
+            pick_junc_available = false;
+            packet = create_next_data_packet();
+        }
+
         return packet;
     }
 }

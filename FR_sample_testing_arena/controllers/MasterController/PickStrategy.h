@@ -38,6 +38,7 @@ extern "C"
         bool check_one_combination(vector<int> pos, vector<vector<vector<int>>> robot_found_colors, Maze *m);
         int check_combination(vector<int> pos, vector<int> pos_opposite, Maze *m);
         void add_to_stack(int robot, vector<int> seq);
+        void add_stall(int robot);
         vector<vector<int>> find_disjoint_each_combinations(vector<vector<vector<int>>> locations, vector<vector<vector<int>>> colors);
         void find_disjoint_combinations(Maze *m);
         void find_disjoint_shortest(Maze *m);

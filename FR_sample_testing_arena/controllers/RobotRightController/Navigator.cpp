@@ -734,6 +734,7 @@ void Navigator::stall_cell()
   delay(500);
   go_backward_specific_distance(0.132);
   grab_box(var[BOX_GRAB][COLOR], var[BOX_GRAB][POSITION]);
+  delay(2000);
   go_forward_specific_distance(0.132);
   motorGroup->qtr_servo(QTR_DOWN, 2.0);
   delay(500);
