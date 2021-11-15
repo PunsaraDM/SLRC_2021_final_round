@@ -464,6 +464,7 @@ bool PathFinder::check_and_set_available_direction()
         box_carrying = false;
         robot_col = loc[0];
         robot_row = loc[1];
+        get_next_box_availability();
         return true;
     }
     else if ((robot_col == -1 && robot_row == 0 && placement) || (robot_col == 9 && robot_row == 6 && placement))
