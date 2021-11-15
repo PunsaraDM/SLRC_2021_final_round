@@ -511,21 +511,38 @@ int PickStrategy::find_next_direction_pick(int robot, Maze *maze)
 
 void PickStrategy::add_to_stack(int robot, vector<int> seq)
 {
+    cout<<"stack before"<<endl;
+    for(size_t i=0; i<right_stack.size();i++)
+    {
+        cout<<right_stack[i];
+    }
+    cout<<endl;
+
     vector<int> reverse_seq = get_reverse_path(seq);
     if (robot == LEFT)
     {
         left_stack.reserve(left_stack.size() + distance(seq.begin(), seq.end()));
-        left_stack.insert(left_stack.begin(), seq.begin(), seq.end());
-        left_stack.reserve(left_stack.size() + distance(seq.begin(), seq.end()));
         left_stack.insert(left_stack.begin(), reverse_seq.begin(), reverse_seq.end());
+        left_stack.reserve(left_stack.size() + distance(seq.begin(), seq.end()));
+        left_stack.insert(left_stack.begin(), seq.begin(), seq.end());
+        
     }
     else
     {
         right_stack.reserve(right_stack.size() + distance(seq.begin(), seq.end()));
-        right_stack.insert(right_stack.begin(), seq.begin(), seq.end());
-        right_stack.reserve(right_stack.size() + distance(seq.begin(), seq.end()));
         right_stack.insert(right_stack.begin(), reverse_seq.begin(), reverse_seq.end());
+        right_stack.reserve(right_stack.size() + distance(seq.begin(), seq.end()));
+        right_stack.insert(right_stack.begin(), seq.begin(), seq.end());
+        
     }
+
+    cout<<"stack after"<<endl;
+
+    for(size_t i=0; i<right_stack.size();i++)
+    {
+        cout<<right_stack[i];
+    }
+    cout<<endl;
 }
 
 void PickStrategy::initialize(Maze *m, int left_col, int left_row, int right_col, int right_row, bool matched)

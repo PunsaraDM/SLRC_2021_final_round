@@ -51,13 +51,13 @@ int Strategy::get_from_priority(vector<int> juncs, bool is_visited)
 {
 
     int dir = INVALID;
-    if (is_visited)
+    if (is_visited && robot_stack.size()>0)
     {
         backtracking = true;
         dir = robot_stack[robot_stack.size() - 1];
         robot_stack.pop_back();
     }
-    else
+    else if(!is_visited)
     {
         for (int i = 0; i < 4; i++)
         {
@@ -305,6 +305,7 @@ void Strategy::add_to_stack(vector<int> seq)
         shortest_path.insert(shortest_path.begin(), seq.begin(), seq.end());
         shortest_path.reserve(shortest_path.size() + distance(seq.begin(), seq.end()));
         shortest_path.insert(shortest_path.begin(), reverse_seq.begin(), reverse_seq.end());
+        
     }else{
         robot_stack.reserve(robot_stack.size() + distance(seq.begin(), seq.end()));
         robot_stack.insert(robot_stack.begin(), seq.begin(), seq.end());

@@ -51,17 +51,37 @@ void Master::main_control()
 {
     if (!(pathfinder_left->pick_junc_available) && !(pathfinder_right->pick_junc_available))
     {
+        cout<<"both stall"<<endl;
         find_back_path(0, pick_strategy->left_stack);
         find_back_path(1, pick_strategy->right_stack);
 
+        for(size_t i=0; i<rightbackpath.size();i++)
+        {
+            cout<<rightbackpath[i];
+        }
+        cout<<endl;
+
+        // for(size_t i=0; i<leftbackpath.size();i++)
+        // {
+        //     cout<<leftbackpath[i];
+        // }
+        // cout<<endl;
+
         if (lcount <= rcount)
         {
+            cout<<"back path right"<<endl;
             pick_strategy->add_to_stack(RIGHT, rightbackpath);
         }
         else
         {
             pick_strategy->add_to_stack(LEFT, leftbackpath);
         }
+
+        var = pathfinder_right->travel_maze(juncTypeRx, pathStateRx, boxTypeRx);
+        emmit(1);
+        var = pathfinder_left->travel_maze(juncTypeRx, pathStateRx, boxTypeRx);
+        emmit(0);
+        
     }
 
     else if (!(pathfinder_left->junc_available) && !(pathfinder_right->junc_available))
@@ -338,7 +358,7 @@ void Master::update_maze(int col, int row, int juncType, vector<int> path_state,
             path_finder->has_white = true;
         }
         maze->update_junction(col, row, box_type, juncType, path_finder->has_white, robot);
-        vector<int> path = pathfinder_left->adjust_path_state_to_global(path_state);
+        vector<int> path = path_finder->adjust_path_state_to_global(path_state);
         if (juncType != INVERTED || path_finder->has_white)
         {
             maze->update_path(col, row, path, robot);
